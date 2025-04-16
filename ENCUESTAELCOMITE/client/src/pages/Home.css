@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'Recoleta';
+    src: url('../assets/fonts/Recoleta-Bold.woff2') format('woff2'),
+         url('../assets/fonts/Recoleta-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+        
+        
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+.header {
+    background-color: #1E3766;
+    padding: 0px 0;
+    color: white;
+}
+
+.logo {
+    font-size: 5rem;
+    font-weight: bold;
+    color: white;
+    font-family: 'Recoleta', serif;
+    font-weight: 700;
+}
+
+.logo span {
+    color: #8cc63f;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: white;
+}
+
+.welcome-title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.welcome-title span {
+    color: #8cc63f;
+}
+
+.welcome-title {
+    color: #000000;
+    font-family: 'Gloock', serif;
+    font-size: 4rem;
+    
+}
+.baby-logo {
+    float: right;
+    width: 170px;
+    height: 150px;
+    position: relative;
+    top: -10px;
+}
+
+.mission-text {
+    font-size: 1.8rem;
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto 30px auto;
+    line-height: 1.5;
+    color: #000000;
+    font-family: 'Yeseva One', cursive;
+}
+
+.btn {
+    display: block;
+    background-color: #73A31D;
+    color: white;
+    text-align: center;
+    padding: 15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 15px auto;
+    max-width: 400px;
+    font-family: 'Gloock', serif;
+}
+
+.admin-section {
+    background-color: #D3EDFF;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.admin-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+    font-family: 'Gloock', serif;
+}
+
+.admin-text {
+    font-size: 1.2rem;
+    max-width: 700px;
+    text-align: center;
+    margin: 0 auto 30px auto;
+    line-height: 1.5;
+    color: #000000;
+    font-family: 'Yeseva One', cursive;
+    }
