@@ -1,7 +1,6 @@
 <h1>Encuesta El Comité GoBabyGo</h1>
 
 <br>
-<br>
 
 <h2>Integrantes</h2>
 <p>Samuel David Gallego Meneses</p>
@@ -9,7 +8,6 @@
 <p>Juliana Franco Alzate</p>
 <p>Johan Lukas Lopez Bedoya</p>
 
-<br>
 <br>
 
 <h2>Descripción</h2>

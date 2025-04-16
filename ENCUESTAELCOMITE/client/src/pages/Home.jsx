@@ -6,14 +6,16 @@ const Home = () => {
   return (
     
     <body>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet"></link>
         <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet"></link>
     <div class="header">
         <div class="logo">El Comit<span>é</span></div>
+        <img src={babyLogo} alt="Baby Go Logo" class="header-logo"></img>
     </div>
     
     <div class="main-content">
-        <img src={babyLogo} alt="Baby Go Logo" class="baby-logo"></img>
+
         <h1 class="welcome-title">Bienvenido a Go BaBy <span>Go!</span></h1>
         
         <p class="mission-text">
@@ -31,7 +33,7 @@ const Home = () => {
             Si eres administrador de éste evento Go BaBy Go, en este apartado podrás ver los resultados de los 
             voluntarios, modificar y planear encuesta
         </p>
-        <a href="#" class="btn">Iniciar sesión</a>
+        <a href="#" class="btn">Acceder como Administrador</a>
     </div>
     </body>
   );
