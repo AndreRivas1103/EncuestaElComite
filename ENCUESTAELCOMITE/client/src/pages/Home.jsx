@@ -17,16 +17,14 @@ const Home = () => {
     <div class="main-content">
 
         <h1 class="welcome-title">Bienvenido a Go BaBy <span>Go!</span></h1>
-        
         <p class="mission-text">
             Somos una organización benéfica dedicada a mejorar la vida de los niños discapacitados. 
             Participa y contribuye a nuestra causa. ¡Apoya a nuestros niños!
         </p>
-        
         <a href="#" class="btn">Iniciar Encuesta</a>
         <a href="#" class="btn">Ver resultados</a>
     </div>
-    
+    {/* Seccion de Admin */}
     <div class="admin-section">
         <h2 class="admin-title">¿Eres administrador?</h2>
         <p class="admin-text">
