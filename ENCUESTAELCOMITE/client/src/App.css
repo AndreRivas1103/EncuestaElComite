@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+}
