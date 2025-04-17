@@ -4,8 +4,17 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: 'Recoleta', serif; /* Tipografía única */
+    font-family: 'Gloock', serif; /* Tipografía única */
+    letter-spacing: 1.5px;
 }
+
+.header-logo {
+    width: 150px;
+    height: auto;
+    max-width: 100%;
+}
+
+
 
 .blue-header {
     background-color: #1E3766; /* Azul oscuro */
@@ -30,13 +39,15 @@
 }
 
 .login-subtitle {
-    font-size: 1.8rem;
+    font-size: 3rem;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .login-input {
@@ -48,6 +59,15 @@
     font-family: 'Recoleta', serif;
 }
 
+.login-input::placeholder {
+    text-align: center;
+    color: #777777;
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+    font-family: 'Gloock', serif; /* Tipografía única */
+    letter-spacing: 1px;
+}
+
 .login-btn {
     background-color: #73A31D;
     color: white;
@@ -57,7 +77,8 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    font-family: 'Recoleta', serif;
+    font-family: 'Gloock', serif; /* Tipografía única */
+    letter-spacing: 2px;
 }
 
 .forgot-link {
@@ -65,5 +86,7 @@
     text-align: center;
     margin-top: 15px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    font-family: 'Gloock', serif; /* Tipografía única */
+
 }
