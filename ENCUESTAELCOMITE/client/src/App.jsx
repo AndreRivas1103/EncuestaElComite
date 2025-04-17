@@ -9,7 +9,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
-        <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
   )
