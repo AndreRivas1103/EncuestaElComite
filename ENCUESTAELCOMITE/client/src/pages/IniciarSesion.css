@@ -90,3 +90,63 @@
     font-family: 'Gloock', serif; /* Tipografía única */
 
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+    
+    .header-logo {
+        width: 120px;
+    }
+    
+    .login-box {
+        margin: 20px auto;
+        padding: 30px 15px;
+    }
+    
+    .login-subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .login-input::placeholder {
+        font-size: 1rem;
+    }
+    
+    .login-btn {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .login-input {
+        padding: 10px;
+        font-size: 1rem;
+    }
+    
+    .login-input::placeholder {
+        font-size: 0.9rem;
+    }
+    
+    .login-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    
+    .forgot-link {
+        font-size: 0.9rem;
+    }
+}
+
