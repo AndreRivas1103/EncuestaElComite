@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../pages/styles/IniciarSesion.css';
 import babyLogo from '../assets/gobabygo.png';
+import { useNavigate } from 'react-router-dom';
 
 const IniciarSesion = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validación básica del email
+    if (!email) {
+      setError('Por favor ingrese su correo electrónico');
+      return;
+    }
+    
+    if (!email.includes('@elcomite.org.co')) {
+      setError('Por favor ingrese un correo electrónico válido');
+      return;
+    }
+    
+    // Si pasa la validación, navegar a la página de coordinador
+    navigate('/inicio-coordinador');
+  };
+
   return (
     <div className="login-container">
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,15 +44,21 @@ const IniciarSesion = () => {
       {/* Contenedor del formulario */}
       <main className="login-box">
         <h2 className="login-subtitle">Bienvenido</h2>
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <input 
-            type="email" 
+             
             className="login-input" 
             placeholder="Ingrese correo electrónico" 
-            required
+            
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError(''); // Limpiar error cuando el usuario escribe
+            }}
           />
+          {error && <p className="error-message">{error}</p>}
           <button type="submit" className="login-btn">Iniciar Sesión</button>
-          <a href="#" className="forgot-link">¿No recuerdas tu correo?</a>
+          <a href="/contacto" className="forgot-link">¿No recuerdas tu correo?</a>
         </form>
       </main>
     </div>
