@@ -1,5 +1,5 @@
 import React from 'react';
-import './IniciarSesion.css';
+import '../pages/styles/IniciarSesion.css';
 import babyLogo from '../assets/gobabygo.png';
 
 const IniciarSesion = () => {
@@ -12,7 +12,9 @@ const IniciarSesion = () => {
       
       {/* Header con logo y título */}
       <header className="header">
-        <div className="logo">El Comit<span>é</span></div>
+        <div className="logo">
+          <a href='/'>El Comit<span>é</span></a>
+        </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       
