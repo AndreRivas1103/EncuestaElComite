@@ -18,7 +18,7 @@ const IniciarSesion = () => {
       <div className="login-box">
         <h2 className="login-subtitle">Bienvenido</h2>
         <form className="login-form">
-          <input type="email" className="login-input" placeholder="Ingrese correo electrónico"/>
+          <input type="email" className="login-input" placeholder="Ingrese correo electrónico" required/>
           <button type="submit" className="login-btn">Iniciar Sesión</button>
           <a href="#" className="forgot-link">¿No recuerdas tu correo?</a>
         </form>
