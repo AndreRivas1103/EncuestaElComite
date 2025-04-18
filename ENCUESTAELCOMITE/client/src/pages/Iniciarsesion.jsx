@@ -17,7 +17,7 @@ const IniciarSesion = () => {
       return;
     }
     
-    if (!email.includes('@elcomite.org.co')) {
+    if (!email.includes('@')) {
       setError('Por favor ingrese un correo electrónico válido');
       return;
     }
@@ -36,7 +36,7 @@ const IniciarSesion = () => {
       {/* Header con logo y título */}
       <header className="header">
         <div className="logo">
-          <a href='/'>El Comit<span>é</span></a>
+          <a href='/home'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
