@@ -1,22 +1,24 @@
 import express from 'express';
-import encuestaRoutes from './routes/encuestaRoutes.js';
-import usuarioRoutes from './routes/usuarioRoutes.js';
-import evaluacionRoutes from './routes/evaluacionRoutes.js';
-import opcionRoutes from './routes/opcionRoutes.js';
-import coordinadorRoutes from './routes/coordinadorRoutes.js';
-import './db/connection.js';
+import pool from './db/connection.js';
+import './db/init.js'; // Opcional: ejecuta initDB al inicio
 
 const app = express();
 app.use(express.json());
 
-// Configuración de rutas
-app.use('/api/encuestas', encuestaRoutes);
-app.use('/api/usuarios', usuarioRoutes);
-app.use('/api/evaluaciones', evaluacionRoutes);
-app.use('/api/opciones', opcionRoutes);
-app.use('/api/coordinadores', coordinadorRoutes);
+// Test de conexión
+pool.query('SELECT NOW()')
+  .then(() => console.log('✅ DB conectada'))
+  .catch(err => console.error('❌ DB no conectada:', err.message));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+// Rutas de ejemplo
+app.get('/api/db/tables', async (req, res) => {
+  const result = await pool.query(`
+    SELECT table_name FROM information_schema.tables 
+    WHERE table_schema = 'public'
+  `);
+  res.json(result.rows);
+});
+
+app.listen(3000, () => {
+  console.log('🚀 Servidor en http://localhost:3000');
 });
