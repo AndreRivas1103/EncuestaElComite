@@ -1,11 +1,12 @@
-import { Pool } from 'pg'; // Importa el cliente PostgreSQL
-import dotenv from 'dotenv'; // Para leer variables de entorno
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-dotenv.config(); // Carga las variables del archivo .env
+dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.NEONDB_CONNECTION_STRING, // Usa la URL completa de Neon
-  ssl: {
-    rejectUnauthorized: false // Neon requiere SSL pero con esta configuración
-  }
+const sequelize = new Sequelize(process.env.NEONDB_CONNECTION_STRING, {
+  dialect: 'postgres',
+  ssl: true,
+  dialectOptions: { ssl: { require: true } }
 });
+
+export default sequelize; // o export { sequelize };

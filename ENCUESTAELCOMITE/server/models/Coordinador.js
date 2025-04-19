@@ -1,25 +1,10 @@
-import pool from '../connection.js';
+import { DataTypes } from 'sequelize';
+import sequelize from '../db/connection.js'; // Ruta corregida
 
-export default {
-  async create({ cedula, nombre, correo }) {
-    const query = `
-      INSERT INTO coordinador(cedula, nombre, correo)
-      VALUES($1, $2, $3) RETURNING *
-    `;
-    const { rows } = await pool.query(query, [cedula, nombre, correo]);
-    return rows[0];
-  },
+const Coordinador = sequelize.define('Coordinador', {
+  cedula: { type: DataTypes.STRING(20), primaryKey: true },
+  nombre: { type: DataTypes.STRING(100) },
+  correo: { type: DataTypes.STRING(100), unique: true }
+});
 
-  async getByCedula(cedula) {
-    const { rows } = await pool.query(
-      'SELECT * FROM coordinador WHERE cedula = $1',
-      [cedula]
-    );
-    return rows[0];
-  },
-
-  async getAll() {
-    const { rows } = await pool.query('SELECT * FROM coordinador');
-    return rows;
-  }
-};
+export default Coordinador;

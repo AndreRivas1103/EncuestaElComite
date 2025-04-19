@@ -2,28 +2,63 @@ import React, { useState } from 'react';
 import '../pages/styles/IniciarSesion.css';
 import babyLogo from '../assets/gobabygo.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const IniciarSesion = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
-    // Validación básica del email
-    if (!email) {
-      setError('Por favor ingrese su correo electrónico');
-      return;
-    }
-    
-    if (!email.includes('@')) {
+    // Validación mejorada del email
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Por favor ingrese un correo electrónico válido');
       return;
     }
-    
-    // Si pasa la validación, navegar a la página de coordinador
-    navigate('/inicio-coordinador');
+
+    setIsLoading(true);
+
+    try {
+      // Llamada al backend con axios (mejor manejo de errores)
+      const response = await axios.post('http://localhost:3000/api/auth/login', {
+        correo: email
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Si la respuesta es exitosa (código 2xx)
+      if (response.data.success) {
+        // Guarda datos en localStorage si es necesario
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', response.data.nombre);
+        
+        // Redirige a la página de coordinador
+        navigate('/inicio-coordinador');
+      } else {
+        throw new Error(response.data.error || 'Credenciales incorrectas');
+      }
+    } catch (err) {
+      // Manejo detallado de errores
+      if (err.response) {
+        // Error de respuesta del servidor (4xx/5xx)
+        setError(err.response.data.error || 'Error en la autenticación');
+      } else if (err.request) {
+        // No se recibió respuesta
+        setError('El servidor no respondió. Intente más tarde');
+      } else {
+        // Error en la configuración de la solicitud
+        setError('Error al configurar la solicitud');
+      }
+      console.error('Error en login:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -46,19 +81,30 @@ const IniciarSesion = () => {
         <h2 className="login-subtitle">Bienvenido</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <input 
-             
+            type="email"
             className="login-input" 
-            placeholder="Ingrese correo electrónico" 
-            
+            placeholder="Ingrese correo electrónico"
             value={email}
             onChange={(e) => {
-              setEmail(e.target.value);
-              setError(''); // Limpiar error cuando el usuario escribe
+              setEmail(e.target.value.trim());
+              setError('');
             }}
+            disabled={isLoading}
           />
+          
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="login-btn">Iniciar Sesión</button>
-          <a href="/contacto" className="forgot-link">¿No recuerdas tu correo?</a>
+          
+          <button 
+            type="submit" 
+            className="login-btn"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
+          </button>
+          
+          <a href="/contacto" className="forgot-link">
+            ¿No recuerdas tu correo?
+          </a>
         </form>
       </main>
     </div>
