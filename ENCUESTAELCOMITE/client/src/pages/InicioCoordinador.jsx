@@ -1,38 +1,52 @@
 import React from 'react';
-import '../pages/styles/IniciarSesion.css';
 import babyLogo from '../assets/gobabygo.png';
+import '../pages/styles/InicioCoordinador.css'; // Archivo CSS específico para este componente
 
-const IniciarSesion = () => {
+const InicioCoordinador = () => {
   return (
-    <div className="login-container">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet" />
+    <div className="inicio-coordinador-container">
+    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Recoleta&display=swap" rel="stylesheet" />
+      {/* Meta viewport para responsive design */}
+      <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       
-      {/* Header con logo y título */}
+      {/* Barra de navegación */}
       <header className="header">
         <div className="logo">
-          <a href='/iniciar-sesion'>El Comit<span>é</span></a>
+          <a href='/'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       
-      {/* Contenedor del formulario */}
-      <main className="login-box">
-        <h2 className="login-subtitle">Bienvenido</h2>
-        <form className="login-form">
-          <input 
-            type="email" 
-            className="login-input" 
-            placeholder="Ingrese correo electrónico" 
-            required
-          />
-
-        </form>
+      {/* Contenido principal */}
+      <main className="main-content-coordinador">
+        {/* Botones laterales */}
+        <div className="sidebar-buttons">
+          <button className="btn-pequeno">Regresar</button>
+          <button className="btn-pequeno">Inicio</button>
+          <button className="btn-pequeno">Salir</button>
+        </div>
+        
+        {/* Título principal */}
+        <h1 className="titulo-principal">Seleccionar Encuesta</h1>
+        
+        {/* Botones de encuestas */}
+        <div className="encuestas-container">
+          <div className="fila-encuestas">
+            <button className="btn-encuesta">Encuesta 001</button>
+            <button className="btn-encuesta">Encuesta 002</button>
+            <button className="btn-encuesta">Encuesta 003</button>
+          </div>
+          <div className="fila-encuestas">
+            <button className="btn-encuesta">Encuesta 004</button>
+            <button className="btn-encuesta">Encuesta 005</button>
+            <button className="btn-encuesta">Encuesta 006</button>
+          </div>
+        </div>
       </main>
     </div>
   );
 };
 
-export default IniciarSesion;
+export default InicioCoordinador;

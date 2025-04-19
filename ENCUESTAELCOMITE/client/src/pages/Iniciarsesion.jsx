@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../pages/styles/IniciarSesion.css';
 import babyLogo from '../assets/gobabygo.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const IniciarSesion = () => {
@@ -106,6 +106,7 @@ const IniciarSesion = () => {
             ¿No recuerdas tu correo?
           </a>
         </form>
+        <Link to="/inicio-coordinador" className="btn">Boton Prueba</Link>
       </main>
     </div>
   );
