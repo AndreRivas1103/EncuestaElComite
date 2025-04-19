@@ -36,7 +36,7 @@ const IniciarSesion = () => {
       {/* Header con logo y título */}
       <header className="header">
         <div className="logo">
-          <a href='/home'>El Comit<span>é</span></a>
+          <a href='/'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
