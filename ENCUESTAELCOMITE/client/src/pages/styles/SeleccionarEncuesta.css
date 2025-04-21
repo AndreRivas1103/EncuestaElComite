@@ -1,0 +1,104 @@
+/* Estilos generales */
+.inicio-coordinador-container {
+  font-family: 'Yeseva', sans-serif;
+  background-color: #ffffff;
+}
+
+/* Barra de navegación */
+.navbar-coordinador {
+  background-color: #1e3766;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title-container {
+  font-family: 'Glock', sans-serif;
+  font-size: xx-large;
+}
+
+.blanco {
+  color: #ffffff;
+}
+
+.verde {
+  color: #73A31D;
+}
+
+
+/* Contenido principal */
+.main-content-coordinador {
+  background-color: #d3edff;
+  margin: 60px;
+  padding: 140px;
+  position: relative;
+  min-height: 70vh;
+}
+
+/* Botones laterales */
+.sidebar-buttons {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: #1e3766;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Gloock', serif;
+}
+
+.btn-pequeno:hover {
+  background: #73A31D;
+}
+
+/* Título principal */
+.titulo-principal {
+  text-align: center;
+  margin-top: -100px;
+  font-size: 4rem;
+  font-family: 'Yeseva One', cursive;
+}
+
+/* Contenedor de encuestas */
+.encuestas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.fila-encuestas {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.btn-encuesta {
+  padding: 30px 60px;
+  background: #73A31D;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 10px;
+  transition: background 0.3s;
+  font-family: 'Yeseva One', cursive;
+
+}
+
+.btn-encuesta:hover {
+  background: #5a8a0f;
+}
+
+
