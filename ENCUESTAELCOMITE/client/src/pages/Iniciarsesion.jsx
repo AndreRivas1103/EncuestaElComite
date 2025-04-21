@@ -106,7 +106,10 @@ const IniciarSesion = () => {
             ¿No recuerdas tu correo?
           </a>
         </form>
-        <Link to="/inicio-coordinador" className="btn">Boton Prueba</Link>
+        <Link to="/inicio-coordinador" className="btn">Boton Prueba InicioCoordinador</Link>
+        <Link to="/registro-encuestas" className="btn">Boton Prueba2 Registro Encuesta</Link>
+        <Link to="/seleccionar-encuesta" className="btn">Boton Prueba3 Seleccionar Encuesta</Link>
+        <Link to="/info-encuesta" className="btn">Boton Prueba4 Info de la Encuesta</Link>
       </main>
     </div>
   );

@@ -1,52 +1,51 @@
 import React from 'react';
-import babyLogo from '../assets/gobabygo.png';
+
 import '../pages/styles/InicioCoordinador.css'; // Archivo CSS específico para este componente
+import babylogo from '../assets/gobabygo.png';
 
-const InicioCoordinador = () => {
-  return (
-    <div className="inicio-coordinador-container">
-    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet" />
-      <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet" />
-      <link href="https://fonts.googleapis.com/css2?family=Recoleta&display=swap" rel="stylesheet" />
-      {/* Meta viewport para responsive design */}
-      <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-      
-      {/* Barra de navegación */}
-      <header className="header">
-        <div className="logo">
-          <a href='/'>El Comit<span>é</span></a>
-        </div>
-        <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
-      </header>
-      
-      {/* Contenido principal */}
-      <main className="main-content-coordinador">
-        {/* Botones laterales */}
-        <div className="sidebar-buttons">
-          <button className="btn-pequeno">Regresar</button>
-          <button className="btn-pequeno">Inicio</button>
-          <button className="btn-pequeno">Salir</button>
-        </div>
-        
-        {/* Título principal */}
-        <h1 className="titulo-principal">Seleccionar Encuesta</h1>
-        
-        {/* Botones de encuestas */}
-        <div className="encuestas-container">
-          <div className="fila-encuestas">
-            <button className="btn-encuesta">Encuesta 001</button>
-            <button className="btn-encuesta">Encuesta 002</button>
-            <button className="btn-encuesta">Encuesta 003</button>
-          </div>
-          <div className="fila-encuestas">
-            <button className="btn-encuesta">Encuesta 004</button>
-            <button className="btn-encuesta">Encuesta 005</button>
-            <button className="btn-encuesta">Encuesta 006</button>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-};
 
-export default InicioCoordinador;
+
+
+const prueba1 = () => {
+    return(
+    <div>
+
+        <meta name='viewport'content='width = device-width, initial-scale=1.0'></meta>
+
+
+        <header className="header">
+          <div className="logo">
+            <a href='/'>El Comit<span>é</span></a>
+          </div>
+          <img src={babylogo} alt="Baby Go Logo" className="header-logo" />
+        </header>
+        <div className='firtsColor'>
+            <div class="botones-izquierda">
+                <button class="btn-pequeno">Regresar</button>
+            </div>
+
+            <div className='botones-derecha'>
+                <button class="btn-pequeno">Salir</button>
+            </div>
+
+            
+            
+            <div>
+            <img src={babylogo} alt='Baby go Logo' className='header-logo'></img>
+            <br></br>
+
+
+            </div>
+            <div class="contenedor-botones">
+
+        
+            </div>
+            <div className='contenedor-botones'>
+            <button class="boton">Registro de encuestas</button>
+            <button class="boton">Nuevo evento</button></div>
+                
+        </div>
+    </div>)
+}
+
+export default prueba1;
