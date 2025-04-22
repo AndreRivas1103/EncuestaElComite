@@ -23,8 +23,6 @@ const Sidebar = () => {
   // Menú de navegación (personaliza según tus rutas)
   const menuItems = [
     { path: '/inicio-coordinador', icon: '🏠', label: 'Inicio' },
-    { path: '/registro-encuestas', icon: '📝', label: 'Registrar Encuesta' },
-    { path: '/seleccionar-encuesta', icon: '🔍', label: 'Buscar Encuesta' },
   ];
 
   return (
