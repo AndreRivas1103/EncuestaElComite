@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../pages/styles/InicioCoordinador.css'; // Archivo CSS específico para este componente
+import '../pages/styles/InicioCoordinador.css';
 import babylogo from '../assets/gobabygo.png';
 
 
