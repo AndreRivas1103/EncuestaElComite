@@ -9,7 +9,7 @@
     "preview:client": "vite preview",
     "dev:server": "nodemon server/server.js",
     "start:server": "node server.js",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev": "concurrently  \"npm run dev:client\" \"npm run dev:server\"",
     "lint": "eslint ."
   },
   "dependencies": {

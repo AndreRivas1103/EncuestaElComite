@@ -28,8 +28,8 @@ body, html{
 
 .navbar {
     background-color: #1e3766;
-    margin-top: 0;
-    padding: 20px;
+    margin-top: 10;
+    padding: 200000px;
 }
 
 .blanco {
@@ -108,3 +108,41 @@ body, html{
     flex-direction: column; 
     gap: 20px;
   }
+  /* Mantén todos tus estilos existentes y añade al final: */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px; /* Igual al ancho del sidebar */
+  transition: margin 0.3s;
+}
+
+/* Ajustes para el contenido con sidebar */
+.firtsColor {
+  margin: 60px 60px 60px 30px; /* Reducir margen izquierdo */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px;
+  }
+  
+  .firtsColor {
+    margin: 20px 20px 20px 10px;
+    padding: 80px 20px;
+  }
+  
+  .contenedor-botones {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .boton {
+    width: 100%;
+  }
+}

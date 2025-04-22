@@ -1,17 +1,17 @@
 import React from 'react';
-
 import '../pages/styles/InicioCoordinador.css';
 import babylogo from '../assets/gobabygo.png';
+import Sidebar from '../components/Sidebar'; // Asegúrate de tener esta ruta correcta
 
+const InicioCoordinador = () => {
+  return (
+    <div className="app-container">
+      {/* Sidebar izquierda */}
+      <Sidebar />
 
-
-
-const prueba1 = () => {
-    return(
-    <div>
-
-        <meta name='viewport'content='width = device-width, initial-scale=1.0'></meta>
-
+      {/* Contenido principal (tu diseño actual) */}
+      <main className="main-content">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
 
         <header className="header">
           <div className="logo">
@@ -19,33 +19,29 @@ const prueba1 = () => {
           </div>
           <img src={babylogo} alt="Baby Go Logo" className="header-logo" />
         </header>
+
         <div className='firtsColor'>
-            <div class="botones-izquierda">
-                <button class="btn-pequeno">Regresar</button>
-            </div>
+          <div className="botones-izquierda">
+            <button className="btn-pequeno">Regresar</button>
+          </div>
 
-            <div className='botones-derecha'>
-                <button class="btn-pequeno">Salir</button>
-            </div>
+          <div className='botones-derecha'>
+            <button className="btn-pequeno">Salir</button>
+          </div>
 
-            
-            
-            <div>
+          <div>
             <img src={babylogo} alt='Baby go Logo' className='header-logo'></img>
             <br></br>
+          </div>
 
-
-            </div>
-            <div class="contenedor-botones">
-
-        
-            </div>
-            <div className='contenedor-botones'>
-            <button class="boton">Registro de encuestas</button>
-            <button class="boton">Nuevo evento</button></div>
-                
+          <div className='contenedor-botones'>
+            <button className="boton">Registro de encuestas</button>
+            <button className="boton">Nuevo evento</button>
+          </div>
         </div>
-    </div>)
-}
+      </main>
+    </div>
+  );
+};
 
-export default prueba1;
+export default InicioCoordinador;
