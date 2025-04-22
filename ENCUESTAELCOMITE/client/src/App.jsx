@@ -5,7 +5,7 @@ import SeleccionarEncuesta from './pages/SeleccionarEncuesta.jsx'
 import Contacto from './pages/Contacto.jsx'
 import RegistroEncuestas from './pages/RegistroEncuesta.jsx'
 import InicioCoordinador from './pages/InicioCoordinador.jsx'
-import Tuki from './pages/prueba1.jsx'
+import TukiInicio from './pages/prueba1.jsx'
 import './App.css'
 
 
@@ -19,7 +19,7 @@ function App() {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/registro-encuestas" element={<RegistroEncuestas />} />
         <Route path="/inicio-coordinador" element={<InicioCoordinador />} />
-        <Route path="/info-encuesta" element={<Tuki />} />
+        <Route path="/info-encuesta" element={<TukiInicio />} />
       </Routes>
     </Router>
   )

@@ -15,13 +15,13 @@ const IniciarSesion = () => {
       {/* Header con logo y título */}
       <header className="header">
         <div className="logo">
-          <a href='/'>El Comit<span>é</span></a>
+          <a href='/iniciar-sesion'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
-      <h1>Aun no hay una monda jaja</h1>
-      <h1>Asi que parchese</h1>
-      <h1>Contacto Proximamente :D</h1>
+      <h1>Contacto</h1>
+      <h1>Telefono</h1>
+      <h1>Correo Electronico: </h1>
     </div>
   );
 };

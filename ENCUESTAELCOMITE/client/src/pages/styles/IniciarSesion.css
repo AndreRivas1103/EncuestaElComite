@@ -1,11 +1,11 @@
-/* src/pages/IniciarSesion.css */
+
 .login-container {
     background-color: white; /* Fondo blanco */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: 'Gloock', serif; /* Tipografía única */
-    letter-spacing: 1.5px;
+
 }
 
 .header-logo {
@@ -68,7 +68,7 @@
     letter-spacing: 1px;
     font-size: 1.5rem;
     font-family: 'Gloock', serif; /* Tipografía única */
-    letter-spacing: 1px;
+    letter-spacing: 1px
 }
 
 .login-btn {
