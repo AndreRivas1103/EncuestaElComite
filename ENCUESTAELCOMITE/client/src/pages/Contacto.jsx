@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/gobabygo.png';
+import babyLogo from '../assets/logogdc.jpg';
 import { Link } from 'react-router-dom';
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
-import babylogo from '../assets/gobabygo.png';
+import babyLogo from '../assets/logogdc.jpg';
 
 
 
@@ -13,7 +13,7 @@ const pagina1 = () => {
         <div className="logo">
           <a href='/inicio-coordinador'>El Comit<span>é</span></a>
         </div>
-        <img src={babylogo} alt="Baby Go Logo" className="header-logo" />
+        <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       <div className='firtsColor'>
 
