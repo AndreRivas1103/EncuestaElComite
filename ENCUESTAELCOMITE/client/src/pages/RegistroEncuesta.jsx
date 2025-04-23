@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pages/styles/RegistroEncuesta.css';
+import '../Pages/styles/Home.css';
 import babylogo from '../assets/gobabygo.png';
 
 

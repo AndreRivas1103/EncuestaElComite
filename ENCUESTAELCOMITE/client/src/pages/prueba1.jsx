@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pages/styles/prueba1.css'; // Archivo CSS específico para este componente
+import '../Pages/styles/Home.css'; // Archivo CSS específico para este componente
 import babylogo from '../assets/gobabygo.png';
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pages/styles/IniciarSesion.css';
+import '../Pages/styles/Home.css';
 import babyLogo from '../assets/gobabygo.png';
 import { Link } from 'react-router-dom';
 

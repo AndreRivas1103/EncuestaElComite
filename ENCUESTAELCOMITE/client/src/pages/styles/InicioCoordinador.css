@@ -1,115 +1,35 @@
-body, html{
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
+/* Variables y fuentes */
+:root {
+  --color-primary: #1e3766;
+  --color-secondary: #9ecd49;
+  --color-background: #ffffff;
+  --color-accent: #d3edff;
+}
+
+/* Fuentes personalizadas */
+@font-face {
+  font-family: "Glock";
+  src: url("fonts/glock.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Glock";
-    src: url("fonts/glock.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  
-@font-face {
-    font-family: "Yeseva";
-    src: url("fonts/yeseva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-.firtsColor {
-    background-color: #d3edff;
-    margin: 60px;
-    padding: 155px;
-    position: relative;
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
-.navbar {
-    background-color: #1e3766;
-    margin-top: 10;
-    padding: 200000px;
+/* Reset y estilos base */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+  font-family: "Yeseva", sans-serif;
 }
 
-.blanco {
-    color: #ffffff;
-    font-family: "Glock";
-    font-size: xx-large;
-}
-
-
-.verde {
-    color: #9ecd49;
-    font-family: "Glock";
-    font-size: xx-large;
-}
-
-.Texto {
-    text-align: center;
-    margin-top: -100px;
-    font-size: 60px;
-    font-family: "Yeseva";
-}
-
-.contenedor-botones {
-    display: flex; 
-    gap: 120px;
-    justify-content: center;  
-    margin-top: 40px;   
-    left: 20px;  
-    flex-direction: row;  
-  }
-  
-  .boton {
-    padding: 30px 60px;
-    background: #9ecd49;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 10px;
-    font-family: "Yeseva";
-   flex:1; 
-  
-  }
-
-
-.botones-izquierda {
-  position: absolute; 
-    left: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-    gap: 20px;
-  }
-  
-  .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: "Yeseva";
-  }
-  
-  .btn-pequeno:hover {
-    background: #9ecd49; 
-  }
-
-  .botones-derecha{
-    position: absolute; 
-    right: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-    gap: 20px;
-  }
-  /* Mantén todos tus estilos existentes y añade al final: */
-
+/* Layout principal */
 .app-container {
   display: flex;
   min-height: 100vh;
@@ -117,13 +37,98 @@ body, html{
 
 .main-content {
   flex: 1;
-  margin-left: 250px; /* Igual al ancho del sidebar */
+  margin-left: 250px;
   transition: margin 0.3s;
 }
 
-/* Ajustes para el contenido con sidebar */
+/* Sección principal */
 .firtsColor {
-  margin: 60px 60px 60px 30px; /* Reducir margen izquierdo */
+  background-color: var(--color-accent);
+  margin: 60px 60px 60px 30px;
+  padding: 155px;
+  position: relative;
+}
+
+/* Títulos */
+.title-coordinador {
+  font-family: "Yeseva";
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
+}
+
+.blanco {
+  color: var(--color-background);
+  font-family: "Glock";
+  font-size: xx-large;
+}
+
+.verde {
+  color: var(--color-secondary);
+  font-family: "Glock";
+  font-size: xx-large;
+}
+
+/* Botones principales */
+.contenedor-botones {
+  display: flex; 
+  gap: 120px;
+  justify-content: center;  
+  margin-top: 40px;  
+  flex-direction: row;  
+}
+
+.boton {
+  padding: 30px 60px;
+  background: var(--color-secondary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 10px;
+  font-family: "Yeseva";
+  transition: transform 0.2s, background 0.3s;
+}
+
+.boton:hover {
+  transform: translateY(-3px);
+  background: #8bbc38;
+}
+
+/* Botones laterales */
+.botones-izquierda,
+.botones-derecha {
+  position: absolute; 
+  top: 20px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+
+.botones-izquierda {
+  left: 20px; 
+}
+
+.botones-derecha {
+  right: 20px; 
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: var(--color-primary); 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Yeseva";
+}
+
+.btn-pequeno:hover {
+  background: var(--color-secondary); 
 }
 
 /* Responsive */
@@ -144,14 +149,10 @@ body, html{
   
   .boton {
     width: 100%;
+    padding: 20px 40px;
   }
-}
 
-.title-coordinador{
-  font-family: "Yeseva";
-  font-size: 60px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #000000;
-  letter-spacing: 2px;
+  .title-coordinador {
+    font-size: 40px;
+  }
 }
