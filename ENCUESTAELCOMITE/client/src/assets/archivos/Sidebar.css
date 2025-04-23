@@ -1,0 +1,112 @@
+/* Estilos base */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #1e3766; /* Color de tu navbar */
+    color: white;
+    padding: 1.5rem;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    background: #9ecd49; /* Color verde de tu diseño */
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    margin-right: 1rem;
+    font-family: "Glock";
+  }
+  
+  .user-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-family: "Glock";
+  }
+  
+  .user-info p {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-family: "Yeseva";
+  }
+  
+  /* Items de navegación */
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    color: white;
+    text-align: left;
+    width: 100%;
+  }
+  
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-item.active {
+    background: #9ecd49; /* Color verde */
+  }
+  
+  .nav-icon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .nav-label {
+    text-transform: capitalize;
+    font-size: 0.95rem;
+    font-family: "Yeseva";
+  }
+  
+  /* Item de logout */
+  .logout-item {
+    margin-top: auto;
+    color: #ff6b6b;
+  }
+  
+  .logout-item:hover {
+    background: rgba(255, 107, 107, 0.1);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 70px;
+      padding: 1rem 0.5rem;
+    }
+    .nav-label, .user-info {
+      display: none;
+    }
+    .avatar {
+      margin-right: 0;
+      width: 30px;
+      height: 30px;
+    }
+  }
