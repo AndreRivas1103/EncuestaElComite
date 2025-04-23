@@ -1,6 +1,6 @@
 import React from 'react';
 import babyLogo from '../assets/gobabygo.png';
-import '../pages/styles/SeleccionarEncuesta.css'; // Archivo CSS específico para este componente
+import '../Pages/styles/Home.css'; // Archivo CSS específico para este componente
 
 const InicioCoordinador = () => {
   return (

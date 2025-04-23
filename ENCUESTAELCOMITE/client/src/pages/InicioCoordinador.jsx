@@ -1,17 +1,16 @@
 import React from 'react';
-import '../pages/styles/InicioCoordinador.css';
+import '../Pages/styles/Home.css';
 import babylogo from '../assets/gobabygo.png';
-import Sidebar from '../components/Sidebar'; // Asegúrate de tener esta ruta correcta
 
-const InicioCoordinador = () => {
-  return (
-    <div className="app-container">
-      {/* Sidebar izquierda */}
-      <Sidebar />
 
-      {/* Contenido principal (tu diseño actual) */}
-      <main className="main-content">
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
+
+
+const prueba1 = () => {
+    return(
+    <div>
+
+        <meta name='viewport'content='width = device-width, initial-scale=1.0'></meta>
+
 
         <header className="header">
           <div className="logo">
@@ -19,29 +18,21 @@ const InicioCoordinador = () => {
           </div>
           <img src={babylogo} alt="Baby Go Logo" className="header-logo" />
         </header>
-
         <div className='firtsColor'>
-          <div className="botones-izquierda">
-            <button className="btn-pequeno">Regresar</button>
-          </div>
+            <div>
+            <h1 className='title-coordinador'>Bienvenido Coordinador</h1>
 
-          <div className='botones-derecha'>
-            <button className="btn-pequeno">Salir</button>
-          </div>
+            </div>
+            <div class="contenedor-botones">
 
-          <div>
-            <img src={babylogo} alt='Baby go Logo' className='header-logo'></img>
-            <br></br>
-          </div>
-
-          <div className='contenedor-botones'>
-            <button className="boton">Registro de encuestas</button>
-            <button className="boton">Nuevo evento</button>
-          </div>
+        
+            </div>
+            <div className='contenedor-botones'>
+            <button class="boton">Registro de encuestas</button>
+            <button class="boton">Nuevo evento</button></div>
+                
         </div>
-      </main>
-    </div>
-  );
-};
+    </div>)
+}
 
-export default InicioCoordinador;
+export default prueba1;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../pages/styles/IniciarSesion.css';
+import '../Pages/styles/Home.css';
 import babyLogo from '../assets/gobabygo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -108,7 +108,7 @@ const IniciarSesion = () => {
         </form>
         <Link to="/inicio-coordinador" className="btn">Boton Prueba InicioCoordinador</Link>
         <Link to="/registro-encuestas" className="btn">Boton Prueba2 Registro Encuesta</Link>
-        <Link to="/seleccionar-encuesta" className="btn">Boton Prueba3 Seleccionar Encuesta</Link>
+        <Link to="/seleccionar-encuesta" className="btn">Boton Prueba3 Seleccionar Encuesta(Nuevo Evento)</Link>
         <Link to="/info-encuesta" className="btn">Boton Prueba4 Info de la Encuesta</Link>
       </main>
     </div>
