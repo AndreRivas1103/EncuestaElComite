@@ -146,3 +146,12 @@ body, html{
     width: 100%;
   }
 }
+
+.title-coordinador{
+  font-family: "Yeseva";
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
+}

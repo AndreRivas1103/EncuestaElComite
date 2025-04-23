@@ -20,13 +20,6 @@ const TukiInicio = () => {
       </header>
       
         <div className='firtsColor'>
-        <div class="botones-izquierda">
-            <button class="btn-pequeno">Regresar</button>
-            
-            <button class="btn-pequeno">Inicio</button>
-            
-            <button class="btn-pequeno">Salir</button>
-        </div>
 
             
             

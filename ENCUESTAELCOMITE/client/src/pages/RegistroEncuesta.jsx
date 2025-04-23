@@ -16,16 +16,7 @@ const pagina1 = () => {
         <img src={babylogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       <div className='firtsColor'>
-        <div className="botones-izquierda">
-          <button className="btn-pequeno">Regresar</button>
-          
-          {/* Spacer - consider using CSS margin instead */}
-          {[...Array(10)].map((_, i) => <br key={i} />)}
-          
-          <button className="btn-pequeno">Inicio</button>
-          <br />
-          <button className="btn-pequeno">Salir</button>
-        </div>
+
 
         <div>
           <h1 className='Texto'>Registro de encuesta</h1>

@@ -21,16 +21,10 @@ const InicioCoordinador = () => {
         </header>
 
         <div className='firtsColor'>
-          <div className="botones-izquierda">
-            <button className="btn-pequeno">Regresar</button>
-          </div>
 
-          <div className='botones-derecha'>
-            <button className="btn-pequeno">Salir</button>
-          </div>
 
           <div>
-            <img src={babylogo} alt='Baby go Logo' className='header-logo'></img>
+          <h1 className='title-coordinador'>Bienvenido Coordinador</h1>
             <br></br>
           </div>
 

@@ -22,11 +22,7 @@ const InicioCoordinador = () => {
       {/* Contenido principal */}
       <main className="main-content-coordinador">
         {/* Botones laterales */}
-        <div className="sidebar-buttons">
-          <button className="btn-pequeno">Regresar</button>
-          <button className="btn-pequeno">Inicio</button>
-          <button className="btn-pequeno">Salir</button>
-        </div>
+
         
         {/* Título principal */}
         <h1 className="titulo-principal">Seleccionar Encuesta</h1>
