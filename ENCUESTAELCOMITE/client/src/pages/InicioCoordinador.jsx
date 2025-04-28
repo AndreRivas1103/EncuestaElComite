@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/logogdc.jpg';
+import { Link } from 'react-router-dom';
+import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const prueba1 = () => {
   return (
@@ -21,8 +22,8 @@ const prueba1 = () => {
         </div>
 
         <div className='contenedor-botones'>
-          <button className="boton">Registro de encuestas</button>
-          <button className="boton">Nuevo evento</button>
+          <button className="btn">Registro de encuestas</button>
+          <Link to="/nuevo-evento" className="btn">Nuevo evento</Link>
         </div>
       </div>
     </div>

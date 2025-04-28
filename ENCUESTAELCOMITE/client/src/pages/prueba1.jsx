@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Pages/styles/Home.css'; // Archivo CSS específico para este componente
-import babyLogo from '../assets/logogdc.jpg';
+import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 
 

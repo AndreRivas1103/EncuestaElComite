@@ -6,7 +6,8 @@ import Contacto from './pages/Contacto.jsx'
 import RegistroEncuestas from './pages/RegistroEncuesta.jsx'
 import InicioCoordinador from './pages/InicioCoordinador.jsx'
 import TukiInicio from './pages/prueba1.jsx'
-import ConfirmLogout from './pages/ConfirmLogout';
+import ConfirmLogout from './pages/ConfirmLogout'
+import NuevoEvento from './pages/NuevoEvento.jsx';
 import './App.css'
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/inicio-coordinador" element={<InicioCoordinador />} />
         <Route path="/info-encuesta" element={<TukiInicio />} />
         <Route path="/confirmar-logout" element={<ConfirmLogout />} />
+        <Route path="/nuevo-evento" element={<NuevoEvento />} />
       </Routes>
     </Router>
   )

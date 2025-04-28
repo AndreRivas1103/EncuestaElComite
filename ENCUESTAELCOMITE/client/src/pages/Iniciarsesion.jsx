@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/logogdc.jpg';
+import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

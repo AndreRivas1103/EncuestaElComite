@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/logogdc.jpg';
+import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link } from 'react-router-dom'; // Importa Link para navegación
 
 const Home = () => {

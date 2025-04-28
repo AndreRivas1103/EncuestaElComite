@@ -8,6 +8,14 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -41,7 +49,7 @@ body {
     font-size: 3.5rem;
 
     color: white;
-    font-family: 'Recoleta', serif;
+    font-family: 'Recoleta';
 }
 
 .logo span {
@@ -54,12 +62,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-right: 14%;
+    padding-right: 13%;
 }
 
 .welcome-title {
     color: #000000;
-    font-family: 'Gloock', serif;
+    font-family: 'Gloock';
     font-size: 3.5rem;
     margin-bottom: 10px;
     text-align: center;
@@ -88,6 +96,7 @@ body {
     line-height: 1.5;
     color: #000000;
     word-wrap: break-word;
+    font-family: 'Roboto';
 }
 
 .btn {
@@ -98,12 +107,12 @@ body {
     padding: 15px 30px;
     border-radius: 5px;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
     margin: 15px auto;
     max-width: 400px;
     width: 100%;
-    font-family: 'Gloock', serif;
+    font-family: 'Roboto';
     letter-spacing: 2px;
     transition: background-color 0.3s;
 }
@@ -123,7 +132,7 @@ body {
     text-align: center;
     margin-bottom: 10px;
     color: #000000;
-    font-family: 'Gloock', serif;
+    font-family: 'Gloock';
     letter-spacing: 2px;
 }
 
@@ -135,6 +144,7 @@ body {
     line-height: 1.5;
     color: #000000;
     word-wrap: break-word;
+    font-family: 'Roboto';
 }
 
 /* Media Queries Responsive */
@@ -233,7 +243,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: 'Gloock', serif; /* Tipografía única */
+    font-family: 'Gloock'; /* Tipografía única */
 
 }
 
@@ -288,7 +298,7 @@ body {
     border: 2px solid #1E3766;
     border-radius: 5px;
     font-size: 1.1rem;
-    font-family: 'Recoleta', serif;
+    font-family: 'Roboto';
 }
 
 .login-input::placeholder {
@@ -296,7 +306,7 @@ body {
     color: #777777;
     letter-spacing: 1px;
     font-size: 1.5rem;
-    font-family: 'Gloock', serif; /* Tipografía única */
+    font-family: 'Roboto'; /* Tipografía única */
     letter-spacing: 1px
 }
 
@@ -305,11 +315,11 @@ body {
     color: white;
     border: none;
     padding: 15px;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    font-family: 'Gloock', serif; /* Tipografía única */
+    font-family: 'Roboto'; /* Tipografía única */
     letter-spacing: 2px;
     text-decoration: none; 
 }
@@ -320,7 +330,7 @@ body {
     margin-top: 15px;
     text-decoration: none;
     font-size: 1.3rem;
-    font-family: 'Gloock', serif; /* Tipografía única */
+    font-family: 'Roboto'; /* Tipografía única */
 
 }
 
@@ -743,7 +753,7 @@ body, html{
   
 /* Estilos generales */
 .inicio-coordinador-container {
-    font-family: 'Yeseva', sans-serif;
+    font-family: 'Yeseva';
     background-color: #ffffff;
   }
   
@@ -757,7 +767,7 @@ body, html{
   }
   
   .navbar-title-container {
-    font-family: 'Glock', sans-serif;
+    font-family: 'Glock';
     font-size: xx-large;
   }
   
@@ -798,7 +808,7 @@ body, html{
     font-size: 14px;
     cursor: pointer;
     transition: background 0.3s;
-    font-family: 'Gloock', serif;
+    font-family: 'Gloock';
   }
   
   .btn-pequeno:hover {
@@ -810,7 +820,7 @@ body, html{
     text-align: center;
     margin-top: -100px;
     font-size: 4rem;
-    font-family: 'Yeseva One', cursive;
+    font-family: 'Yeseva One';
   }
   
   /* Contenedor de encuestas */
@@ -836,7 +846,7 @@ body, html{
     font-size: 20px;
     border-radius: 10px;
     transition: background 0.3s;
-    font-family: 'Yeseva One', cursive;
+    font-family: 'Yeseva One';
   
   }
   
@@ -846,8 +856,17 @@ body, html{
   
   
 .title-coordinador{
-    font-family: 'Gloock', serif;
-    font-size: 2.5rem;
+    font-family: 'Gloock';
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000000;
+    letter-spacing: 2px;
+}
+
+.title-nuevo-evento{
+    font-family: 'Gloock';
+    font-size: 4rem;
     margin-bottom: 20px;
     text-align: center;
     color: #000000;
