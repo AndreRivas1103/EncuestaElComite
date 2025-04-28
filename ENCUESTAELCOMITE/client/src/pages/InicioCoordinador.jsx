@@ -22,7 +22,7 @@ const prueba1 = () => {
         </div>
 
         <div className='contenedor-botones'>
-          <button className="btn">Registro de encuestas</button>
+          <Link to="/registro-encuestas" className="btn">Registro de encuestas</Link>
           <Link to="/nuevo-evento" className="btn">Nuevo evento</Link>
         </div>
       </div>
