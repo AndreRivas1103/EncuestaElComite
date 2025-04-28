@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const NuevoEvento = () => {
   return (
     <div>
+        <title>Nuevo Evento</title>
       <meta name='viewport' content='width = device-width, initial-scale=1.0'></meta>
 
       <header className="header">
@@ -22,8 +23,8 @@ const NuevoEvento = () => {
         </div>
 
         <div className='contenedor-botones'>
-          <button className="btn">Usar Encuestas Anteriores</button>
-          <button className="btn">Crear Encuesta</button>
+          <Link to="/seleccionar-encuesta" className="btn">Usar Encuestas Anteriores</Link>
+          <Link to="/crear-encuesta" className="btn">Crear Encuesta</Link>
         </div>
       </div>
     </div>

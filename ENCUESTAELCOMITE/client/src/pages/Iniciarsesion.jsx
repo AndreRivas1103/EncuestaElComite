@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/LogoMarcaPersonal.png';
+import babyLogo from '../assets/LogoMarcaPersonal.png'; 
+import babyLogoICO from '../assets/LogoMarcaPersonal.ico'; 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -63,6 +64,8 @@ const IniciarSesion = () => {
 
   return (
     <div className="login-container">
+      <link rel="icon" href={babyLogoICO}/>
+      <title>Iniciar Sesión</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet" />
@@ -106,9 +109,9 @@ const IniciarSesion = () => {
             ¿No recuerdas tu correo?
           </a>
         </form>
-        <Link to="/inicio-coordinador" className="btn">Boton Prueba InicioCoordinador</Link>
+
         <Link to="/registro-encuestas" className="btn">Boton Prueba2 Registro Encuesta</Link>
-        <Link to="/seleccionar-encuesta" className="btn">Boton Prueba3 Seleccionar Encuesta(Nuevo Evento)</Link>
+
         <Link to="/info-encuesta" className="btn">Boton Prueba4 Info de la Encuesta</Link>
       </main>
     </div>

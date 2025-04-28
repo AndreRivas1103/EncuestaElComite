@@ -7,7 +7,11 @@ import RegistroEncuestas from './pages/RegistroEncuesta.jsx'
 import InicioCoordinador from './pages/InicioCoordinador.jsx'
 import TukiInicio from './pages/prueba1.jsx'
 import ConfirmLogout from './pages/ConfirmLogout'
-import NuevoEvento from './pages/NuevoEvento.jsx';
+import NuevoEvento from './pages/NuevoEvento.jsx'
+import CrearEncuesta from './pages/CrearEncuesta.jsx';
+import GuardarPreguntas from './pages/GuardarPreguntas.jsx';
+import CrearPregunta from './pages/CrearPregunta.jsx';
+import Calendario from './pages/Calendario.jsx';
 import './App.css'
 
 
@@ -24,6 +28,11 @@ function App() {
         <Route path="/info-encuesta" element={<TukiInicio />} />
         <Route path="/confirmar-logout" element={<ConfirmLogout />} />
         <Route path="/nuevo-evento" element={<NuevoEvento />} />
+        <Route path="/crear-encuesta" element={<CrearEncuesta />} />
+        <Route path="/nuevo-evento" element={<NuevoEvento />} />
+        <Route path="/guardar-pregunta" element={<GuardarPreguntas />} />
+        <Route path="/crear-pregunta" element={<CrearPregunta />} />
+        <Route path="/calendario" element={<Calendario />} />
       </Routes>
     </Router>
   )
