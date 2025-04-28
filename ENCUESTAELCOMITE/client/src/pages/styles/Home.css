@@ -513,11 +513,6 @@ body, html{
   min-height: 100vh;
 }
 
-.main-content {
-  flex: 1;
-  margin-left: 250px; /* Igual al ancho del sidebar */
-  transition: margin 0.3s;
-}
 
 /* Ajustes para el contenido con sidebar */
 .firtsColor {
@@ -1411,7 +1406,6 @@ body, html{
   padding: 12px 30px;
   font-size: 1.1rem;
 }
-
 
 
 

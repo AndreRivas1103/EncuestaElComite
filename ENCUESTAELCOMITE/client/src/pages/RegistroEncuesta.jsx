@@ -1,7 +1,6 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
-import babyLogo from '../assets/LogoMarcaPersonal.png';
-import { Link } from 'react-router-dom';
+import babyLogo from '../assets/logogdc.jpg';
 
 
 
@@ -25,7 +24,7 @@ const pagina1 = () => {
         </div>
 
         <div className="contenedor-botones">
-        <Link to="/info-encuesta" className="boton">Encuesta 001</Link>
+          <button className="boton">Encuesta 001</button>
           <button className="boton">Encuesta 002</button>
           <button className="boton">Encuesta 003</button>
         </div>
