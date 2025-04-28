@@ -1,235 +1,235 @@
 
 
 @font-face {
-    font-family: 'Recoleta';
-    src: url('../../assets/fonts/Recoleta-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Recoleta';
+  src: url('../../assets/fonts/Recoleta-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Yeseva One', cursive;
-    line-height: 1.6;
-    overflow-x: hidden;
+  font-family: 'Yeseva One', cursive;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
 .header {
-    background-color: #1E3766;
-    padding: 10px 20px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    position: relative;
+  background-color: #1E3766;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
 }
 
 .header-logo {
-    width: 150px;
-    height: auto;
-    max-width: 100%;
+  width: 150px;
+  height: auto;
+  max-width: 100%;
 }
 
 .logo {
-    font-size: 3.5rem;
+  font-size: 3.5rem;
 
-    color: white;
-    font-family: 'Recoleta';
+  color: white;
+  font-family: 'Recoleta';
 }
 
 .logo span {
-    color: #8cc63f;
+  color: #8cc63f;
 }
 
 .main-content {
-    padding: 25px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-right: 13%;
+  padding: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 13%;
 }
 
 .welcome-title {
-    color: #000000;
-    font-family: 'Gloock';
-    font-size: 3.5rem;
-    margin-bottom: 10px;
-    text-align: center;
-    width: 100%;
-    align-items: center;
-    
+  color: #000000;
+  font-family: 'Gloock';
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+  align-items: center;
+  
 
 }
 
 .welcome-title span {
-    color: #8cc63f;
+  color: #8cc63f;
 }
 
 .baby-logo {
-    width: 150px;
-    height: auto;
-    max-width: 100%;
-    margin-bottom: 20px;
+  width: 150px;
+  height: auto;
+  max-width: 100%;
+  margin-bottom: 20px;
 }
 
 .mission-text {
-    font-size: 1.8rem;
-    max-width: 800px;
-    text-align: center;
-    margin: 0 auto 30px auto;
-    line-height: 1.5;
-    color: #000000;
-    word-wrap: break-word;
-    font-family: 'Roboto';
+  font-size: 1.8rem;
+  max-width: 800px;
+  text-align: center;
+  margin: 0 auto 30px auto;
+  line-height: 1.5;
+  color: #000000;
+  word-wrap: break-word;
+  font-family: 'Roboto';
 }
 
 .btn {
-    display: block;
-    background-color: #73A31D;
-    color: white;
-    text-align: center;
-    padding: 15px 30px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 15px auto;
-    max-width: 400px;
-    width: 100%;
-    font-family: 'Roboto';
-    letter-spacing: 2px;
-    transition: background-color 0.3s;
+  display: block;
+  background-color: #73A31D;
+  color: white;
+  text-align: center;
+  padding: 15px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 15px auto;
+  max-width: 400px;
+  width: 100%;
+  font-family: 'Roboto';
+  letter-spacing: 2px;
+  transition: background-color 0.3s;
 }
 
 .btn:hover {
-    background-color: #5a8a0f;
+  background-color: #5a8a0f;
 }
 
 .admin-section {
-    background-color: #D3EDFF;
-    padding: 40px 20px;
-    margin-top: 20px;
+  background-color: #D3EDFF;
+  padding: 40px 20px;
+  margin-top: 20px;
 }
 
 .admin-title {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #000000;
-    font-family: 'Gloock';
-    letter-spacing: 2px;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #000000;
+  font-family: 'Gloock';
+  letter-spacing: 2px;
 }
 
 .admin-text {
-    font-size: 1.8rem;
-    max-width: 700px;
-    text-align: center;
-    margin: 0 auto 30px auto;
-    line-height: 1.5;
-    color: #000000;
-    word-wrap: break-word;
-    font-family: 'Roboto';
+  font-size: 1.8rem;
+  max-width: 700px;
+  text-align: center;
+  margin: 0 auto 30px auto;
+  line-height: 1.5;
+  color: #000000;
+  word-wrap: break-word;
+  font-family: 'Roboto';
 }
 
 /* Media Queries Responsive */
 @media (max-width: 1200px) {
-    .logo {
-        font-size: 3rem;
-    }
-    .welcome-title {
-        font-size: 3rem;
-    }
+  .logo {
+      font-size: 3rem;
+  }
+  .welcome-title {
+      font-size: 3rem;
+  }
 }
 
 @media (max-width: 992px) {
-    .logo {
-        font-size: 2.5rem;
-    }
-    .welcome-title, .admin-title {
-        font-size: 2.5rem;
-    }
-    .mission-text, .admin-text {
-        font-size: 1.5rem;
-    }
+  .logo {
+      font-size: 2.5rem;
+  }
+  .welcome-title, .admin-title {
+      font-size: 2.5rem;
+  }
+  .mission-text, .admin-text {
+      font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
-    
-    .header-logo {
-        margin-top: 15px;
-        width: 120px;
-    }
-    
-    .logo {
-        font-size: 2.2rem;
-    }
-    
-    .welcome-title {
-        font-size: 2rem;
-        letter-spacing: 1px;
-    }
-    
-    .btn {
-        font-size: 1.2rem;
-        padding: 12px 25px;
-        max-width: 300px;
-    }
-    
-    .baby-logo {
-        width: 120px;
-    }
-    
-    .admin-section {
-        padding: 30px 15px;
-    }
+  .header {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+  }
+  
+  .header-logo {
+      margin-top: 15px;
+      width: 120px;
+  }
+  
+  .logo {
+      font-size: 2.2rem;
+  }
+  
+  .welcome-title {
+      font-size: 2rem;
+      letter-spacing: 1px;
+  }
+  
+  .btn {
+      font-size: 1.2rem;
+      padding: 12px 25px;
+      max-width: 300px;
+  }
+  
+  .baby-logo {
+      width: 120px;
+  }
+  
+  .admin-section {
+      padding: 30px 15px;
+  }
 }
 
 @media (max-width: 576px) {
-    .logo {
-        font-size: 1.8rem;
-    }
-    
-    .welcome-title {
-        font-size: 1.6rem;
-    }
-    
-    .mission-text, .admin-text {
-        font-size: 1.2rem;
-    }
-    
-    .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
-    
-    .admin-title {
-        font-size: 1.8rem;
-    }
-    
-    .main-content, .admin-section {
-        padding: 15px 10px;
-    }
+  .logo {
+      font-size: 1.8rem;
+  }
+  
+  .welcome-title {
+      font-size: 1.6rem;
+  }
+  
+  .mission-text, .admin-text {
+      font-size: 1.2rem;
+  }
+  
+  .btn {
+      font-size: 1rem;
+      padding: 10px 20px;
+  }
+  
+  .admin-title {
+      font-size: 1.8rem;
+  }
+  
+  .main-content, .admin-section {
+      padding: 15px 10px;
+  }
 }
 
 /********************************************************************************************************************************************/
@@ -239,653 +239,658 @@ body {
 
 
 .login-container {
-    background-color: white; /* Fondo blanco */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Gloock'; /* Tipografía única */
+  background-color: white; /* Fondo blanco */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Gloock'; /* Tipografía única */
 
 }
 
 .header-logo {
-    width: 150px;
-    height: auto;
-    max-width: 100%;
+  width: 150px;
+  height: auto;
+  max-width: 100%;
 }
 
 .logo a {
-    text-decoration: none;
-    color: inherit; /* Hereda el color del elemento padre (.logo) */
+  text-decoration: none;
+  color: inherit; /* Hereda el color del elemento padre (.logo) */
 }
 
 .blue-header {
-    background-color: #1E3766; /* Azul oscuro */
-    color: white;
-    padding: 20px;
-    width: 100%;
+  background-color: #1E3766; /* Azul oscuro */
+  color: white;
+  padding: 20px;
+  width: 100%;
 }
 
 .login-box {
-    background-color: #D3EDFF; /* Azul claro */
-    width: 90%;
-    max-width: 1000px;
-    margin: 60px auto;
-    padding: 180px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background-color: #D3EDFF; /* Azul claro */
+  width: 90%;
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 180px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .login-title {
-    font-size: 2.5rem;
-    margin: 0 0 10px 0;
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
 }
 
 .login-subtitle {
-    font-size: 3rem;
-    margin-bottom: 30px;
-    text-align: center;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .login-form {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .login-input {
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid #1E3766;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    font-family: 'Roboto';
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #1E3766;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-family: 'Roboto';
 }
 
 .login-input::placeholder {
-    text-align: center;
-    color: #777777;
-    letter-spacing: 1px;
-    font-size: 1.5rem;
-    font-family: 'Roboto'; /* Tipografía única */
-    letter-spacing: 1px
+  text-align: center;
+  color: #777777;
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+  font-family: 'Roboto'; /* Tipografía única */
+  letter-spacing: 1px
 }
 
 .login-btn {
-    background-color: #73A31D;
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-family: 'Roboto'; /* Tipografía única */
-    letter-spacing: 2px;
-    text-decoration: none; 
+  background-color: #73A31D;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-family: 'Roboto'; /* Tipografía única */
+  letter-spacing: 2px;
+  text-decoration: none; 
 }
 
 .forgot-link {
-    color: #1E3766;
-    text-align: center;
-    margin-top: 15px;
-    text-decoration: none;
-    font-size: 1.3rem;
-    font-family: 'Roboto'; /* Tipografía única */
+  color: #1E3766;
+  text-align: center;
+  margin-top: 15px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-family: 'Roboto'; /* Tipografía única */
 
 }
 
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-    }
-    
-    .logo {
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-    }
-    
-    .header-logo {
-        width: 120px;
-    }
-    
-    .login-box {
-        margin: 20px auto;
-        padding: 30px 15px;
-    }
-    
-    .login-subtitle {
-        font-size: 1.8rem;
-    }
-    
-    .login-input::placeholder {
-        font-size: 1rem;
-    }
-    
-    .login-btn {
-        font-size: 1.1rem;
-        padding: 12px;
-    }
+  .header {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+  }
+  
+  .logo {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+  }
+  
+  .header-logo {
+      width: 120px;
+  }
+  
+  .login-box {
+      margin: 20px auto;
+      padding: 30px 15px;
+  }
+  
+  .login-subtitle {
+      font-size: 1.8rem;
+  }
+  
+  .login-input::placeholder {
+      font-size: 1rem;
+  }
+  
+  .login-btn {
+      font-size: 1.1rem;
+      padding: 12px;
+  }
 }
 
 @media (max-width: 480px) {
-    .login-subtitle {
-        font-size: 1.5rem;
-    }
-    
-    .login-input {
-        padding: 10px;
-        font-size: 1rem;
-    }
-    
-    .login-input::placeholder {
-        font-size: 0.9rem;
-    }
-    
-    .login-btn {
-        font-size: 1rem;
-        padding: 10px;
-    }
-    
-    .forgot-link {
-        font-size: 0.9rem;
-    }
+  .login-subtitle {
+      font-size: 1.5rem;
+  }
+  
+  .login-input {
+      padding: 10px;
+      font-size: 1rem;
+  }
+  
+  .login-input::placeholder {
+      font-size: 0.9rem;
+  }
+  
+  .login-btn {
+      font-size: 1rem;
+      padding: 10px;
+  }
+  
+  .forgot-link {
+      font-size: 0.9rem;
+  }
 }
 
 
 
 
 body, html{
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
 }
 
 @font-face {
-    font-family: "Glock";
-    src: url("fonts/glock.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  
+  font-family: "Glock";
+  src: url("fonts/glock.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 @font-face {
-    font-family: "Yeseva";
-    src: url("fonts/yeseva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .firtsColor {
-    background-color: #d3edff;
-    margin: 60px;
-    padding: 155px;
-    position: relative;
+  background-color: #d3edff;
+  margin: 60px;
+  padding: 155px;
+  position: relative;
 }
 
 .navbar {
-    background-color: #1e3766;
-    margin-top: 10;
-    padding: 200000px;
+  background-color: #1e3766;
+  margin-top: 10;
+  padding: 200000px;
 }
 
 .blanco {
-    color: #ffffff;
-    font-family: "Glock";
-    font-size: xx-large;
+  color: #ffffff;
+  font-family: "Glock";
+  font-size: xx-large;
 }
 
 
 .verde {
-    color: #9ecd49;
-    font-family: "Glock";
-    font-size: xx-large;
+  color: #9ecd49;
+  font-family: "Glock";
+  font-size: xx-large;
 }
 
 .Texto {
-    text-align: center;
-    margin-top: -100px;
-    font-size: 60px;
-    font-family: "Yeseva";
+  text-align: center;
+  margin-top: -100px;
+  font-size: 60px;
+  font-family: "Yeseva";
 }
 
 .contenedor-botones {
-    display: flex; 
-    gap: 120px;
-    justify-content: center;  
-    margin-top: 40px;   
-    left: 20px;  
-    flex-direction: row;  
-  }
-  
-  .boton {
-    padding: 30px 60px;
-    background: #9ecd49;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 10px;
-    font-family: "Yeseva";
-   flex:1; 
-  
-  }
+  display: flex; 
+  gap: 120px;
+  justify-content: center;  
+  margin-top: 40px;   
+  left: 20px;  
+  flex-direction: row;  
+}
 
+.boton {
+  padding: 30px 60px;
+  background: #9ecd49;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 10px;
+  font-family: "Yeseva";
+ flex:1; 
 
-.botones-izquierda {
-  position: absolute; 
-    left: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-    gap: 20px;
-  }
-  
-  .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: "Yeseva";
-  }
-  
-  .btn-pequeno:hover {
-    background: #9ecd49; 
-  }
-
-  .botones-derecha{
-    position: absolute; 
-    right: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-    gap: 20px;
-  }
-  /* Mantén todos tus estilos existentes y añade al final: */
-
-.app-container {
-  display: flex;
-  min-height: 100vh;
 }
 
 
+.botones-izquierda {
+position: absolute; 
+  left: 20px; 
+  top: 20px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: #1e3766; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Yeseva";
+}
+
+.btn-pequeno:hover {
+  background: #9ecd49; 
+}
+
+.botones-derecha{
+  position: absolute; 
+  right: 20px; 
+  top: 20px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+/* Mantén todos tus estilos existentes y añade al final: */
+
+.app-container {
+display: flex;
+min-height: 100vh;
+}
+
+.main-content {
+flex: 1;
+margin-left: 250px; /* Igual al ancho del sidebar */
+transition: margin 0.3s;
+}
+
 /* Ajustes para el contenido con sidebar */
 .firtsColor {
-  margin: 60px 60px 60px 30px; /* Reducir margen izquierdo */
+margin: 60px 60px 60px 30px; /* Reducir margen izquierdo */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .main-content {
-    margin-left: 70px;
-  }
-  
-  .firtsColor {
-    margin: 20px 20px 20px 10px;
-    padding: 80px 20px;
-  }
-  
-  .contenedor-botones {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .boton {
-    width: 100%;
-  }
+.main-content {
+  margin-left: 70px;
+}
+
+.firtsColor {
+  margin: 20px 20px 20px 10px;
+  padding: 80px 20px;
+}
+
+.contenedor-botones {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.boton {
+  width: 100%;
+}
 }
 
 
 
 body, html{
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
-  }
-  
-  @font-face {
-    font-family: "Glock";
-    src: url("fonts/glock.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  
-  @font-face {
-    font-family: "Yeseva";
-    src: url("fonts/yeseva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  .firtsColor {
-    background-color: #d3edff;
-    margin: 50px;
-    padding: 95px;
-    position: relative;
-  }
-  
-  .navbar {
-    background-color: #1e3766;
-    margin-top: 0;
-    padding: 20px;
-  }
-  
-  .blanco {
-    color: #ffffff;
-    font-family: "Glock";
-    font-size: xx-large;
-  }
-  
-  
-  .verde {
-    color: #9ecd49;
-    font-family: "Glock";
-    font-size: xx-large;
-  }
-  
-
-  .Texto {
-    text-align: center;
-    margin-top: -70px;
-    font-size: 60px;
-    font-family: "Yeseva";
-  }
-  
-  .contenedor-botones {
-    display: flex; 
-    gap: 50px;
-    justify-content: center;  
-    margin-top: 40px;       
-  }
-  
-  .boton {
-    padding: 30px 60px;
-    background: #9ecd49;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 10px;
-    font-family: "Yeseva";
-  }
-  
-  
-  .botones-izquierda {
-    position: absolute; 
-    left: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-    gap: 20px;
-  }
-  
-  .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .btn-pequeno:hover {
-    background: #9ecd49; 
-  }
-  
-  
-  .historial{
-    font-family: "Yeseva";
-    font-size: 25px;
-    margin-left: 100px;
-    margin-top: 30px;
-  }
-
-  body, html{
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
 }
 
 @font-face {
-    font-family: "Glock";
-    src: url("fonts/glock.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  
+  font-family: "Glock";
+  src: url("fonts/glock.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 @font-face {
-    font-family: "Yeseva";
-    src: url("fonts/yeseva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .firtsColor {
-    background-color: #d3edff;
-    margin: 60px;
-    padding: 140px;
-    position: relative;
+  background-color: #d3edff;
+  margin: 50px;
+  padding: 95px;
+  position: relative;
 }
 
 .navbar {
-    background-color: #1e3766;
-    margin-top: 0;
-    padding: 20px;
+  background-color: #1e3766;
+  margin-top: 0;
+  padding: 20px;
 }
 
 .blanco {
-    color: #ffffff;
-    font-family: "Glock";
-    font-size: xx-large;
+  color: #ffffff;
+  font-family: "Glock";
+  font-size: xx-large;
 }
 
 
 .verde {
-    color: #9ecd49;
-    font-family: "Glock";
-    font-size: xx-large;
+  color: #9ecd49;
+  font-family: "Glock";
+  font-size: xx-large;
+}
+
+
+.Texto {
+  text-align: center;
+  margin-top: -70px;
+  font-size: 60px;
+  font-family: "Yeseva";
+}
+
+.contenedor-botones {
+  display: flex; 
+  gap: 50px;
+  justify-content: center;  
+  margin-top: 40px;       
+}
+
+.boton {
+  padding: 30px 60px;
+  background: #9ecd49;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 10px;
+  font-family: "Yeseva";
+}
+
+
+.botones-izquierda {
+  position: absolute; 
+  left: 20px; 
+  top: 20px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: #1e3766; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-pequeno:hover {
+  background: #9ecd49; 
+}
+
+
+.historial{
+  font-family: "Yeseva";
+  font-size: 25px;
+  margin-left: 100px;
+  margin-top: 30px;
+}
+
+body, html{
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
+@font-face {
+  font-family: "Glock";
+  src: url("fonts/glock.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.firtsColor {
+  background-color: #d3edff;
+  margin: 60px;
+  padding: 140px;
+  position: relative;
+}
+
+.navbar {
+  background-color: #1e3766;
+  margin-top: 0;
+  padding: 20px;
+}
+
+.blanco {
+  color: #ffffff;
+  font-family: "Glock";
+  font-size: xx-large;
+}
+
+
+.verde {
+  color: #9ecd49;
+  font-family: "Glock";
+  font-size: xx-large;
 }
 
 
 
 .Texto {
-    text-align: center;
-    margin-top: -100px;
-    font-size: 60px;
-    font-family: "Yeseva";
+  text-align: center;
+  margin-top: -100px;
+  font-size: 60px;
+  font-family: "Yeseva";
 }
 
 .contenedor-botones {
-    display: flex; 
-    gap: 50px;
-    justify-content: center;  
-    margin-top: 40px;       
-  }
-  
-  .boton {
-    padding: 30px 60px;
-    background: #9ecd49;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 10px;
-    font-family: "Yeseva";
-  }
+  display: flex; 
+  gap: 50px;
+  justify-content: center;  
+  margin-top: 40px;       
+}
+
+.boton {
+  padding: 30px 60px;
+  background: #9ecd49;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 10px;
+  font-family: "Yeseva";
+}
 
 
 .botones-izquierda {
-    position: absolute; 
-    left: 20px; 
-    top: 20px; 
-    display: flex;
-    flex-direction: column; 
-  }
-  
-  .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .btn-pequeno:hover {
-    background: #9ecd49; 
-  }
-  
+  position: absolute; 
+  left: 20px; 
+  top: 20px; 
+  display: flex;
+  flex-direction: column; 
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: #1e3766; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-pequeno:hover {
+  background: #9ecd49; 
+}
+
 /* Estilos generales */
 .inicio-coordinador-container {
-    font-family: 'Yeseva';
-    background-color: #ffffff;
-  }
-  
-  /* Barra de navegación */
-  .navbar-coordinador {
-    background-color: #1e3766;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar-title-container {
-    font-family: 'Glock';
-    font-size: xx-large;
-  }
-  
-  .blanco {
-    color: #ffffff;
-  }
-  
-  .verde {
-    color: #73A31D;
-  }
-  
-  
-  /* Contenido principal */
-  .main-content-coordinador {
-    background-color: #d3edff;
-    margin: 60px;
-    padding: 140px;
-    position: relative;
-    min-height: 70vh;
-  }
-  
-  /* Botones laterales */
-  .sidebar-buttons {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: 'Gloock';
-  }
-  
-  .btn-pequeno:hover {
-    background: #73A31D;
-  }
-  
-  /* Título principal */
-  .titulo-principal {
-    text-align: center;
-    margin-top: -100px;
-    font-size: 4rem;
-    font-family: 'Gloock';
-  }
-  
-  /* Contenedor de encuestas */
-  .encuestas-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 40px;
-  }
-  
-  .fila-encuestas {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-  }
-  
-  .btn-encuesta {
-    display: block;
-    background-color: #73A31D;
-    color: white;
-    border: none;
-    text-align: center;
-    padding: 22px 45px;        /* Tamaño aumentado */
-    border-radius: 8px;        /* Bordes más redondeados */
-    text-decoration: none;
-    font-size: 2rem;           /* Texto más grande */
-    font-weight: bold;
-    margin: 20px auto;         /* Más espacio entre botones */
-    max-width: 450px;
-    width: 100%;
-    font-family: 'Roboto';
-    letter-spacing: 2px;
-    transition: all 0.3s;      /* Transición para todos los cambios */
-    cursor: pointer;           /* Cambia el cursor al pasar */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  
-  }
-  
-  .btn-encuesta:hover {
-    background: #5a8a0f;
-    transform: translateY(-2px); /* Efecto de levantar */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  }
-  
-  
+  font-family: 'Yeseva';
+  background-color: #ffffff;
+}
+
+/* Barra de navegación */
+.navbar-coordinador {
+  background-color: #1e3766;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title-container {
+  font-family: 'Glock';
+  font-size: xx-large;
+}
+
+.blanco {
+  color: #ffffff;
+}
+
+.verde {
+  color: #73A31D;
+}
+
+
+/* Contenido principal */
+.main-content-coordinador {
+  background-color: #d3edff;
+  margin: 60px;
+  padding: 140px;
+  position: relative;
+  min-height: 70vh;
+}
+
+/* Botones laterales */
+.sidebar-buttons {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  background: #1e3766;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Gloock';
+}
+
+.btn-pequeno:hover {
+  background: #73A31D;
+}
+
+/* Título principal */
+.titulo-principal {
+  text-align: center;
+  margin-top: -100px;
+  font-size: 4rem;
+  font-family: 'Gloock';
+}
+
+/* Contenedor de encuestas */
+.encuestas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.fila-encuestas {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.btn-encuesta {
+  display: block;
+  background-color: #73A31D;
+  color: white;
+  border: none;
+  text-align: center;
+  padding: 22px 45px;        /* Tamaño aumentado */
+  border-radius: 8px;        /* Bordes más redondeados */
+  text-decoration: none;
+  font-size: 2rem;           /* Texto más grande */
+  font-weight: bold;
+  margin: 20px auto;         /* Más espacio entre botones */
+  max-width: 450px;
+  width: 100%;
+  font-family: 'Roboto';
+  letter-spacing: 2px;
+  transition: all 0.3s;      /* Transición para todos los cambios */
+  cursor: pointer;           /* Cambia el cursor al pasar */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+}
+
+.btn-encuesta:hover {
+  background: #5a8a0f;
+  transform: translateY(-2px); /* Efecto de levantar */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+
 .title-coordinador{
-    font-family: 'Gloock';
-    font-size: 4rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #000000;
-    letter-spacing: 2px;
+  font-family: 'Gloock';
+  font-size: 4rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
 }
 
 .title-nuevo-evento{
-    font-family: 'Gloock';
-    font-size: 4rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #000000;
-    letter-spacing: 2px;
+  font-family: 'Gloock';
+  font-size: 4rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
 }
 
 .title-crear-encuesta{
-    font-family: 'Gloock';
-    font-size: 4rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #000000;
-    letter-spacing: 2px;
+  font-family: 'Gloock';
+  font-size: 4rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
 }
 
 
@@ -912,109 +917,109 @@ body, html{
 
 
 body, html{
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
+margin: 0;
+padding: 0;
+background-color: #ffffff;
 }
 
 @font-face {
-  font-family: "Glock";
-  src: url("fonts/glock.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+font-family: "Glock";
+src: url("fonts/glock.ttf") format("truetype");
+font-weight: normal;
+font-style: normal;
 }
 
 
 @font-face {
-  font-family: "Yeseva";
-  src: url("fonts/yeseva.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+font-family: "Yeseva";
+src: url("fonts/yeseva.ttf") format("truetype");
+font-weight: normal;
+font-style: normal;
 }
 
 .firtsColor {
-  background-color: #d3edff;
-  margin: 60px;
-  padding: 95px;
-  position: relative;
+background-color: #d3edff;
+margin: 60px;
+padding: 95px;
+position: relative;
 }
 
 
 
 .blanco {
-  color: #ffffff;
-  font-family: "Glock";
-  font-size: xx-large;
+color: #ffffff;
+font-family: "Glock";
+font-size: xx-large;
 }
 
 
 .verde {
-  color: #9ecd49;
-  font-family: "Glock";
-  font-size: xx-large;
+color: #9ecd49;
+font-family: "Glock";
+font-size: xx-large;
 }
 
 
 .Texto {
-  text-align: center;
-  margin-top: -70px;
-  font-size: 60px;
-  font-family: "Yeseva";
+text-align: center;
+margin-top: -70px;
+font-size: 60px;
+font-family: "Yeseva";
 }
 
 .contenedor-botones {
-  display: flex; 
-  gap: 50px;
-  justify-content: center;  
-  margin-top: 40px;       
+display: flex; 
+gap: 50px;
+justify-content: center;  
+margin-top: 40px;       
 }
 
 .boton {
-  padding: 30px 60px;
-  background: #9ecd49;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 25px;
-  border-radius: 10px;
-  font-family: "Yeseva";
-  transition: background 0.3s;
+padding: 30px 60px;
+background: #9ecd49;
+color: white;
+border: none;
+cursor: pointer;
+font-size: 25px;
+border-radius: 10px;
+font-family: "Yeseva";
+transition: background 0.3s;
 }
 
 .boton:hover{
-  background: #1e3766; 
+background: #1e3766; 
 }
 
 .botones-izquierda {
-  position: absolute; 
-  left: 20px; 
-  top: 20px; 
-  display: flex;
-  flex-direction: column; 
-  gap: 20px;
+position: absolute; 
+left: 20px; 
+top: 20px; 
+display: flex;
+flex-direction: column; 
+gap: 20px;
 }
 
 .btn-pequeno {
-  padding: 8px 16px;
-  background: #1e3766; 
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
+padding: 8px 16px;
+background: #1e3766; 
+color: white;
+border: none;
+border-radius: 5px;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.3s;
 }
 
 .btn-pequeno:hover {
-  background: #9ecd49; 
+background: #9ecd49; 
 }
 
 
 .historial{
-  font-family: "Yeseva";
-  font-size: 25px;
-  margin-left: 100px;
-  margin-top: 30px;
+font-family: "Yeseva";
+font-size: 25px;
+margin-left: 100px;
+margin-top: 30px;
 }
 
 
@@ -1046,366 +1051,367 @@ body, html{
 
 
 body, html{
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
+margin: 0;
+padding: 0;
+background-color: #ffffff;
 }
 
 @font-face {
-  font-family: "Glock";
-  src: url("fonts/glock.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+font-family: "Glock";
+src: url("fonts/glock.ttf") format("truetype");
+font-weight: normal;
+font-style: normal;
 }
 
 
 @font-face {
-  font-family: "Yeseva";
-  src: url("fonts/yeseva.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+font-family: "Yeseva";
+src: url("fonts/yeseva.ttf") format("truetype");
+font-weight: normal;
+font-style: normal;
 }
 
 .firtsColor {
-  background-color: #d3edff;
-  margin: 60px;
-  padding: 95px;
-  position: relative;
+background-color: #d3edff;
+margin: 60px;
+padding: 95px;
+position: relative;
 }
 
 .blanco {
-  color: #ffffff;
-  font-family: "Glock";
-  font-size: xx-large;
+color: #ffffff;
+font-family: "Glock";
+font-size: xx-large;
 }
 
 
 .verde {
-  color: #9ecd49;
-  font-family: "Glock";
-  font-size: xx-large;
+color: #9ecd49;
+font-family: "Glock";
+font-size: xx-large;
 }
 
 .Texto {
-  text-align: center;
-  margin-top: -70px;
-  font-size: 60px;
-  font-family: "Yeseva";
+text-align: center;
+margin-top: -70px;
+font-size: 60px;
+font-family: "Yeseva";
 }
 
 .contenedor-botones {
-  display: flex; 
-  gap: 50px;
-  justify-content: center;  
-  margin-top: 40px;       
+display: flex; 
+gap: 50px;
+justify-content: center;  
+margin-top: 40px;       
 }
 
 .boton {
-  padding: 30px 60px;
-  background: #9ecd49;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 25px;
-  border-radius: 10px;
-  font-family: "Yeseva";
-  transition: background 0.3s;
+padding: 30px 60px;
+background: #9ecd49;
+color: white;
+border: none;
+cursor: pointer;
+font-size: 25px;
+border-radius: 10px;
+font-family: "Yeseva";
+transition: background 0.3s;
 }
 
 .boton:hover{
-  background: #1e3766; 
+background: #1e3766; 
 }
 
 .botones-izquierda {
-  position: absolute; 
-  left: 20px; 
-  top: 20px; 
-  display: flex;
-  flex-direction: column; 
-  gap: 20px;
+position: absolute; 
+left: 20px; 
+top: 20px; 
+display: flex;
+flex-direction: column; 
+gap: 20px;
 }
 
 .btn-pequeno {
-  padding: 8px 16px;
-  background: #1e3766; 
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
+padding: 8px 16px;
+background: #1e3766; 
+color: white;
+border: none;
+border-radius: 5px;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.3s;
 }
 
 .btn-pequeno:hover {
-  background: #9ecd49; 
+background: #9ecd49; 
 }
 
 
 .historial{
-  font-family: "Yeseva";
-  font-size: 25px;
-  margin-left: 100px;
-  margin-top: 30px;
+font-family: "Yeseva";
+font-size: 25px;
+margin-left: 100px;
+margin-top: 30px;
 }
 
 .campo-pregunta {
-  width: 400px;
-  padding: 10px;
-  border: 2px solid #1e3766;
-  border-radius: 5px;
-  font-size: 15px;
-  outline: none;
-  margin-left: 100px;
+width: 400px;
+padding: 10px;
+border: 2px solid #1e3766;
+border-radius: 5px;
+font-size: 15px;
+outline: none;
+margin-left: 100px;
 }
 
 .texto2{
-  margin-left: 100px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 25px;
+margin-left: 100px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 25px;
 
 }
 
 .texto3{
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px;
-  text-align: center;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 30px;
+text-align: center;
 }
 
 
 .opciones-container {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-left: 100px;
-  margin-top: 20px;
-  gap: 250px;
+display: flex;
+flex-direction: row;
+gap: 20px;
+margin-left: 100px;
+margin-top: 20px;
+gap: 250px;
 }
 
 .contenedor-radio {
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding-left: 45px;
-  cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  user-select: none;
+display: flex;
+align-items: center;
+position: relative;
+padding-left: 45px;
+cursor: pointer;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 20px;
+user-select: none;
 }
 
 
 .radio-original {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
 }
 
 
 .radio-visual {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-  border: 2px solid #1e3766;
-  border-radius: 50%; 
+position: absolute;
+top: 0;
+left: 0;
+height: 25px;
+width: 25px;
+background-color: #eee;
+border: 2px solid #1e3766;
+border-radius: 50%; 
 }
 
 
 .contenedor-radio:hover .radio-original ~ .radio-visual {
-  background-color: #1e3766;
+background-color: #1e3766;
 }
 
 
 .radio-original:checked ~ .radio-visual {
-  background-color: #9ecd49;
-  border-color: #1e3766;
+background-color: #9ecd49;
+border-color: #1e3766;
 }
 
 
 .radio-visual:after {
-  content: "";
-  position: absolute;
-  display: none;
+content: "";
+position: absolute;
+display: none;
 }
 
 .radio-original:checked ~ .radio-visual:after {
-  display: block;
+display: block;
 }
 
 .contenedor-radio .radio-visual:after {
-  top: 8px;
-  left: 8px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: white;
+top: 8px;
+left: 8px;
+width: 9px;
+height: 9px;
+border-radius: 50%;
+background: white;
 }
 
 .radio-texto {
-  margin-left: 10px;
+margin-left: 10px;
 }
 
 
 .opcion-group {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 }
 
 .opciones-abcd {
-  margin-top: 15px;
-  margin-left: 45px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+margin-top: 15px;
+margin-left: 45px;
+display: flex;
+flex-direction: column;
+gap: 10px;
 }
 
 .opcion-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
 }
 
 .opcion-letra {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  background-color: #1e3766;
-  color: white;
-  border-radius: 50%;
-  font-weight: bold;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 30px;
+height: 30px;
+background-color: #1e3766;
+color: white;
+border-radius: 50%;
+font-weight: bold;
 }
 
 .campo-opcion {
-  width: 300px;
-  padding: 8px;
-  border: 2px solid #1e3766;
-  border-radius: 5px;
-  font-size: 14px;
+width: 300px;
+padding: 8px;
+border: 2px solid #1e3766;
+border-radius: 5px;
+font-size: 14px;
 }
 
 .campo-respuesta{
-  width: 400px;
-  padding: 10px;
-  border: 2px solid #1e3766;
-  border-radius: 5px;
-  font-size: 15px;
-  outline: none;
-  margin-top: 40px;
+width: 400px;
+padding: 10px;
+border: 2px solid #1e3766;
+border-radius: 5px;
+font-size: 15px;
+outline: none;
+margin-top: 40px;
 }
 
 
 
 .botones-abajo {
-  position: absolute; 
-  left: 20px; 
-  display: flex;
-  flex-direction: row; 
-  gap: 1060px;
-  bottom: 20px;
+position: absolute; 
+left: 20px; 
+display: flex;
+flex-direction: row; 
+gap: 1060px;
+bottom: 20px;
 }
 
 .btn-pequeno {
-  padding: 8px 16px;
-  background: #1e3766; 
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
+padding: 8px 16px;
+background: #1e3766; 
+color: white;
+border: none;
+border-radius: 5px;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.3s;
 }
 
 .btn-pequeno:hover {
-  background: #9ecd49; 
+background: #9ecd49; 
 }
 /* Estilos para los contenedores de encuesta */
 .encuesta-container {
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
+width: 90%;
+max-width: 800px;
+margin: 0 auto;
 }
 
 .caso-encuesta {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+background-color: #f8f9fa;
+padding: 20px;
+border-radius: 10px;
+margin-bottom: 30px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* Estilos para los resultados */
 .resultados-container {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+margin: 20px 0;
+padding: 15px;
+background-color: white;
+border-radius: 8px;
+border: 1px solid #e0e0e0;
 }
 
 .resultados-titulo {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
+font-size: 1.2rem;
+color: #333;
+margin-bottom: 15px;
+border-bottom: 1px solid #eee;
+padding-bottom: 8px;
 }
 
 .aspectos-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
 }
 
 .aspecto-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
+display: flex;
+justify-content: space-between;
+padding: 8px 0;
 }
 
 .aspecto-nombre {
-  font-weight: 500;
-  color: #555;
+font-weight: 500;
+color: #555;
 }
 
 .aspecto-valor {
-  font-weight: 600;
-  color: #2c3e50;
+font-weight: 600;
+color: #2c3e50;
 }
 
 /* Estilo para el botón */
 .boton-ver-encuesta {
-  background-color: #9ecd49;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 15px;
-  transition: background-color 0.3s;
+background-color: #9ecd49;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+font-size: 1rem;
+margin-top: 15px;
+transition: background-color 0.3s;
 }
 
 .boton-ver-encuesta:hover {
-  background-color: #79993c;
+background-color: #79993c;
 }
 /* Contenedor para el botón Mostrar Encuesta */
 .boton-mostrar-container {
-  display: flex;
-  justify-content: center;
-  margin: 30px 0;
-  width: 100%;
+display: flex;
+justify-content: center;
+margin: 30px 0;
+width: 100%;
 }
 
 /* Opcional: Si quieres que el botón sea más grande */
 .boton-mostrar-container .boton-ver-encuesta {
-  padding: 12px 30px;
-  font-size: 1.1rem;
+padding: 12px 30px;
+font-size: 1.1rem;
 }
+
 
 
 
