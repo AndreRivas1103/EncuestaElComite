@@ -4,7 +4,6 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const EncuestaCompleta = () => {
   const [respuestas, setRespuestas] = useState({});
-  const [preguntaActual, setPreguntaActual] = useState(0);
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const categorias = [
@@ -174,14 +173,6 @@ const EncuestaCompleta = () => {
     }
   ];
 
-  // Aplanar todas las preguntas en un solo array para navegación
-  const todasLasPreguntas = categorias.flatMap(categoria => 
-    categoria.preguntas.map(pregunta => ({
-      ...pregunta,
-      categoria: categoria.nombre
-    }))
-  );
-
   const handleCambioRespuesta = (preguntaId, valor) => {
     setRespuestas({
       ...respuestas,
@@ -189,26 +180,21 @@ const EncuestaCompleta = () => {
     });
   };
 
-  const handleSiguiente = () => {
-    if (preguntaActual < todasLasPreguntas.length - 1) {
-      setPreguntaActual(preguntaActual + 1);
-    } else {
-      setMostrarResultados(true);
-    }
-  };
-
-  const handleAnterior = () => {
-    setPreguntaActual(preguntaActual - 1);
-  };
-
   const calcularResultados = () => {
-    // Aquí iría la lógica para calcular los resultados basados en las respuestas
+    // Lógica simplificada para calcular resultados
+    // En una implementación real, esto debería analizar las respuestas
     return {
       liderazgo: 8,
       trabajoEquipo: 7,
       logros: 6,
       resiliencia: 9
     };
+  };
+
+  const todasLasPreguntasRespondidas = () => {
+    return categorias.every(categoria => 
+      categoria.preguntas.every(pregunta => respuestas[pregunta.id])
+    );
   };
 
   if (mostrarResultados) {
@@ -222,14 +208,28 @@ const EncuestaCompleta = () => {
             <div style={{ width: `${resultados.liderazgo * 10}%` }}></div>
           </div>
         </div>
-        {/* Repetir para otras categorías */}
+        <div className="resultado-categoria">
+          <h2>Trabajo en Equipo: {resultados.trabajoEquipo}/10</h2>
+          <div className="barra-progreso">
+            <div style={{ width: `${resultados.trabajoEquipo * 10}%` }}></div>
+          </div>
+        </div>
+        <div className="resultado-categoria">
+          <h2>Obtención de Logros: {resultados.logros}/10</h2>
+          <div className="barra-progreso">
+            <div style={{ width: `${resultados.logros * 10}%` }}></div>
+          </div>
+        </div>
+        <div className="resultado-categoria">
+          <h2>Resiliencia: {resultados.resiliencia}/10</h2>
+          <div className="barra-progreso">
+            <div style={{ width: `${resultados.resiliencia * 10}%` }}></div>
+          </div>
+        </div>
         <button className="boton-volver">Volver al Inicio</button>
       </div>
     );
   }
-
-  const pregunta = todasLasPreguntas[preguntaActual];
-  const categoriaActual = categorias.find(c => c.nombre === pregunta.categoria);
 
   return (
     <div>
@@ -246,50 +246,192 @@ const EncuestaCompleta = () => {
         <div className="encuesta-container">
           <h1 className='Texto'>Encuesta de Evaluación</h1>
           
-          <div className="categoria-actual">
-            <h2>{pregunta.categoria}</h2>
-            <div className="progreso">
-              Pregunta {preguntaActual + 1} de {todasLasPreguntas.length}
-            </div>
-          </div>
-
-          <div className="pregunta-actual">
-            <h3>{pregunta.texto}</h3>
-            
-            <div className="opciones-respuesta">
-              {pregunta.opciones.map((opcion, index) => (
-                <label key={index} className="opcion">
-                  <input
-                    type="radio"
-                    name={pregunta.id}
-                    value={opcion}
-                    checked={respuestas[pregunta.id] === opcion}
-                    onChange={() => handleCambioRespuesta(pregunta.id, opcion)}
-                  />
-                  <span className="checkmark"></span>
-                  {opcion}
-                </label>
+          {categorias.map((categoria, index) => (
+            <div key={index} className="categoria-seccion">
+              <h2 className="titulo-categoria">{categoria.nombre}</h2>
+              
+              {categoria.preguntas.map((pregunta, pIndex) => (
+                <div key={pregunta.id} className="pregunta-item">
+                  <h3 className="texto-pregunta">{pregunta.texto}</h3>
+                  
+                  <div className="opciones-respuesta">
+                    {pregunta.opciones.map((opcion, oIndex) => (
+                      <label key={oIndex} className="opcion">
+                        <input
+                          type="radio"
+                          name={pregunta.id}
+                          value={opcion}
+                          checked={respuestas[pregunta.id] === opcion}
+                          onChange={() => handleCambioRespuesta(pregunta.id, opcion)}
+                        />
+                        <span className="checkmark"></span>
+                        {opcion}
+                      </label>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
+          ))}
 
-          <div className="controles-navegacion">
-            {preguntaActual > 0 && (
-              <button onClick={handleAnterior} className="boton-anterior">
-                Anterior
-              </button>
-            )}
-            
-            <button 
-              onClick={handleSiguiente} 
-              className="boton-siguiente"
-              disabled={!respuestas[pregunta.id]}
-            >
-              {preguntaActual === todasLasPreguntas.length - 1 ? 'Finalizar' : 'Siguiente'}
-            </button>
-          </div>
+          
         </div>
       </div>
+
+      <style jsx>{`
+        .encuesta-container {
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 80px;
+          background-color: #f9f9f9;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .Texto {
+          text-align: center;
+          color: #333;
+          margin-bottom: 30px;
+        }
+        
+        .categoria-seccion {
+          margin-bottom: 30px;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .titulo-categoria {
+          color: #2c3e50;
+          border-bottom: 2px solid #9ecd49;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+        }
+        
+        .pregunta-item {
+          margin-bottom: 25px;
+        }
+        
+        .texto-pregunta {
+          color: #34495e;
+          margin-bottom: 15px;
+        }
+        
+        .opciones-respuesta {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        
+        .opcion {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          padding: 10px;
+          border-radius: 5px;
+          transition: background-color 0.3s;
+        }
+        
+        .opcion:hover {
+          background-color: #f0f0f0;
+        }
+        
+        .opcion input {
+          margin-right: 10px;
+        }
+        
+        .checkmark {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 2px solid #3498db;
+          border-radius: 50%;
+          margin-right: 10px;
+          position: relative;
+        }
+        
+        .opcion input:checked + .checkmark:after {
+          content: "";
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          background-color: #3498db;
+          border-radius: 50%;
+          top: 2px;
+          left: 2px;
+        }
+        
+        .controles-navegacion {
+          display: flex;
+          justify-content: center;
+          margin-top: 30px;
+        }
+        
+        .boton-finalizar {
+          padding: 12px 25px;
+          background-color: #3498db;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s;
+        }
+        
+        .boton-finalizar:hover {
+          background-color: #2980b9;
+        }
+        
+        .boton-finalizar:disabled {
+          background-color: #95a5a6;
+          cursor: not-allowed;
+        }
+        
+        .resultados-container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f9f9f9;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+        
+        .resultado-categoria {
+          margin-bottom: 20px;
+        }
+        
+        .barra-progreso {
+          height: 20px;
+          background-color: #ecf0f1;
+          border-radius: 10px;
+          overflow: hidden;
+          margin-top: 10px;
+        }
+        
+        .barra-progreso div {
+          height: 100%;
+          background-color: #3498db;
+          transition: width 0.5s;
+        }
+        
+        .boton-volver {
+          padding: 12px 25px;
+          background-color: #2ecc71;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-top: 20px;
+          transition: background-color 0.3s;
+        }
+        
+        .boton-volver:hover {
+          background-color: #27ae60;
+        }
+      `}</style>
     </div>
   );
 };
