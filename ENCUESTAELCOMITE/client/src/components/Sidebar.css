@@ -132,3 +132,110 @@
     height: 30px;
   }
 }
+/* Estilos generales de la aplicación */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header-coordinador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #1E3766;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo-coordinador {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Glock", sans-serif;
+}
+
+.logo-span {
+  color: #9ecd49;
+}
+
+.header-logo {
+  height: 50px;
+}
+
+/* Contenedor del botón de menú */
+.menu-button-container {
+  padding: 10px 20px;
+  background-color: #d3edff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #1E3766;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+/* Área de contenido */
+.content-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #D3EDFF;
+}
+
+.main-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+/* Títulos */
+.title-coordinador {
+  color: #1E3766;
+  margin-bottom: 30px;
+  font-family: "Glock", sans-serif;
+}
+
+/* Botones */
+.contenedor-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-coordinador {
+  padding: 12px 25px;
+  background-color: #9ecd49;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s;
+  font-family: "Roboto", sans-serif;
+}
+
+.btn-coordinador:hover {
+  background-color: #8bbd39;
+  transform: translateY(-2px);
+}
