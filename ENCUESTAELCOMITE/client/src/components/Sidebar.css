@@ -1,12 +1,12 @@
-/* Estilos base */
+/* Estilos exclusivos para el componente Sidebar */
 .sidebar {
   width: 250px;
   height: 100vh;
   background: #1e3766;
-  color: rgb(255, 255, 255);
+  color: white;
   padding: 1.5rem;
   position: fixed;
-  left: -250px; /* Cambiado para ocultar inicialmente */
+  left: -250px;
   top: 0;
   z-index: 1000;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
@@ -14,62 +14,24 @@
 }
 
 .sidebar.visible {
-  left: 0; /* Muestra la sidebar */
+  left: 0;
 }
 
-/* Botón para abrir/cerrar la sidebar */
-.sidebar-toggle {
-  position: fixed;
-  left: 20px;
-  top: 20px;
-  background: #1e3766;
-  color: white;
+.sidebar-close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: none;
   border: none;
+  color: white;
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
-  padding: 5px 10px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
 }
 
-.sidebar-toggle:hover {
-  background: #9ecd49;
-}
-
-/* Overlay para fondo oscuro cuando sidebar está abierta */
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-}
-
-.sidebar-overlay.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Contenido principal que se desplaza */
-.main-content {
-  transition: margin-left 0.3s ease;
-  margin-left: 0;
-}
-
-.main-content.sidebar-visible {
-  margin-left: 250px;
-}
-
-/* Estilos existentes que se mantienen igual */
 .sidebar-header {
   display: flex;
   align-items: center;
+  background: #1e3766;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -148,28 +110,25 @@
   background: rgba(255, 107, 107, 0.1);
 }
 
+.nav-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 1rem 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
-      width: 70%;
+    width: 70%;
   }
   
-  .main-content.sidebar-visible {
-      margin-left: 0;
-  }
-  
-  .sidebar-overlay.visible {
-      display: block;
-  }
-  
-  /* Mantener los estilos responsive originales */
   .nav-label, .user-info {
-      display: none;
+    display: none;
   }
   
   .avatar {
-      margin-right: 0;
-      width: 30px;
-      height: 30px;
+    margin-right: 0;
+    width: 30px;
+    height: 30px;
   }
 }

@@ -13,6 +13,7 @@ import GuardarPreguntas from './pages/GuardarPreguntas.jsx';
 import CrearPregunta from './pages/CrearPregunta.jsx';
 import Calendario from './pages/Calendario.jsx';
 import Encuesta from './pages/Encuesta.jsx';
+import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
 import './App.css'
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/crear-pregunta" element={<CrearPregunta />} />
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/encuestas" element={<Encuesta />} />
+        <Route path="/ensayo" element={<Ensayo />} />
       </Routes>
     </Router>
   )

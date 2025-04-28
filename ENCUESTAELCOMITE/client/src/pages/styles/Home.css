@@ -117,13 +117,6 @@ body {
   transition: background-color 0.3s;
 }
 
-.btn-center {
-  display: flex;          /* Activa Flexbox solo aquí */
-  justify-content: center;
-  align-items: center;
-  height: auto;           /* Mantiene la altura automática */
-}
-
 .btn:hover {
   background-color: #5a8a0f;
 }
@@ -464,7 +457,6 @@ body, html{
   margin-top: 40px;   
   left: 20px;  
   flex-direction: row;  
-  font-family: 'Roboto';
 }
 
 .boton {
@@ -475,15 +467,9 @@ body, html{
   cursor: pointer;
   font-size: 20px;
   border-radius: 10px;
-  font-family: 'Roboto';
-  flex:1; 
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* Opcional: Asegurar que el botón no tenga altura fija */
-  min-height: auto;
+  font-family: "Yeseva";
+ flex:1; 
+
 }
 
 
@@ -498,7 +484,7 @@ position: absolute;
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #196624; 
+  background: #1e3766; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -752,7 +738,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #277c1b; 
+  background: #1e3766; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -815,7 +801,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #48ac1a;
+  background: #1e3766;
   color: white;
   border: none;
   border-radius: 5px;
@@ -996,12 +982,12 @@ border: none;
 cursor: pointer;
 font-size: 25px;
 border-radius: 10px;
-font-family: 'Roboto';
+font-family: "Yeseva";
 transition: background 0.3s;
 }
 
 .boton:hover{
-background: #9ecd49; 
+background: #1e3766; 
 }
 
 .botones-izquierda {
@@ -1132,7 +1118,7 @@ transition: background 0.3s;
 }
 
 .boton:hover{
-background: #5a8a0f; 
+background: #1e3766; 
 }
 
 .botones-izquierda {
@@ -1426,7 +1412,147 @@ padding: 12px 30px;
 font-size: 1.1rem;
 }
 
+/* Estilos generales de la encuesta */
+.encuesta-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
+.categoria-actual {
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.progreso {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+.pregunta-actual {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.pregunta-actual h3 {
+  margin-bottom: 20px;
+  color: #34495e;
+}
+
+.opciones-respuesta {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.opcion:hover {
+  background-color: #f5f5f5;
+}
+
+.opcion input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.controles-navegacion {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.boton-anterior,
+.boton-siguiente {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.boton-anterior {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.boton-anterior:hover {
+  background-color: #7f8c8d;
+}
+
+.boton-siguiente {
+  background-color: #3498db;
+  color: white;
+}
+
+.boton-siguiente:hover {
+  background-color: #2980b9;
+}
+
+.boton-siguiente:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Estilos para los resultados */
+.resultados-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.resultado-categoria {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.barra-progreso {
+  height: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.barra-progreso div {
+  height: 100%;
+  background-color: #2ecc71;
+  transition: width 0.5s ease;
+}
+
+.boton-volver {
+  margin-top: 30px;
+  padding: 10px 25px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.boton-volver:hover {
+  background-color: #2980b9;
+}
 
 
 

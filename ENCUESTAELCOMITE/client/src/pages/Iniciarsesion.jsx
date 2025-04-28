@@ -113,6 +113,7 @@ const IniciarSesion = () => {
         <Link to="/registro-encuestas" className="btn">Boton Prueba2 Registro Encuesta</Link>
 
         <Link to="/info-encuesta" className="btn">Boton Prueba4 Info de la Encuesta</Link>
+        <Link to="/ensayo" className="btn">Boton Prueba5 intento de sidebar</Link>
       </main>
     </div>
   );
