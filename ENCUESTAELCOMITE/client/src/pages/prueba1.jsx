@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import { Link } from 'react-router-dom';
 
 const TukiInicio = () => {
     return(
@@ -134,7 +135,7 @@ const TukiInicio = () => {
 
                 {/* Botón Mostrar Encuesta (nuevo) */}
                 <div className="boton-mostrar-container">
-                    <button className="boton-ver-encuesta">Mostrar Encuesta</button>
+        <Link to="/encuestas" className="boton-ver-encuesta">Mostrar Encuesta</Link>
                 </div>
             </div>
         </div>
