@@ -117,6 +117,13 @@ body {
   transition: background-color 0.3s;
 }
 
+.btn-center {
+  display: flex;          /* Activa Flexbox solo aquí */
+  justify-content: center;
+  align-items: center;
+  height: auto;           /* Mantiene la altura automática */
+}
+
 .btn:hover {
   background-color: #5a8a0f;
 }
@@ -457,6 +464,7 @@ body, html{
   margin-top: 40px;   
   left: 20px;  
   flex-direction: row;  
+  font-family: 'Roboto';
 }
 
 .boton {
@@ -467,9 +475,15 @@ body, html{
   cursor: pointer;
   font-size: 20px;
   border-radius: 10px;
-  font-family: "Yeseva";
- flex:1; 
-
+  font-family: 'Roboto';
+  flex:1; 
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Opcional: Asegurar que el botón no tenga altura fija */
+  min-height: auto;
 }
 
 
@@ -484,7 +498,7 @@ position: absolute;
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #1e3766; 
+  background: #196624; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -738,7 +752,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #1e3766; 
+  background: #277c1b; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -801,7 +815,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #1e3766;
+  background: #48ac1a;
   color: white;
   border: none;
   border-radius: 5px;
@@ -982,12 +996,12 @@ border: none;
 cursor: pointer;
 font-size: 25px;
 border-radius: 10px;
-font-family: "Yeseva";
+font-family: 'Roboto';
 transition: background 0.3s;
 }
 
 .boton:hover{
-background: #1e3766; 
+background: #9ecd49; 
 }
 
 .botones-izquierda {
@@ -1118,7 +1132,7 @@ transition: background 0.3s;
 }
 
 .boton:hover{
-background: #1e3766; 
+background: #5a8a0f; 
 }
 
 .botones-izquierda {

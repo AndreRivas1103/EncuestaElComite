@@ -23,7 +23,7 @@ const NuevoEvento = () => {
         </div>
 
         <div className='contenedor-botones'>
-          <Link to="/seleccionar-encuesta" className="btn">Usar Encuestas Anteriores</Link>
+          <Link to="/seleccionar-encuesta" className="btn btn-center">Usar Encuestas Anteriores</Link>
           <Link to="/crear-encuesta" className="btn">Crear Encuesta</Link>
         </div>
       </div>
