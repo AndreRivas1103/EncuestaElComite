@@ -15,7 +15,7 @@ const Home = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
       
-      <div className="main-content">
+      <div className="main-contenido">
         <h1 className="welcome-title">Bienvenido a Go BaBy <span>Go!</span></h1>
         <p className="mission-text">
           Somos una organización benéfica dedicada a mejorar la vida de los niños discapacitados. 

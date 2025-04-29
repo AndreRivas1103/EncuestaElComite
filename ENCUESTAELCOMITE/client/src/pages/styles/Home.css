@@ -65,6 +65,15 @@ body {
   padding-right: 13%;
 }
 
+.main-contenido {
+  padding: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .welcome-title {
   color: #000000;
   font-family: 'Gloock';
