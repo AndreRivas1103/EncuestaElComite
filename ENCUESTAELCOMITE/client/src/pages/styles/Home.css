@@ -647,7 +647,7 @@ body, html{
 
 
 .historial{
-  font-family: "Yeseva";
+  font-family: 'Roboto';
   font-size: 25px;
   margin-left: 100px;
   margin-top: 30px;
@@ -1113,12 +1113,14 @@ border: none;
 cursor: pointer;
 font-size: 25px;
 border-radius: 10px;
-font-family: "Yeseva";
+font-family: "Roboto";
 transition: background 0.3s;
+text-decoration: none;
+text-align: center;
 }
 
 .boton:hover{
-background: #1e3766; 
+background: #5a8a0f; 
 }
 
 .botones-izquierda {
@@ -1343,6 +1345,7 @@ padding: 20px;
 border-radius: 10px;
 margin-bottom: 30px;
 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+font-family: 'Roboto';
 }
 
 /* Estilos para los resultados */
@@ -1360,6 +1363,7 @@ color: #333;
 margin-bottom: 15px;
 border-bottom: 1px solid #eee;
 padding-bottom: 8px;
+font-family: 'Roboto';
 }
 
 .aspectos-container {
@@ -1377,11 +1381,13 @@ padding: 8px 0;
 .aspecto-nombre {
 font-weight: 500;
 color: #555;
+font-family: 'Roboto';
 }
 
 .aspecto-valor {
 font-weight: 600;
 color: #2c3e50;
+font-family: 'Roboto';
 }
 
 /* Estilo para el botón */
@@ -1395,6 +1401,8 @@ cursor: pointer;
 font-size: 1rem;
 margin-top: 15px;
 transition: background-color 0.3s;
+font-family: 'Roboto';
+text-decoration: none;
 }
 
 .boton-ver-encuesta:hover {
@@ -1419,6 +1427,7 @@ font-size: 1.1rem;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Roboto';
 }
 
 .categoria-actual {
@@ -1560,7 +1569,23 @@ font-size: 1.1rem;
 
 
 
+/*Encuesta*/
 
+.categoria-seccion{
+  font-family: 'Roboto';
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
+}
+
+.pregunta-item{
+  font-family: 'Roboto';
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 2px;
+}
 
 
 

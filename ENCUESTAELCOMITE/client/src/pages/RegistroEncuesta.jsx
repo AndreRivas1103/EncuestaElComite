@@ -28,13 +28,6 @@ const pagina1 = () => {
         <Link to="/info-encuesta" className="boton">Encuesta 001</Link>
           <button className="boton">Encuesta 002</button>
           <button className="boton">Encuesta 003</button>
-        </div>
-
-        <br />
-        <br />
-        <br />
-
-        <div className='contenedor-botones'>
           <button className="boton">Encuesta 004</button>
           <button className="boton">Encuesta 005</button>
           <button className="boton">Encuesta 006</button>
