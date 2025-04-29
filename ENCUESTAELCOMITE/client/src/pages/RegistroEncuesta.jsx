@@ -5,8 +5,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const RegistroEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const navigate = useNavigate();
 
-  // Función para el Sidebar (copiada de InicioCoordinador)
   const Sidebar = ({ isVisible, onClose }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -55,6 +55,11 @@ const RegistroEncuesta = () => {
 
           <div className="nav-divider" />
 
+          <button className="nav-item" onClick={() => navigate(-1)}>
+            <span className="nav-icon">↩️</span>
+            <span className="nav-label">Regresar</span>
+          </button>
+
           <button className="nav-item logout-item" onClick={handleLogout}>
             <span className="nav-icon">🚪</span>
             <span className="nav-label">Cerrar Sesión</span>
@@ -67,10 +72,7 @@ const RegistroEncuesta = () => {
   return (
     <div>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-
       
-      {/* Header (igual al original) */}
-
       <header className="header">
         <div className="logo">
           <a href='/inicio-coordinador'>El Comit<span>é</span></a>
@@ -78,7 +80,6 @@ const RegistroEncuesta = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      {/* Botón para abrir el Sidebar */}
       <div className="menu-button-container">
         <button 
           className="menu-button" 
@@ -88,13 +89,11 @@ const RegistroEncuesta = () => {
         </button>
       </div>
 
-      {/* Sidebar */}
       <Sidebar 
         isVisible={sidebarVisible} 
         onClose={() => setSidebarVisible(false)} 
       />
 
-      {/* Contenido original */}
       <div className='firtsColor'>
         <div>
           <h1 className='Texto'>Registro de encuesta</h1>
