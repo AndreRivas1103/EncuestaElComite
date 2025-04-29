@@ -74,6 +74,11 @@ const NuevoEvento = () => {
 
           <div className="nav-divider" />
 
+          <button className="nav-item" onClick={() => navigate(-1)}>
+            <span className="nav-icon">↩️</span>
+            <span className="nav-label">Regresar</span>
+          </button>
+
           <button className="nav-item logout-item" onClick={handleLogout}>
             <span className="nav-icon">🚪</span>
             <span className="nav-label">Cerrar Sesión</span>
