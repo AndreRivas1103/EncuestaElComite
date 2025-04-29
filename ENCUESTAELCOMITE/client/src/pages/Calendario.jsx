@@ -76,9 +76,7 @@ const ProgramarEncuesta = () => {
         </div>
         <div className="seccion-programacion">
           <div className='contenedor-botones'>
-            <button className='btn btn-programar'>
-              Programar encuesta
-            </button>
+            <Link to="/inicio-coordinador" className='btn btn-programar'>Programar encuesta</Link> 
           </div>
         </div>
       </div>
