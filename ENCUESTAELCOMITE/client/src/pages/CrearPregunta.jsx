@@ -21,12 +21,6 @@ const CrearPregunta = () => {
       </header>
 
       <div className='firtsColor'>
-        <div className="botones-izquierda">
-          <button className="btn-pequeno">Regresar</button>
-          <button className="btn-pequeno">Inicio</button>
-          <button className="btn-pequeno">Salir</button>
-        </div>
-
         <div>
           <h1 className='title-crear-encuesta'>Crear preguntas</h1>
         </div>
@@ -79,7 +73,7 @@ const CrearPregunta = () => {
             
             <div className='botones-abajo'>
               <button className='btn-pequeno'>Agregar otra pregunta</button>
-              <Link to="/calendario" className='btn-pequeno'>Guardar pregunta</Link>
+              <Link to="/calendario" className='btn-pequeno btn-pequeno-guardar'>Guardar pregunta</Link>
             </div>
           </div>
         </div>

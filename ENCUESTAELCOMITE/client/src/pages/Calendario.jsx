@@ -16,20 +16,12 @@ const ProgramarEncuesta = () => {
     <div>
       <title>Programar Encuesta</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-
       <header className="header">
         <div className="logo">
           <a href='#'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt='Baby go Logo' className='header-logo' />
       </header>
-
-      <div className="botones-izquierda">
-        <Link to="/" className="btn-pequeno">Regresar</Link>
-        <Link to="/inicio" className="btn-pequeno">Inicio</Link>
-        <button className="btn-pequeno">Salir</button>
-      </div>
-
       <div className='firtsColor'>
         <div className="seccion-calendario">
           <h1 className='title-section'>Selecciona una fecha:</h1>
@@ -44,38 +36,47 @@ const ProgramarEncuesta = () => {
               showYearDropdown
               dropdownMode="select"
               minDate={new Date()}
+              renderCustomHeader={({
+                monthDate,
+                decreaseMonth,
+                increaseMonth,
+              }) => (
+                <div className="custom-header">
+                  <button
+                    onClick={decreaseMonth}
+                    className="nav-button"
+                    aria-label="Mes anterior"
+                  >
+                    &lt;
+                  </button>
+                  <span className="month-title">
+                    {monthDate.toLocaleString('es-ES', {
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </span>
+                  <button
+                    onClick={increaseMonth}
+                    className="nav-button"
+                    aria-label="Mes siguiente"
+                  >
+                    &gt;
+                  </button>
+                </div>
+              )}
+              dayClassName={(date) => 
+                date.getDate() === fechaSeleccionada.getDate() &&
+                date.getMonth() === fechaSeleccionada.getMonth() &&
+                date.getFullYear() === fechaSeleccionada.getFullYear()
+                  ? 'selected-day' 
+                  : 'normal-day'
+              }
             />
           </div>
         </div>
-
         <div className="seccion-programacion">
-          <h1 className='title-section'>Programar encuesta</h1>
-          <h2 className='subtitle'>Pre/post evento</h2>
-          
-          <div className="opciones-evento">
-            <label className="radio-option">
-              <input 
-                type="radio" 
-                name="tipo-evento" 
-                value="pre" 
-                onChange={(e) => setTipoEvento(e.target.value)}
-              />
-              <span className="radio-label">Pre-evento</span>
-            </label>
-            
-            <label className="radio-option">
-              <input 
-                type="radio" 
-                name="tipo-evento" 
-                value="post" 
-                onChange={(e) => setTipoEvento(e.target.value)}
-              />
-              <span className="radio-label">Post-evento</span>
-            </label>
-          </div>
-
           <div className='contenedor-botones'>
-            <button className='btn-action'>
+            <button className='btn btn-programar'>
               Programar encuesta
             </button>
           </div>
