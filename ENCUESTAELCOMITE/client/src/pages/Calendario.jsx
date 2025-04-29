@@ -22,9 +22,6 @@ const ProgramarEncuesta = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('token');
     navigate("/confirmar-cierre" );
   };
 
