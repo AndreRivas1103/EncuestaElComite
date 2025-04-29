@@ -8,9 +8,6 @@ const ConfirmarCierre = () => {
 
   // Función para cerrar sesión
   const cerrarSesion = () => {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('token');
     navigate('/'); // Redirige a la página de login
   };
 
@@ -29,21 +26,21 @@ const ConfirmarCierre = () => {
       <div className='firtsColor' style={{ padding: '50px 20px', textAlign: 'center' }}>
         <h1 className='title-contacto-1'>¿Estás seguro de que deseas cerrar sesión?</h1>
         <div style={{ marginTop: '20px' }}>
-        <div className='contenedor-botones'>
-          <button 
-            onClick={cerrarSesion} 
-            className="btn" 
-            style={{ marginRight: '0px' }}>
-            Sí
-          </button>
-          <button 
-            onClick={() => navigate(-1)} 
-            className="btn btn-cancelar">
-            No
-          </button>
+          <div className='contenedor-botones' style={{ display: 'flex', justifyContent: 'center', gap: '10px', textAlign: 'center',}}>
+            <button 
+              onClick={cerrarSesion} 
+              className="btn btn-cancelar" 
+              style={{textAlign:'center'}}>
+              Sí
+            </button>
+            <button 
+              onClick={() => navigate(-1)} 
+              className="btn btn-cancelar">
+              No
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
