@@ -1,4 +1,13 @@
 /* Estilos exclusivos para el componente Sidebar */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 .sidebar {
   width: 250px;
   height: 100vh;
@@ -46,20 +55,20 @@
   place-items: center;
   font-weight: bold;
   margin-right: 1rem;
-  font-family: "Glock";
+  font-family: "Roboto";
 }
 
 .user-info h3 {
   margin: 0;
   font-size: 1.1rem;
-  font-family: "Glock";
+  font-family: "Roboto";
 }
 
 .user-info p {
   margin: 0;
   font-size: 0.8rem;
   opacity: 0.7;
-  font-family: "Yeseva";
+  font-family: "Roboto";
 }
 
 .sidebar-nav {
@@ -98,7 +107,7 @@
 .nav-label {
   text-transform: capitalize;
   font-size: 0.95rem;
-  font-family: "Yeseva";
+  font-family: "Roboto";
 }
 
 .logout-item {
@@ -159,15 +168,11 @@
   color: white;
   font-size: 20px;
   font-weight: bold;
-  font-family: "Glock", sans-serif;
+  font-family: "Roboto";
 }
 
 .logo-span {
   color: #9ecd49;
-}
-
-.header-logo {
-  height: 50px;
 }
 
 /* Contenedor del botón de menú */
@@ -214,7 +219,7 @@
 .title-coordinador {
   color: #1E3766;
   margin-bottom: 30px;
-  font-family: "Glock", sans-serif;
+  font-family: "Roboto";
 }
 
 /* Botones */
@@ -232,7 +237,7 @@
   border-radius: 5px;
   font-weight: bold;
   transition: all 0.3s;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto";
 }
 
 .btn-coordinador:hover {

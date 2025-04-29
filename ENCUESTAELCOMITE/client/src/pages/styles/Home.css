@@ -47,7 +47,7 @@ body {
 
 .logo {
   font-size: 3.5rem;
-
+  text-decoration: none;
   color: white;
   font-family: 'Recoleta';
 }
@@ -1553,6 +1553,26 @@ font-size: 1.1rem;
 .boton-volver:hover {
   background-color: #2980b9;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

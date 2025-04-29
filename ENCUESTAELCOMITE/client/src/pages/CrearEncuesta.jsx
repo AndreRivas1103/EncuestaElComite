@@ -25,11 +25,10 @@ const CrearEncuesta = () => {
         <div className='contenedor-botones'>
           <Link to="/crear-pregunta" className="btn">Liderazgo</Link>
           <button className="btn">Obtención de logros</button>
-        </div>
-        <div className='contenedor-botones'>
+        
           <Link to="/seleccionar-encuesta" className="btn">Resiliencia</Link>
           <button className="btn">Trabajo en equipo</button>
-        </div>
+          </div>
       </div>
     </div>
   )

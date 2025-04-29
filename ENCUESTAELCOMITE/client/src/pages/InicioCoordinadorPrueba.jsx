@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import '../components/Sidebar.css';
+import '../pages/styles/Home.css';
 
 const Sidebar = ({ isVisible, onClose }) => {
   const navigate = useNavigate();
@@ -65,13 +66,14 @@ const InicioCoordinadorPrueba = () => {
 
   return (
     <div style={styles.appContainer}>
+      <title>Inicio Coordinador</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
 
       <header style={styles.header}>
         <div style={styles.logo}>
-          <a href='#' style={styles.logoLink}>El Comit<span style={styles.logoSpan}>é</span></a>
+          <a href='#' className="logo">El Comit<span style={styles.logoSpan}>é</span></a>
         </div>
-        <img src={babyLogo} alt="Baby Go Logo" style={styles.headerLogo} />
+        <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       
       <div style={styles.menuButtonContainer}>
@@ -93,8 +95,8 @@ const InicioCoordinadorPrueba = () => {
           <h1 style={styles.titleCoordinador}>Bienvenido Coordinador</h1>
           
           <div style={styles.contenedorBotones}>
-            <Link to="/registro-encuestas" style={styles.btn}>Registro de encuestas</Link>
-            <Link to="/nuevo-evento" style={styles.btn}>Nuevo evento</Link>
+            <Link to="/registro-encuestas" className="btn">Registro de encuestas</Link>
+            <Link to="/nuevo-evento" className="btn">Nuevo evento</Link>
           </div>
         </div>
       </div>
@@ -156,7 +158,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
-    backgroundColor: '#D3EDFF' /* Fondo azul claro */
+    backgroundColor: '#d3edff', /* Fondo azul claro */
   },
   mainContent: {
     backgroundColor: 'white',
@@ -168,9 +170,12 @@ const styles = {
     maxWidth: '600px'
   },
   titleCoordinador: {
-    color: '#1E3766', /* Azul corporativo */
-    marginBottom: '30px',
-    fontFamily: '"Glock", sans-serif'
+    color: '#00000', /* Azul corporativo */
+    marginBottom: '20px',
+    fontFamily: "Glock",
+    textAlign: 'center',
+    fontSize: '4rem',
+    letterspacing: '6px',
   },
   contenedorBotones: {
     display: 'flex',
