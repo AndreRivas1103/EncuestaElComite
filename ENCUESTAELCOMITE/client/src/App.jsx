@@ -6,7 +6,6 @@ import Contacto from './pages/Contacto.jsx'
 import RegistroEncuestas from './pages/RegistroEncuesta.jsx'
 import InicioCoordinador from './pages/InicioCoordinador.jsx'
 import TukiInicio from './pages/prueba1.jsx'
-import ConfirmLogout from './pages/ConfirmLogout'
 import NuevoEvento from './pages/NuevoEvento.jsx'
 import CrearEncuesta from './pages/CrearEncuesta.jsx';
 import GuardarPreguntas from './pages/GuardarPreguntas.jsx';
@@ -15,6 +14,7 @@ import Calendario from './pages/Calendario.jsx';
 import Encuesta from './pages/Encuesta.jsx';
 import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
 import TipoEvento from './pages/TipoEncuesta.jsx';
+import ConfirmarCierre from './pages/ConfirmLogout'
 import './App.css'
 
 
@@ -29,7 +29,6 @@ function App() {
         <Route path="/registro-encuestas" element={<RegistroEncuestas />} />
         <Route path="/inicio-coordinador" element={<InicioCoordinador />} />
         <Route path="/info-encuesta" element={<TukiInicio />} />
-        <Route path="/confirmar-logout" element={<ConfirmLogout />} />
         <Route path="/nuevo-evento" element={<NuevoEvento />} />
         <Route path="/crear-encuesta" element={<CrearEncuesta />} />
         <Route path="/nuevo-evento" element={<NuevoEvento />} />
@@ -39,6 +38,7 @@ function App() {
         <Route path="/encuestas" element={<Encuesta />} />
         <Route path="/ensayo" element={<Ensayo />} />
         <Route path="/Tipo-e" element={<TipoEvento/>} />
+        <Route path="/confirmar-cierre" element={<ConfirmarCierre />} />
       </Routes>
     </Router>
   )

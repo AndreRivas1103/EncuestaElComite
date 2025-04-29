@@ -20,7 +20,7 @@ const RegistroEncuesta = () => {
       localStorage.removeItem('userName');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('token');
-      navigate('/login');
+      navigate("/confirmar-cierre" );
     };
 
     const menuItems = [

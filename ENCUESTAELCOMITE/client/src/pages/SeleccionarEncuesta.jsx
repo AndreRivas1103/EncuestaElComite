@@ -20,7 +20,7 @@ const RegistroEncuesta = () => {
       localStorage.removeItem('userName');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('token');
-      navigate('/login');
+      navigate("/confirmar-cierre" );
     };
 
     const menuItems = [
@@ -107,13 +107,6 @@ const RegistroEncuesta = () => {
           <button className="boton">Encuesta 004</button>
           <button className="boton">Encuesta 005</button>
           <button className="boton">Encuesta 006</button>
-          <button 
-            onClick={() => navigate(-1)} 
-            className="boton"
-            style={{backgroundColor: '#6c757d'}}
-          >
-            Regresar
-          </button>
         </div>
       </div>
     </div>
