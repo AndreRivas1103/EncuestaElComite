@@ -109,7 +109,7 @@ const IniciarSesion = () => {
             ¿No recuerdas tu correo?
           </a>
         </form>
-        <Link to="/ensayo" className="btn">Boton Prueba5 intento de sidebar</Link>
+
       </main>
     </div>
   );
