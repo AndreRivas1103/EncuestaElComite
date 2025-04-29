@@ -25,7 +25,7 @@ const ProgramarEncuesta = () => {
       <div className='firtsColor'>
         <div className="seccion-calendario">
           <h1 className='title-section'>Selecciona una fecha:</h1>
-          <div className="calendario-container">
+          <div className="calendario-container" style={{ fontSize: '20px' }}>
             <DatePicker
               selected={fechaSeleccionada}
               onChange={date => setFechaSeleccionada(date)}
@@ -41,15 +41,16 @@ const ProgramarEncuesta = () => {
                 decreaseMonth,
                 increaseMonth,
               }) => (
-                <div className="custom-header">
+                <div className="custom-header" style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
                   <button
                     onClick={decreaseMonth}
                     className="nav-button"
                     aria-label="Mes anterior"
+                    style={{ fontSize: '20px' }}
                   >
                     &lt;
                   </button>
-                  <span className="month-title">
+                  <span className="month-title" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
                     {monthDate.toLocaleString('es-ES', {
                       month: 'long',
                       year: 'numeric',
@@ -59,6 +60,7 @@ const ProgramarEncuesta = () => {
                     onClick={increaseMonth}
                     className="nav-button"
                     aria-label="Mes siguiente"
+                    style={{ fontSize: '20px' }}
                   >
                     &gt;
                   </button>

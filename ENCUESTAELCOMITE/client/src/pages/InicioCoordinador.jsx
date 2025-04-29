@@ -17,7 +17,7 @@ const prueba1 = () => {
       
       <div className='firtsColor'>
         <div>
-          <h1 className='title-coordinador'>Bienvenido Coordinador</h1>
+          <h1 className='Texto'>Bienvenido Coordinador</h1>
           <br></br>
         </div>
 
