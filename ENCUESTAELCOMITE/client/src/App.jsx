@@ -14,6 +14,7 @@ import CrearPregunta from './pages/CrearPregunta.jsx';
 import Calendario from './pages/Calendario.jsx';
 import Encuesta from './pages/Encuesta.jsx';
 import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
+import TipoEvento from './pages/TipoEncuesta.jsx';
 import './App.css'
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/encuestas" element={<Encuesta />} />
         <Route path="/ensayo" element={<Ensayo />} />
+        <Route path="/Tipo-e" element={<TipoEvento/>} />
       </Routes>
     </Router>
   )

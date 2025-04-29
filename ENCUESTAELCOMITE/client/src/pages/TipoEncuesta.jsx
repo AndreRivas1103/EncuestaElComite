@@ -18,13 +18,13 @@ const NuevoEvento = () => {
       
       <div className='firtsColor'>
         <div>
-          <h1 className='title-nuevo-evento'>Nuevo Evento</h1>
+          <h1 className='title-nuevo-evento'>Tipo Evento</h1>
           <br></br>
         </div>
 
         <div className='contenedor-botones'>
-          <Link to="/seleccionar-encuesta" className="btn btn-center">Usar Encuestas Anteriores</Link>
-          <Link to="/Tipo-e" className="btn">Crear Encuesta</Link>
+          <Link to="/crear-encuesta" className="btn">Pre Evento</Link>
+          <Link to="/crear-encuesta" className="btn">Post Evento</Link>
         </div>
       </div>
     </div>
