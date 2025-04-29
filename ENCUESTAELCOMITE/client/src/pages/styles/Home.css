@@ -470,7 +470,7 @@ body, html{
 
 .boton {
   padding: 30px 60px;
-  background: #9ecd49;
+  background: #73A31D;
   color: white;
   border: none;
   cursor: pointer;
@@ -493,7 +493,7 @@ position: absolute;
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #9ecd49; 
+  background: #73A31D; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -620,7 +620,7 @@ body, html{
 
 .boton {
   padding: 30px 60px;
-  background: #9ecd49;
+  background: #73A31D;
   color: white;
   border: none;
   cursor: pointer;
@@ -641,7 +641,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #9ecd49; 
+  background: #73A31D; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -727,7 +727,7 @@ body, html{
 
 .boton {
   padding: 30px 60px;
-  background: #9ecd49;
+  background: #73A31D;
   color: white;
   border: none;
   cursor: pointer;
@@ -747,7 +747,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #9ecd49; 
+  background: #73A31D; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -810,7 +810,7 @@ body, html{
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #9ecd49;
+  background: #73A31D;
   color: white;
   border: none;
   border-radius: 5px;
@@ -985,7 +985,7 @@ margin-top: 40px;
 
 .boton {
 padding: 30px 60px;
-background: #9ecd49;
+background: #73A31D;
 color: white;
 border: none;
 cursor: pointer;
@@ -1010,7 +1010,7 @@ gap: 20px;
 
 .btn-pequeno {
 padding: 8px 16px;
-background: #9ecd49; 
+background: #73A31D; 
 color: white;
 border: none;
 border-radius: 5px;
@@ -1116,7 +1116,7 @@ margin-top: 40px;
 
 .boton {
 padding: 30px 60px;
-background: #9ecd49;
+background: #73A31D;
 color: white;
 border: none;
 cursor: pointer;
@@ -1143,7 +1143,7 @@ gap: 20px;
 
 .btn-pequeno {
 padding: 8px 16px;
-background: #9ecd49; 
+background: #73A31D; 
 color: white;
 border: none;
 border-radius: 5px;
@@ -1327,7 +1327,7 @@ bottom: 20px;
 
 .btn-pequeno {
 padding: 8px 16px;
-background: #9ecd49; 
+background: #73A31D; 
 color: white;
 border: none;
 border-radius: 5px;
@@ -1401,7 +1401,7 @@ font-family: 'Roboto';
 
 /* Estilo para el botón */
 .boton-ver-encuesta {
-background-color: #9ecd49;
+background-color: #73A31D;
 color: white;
 border: none;
 padding: 10px 20px;
