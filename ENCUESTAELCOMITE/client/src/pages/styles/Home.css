@@ -1326,9 +1326,7 @@ transition: background 0.3s;
 text-decoration: none;
 }
 
-.btn-pequeno-guardar{
-  margin-left: 49%;
-}
+
 .btn-pequeno:hover {
 background: #5a8a0f; 
 }
