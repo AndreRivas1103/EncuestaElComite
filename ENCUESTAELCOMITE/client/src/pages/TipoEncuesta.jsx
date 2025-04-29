@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 const NuevoEvento = () => {
   return (
     <div>
-        <title>Nuevo Evento</title>
+        <title>Tipo de Evento</title>
       <meta name='viewport' content='width = device-width, initial-scale=1.0'></meta>
 
       <header className="header">
         <div className="logo">
-          <a href='#'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>

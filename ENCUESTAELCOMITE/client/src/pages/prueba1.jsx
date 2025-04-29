@@ -7,7 +7,7 @@ const TukiInicio = () => {
     return(
     <div>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
-
+        <title>Encuesta 001</title>
       <header className="header">
         <div className="logo">
           <a href='/inicio-coordinador'>El Comit<span>é</span></a>

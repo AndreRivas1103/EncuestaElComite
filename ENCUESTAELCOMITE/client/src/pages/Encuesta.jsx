@@ -201,6 +201,7 @@ const EncuestaCompleta = () => {
     const resultados = calcularResultados();
     return (
       <div className="resultados-container">
+        
         <h1>Resultados de tu Encuesta</h1>
         <div className="resultado-categoria">
           <h2>Liderazgo: {resultados.liderazgo}/10</h2>
@@ -233,6 +234,7 @@ const EncuestaCompleta = () => {
 
   return (
     <div>
+      <title>Encuesta</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
 
       <header className="header">

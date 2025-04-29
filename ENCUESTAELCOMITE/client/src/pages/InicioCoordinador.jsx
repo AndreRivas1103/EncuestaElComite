@@ -6,6 +6,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 const prueba1 = () => {
   return (
     <div>
+      <title>Inicio Coordinador</title>
       <meta name='viewport' content='width = device-width, initial-scale=1.0'></meta>
 
       <header className="header">

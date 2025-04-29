@@ -5,6 +5,7 @@ import '../Pages/styles/Home.css'; // Archivo CSS específico para este componen
 const InicioCoordinador = () => {
   return (
     <div className="inicio-coordinador-container">
+      <title>Seleccionar Encuesta</title>
     <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Recoleta&display=swap" rel="stylesheet" />

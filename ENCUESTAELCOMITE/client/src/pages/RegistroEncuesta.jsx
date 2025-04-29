@@ -9,7 +9,7 @@ const pagina1 = () => {
   return (
     <div>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-      
+      <title>Registro de Encuesta</title>
       <header className="header">
         <div className="logo">
           <a href='/inicio-coordinador'>El Comit<span>é</span></a>
