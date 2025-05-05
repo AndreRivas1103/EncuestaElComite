@@ -171,7 +171,7 @@ const styles = {
   titleCoordinador: {
     color: '#00000', /* Azul corporativo */
     marginBottom: '20px',
-    fontFamily: "Glock",
+    fontFamily: "Merriweather",
     textAlign: 'center',
     fontSize: '4rem',
     letterspacing: '6px',

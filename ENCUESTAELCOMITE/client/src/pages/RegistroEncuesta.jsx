@@ -93,7 +93,7 @@ const RegistroEncuesta = () => {
 
       <div className='firtsColor'>
         <div>
-          <h1 className='Texto'>Registro de encuesta</h1>
+          <h1 className='title-large'>Registro de encuesta</h1>
           <br />
         </div>
 
