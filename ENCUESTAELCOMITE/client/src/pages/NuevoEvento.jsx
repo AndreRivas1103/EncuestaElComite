@@ -99,7 +99,7 @@ const NuevoEvento = () => {
       {/* Contenido original */}
       <div className='firtsColor'>
         <div>
-          <h1 className='title-nuevo-evento'>Nuevo Evento</h1>
+          <h1 className='title-large'>Nuevo Evento</h1>
           <br></br>
         </div>
 

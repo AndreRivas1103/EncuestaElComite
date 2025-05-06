@@ -85,7 +85,7 @@ const NuevoEvento = () => {
 
       <div className='firtsColor'>
         <div>
-          <h1 className='title-nuevo-evento'>Tipo Evento</h1>
+          <h1 className='title-large'>Tipo Evento</h1>
           <br />
         </div>
 

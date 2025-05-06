@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import '../Pages/styles/Home.css';
+import '../Pages/styles/Calendario.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -93,7 +94,7 @@ const ProgramarEncuesta = () => {
 
       <div className='firtsColor'>
         <div className="seccion-calendario">
-          <h1 className='title-section'>Selecciona una fecha:</h1>
+          <h1 className='title-large'>Selecciona una fecha:</h1>
           <div className="calendario-container" style={{ fontSize: '20px' }}>
             <DatePicker
               selected={fechaSeleccionada}

@@ -107,7 +107,7 @@ body, html {
 
 /* ===== TIPOGRAFÍA Y TÍTULOS ===== */
 .title-large {
-  font-family: 'Gloock';
+  font-family: 'Merriweather';
   font-size: 4rem;
   margin-bottom: 20px;
   text-align: center;
@@ -124,7 +124,7 @@ body, html {
 }
 
 .title-small {
-  font-family: 'Gloock';
+  font-family: 'Merriweather';
   font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import '../Pages/styles/Home.css';
-import '../Pages/styles/VisualizacionEncuesta.css';
+import '../Pages/styles/CreacionPreguntas.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -122,7 +122,7 @@ const CrearPregunta = () => {
 
       <div className='firtsColor'>
         <div>
-          <h1 className='title-crear-encuesta'>Crear preguntas</h1>
+          <h1 className='title-large'>Crear preguntas</h1>
         </div>
 
         {preguntas.map((pregunta, index) => (

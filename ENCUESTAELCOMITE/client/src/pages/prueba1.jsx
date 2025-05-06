@@ -86,20 +86,20 @@ const TukiInicio = () => {
       
       <div className='firtsColor'>
         <div>
-          <h1 className='Texto'>Encuesta 001</h1>
+          <h1 className='title-large'>Encuesta 001</h1>
           <br></br>
         </div>
         
         <div className="encuesta-container">
-          <h1 className='historial'>
+          <h1 className='title-small '>
             Número de encuestados: 3
           </h1> 
           <br></br>
           
           {/* Primer caso */}
           <div className="caso-encuesta">
-            <h1 className='historial'>Persona: Samuel Gallego Meneses</h1>
-            <h1 className='historial'>Correo electrónico: Sgallego882@gmail.com</h1>
+            <h1 className='title-small '>Persona: Samuel Gallego Meneses</h1>
+            <h1 className='title-small '>Correo electrónico: Sgallego882@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>
@@ -134,8 +134,8 @@ const TukiInicio = () => {
           
           {/* Segundo caso */}
           <div className="caso-encuesta">
-            <h1 className='historial'>Persona: Andre Rivas Castro</h1>
-            <h1 className='historial'>Correo electrónico: Arivas477@gmail.com</h1>
+            <h1 className='title-small '>Persona: Andre Rivas Castro</h1>
+            <h1 className='title-small '>Correo electrónico: Arivas477@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>
@@ -169,8 +169,8 @@ const TukiInicio = () => {
           
           {/* Tercer caso */}
           <div className="caso-encuesta">
-            <h1 className='historial'>Persona: Juliana Franco Alzate</h1>
-            <h1 className='historial'>Correo electrónico: Jfranco158@gmail.com</h1>
+            <h1 className='title-small '>Persona: Juliana Franco Alzate</h1>
+            <h1 className='title-small '>Correo electrónico: Jfranco158@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>
