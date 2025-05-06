@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import '../Pages/styles/Home.css';
+import '../Pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

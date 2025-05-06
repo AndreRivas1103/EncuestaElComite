@@ -91,9 +91,9 @@ const CrearEncuesta = () => {
 
         <div className='contenedor-botones'>
           <Link to="/crear-pregunta" className="btn">Liderazgo</Link>
-          <button className="btn">Obtención de logros</button>
-          <Link to="/seleccionar-encuesta" className="btn">Resiliencia</Link>
-          <button className="btn">Trabajo en equipo</button>
+          <Link to="/crear-pregunta" className="btn">Obtención de logros</Link>
+          <Link to="/crear-pregunta" className="btn">Resiliencia</Link>
+          <Link to="/crear-pregunta" className="btn">Trabajo en equipo</Link>
         </div>
       </div>
     </div>
