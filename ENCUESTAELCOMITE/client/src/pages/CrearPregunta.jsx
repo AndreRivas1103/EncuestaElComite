@@ -65,6 +65,12 @@ const CrearPregunta = () => {
     }
   };
 
+  const eliminarPregunta = (categoriaIndex, preguntaIndex) => {
+    const nuevasCategorias = [...categoriasConPreguntas];
+    nuevasCategorias[categoriaIndex].preguntas.splice(preguntaIndex, 1);
+    setCategoriasConPreguntas(nuevasCategorias);
+  };
+
   const cambiarTextoPregunta = (categoriaIndex, preguntaIndex, nuevoTexto) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].texto = nuevoTexto;
@@ -152,13 +158,12 @@ const CrearPregunta = () => {
           <h1 className='title-large' style={{ textAlign: 'center' }}>Crear preguntas</h1>
         </div>
 
-        {/* Selector de categorías - Centrado */}
-        <div style={{ 
+        {/* Selector de categorías */}
+        <div className='selector-categoria' style={{ 
           display: 'flex', 
           flexDirection: 'column', 
           alignItems: 'center', 
-          marginTop: '20px',
-          marginBottom: '40px'
+          margin: '20px 0 40px'
         }}>
           <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>Seleccione una categoría:</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -189,20 +194,21 @@ const CrearPregunta = () => {
 
         {/* Lista de categorías con sus preguntas */}
         {categoriasConPreguntas.map((categoria, categoriaIndex) => (
-          <div key={categoriaIndex} style={{ 
-            marginBottom: '40px',
+          <div key={categoriaIndex} className='categoria-container' style={{ 
+            margin: '0 auto 40px',
             border: '2px solid #1e3766',
             borderRadius: '10px',
             padding: '20px',
             maxWidth: '900px',
-            marginLeft: 'auto',
-            marginRight: 'auto'
+            backgroundColor: '#f8f9fa'
           }}>
             <div style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
               alignItems: 'center',
-              marginBottom: '20px'
+              marginBottom: '20px',
+              paddingBottom: '10px',
+              borderBottom: '1px solid #ddd'
             }}>
               <h2 style={{ 
                 fontSize: '24px', 
@@ -213,6 +219,7 @@ const CrearPregunta = () => {
               </h2>
               <button 
                 onClick={() => eliminarCategoria(categoriaIndex)}
+                className='btn-eliminar'
                 style={{
                   background: '#ff6b6b',
                   color: 'white',
@@ -227,7 +234,36 @@ const CrearPregunta = () => {
             </div>
 
             {categoria.preguntas.map((pregunta, preguntaIndex) => (
-              <div key={preguntaIndex} className="pregunta-container" style={{ marginBottom: '30px' }}>
+              <div key={preguntaIndex} className="pregunta-container" style={{ 
+                marginBottom: '30px',
+                padding: '15px',
+                backgroundColor: 'white',
+                borderRadius: '5px',
+                border: '1px solid #ddd',
+                position: 'relative'
+              }}>
+                <button
+                  onClick={() => eliminarPregunta(categoriaIndex, preguntaIndex)}
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: '#ff6b6b',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '25px',
+                    height: '25px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                  title="Eliminar pregunta"
+                >
+                  ×
+                </button>
+
                 <h3 className='texto2' style={{ marginLeft: '0' }}>Pregunta {preguntaIndex + 1}:</h3>
                 <input 
                   type="text" 
@@ -304,9 +340,9 @@ const CrearPregunta = () => {
               <button 
                 onClick={() => agregarPreguntaACategoria(categoriaIndex)}
                 className='btn-pequeno'
-                style={{ marginLeft: '0', marginTop: '20px' }}
+                style={{ marginLeft: '0', marginTop: '10px' }}
               >
-                Agregar pregunta a esta categoría
+                Agregar pregunta a esta categoría ({4 - categoria.preguntas.length} restantes)
               </button>
             )}
           </div>
