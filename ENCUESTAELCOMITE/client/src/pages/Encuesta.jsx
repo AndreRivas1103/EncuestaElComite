@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../Pages/styles/Home.css';
+import '../Pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -259,7 +260,7 @@ const EncuestaCompleta = () => {
 
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
@@ -362,6 +363,7 @@ const EncuestaCompleta = () => {
           text-align: center;
           color: #333;
           margin-bottom: 30px;
+          font-family: 'Merriweather';
         }
         
         .categoria-seccion {
@@ -377,6 +379,7 @@ const EncuestaCompleta = () => {
           border-bottom: 2px solid #9ecd49;
           padding-bottom: 10px;
           margin-bottom: 20px;
+          font-family: 'Roboto';
         }
         
         .pregunta-item {
@@ -386,12 +389,14 @@ const EncuestaCompleta = () => {
         .texto-pregunta {
           color: #34495e;
           margin-bottom: 15px;
+          font-family: 'Roboto';
         }
         
         .opciones-respuesta {
           display: flex;
           flex-direction: column;
           gap: 10px;
+          font-family: 'Roboto';
         }
         
         .opcion {

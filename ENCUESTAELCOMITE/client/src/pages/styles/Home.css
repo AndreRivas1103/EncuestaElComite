@@ -81,7 +81,7 @@ body, html {
 
 .logo {
   font-size: 3.5rem;
-  text-decoration: none;
+  text-decoration: none !important;
   color: white;
   font-family: 'Recoleta';
 }

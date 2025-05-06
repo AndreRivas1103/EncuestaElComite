@@ -72,7 +72,7 @@ const RegistroEncuesta = () => {
       
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className='logo'>El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>

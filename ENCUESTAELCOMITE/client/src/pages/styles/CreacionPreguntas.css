@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+
 .campo-pregunta {
     width: 400px;
     padding: 10px;
@@ -159,6 +168,7 @@
     cursor: pointer;
     transition: background 0.3s;
     text-decoration: none;
+    font-family: 'Roboto';
 }
     
 .btn-pequeno:hover {
@@ -169,6 +179,7 @@
 .selector-categoria {
     text-align: center;
     margin-bottom: 30px;
+    font-family: 'Roboto';
 }
 
 .categoria-container {
@@ -180,6 +191,7 @@
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    font-family: 'Roboto';
 }
 
 .pregunta-container {
@@ -199,6 +211,7 @@
     padding: 5px 10px;
     cursor: pointer;
     transition: background 0.3s;
+    font-family: 'Roboto';
 }
 
 .btn-eliminar:hover {

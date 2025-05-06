@@ -30,7 +30,7 @@ const NuevoEvento = () => {
 
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
@@ -90,8 +90,8 @@ const NuevoEvento = () => {
         </div>
 
         <div className='contenedor-botones'>
-          <Link to="/crear-encuesta" className="btn">Pre Evento</Link>
-          <Link to="/crear-encuesta" className="btn">Post Evento</Link>
+          <Link to="/crear-pregunta" className="btn">Pre Evento</Link>
+          <Link to="/crear-pregunta" className="btn">Post Evento</Link>
         </div>
       </div>
     </div>

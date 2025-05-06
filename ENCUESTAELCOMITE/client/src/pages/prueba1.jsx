@@ -31,7 +31,7 @@ const TukiInicio = () => {
       
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
@@ -99,7 +99,7 @@ const TukiInicio = () => {
           {/* Primer caso */}
           <div className="caso-encuesta">
             <h1 className='title-small '>Persona: Samuel Gallego Meneses</h1>
-            <h1 className='title-small '>Correo electrónico: Sgallego882@gmail.com</h1>
+            <h1 className='title-small '>Correo electrónico: sgallego882@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>
@@ -135,7 +135,7 @@ const TukiInicio = () => {
           {/* Segundo caso */}
           <div className="caso-encuesta">
             <h1 className='title-small '>Persona: Andre Rivas Castro</h1>
-            <h1 className='title-small '>Correo electrónico: Arivas477@gmail.com</h1>
+            <h1 className='title-small '>Correo electrónico: arivas477@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>
@@ -170,7 +170,7 @@ const TukiInicio = () => {
           {/* Tercer caso */}
           <div className="caso-encuesta">
             <h1 className='title-small '>Persona: Juliana Franco Alzate</h1>
-            <h1 className='title-small '>Correo electrónico: Jfranco158@gmail.com</h1>
+            <h1 className='title-small '>Correo electrónico: jfranco158@gmail.com</h1>
             
             <div className="resultados-container">
               <h2 className="resultados-titulo">Resultados:</h2>

@@ -102,7 +102,7 @@ const CrearPregunta = () => {
 
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt='Baby Go Logo' className='header-logo' />
       </header>
@@ -163,7 +163,8 @@ const CrearPregunta = () => {
           display: 'flex', 
           flexDirection: 'column', 
           alignItems: 'center', 
-          margin: '20px 0 40px'
+          margin: '20px 0 40px',
+          textAlign: 'center',
         }}>
           <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>Seleccione una categoría:</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -221,7 +222,7 @@ const CrearPregunta = () => {
                 onClick={() => eliminarCategoria(categoriaIndex)}
                 className='btn-eliminar'
                 style={{
-                  background: '#ff6b6b',
+                  background: '#fa0505',
                   color: 'white',
                   border: 'none',
                   borderRadius: '5px',
@@ -248,7 +249,7 @@ const CrearPregunta = () => {
                     position: 'absolute',
                     top: '10px',
                     right: '10px',
-                    background: '#ff6b6b',
+                    background: '#fa0505',
                     color: 'white',
                     border: 'none',
                     borderRadius: '50%',
@@ -272,6 +273,7 @@ const CrearPregunta = () => {
                   onChange={(e) => cambiarTextoPregunta(categoriaIndex, preguntaIndex, e.target.value)}
                   placeholder="Escribe tu pregunta aquí"
                   style={{ marginLeft: '0', width: '100%' }}
+                  required
                 />
 
                 <br />
