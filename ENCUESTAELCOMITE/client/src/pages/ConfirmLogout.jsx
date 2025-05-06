@@ -18,13 +18,13 @@ const ConfirmarCierre = () => {
 
       <header className="header">
         <div className="logo">
-          <a href='/iniciar-sesion'>El Comit<span>é</span></a>
+          <a href='/iniciar-sesion' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
       <div className='firtsColor' style={{ padding: '50px 20px', textAlign: 'center' }}>
-        <h1 className='title-contacto-1'>¿Estás seguro de que deseas cerrar sesión?</h1>
+        <h1 className='title-medium'>¿Estás seguro de que deseas cerrar sesión?</h1>
         <div style={{ marginTop: '20px' }}>
           <div className='contenedor-botones' style={{ display: 'flex', justifyContent: 'center', gap: '10px', textAlign: 'center',}}>
             <button 
