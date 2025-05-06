@@ -41,7 +41,6 @@ function Layout() {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-
       {/* Botón para abrir sidebar */}
       <div style={{ backgroundColor: '#d3edff', padding: '10px 20px' }}>
         <button 
@@ -90,64 +89,150 @@ function Layout() {
         </nav>
       </div>
 
-      <div className='firtsColor'>
-        <h1 className='texto2'>Selecciona una fecha:</h1>
-        <div className="calendario-container">
-          <DatePicker
-            selected={fechaSeleccionada}
-            onChange={date => setFechaSeleccionada(date)}
-            dateFormat="dd/MM/yyyy"
-            inline 
-            calendarClassName="calendario-grande"
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            minDate={new Date()}
-            renderCustomHeader={({
-              monthDate,
-              decreaseMonth,
-              increaseMonth,
-            }) => (
-              <div className="custom-header">
-                <button
-                  onClick={decreaseMonth}
-                  className="nav-button"
-                  aria-label="Mes anterior"
-                >
-                  &lt;
-                </button>
-                <span className="month-title">
-                  {monthDate.toLocaleString('es-ES', {
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </span>
-                <button
-                  onClick={increaseMonth}
-                  className="nav-button"
-                  aria-label="Mes siguiente"
-                >
-                  &gt;
-                </button>
-              </div>
-            )}
-            dayClassName={(date) =>
-              date.getDate() === fechaSeleccionada.getDate() &&
-              date.getMonth() === fechaSeleccionada.getMonth() &&
-              date.getFullYear() === fechaSeleccionada.getFullYear()
-                ? 'selected-day'
-                : 'normal-day'
-            }
-          />
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        minHeight: 'calc(100vh - 200px)',
+        justifyContent: 'center',
+        padding: '20px'
+      }}>
+        <div className='firtsColor' style={{ 
+          width: '100%',
+          maxWidth: '800px',
+          margin: '20px auto',
+          padding: '40px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '30px' }}>Selecciona una fecha:</h1>
+          <div className="calendario-container">
+            <DatePicker
+              selected={fechaSeleccionada}
+              onChange={date => setFechaSeleccionada(date)}
+              dateFormat="dd/MM/yyyy"
+              inline
+              calendarClassName="calendario-grande"
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              minDate={new Date()}
+              renderCustomHeader={({
+                monthDate,
+                decreaseMonth,
+                increaseMonth,
+                changeYear,
+                changeMonth,
+                year,
+                month
+              }) => (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px',
+                  backgroundColor: '#9ecd49',
+                  color: 'white',
+                  borderRadius: '8px 8px 0 0'
+                }}>
+                  <button
+                    onClick={decreaseMonth}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'white',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    &lt;
+                  </button>
+                  
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <select
+                      value={month}
+                      onChange={({ target: { value } }) => changeMonth(value)}
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        backgroundColor: 'white',
+                        fontFamily: 'Roboto',
+                        fontSize: '16px'
+                      }}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {new Date(0, i).toLocaleString('es-ES', { month: 'long' })}
+                        </option>
+                      ))}
+                    </select>
+                    
+                    <select
+                      value={year}
+                      onChange={({ target: { value } }) => changeYear(value)}
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        backgroundColor: 'white',
+                        fontFamily: 'Roboto',
+                        fontSize: '16px'
+                      }}
+                    >
+                      {Array.from({ length: 10 }, (_, i) => (
+                        <option key={i} value={new Date().getFullYear() + i}>
+                          {new Date().getFullYear() + i}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <button
+                    onClick={increaseMonth}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'white',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    &gt;
+                  </button>
+                </div>
+              )}
+              dayClassName={(date) =>
+                date.getDate() === fechaSeleccionada.getDate() &&
+                date.getMonth() === fechaSeleccionada.getMonth() &&
+                date.getFullYear() === fechaSeleccionada.getFullYear()
+                  ? 'selected-day'
+                  : 'normal-day'
+              }
+            />
+          </div>
         </div>
-      </div>
-      
-      <div className='firtsColor'>
-        <h1 className='texto3'>Programar encuesta</h1>
-        <br />
-
-        <div className='contenedor-botones'>
-          <button className='boton'>Programar</button>
+        
+        <div className='firtsColor' style={{ 
+          width: '100%',
+          maxWidth: '800px',
+          margin: '20px auto',
+          padding: '40px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '30px' }}>Programar encuesta</h1>
+          
+          <div className='contenedor-botones'>
+            <button className='btn' style={{ 
+              padding: '15px 30px',
+              fontSize: '18px',
+              width: '100%',
+              maxWidth: '300px'
+            }}>
+              Programar
+            </button>
+          </div>
         </div>
       </div>
     </div>

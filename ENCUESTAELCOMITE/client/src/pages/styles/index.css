@@ -18,6 +18,21 @@ body, html{
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../../assets/fonts/Merriweather_24pt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 .firtsColor {
   background-color: #ffffff;
@@ -67,7 +82,7 @@ body, html{
   cursor: pointer;
   font-size: 25px;
   border-radius: 10px;
-  font-family: "Yeseva";
+  font-family: 'Roboto';
   transition: background 0.3s;
 }
 
@@ -75,14 +90,7 @@ body, html{
   background: #1e3766; 
 }
 
-.botones-izquierda {
-  position: absolute; 
-  left: 20px; 
-  top: 100px; 
-  display: flex;
-  flex-direction: column; 
-  gap: 20px;
-}
+
 
 .btn-pequeno {
   padding: 8px 16px;
@@ -124,12 +132,14 @@ body, html{
   padding: 15px 0 !important;
   border-top-left-radius: 12px !important;
   border-top-right-radius: 12px !important;
+  
 }
 
 .react-datepicker__current-month {
   font-size: 1.4rem !important;
   font-weight: 500 !important;
   margin-bottom: 10px !important;
+  font-family: 'Roboto';
 }
 
 .react-datepicker__day-names {
@@ -143,6 +153,7 @@ body, html{
   font-size: 1rem !important;
   width: 2.5rem !important;
   margin: 0.2rem !important;
+  font-family: 'Roboto';
 }
 
 .react-datepicker__month {
@@ -161,6 +172,7 @@ body, html{
   margin: 0.1rem !important;
   border-radius: 50% !important;
   transition: all 0.2s !important;
+  font-family: 'Roboto';
 }
 
 .react-datepicker__day:hover {
@@ -196,3 +208,32 @@ body, html{
   width: 100% !important;
 }
 
+/* Estilos para los selectores de mes/año */
+.custom-header select {
+  cursor: pointer;
+  outline: none;
+}
+
+/* Ajustes para el contenedor principal */
+.main-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Ajustes para el calendario en móviles */
+@media (max-width: 768px) {
+  .firtsColor {
+    width: 95% !important;
+    padding: 20px !important;
+    left: 0 !important;
+  }
+  
+  .react-datepicker__day {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    line-height: 2.5rem !important;
+  }
+}
