@@ -724,3 +724,25 @@ body, html{
   padding: 0;
   background-color: #ffffff;
 }
+
+
+/* Contacto*/
+
+.text-contact{
+    font-size: 1.8rem;
+    max-width: 700px;
+    text-align: center;
+    margin: 0 auto 30px auto;
+    line-height: 1.5;
+    color: #000000;
+    word-wrap: break-word;
+    font-family: 'Roboto';
+  }
+  .title-small-contacto {
+    font-family: 'Merriweather';
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color:#9ecd49 ;
+    letter-spacing: 2px;
+  }

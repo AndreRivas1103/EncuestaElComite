@@ -20,12 +20,16 @@ const IniciarSesion = () => {
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
-      <h1 className='title-contacto-1'>Contacto</h1>
-      <p className='text-contacto'></p>
-      <h1 className='title-contacto'>Telefono</h1>
-      <p className='text-contacto'>+57 (604) 320 2160</p>
-      <h1 className='title-contacto'>Correo Electronico</h1>
-      <p className='text-contacto'>Informacion@elcomite.org.co</p>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <h1 className='title-large'>Contacto</h1>
+      <p className='Text'></p>
+      <h1 className='title-small-contacto'>Telefono</h1>
+      <p className='text-contact'>+57 (604) 320 2160</p>
+      <h1 className='title-small-contacto'>Correo Electronico</h1>
+      <p className='text-contact'>Informacion@elcomite.org.co</p>
     </div>
   );
 };
