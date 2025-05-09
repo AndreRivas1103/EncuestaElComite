@@ -105,7 +105,7 @@ const NuevoEvento = () => {
 
         <div className='contenedor-botones'>
           <Link to="/seleccionar-encuesta" className="btn btn-center">Usar Encuestas Anteriores</Link>
-          <Link to="/Tipo-e" className="btn">Crear Encuesta</Link>
+          <Link to="/crear-pregunta" className="btn">Crear Encuesta</Link>
         </div>
       </div>
     </div>

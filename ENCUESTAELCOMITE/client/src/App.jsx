@@ -36,7 +36,6 @@ function App() {
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/encuestas" element={<Encuesta />} />
         <Route path="/ensayo" element={<Ensayo />} />
-        <Route path="/Tipo-e" element={<TipoEvento/>} />
         <Route path="/confirmar-cierre" element={<ConfirmarCierre />} />
       </Routes>
     </Router>
