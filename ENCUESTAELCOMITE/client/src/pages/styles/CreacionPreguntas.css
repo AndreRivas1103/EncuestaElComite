@@ -217,3 +217,47 @@
 .btn-eliminar:hover {
     background: #e05555;
 }
+/* Estilos para las respuestas correctas */
+.respuesta-correcta-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #555;
+    white-space: nowrap;
+  }
+  
+  .respuesta-correcta-label input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  .opcion-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .opcion-letra {
+    font-weight: bold;
+    min-width: 20px;
+  }
+  
+  .campo-opcion {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Estilo para la previsualización de respuestas correctas */
+  .correct-badge {
+    margin-left: 10px;
+    padding: 2px 6px;
+    background-color: #73A31D;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }

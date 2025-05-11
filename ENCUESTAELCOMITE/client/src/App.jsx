@@ -13,6 +13,7 @@ import Calendario from './pages/Calendario.jsx';
 import Encuesta from './pages/Encuesta.jsx';
 import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
 import ConfirmarCierre from './pages/ConfirmLogout'
+import PrevisualizacionE from './pages/PreviewEncuesta.jsx'
 import './App.css'
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/encuestas" element={<Encuesta />} />
         <Route path="/ensayo" element={<Ensayo />} />
         <Route path="/confirmar-cierre" element={<ConfirmarCierre />} />
+        <Route path="/visualizacionE" element={<PrevisualizacionE />} />
       </Routes>
     </Router>
   )

@@ -3,9 +3,68 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import '../Pages/styles/Home.css';
 import '../Pages/styles/CreacionPreguntas.css';
+import '../Pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
+  return (
+    <div className='firtsColor'>
+      <div className="preview-container">
+        <h1 className='preview-title'>Previsualización de Encuesta</h1>
+        
+        {categoriasConPreguntas.map((categoria, index) => (
+          <div key={index} className="categoria-seccion">
+            <h2 className="titulo-categoria">{categoria.nombre}</h2>
+            
+            {categoria.preguntas.map((pregunta, pIndex) => (
+              <div key={pIndex} className="pregunta-item">
+                <h3 className="texto-pregunta">{pregunta.texto || "Pregunta sin texto"}</h3>
+                
+                <div className="opciones-respuesta">
+                  {pregunta.tipoRespuesta === 'multiple' && pregunta.opciones.map((opcion, oIndex) => (
+                    opcion && (
+                      <label key={oIndex} className="opcion">
+                        <input
+                          type="radio"
+                          name={`pregunta-${index}-${pIndex}`}
+                          disabled
+                        />
+                        <span className="checkmark"></span>
+                        {['A', 'B', 'C', 'D'][oIndex]}) {opcion}
+                        {pregunta.respuestasCorrectas.includes(oIndex) && (
+                          <span className="correct-badge">✓ Correcta</span>
+                        )}
+                      </label>
+                    )
+                  ))}
+                  {pregunta.tipoRespuesta === 'abierta' && (
+                    <input
+                      type="text"
+                      placeholder="Respuesta abierta"
+                      className="respuesta-abierta"
+                      disabled
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="preview-actions">
+          <button onClick={onVolverEdicion} className="btn-editar">
+            Volver a Editar
+          </button>
+          <button onClick={onPublicar} className="btn-publicar">
+            Siguiente: Asignar Fecha
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CrearPregunta = () => {
   const [categoriasDisponibles] = useState([
@@ -18,6 +77,7 @@ const CrearPregunta = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [categoriasConPreguntas, setCategoriasConPreguntas] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [mostrarPreview, setMostrarPreview] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,7 +105,8 @@ const CrearPregunta = () => {
           preguntas: [{
             texto: '',
             tipoRespuesta: 'multiple',
-            opciones: ['', '', '', '']
+            opciones: ['', '', '', ''],
+            respuestasCorrectas: [] // Nuevo array para respuestas correctas
           }]
         }
       ]);
@@ -59,7 +120,8 @@ const CrearPregunta = () => {
       nuevasCategorias[categoriaIndex].preguntas.push({
         texto: '',
         tipoRespuesta: 'multiple',
-        opciones: ['', '', '', '']
+        opciones: ['', '', '', ''],
+        respuestasCorrectas: []
       });
       setCategoriasConPreguntas(nuevasCategorias);
     }
@@ -80,12 +142,39 @@ const CrearPregunta = () => {
   const cambiarTipoRespuesta = (categoriaIndex, preguntaIndex, tipo) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].tipoRespuesta = tipo;
+    // Limpiar respuestas correctas si cambia a tipo abierta
+    if (tipo === 'abierta') {
+      nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = [];
+    }
     setCategoriasConPreguntas(nuevasCategorias);
   };
 
   const cambiarOpcion = (categoriaIndex, preguntaIndex, opcionIndex, nuevoValor) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].opciones[opcionIndex] = nuevoValor;
+    // Si la opción estaba marcada como correcta y ahora está vacía, quitarla de correctas
+    if (nuevoValor.trim() === '' && 
+        nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas.includes(opcionIndex)) {
+      nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
+        nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas.filter(i => i !== opcionIndex);
+    }
+    setCategoriasConPreguntas(nuevasCategorias);
+  };
+
+  const toggleRespuestaCorrecta = (categoriaIndex, preguntaIndex, opcionIndex) => {
+    const nuevasCategorias = [...categoriasConPreguntas];
+    const respuestasCorrectas = nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas;
+    
+    if (respuestasCorrectas.includes(opcionIndex)) {
+      // Si ya está, la quitamos
+      nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
+        respuestasCorrectas.filter(i => i !== opcionIndex);
+    } else {
+      // Si no está, la agregamos
+      nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
+        [...respuestasCorrectas, opcionIndex];
+    }
+    
     setCategoriasConPreguntas(nuevasCategorias);
   };
 
@@ -93,6 +182,30 @@ const CrearPregunta = () => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias.splice(categoriaIndex, 1);
     setCategoriasConPreguntas(nuevasCategorias);
+  };
+
+  const validarEncuesta = () => {
+    return categoriasConPreguntas.every(categoria => 
+      categoria.preguntas.every(pregunta => {
+        const tieneTexto = pregunta.texto.trim() !== '';
+        const opcionesValidas = pregunta.tipoRespuesta !== 'multiple' || 
+          pregunta.opciones.filter(op => op.trim() !== '').length >= 2;
+        const tieneRespuestasCorrectas = pregunta.tipoRespuesta !== 'multiple' || 
+          pregunta.respuestasCorrectas.length > 0;
+        
+        return tieneTexto && opcionesValidas && tieneRespuestasCorrectas;
+      })
+    );
+  };
+
+  const guardarEncuestaTemporal = () => {
+    if (validarEncuesta()) {
+      // Guardar en localStorage para pasarlo al calendario
+      localStorage.setItem('encuestaTemporal', JSON.stringify(categoriasConPreguntas));
+      navigate('/calendario');
+    } else {
+      alert("Por favor completa todas las preguntas, opciones y marca al menos una respuesta correcta por pregunta");
+    }
   };
 
   return (
@@ -153,209 +266,233 @@ const CrearPregunta = () => {
         </nav>
       </div>
 
-      <div className='firtsColor'>
-        <div>
-          <h1 className='title-large' style={{ textAlign: 'center' }}>Crear preguntas</h1>
-        </div>
-
-        {/* Selector de categorías */}
-        <div className='selector-categoria' style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          margin: '20px 0 40px',
-          textAlign: 'center',
-        }}>
-          <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>Seleccione una categoría:</h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <select
-              value={categoriaSeleccionada}
-              onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-              className='campo-pregunta'
-              style={{ width: '400px' }}
-            >
-              <option value="">Seleccionar...</option>
-              {categoriasDisponibles
-                .filter(cat => !categoriasConPreguntas.some(c => c.nombre === cat))
-                .map((categoria, index) => (
-                  <option key={index} value={categoria}>{categoria}</option>
-                ))}
-            </select>
-
-            {categoriaSeleccionada && (
-              <button 
-                onClick={agregarCategoria}
-                className='btn-pequeno'
-              >
-                Agregar categoría
-              </button>
-            )}
+      {!mostrarPreview ? (
+        <div className='firtsColor'>
+          <div>
+            <h1 className='title-large' style={{ textAlign: 'center' }}>Crear preguntas</h1>
           </div>
-        </div>
 
-        {/* Lista de categorías con sus preguntas */}
-        {categoriasConPreguntas.map((categoria, categoriaIndex) => (
-          <div key={categoriaIndex} className='categoria-container' style={{ 
-            margin: '0 auto 40px',
-            border: '2px solid #1e3766',
-            borderRadius: '10px',
-            padding: '20px',
-            maxWidth: '900px',
-            backgroundColor: '#f8f9fa'
+          {/* Selector de categorías */}
+          <div className='selector-categoria' style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            margin: '20px 0 40px',
+            textAlign: 'center',
           }}>
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '20px',
-              paddingBottom: '10px',
-              borderBottom: '1px solid #ddd'
-            }}>
-              <h2 style={{ 
-                fontSize: '24px', 
-                color: '#1e3766',
-                margin: 0
-              }}>
-                Categoría: {categoria.nombre}
-              </h2>
-              <button 
-                onClick={() => eliminarCategoria(categoriaIndex)}
-                className='btn-eliminar'
-                style={{
-                  background: '#fa0505',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '5px',
-                  padding: '5px 10px',
-                  cursor: 'pointer'
-                }}
+            <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>Seleccione una categoría:</h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <select
+                value={categoriaSeleccionada}
+                onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+                className='campo-pregunta'
+                style={{ width: '400px' }}
               >
-                Eliminar categoría
-              </button>
-            </div>
+                <option value="">Seleccionar...</option>
+                {categoriasDisponibles
+                  .filter(cat => !categoriasConPreguntas.some(c => c.nombre === cat))
+                  .map((categoria, index) => (
+                    <option key={index} value={categoria}>{categoria}</option>
+                  ))}
+              </select>
 
-            {categoria.preguntas.map((pregunta, preguntaIndex) => (
-              <div key={preguntaIndex} className="pregunta-container" style={{ 
-                marginBottom: '30px',
-                padding: '15px',
-                backgroundColor: 'white',
-                borderRadius: '5px',
-                border: '1px solid #ddd',
-                position: 'relative'
+              {categoriaSeleccionada && (
+                <button 
+                  onClick={agregarCategoria}
+                  className='btn-pequeno'
+                >
+                  Agregar categoría
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Lista de categorías con sus preguntas */}
+          {categoriasConPreguntas.map((categoria, categoriaIndex) => (
+            <div key={categoriaIndex} className='categoria-container' style={{ 
+              margin: '0 auto 40px',
+              border: '2px solid #1e3766',
+              borderRadius: '10px',
+              padding: '20px',
+              maxWidth: '900px',
+              backgroundColor: '#f8f9fa'
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '20px',
+                paddingBottom: '10px',
+                borderBottom: '1px solid #ddd'
               }}>
-                <button
-                  onClick={() => eliminarPregunta(categoriaIndex, preguntaIndex)}
+                <h2 style={{ 
+                  fontSize: '24px', 
+                  color: '#1e3766',
+                  margin: 0
+                }}>
+                  Categoría: {categoria.nombre}
+                </h2>
+                <button 
+                  onClick={() => eliminarCategoria(categoriaIndex)}
+                  className='btn-eliminar'
                   style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
                     background: '#fa0505',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '50%',
-                    width: '25px',
-                    height: '25px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    borderRadius: '5px',
+                    padding: '5px 10px',
                     cursor: 'pointer'
                   }}
-                  title="Eliminar pregunta"
                 >
-                  ×
+                  Eliminar categoría
                 </button>
+              </div>
 
-                <h3 className='texto2' style={{ marginLeft: '0' }}>Pregunta {preguntaIndex + 1}:</h3>
-                <input 
-                  type="text" 
-                  className='campo-pregunta' 
-                  value={pregunta.texto}
-                  onChange={(e) => cambiarTextoPregunta(categoriaIndex, preguntaIndex, e.target.value)}
-                  placeholder="Escribe tu pregunta aquí"
-                  style={{ marginLeft: '0', width: '100%' }}
-                  required
-                />
+              {categoria.preguntas.map((pregunta, preguntaIndex) => (
+                <div key={preguntaIndex} className="pregunta-container" style={{ 
+                  marginBottom: '30px',
+                  padding: '15px',
+                  backgroundColor: 'white',
+                  borderRadius: '5px',
+                  border: '1px solid #ddd',
+                  position: 'relative'
+                }}>
+                  <button
+                    onClick={() => eliminarPregunta(categoriaIndex, preguntaIndex)}
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      background: '#fa0505',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '25px',
+                      height: '25px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer'
+                    }}
+                    title="Eliminar pregunta"
+                  >
+                    ×
+                  </button>
 
-                <br />
-                <h3 className='texto3'>Tipo de respuesta</h3>
-                <div className="opciones-container" style={{ justifyContent: 'center', gap: '100px' }}>
-                  <div className="opcion-group">
-                    <label className='contenedor-radio'>
-                      <input 
-                        type="radio" 
-                        name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
-                        className="radio-original" 
-                        checked={pregunta.tipoRespuesta === 'multiple'}
-                        onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'multiple')}
-                      />
-                      <span className="radio-visual"></span>
-                      <span className="radio-texto">Respuesta de opción múltiple</span>
-                    </label>
+                  <h3 className='texto2' style={{ marginLeft: '0' }}>Pregunta {preguntaIndex + 1}:</h3>
+                  <input 
+                    type="text" 
+                    className='campo-pregunta' 
+                    value={pregunta.texto}
+                    onChange={(e) => cambiarTextoPregunta(categoriaIndex, preguntaIndex, e.target.value)}
+                    placeholder="Escribe tu pregunta aquí"
+                    style={{ marginLeft: '0', width: '100%' }}
+                    required
+                  />
+
+                  <br />
+                  <h3 className='texto3'>Tipo de respuesta</h3>
+                  <div className="opciones-container" style={{ justifyContent: 'center', gap: '100px' }}>
+                    <div className="opcion-group">
+                      <label className='contenedor-radio'>
+                        <input 
+                          type="radio" 
+                          name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
+                          className="radio-original" 
+                          checked={pregunta.tipoRespuesta === 'multiple'}
+                          onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'multiple')}
+                        />
+                        <span className="radio-visual"></span>
+                        <span className="radio-texto">Respuesta de opción múltiple</span>
+                      </label>
+                      
+                      {pregunta.tipoRespuesta === 'multiple' && (
+                        <>
+                          <br />
+                          <div className="opciones-abcd">
+                            {['A', 'B', 'C', 'D'].map((letra, opcionIndex) => (
+                              <div className="opcion-item" key={opcionIndex} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                                <span className="opcion-letra">{letra} </span>
+                                <input 
+                                  type="text" 
+                                  className="campo-opcion" 
+                                  placeholder={`Escribe la opción ${letra}`}
+                                  value={pregunta.opciones[opcionIndex]}
+                                  onChange={(e) => cambiarOpcion(categoriaIndex, preguntaIndex, opcionIndex, e.target.value)}
+                                  style={{ flex: 1 }}
+                                />
+                                {pregunta.opciones[opcionIndex] && (
+                                  <label className="respuesta-correcta-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                    <input
+                                      type="checkbox"
+                                      checked={pregunta.respuestasCorrectas.includes(opcionIndex)}
+                                      onChange={() => toggleRespuestaCorrecta(categoriaIndex, preguntaIndex, opcionIndex)}
+                                    />
+                                    Correcta
+                                  </label>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
                     
-                    {pregunta.tipoRespuesta === 'multiple' && (
-                      <>
-                        <br />
-                        <div className="opciones-abcd">
-                          {['A', 'B', 'C', 'D'].map((letra, opcionIndex) => (
-                            <div className="opcion-item" key={opcionIndex}>
-                              <span className="opcion-letra">{letra} </span>
-                              <input 
-                                type="text" 
-                                className="campo-opcion" 
-                                placeholder={`Escribe la opción ${letra}`}
-                                value={pregunta.opciones[opcionIndex]}
-                                onChange={(e) => cambiarOpcion(categoriaIndex, preguntaIndex, opcionIndex, e.target.value)}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label className='contenedor-radio'>
-                      <input 
-                        type="radio" 
-                        name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
-                        className="radio-original" 
-                        checked={pregunta.tipoRespuesta === 'abierta'}
-                        onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'abierta')}
-                      />
-                      <span className="radio-visual"></span>
-                      <span className="radio-texto">Respuesta abierta</span>
-                    </label>
-                    {pregunta.tipoRespuesta === 'abierta' && (
-                      <input 
-                        type="text" 
-                        className='campo-respuesta' 
-                        placeholder="Campo para respuesta abierta" 
-                        style={{ marginLeft: '0', width: '100%' }} 
-                      />
-                    )}
+                    <div>
+                      <label className='contenedor-radio'>
+                        <input 
+                          type="radio" 
+                          name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
+                          className="radio-original" 
+                          checked={pregunta.tipoRespuesta === 'abierta'}
+                          onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'abierta')}
+                        />
+                        <span className="radio-visual"></span>
+                        <span className="radio-texto">Respuesta abierta</span>
+                      </label>
+                      {pregunta.tipoRespuesta === 'abierta' && (
+                        <input 
+                          type="text" 
+                          className='campo-respuesta' 
+                          placeholder="Campo para respuesta abierta" 
+                          style={{ marginLeft: '0', width: '100%' }} 
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            {categoria.preguntas.length < 4 && (
+              {categoria.preguntas.length < 4 && (
+                <button 
+                  onClick={() => agregarPreguntaACategoria(categoriaIndex)}
+                  className='btn-pequeno'
+                  style={{ marginLeft: '0', marginTop: '10px' }}
+                >
+                  Agregar pregunta a esta categoría ({4 - categoria.preguntas.length} restantes)
+                </button>
+              )}
+            </div>
+          ))}
+
+          {categoriasConPreguntas.length > 0 && (
+            <div className='botones-abajo'>
               <button 
-                onClick={() => agregarPreguntaACategoria(categoriaIndex)}
-                className='btn-pequeno'
-                style={{ marginLeft: '0', marginTop: '10px' }}
+                onClick={() => setMostrarPreview(true)} 
+                className='btn-pequeno btn-pequeno-guardar'
               >
-                Agregar pregunta a esta categoría ({4 - categoria.preguntas.length} restantes)
+                Previsualizar Encuesta
               </button>
-            )}
-          </div>
-        ))}
-
-        <div className='botones-abajo'>
-          <Link to="/calendario" className='btn-pequeno btn-pequeno-guardar'>
-            Guardar preguntas
-          </Link>
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <PreviewEncuesta
+          categoriasConPreguntas={categoriasConPreguntas}
+          onVolverEdicion={() => setMostrarPreview(false)}
+          onPublicar={guardarEncuestaTemporal}
+        />
+      )}
     </div>
   );
 };
