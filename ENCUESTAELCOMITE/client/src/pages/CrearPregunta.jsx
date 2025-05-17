@@ -8,11 +8,14 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
+const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
+  const navigate = useNavigate(); // Añadido useNavigate
+
   return (
     <div className='firtsColor'>
       <div className="preview-container">
-        <h1 className='preview-title'>Previsualización de Encuesta</h1>
+        <h1 className='preview-title'>Encuesta de Habilidades Blandas</h1>
+        <h2 className='preview-id'>ID: {idEncuesta}</h2>
         
         {categoriasConPreguntas.map((categoria, index) => (
           <div key={index} className="categoria-seccion">
@@ -57,7 +60,13 @@ const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }
           <button onClick={onVolverEdicion} className="btn-editar">
             Volver a Editar
           </button>
-          <button onClick={onPublicar} className="btn-publicar">
+          <button 
+            onClick={() => {
+              onPublicar(); // Primero guarda los datos
+              navigate('/calendario'); // Luego redirige
+            }} 
+            className="btn-publicar"
+          >
             Siguiente: Asignar Fecha
           </button>
         </div>
@@ -74,6 +83,7 @@ const CrearPregunta = () => {
     'Obtencion de logros'
   ]);
   
+  const [idEncuesta, setIdEncuesta] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [categoriasConPreguntas, setCategoriasConPreguntas] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -84,6 +94,7 @@ const CrearPregunta = () => {
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
     email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
+    id: localStorage.getItem('userId') || "1"
   };
 
   const handleLogout = () => {
@@ -106,7 +117,7 @@ const CrearPregunta = () => {
             texto: '',
             tipoRespuesta: 'multiple',
             opciones: ['', '', '', ''],
-            respuestasCorrectas: [] // Nuevo array para respuestas correctas
+            respuestasCorrectas: []
           }]
         }
       ]);
@@ -142,7 +153,6 @@ const CrearPregunta = () => {
   const cambiarTipoRespuesta = (categoriaIndex, preguntaIndex, tipo) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].tipoRespuesta = tipo;
-    // Limpiar respuestas correctas si cambia a tipo abierta
     if (tipo === 'abierta') {
       nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = [];
     }
@@ -152,7 +162,6 @@ const CrearPregunta = () => {
   const cambiarOpcion = (categoriaIndex, preguntaIndex, opcionIndex, nuevoValor) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].opciones[opcionIndex] = nuevoValor;
-    // Si la opción estaba marcada como correcta y ahora está vacía, quitarla de correctas
     if (nuevoValor.trim() === '' && 
         nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas.includes(opcionIndex)) {
       nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
@@ -166,11 +175,9 @@ const CrearPregunta = () => {
     const respuestasCorrectas = nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas;
     
     if (respuestasCorrectas.includes(opcionIndex)) {
-      // Si ya está, la quitamos
       nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
         respuestasCorrectas.filter(i => i !== opcionIndex);
     } else {
-      // Si no está, la agregamos
       nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
         [...respuestasCorrectas, opcionIndex];
     }
@@ -185,6 +192,16 @@ const CrearPregunta = () => {
   };
 
   const validarEncuesta = () => {
+    if (!idEncuesta.trim()) {
+      alert("Por favor ingresa un ID para la encuesta");
+      return false;
+    }
+    
+    if (categoriasConPreguntas.length === 0) {
+      alert("Debes agregar al menos una categoría con preguntas");
+      return false;
+    }
+    
     return categoriasConPreguntas.every(categoria => 
       categoria.preguntas.every(pregunta => {
         const tieneTexto = pregunta.texto.trim() !== '';
@@ -200,17 +217,29 @@ const CrearPregunta = () => {
 
   const guardarEncuestaTemporal = () => {
     if (validarEncuesta()) {
-      // Guardar en localStorage para pasarlo al calendario
-      localStorage.setItem('encuestaTemporal', JSON.stringify(categoriasConPreguntas));
+      const encuestaData = {
+        id: idEncuesta,
+        titulo: "Encuesta de Habilidades Blandas",
+        categorias: categoriasConPreguntas,
+        usuarioId: user.id,
+        fechaCreacion: new Date().toISOString()
+      };
+      
+      localStorage.setItem('encuestaTemporal', JSON.stringify(encuestaData));
+      return true; // Añadido return para indicar éxito
+    }
+    return false;
+  };
+
+  const handlePublicarYRedirigir = () => {
+    if (guardarEncuestaTemporal()) {
       navigate('/calendario');
-    } else {
-      alert("Por favor completa todas las preguntas, opciones y marca al menos una respuesta correcta por pregunta");
     }
   };
 
   return (
     <div>
-      <title>Crear Pregunta</title>
+      <title>Crear Encuesta</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
       <header className="header">
@@ -269,10 +298,28 @@ const CrearPregunta = () => {
       {!mostrarPreview ? (
         <div className='firtsColor'>
           <div>
-            <h1 className='title-large' style={{ textAlign: 'center' }}>Crear preguntas</h1>
+            <h1 className='title-large' style={{ textAlign: 'center' }}>Encuesta de Habilidades Blandas</h1>
           </div>
 
-          {/* Selector de categorías */}
+          <div className='selector-categoria' style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            margin: '20px 0',
+            textAlign: 'center'
+          }}>
+            <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>ID de la encuesta:</h2>
+            <input
+              type="text"
+              className='campo-pregunta'
+              value={idEncuesta}
+              onChange={(e) => setIdEncuesta(e.target.value)}
+              placeholder="Ej: HB-2023-1"
+              style={{ width: '400px' }}
+              required
+            />
+          </div>
+
           <div className='selector-categoria' style={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -307,7 +354,6 @@ const CrearPregunta = () => {
             </div>
           </div>
 
-          {/* Lista de categorías con sus preguntas */}
           {categoriasConPreguntas.map((categoria, categoriaIndex) => (
             <div key={categoriaIndex} className='categoria-container' style={{ 
               margin: '0 auto 40px',
@@ -488,9 +534,10 @@ const CrearPregunta = () => {
         </div>
       ) : (
         <PreviewEncuesta
+          idEncuesta={idEncuesta}
           categoriasConPreguntas={categoriasConPreguntas}
           onVolverEdicion={() => setMostrarPreview(false)}
-          onPublicar={guardarEncuestaTemporal}
+          onPublicar={handlePublicarYRedirigir} // Cambiado a la nueva función
         />
       )}
     </div>
