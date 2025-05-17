@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { verificarCorreo } from './controllers/coordinadorController.js';
+import encuestaRoutes from './routes/encuestas.js'; // Nueva importación
 
 // Configuración inicial
 dotenv.config();
@@ -10,13 +11,13 @@ const PORT = process.env.PORT || 3000;
 
 // Middlewares esenciales
 app.use(cors({
-  origin: 'http://localhost:5173', // Asegúrate que coincida con tu URL de frontend
+  origin: 'http://localhost:5173',
   credentials: true,
-  methods: ['GET', 'POST'] // Métodos permitidos
+  methods: ['GET', 'POST', 'PUT', 'DELETE'] // Actualizado para más métodos
 }));
-app.use(express.json()); // Para parsear JSON
+app.use(express.json());
 
-// Conexión a la base de datos (opcional, si usas Sequelize directamente)
+// Conexión a la base de datos
 import './db/connection.js'; 
 
 // Rutas
@@ -25,13 +26,20 @@ app.get('/', (req, res) => {
     status: 'online',
     message: 'Backend del Comité operativo',
     endpoints: {
-      login: 'POST /api/auth/login'
+      login: 'POST /api/auth/login',
+      encuestas: {
+        crear: 'POST /api/encuestas',
+        listar: 'GET /api/encuestas'
+      }
     }
   });
 });
 
 // Autenticación
 app.post('/api/auth/login', verificarCorreo);
+
+// Rutas de Encuestas (Nuevo)
+app.use('/api/encuestas', encuestaRoutes);
 
 // Manejo de errores centralizado
 app.use((err, req, res, next) => {
@@ -51,5 +59,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`\n🚀 Servidor escuchando en: http://localhost:${PORT}`);
   console.log(`🔗 Ruta de prueba: curl http://localhost:${PORT}`);
-  console.log(`🔐 Ruta de login: curl -X POST http://localhost:${PORT}/api/auth/login -H "Content-Type: application/json" -d '{"correo":"correo@ejemplo.com"}'`);
+  console.log(`📝 Ruta de encuestas: curl -X POST http://localhost:${PORT}/api/encuestas -H "Content-Type: application/json" -d '{"fecha_apertura":"2023-12-01","fecha_cierre":"2023-12-15","usuario_id":"1","datos_encuesta":{}}'`);
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
@@ -10,15 +10,29 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function Layout() {
-  const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
+  const [fechaApertura, setFechaApertura] = useState(new Date());
+  const [fechaCierre, setFechaCierre] = useState(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    return date;
+  });
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
     email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
+    id: localStorage.getItem('userId') || "1"
   };
+
+  useEffect(() => {
+    const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
+    if (encuestaTemporal) {
+      // Cargar datos si es necesario
+    }
+  }, []);
 
   const handleLogout = () => {
     navigate("/confirmar-cierre");
@@ -29,6 +43,42 @@ function Layout() {
     { path: '/registro-encuestas', icon: '📝', label: 'Registro Encuestas' },
     { path: '/nuevo-evento', icon: '📅', label: 'Nuevo Evento' },
   ];
+
+  const validarFechas = () => {
+    if (fechaCierre <= fechaApertura) {
+      setError('La fecha de cierre debe ser posterior a la fecha de apertura');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
+  const handleProgramarEncuesta = async () => {
+    if (!validarFechas()) return;
+
+    try {
+      const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
+      
+      if (!encuestaTemporal) {
+        throw new Error('No se encontraron datos de la encuesta');
+      }
+
+      const encuestaData = {
+        ...encuestaTemporal,
+        fecha_apertura: fechaApertura.toISOString().split('T')[0],
+        fecha_cierre: fechaCierre.toISOString().split('T')[0],
+        usuario_id: user.id
+      };
+
+      console.log('Datos a enviar a la API:', encuestaData);
+      localStorage.removeItem('encuestaTemporal');
+      navigate('/registro-encuestas', { state: { mensaje: 'Encuesta programada exitosamente' } });
+      
+    } catch (error) {
+      console.error('Error al programar encuesta:', error);
+      setError('Error al programar la encuesta: ' + error.message);
+    }
+  };
 
   return (
     <div>
@@ -41,7 +91,6 @@ function Layout() {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      {/* Botón para abrir sidebar */}
       <div style={{ backgroundColor: '#d3edff', padding: '10px 20px' }}>
         <button 
           onClick={() => setSidebarVisible(true)}
@@ -51,10 +100,8 @@ function Layout() {
         </button>
       </div>
 
-      {/* Sidebar */}
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
-
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">
@@ -76,12 +123,10 @@ function Layout() {
           ))}
 
           <div className="nav-divider" />
-
           <button className="nav-item" onClick={() => navigate(-1)}>
             <span className="nav-icon">↩️</span>
             <span className="nav-label">Regresar</span>
           </button>
-
           <button className="nav-item logout-item" onClick={handleLogout}>
             <span className="nav-icon">🚪</span>
             <span className="nav-label">Cerrar Sesión</span>
@@ -97,22 +142,30 @@ function Layout() {
         justifyContent: 'center',
         padding: '20px'
       }}>
+        {/* Calendario Apertura */}
         <div className='firtsColor' style={{ 
           width: '100%',
           maxWidth: '800px',
           margin: '20px auto',
-          padding: '40px',
+          padding: '20px',
           borderRadius: '10px',
           boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
         }}>
-          <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '30px' }}>Selecciona una fecha:</h1>
+          <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '20px', color: '#1e3766' }}>Fecha de apertura:</h1>
           <div className="calendario-container">
             <DatePicker
-              selected={fechaSeleccionada}
-              onChange={date => setFechaSeleccionada(date)}
+              selected={fechaApertura}
+              onChange={date => {
+                setFechaApertura(date);
+                if (fechaCierre <= date) {
+                  const newCierre = new Date(date);
+                  newCierre.setDate(newCierre.getDate() + 1);
+                  setFechaCierre(newCierre);
+                }
+              }}
               dateFormat="dd/MM/yyyy"
               inline
-              calendarClassName="calendario-grande"
+              calendarClassName="calendario-corporativo"
               showMonthDropdown
               showYearDropdown
               dropdownMode="select"
@@ -148,7 +201,7 @@ function Layout() {
                     &lt;
                   </button>
                   
-                  <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <select
                       value={month}
                       onChange={({ target: { value } }) => changeMonth(value)}
@@ -156,9 +209,11 @@ function Layout() {
                         padding: '5px 10px',
                         borderRadius: '5px',
                         border: 'none',
-                        backgroundColor: 'white',
+                        backgroundColor: 'rgba(255,255,255,0.9)',
                         fontFamily: 'Roboto',
-                        fontSize: '16px'
+                        fontSize: '16px',
+                        color: '#1e3766',
+                        cursor: 'pointer'
                       }}
                     >
                       {Array.from({ length: 12 }, (_, i) => (
@@ -175,9 +230,11 @@ function Layout() {
                         padding: '5px 10px',
                         borderRadius: '5px',
                         border: 'none',
-                        backgroundColor: 'white',
+                        backgroundColor: 'rgba(255,255,255,0.9)',
                         fontFamily: 'Roboto',
-                        fontSize: '16px'
+                        fontSize: '16px',
+                        color: '#1e3766',
+                        cursor: 'pointer'
                       }}
                     >
                       {Array.from({ length: 10 }, (_, i) => (
@@ -202,17 +259,149 @@ function Layout() {
                   </button>
                 </div>
               )}
-              dayClassName={(date) =>
-                date.getDate() === fechaSeleccionada.getDate() &&
-                date.getMonth() === fechaSeleccionada.getMonth() &&
-                date.getFullYear() === fechaSeleccionada.getFullYear()
-                  ? 'selected-day'
-                  : 'normal-day'
-              }
+              renderDayContents={(day) => {
+                return (
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}>
+                    {day}
+                  </div>
+                );
+              }}
             />
           </div>
         </div>
         
+        {/* Calendario Cierre */}
+        <div className='firtsColor' style={{ 
+          width: '100%',
+          maxWidth: '800px',
+          margin: '20px auto',
+          padding: '20px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '20px', color: '#1e3766' }}>Fecha de cierre:</h1>
+          <div className="calendario-container">
+            <DatePicker
+              selected={fechaCierre}
+              onChange={date => setFechaCierre(date)}
+              dateFormat="dd/MM/yyyy"
+              inline
+              calendarClassName="calendario-corporativo"
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              minDate={fechaApertura}
+              renderCustomHeader={({
+                monthDate,
+                decreaseMonth,
+                increaseMonth,
+                changeYear,
+                changeMonth,
+                year,
+                month
+              }) => (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px',
+                  backgroundColor: '#9ecd49',
+                  color: 'white',
+                  borderRadius: '8px 8px 0 0'
+                }}>
+                  <button
+                    onClick={decreaseMonth}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'white',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    &lt;
+                  </button>
+                  
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <select
+                      value={month}
+                      onChange={({ target: { value } }) => changeMonth(value)}
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        backgroundColor: 'rgba(255,255,255,0.9)',
+                        fontFamily: 'Roboto',
+                        fontSize: '16px',
+                        color: '#1e3766',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {new Date(0, i).toLocaleString('es-ES', { month: 'long' })}
+                        </option>
+                      ))}
+                    </select>
+                    
+                    <select
+                      value={year}
+                      onChange={({ target: { value } }) => changeYear(value)}
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        backgroundColor: 'rgba(255,255,255,0.9)',
+                        fontFamily: 'Roboto',
+                        fontSize: '16px',
+                        color: '#1e3766',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {Array.from({ length: 10 }, (_, i) => (
+                        <option key={i} value={new Date().getFullYear() + i}>
+                          {new Date().getFullYear() + i}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <button
+                    onClick={increaseMonth}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'white',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    &gt;
+                  </button>
+                </div>
+              )}
+              renderDayContents={(day) => {
+                return (
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%'
+                  }}>
+                    {day}
+                  </div>
+                );
+              }}
+            />
+          </div>
+        </div>
+        
+        {/* Botón de Programación */}
         <div className='firtsColor' style={{ 
           width: '100%',
           maxWidth: '800px',
@@ -223,14 +412,37 @@ function Layout() {
         }}>
           <h1 className='title-small' style={{ textAlign: 'center', marginBottom: '30px' }}>Programar encuesta</h1>
           
-          <div className='contenedor-botones'>
-            <button className='btn' style={{ 
-              padding: '15px 30px',
-              fontSize: '18px',
-              width: '100%',
-              maxWidth: '300px'
+          {error && (
+            <div style={{ 
+              color: 'red', 
+              marginBottom: '20px', 
+              textAlign: 'center',
+              padding: '10px',
+              backgroundColor: '#ffebee',
+              borderRadius: '5px'
             }}>
-              Programar
+              {error}
+            </div>
+          )}
+          
+          <div className='contenedor-botones'>
+            <button 
+              className='btn' 
+              style={{ 
+                padding: '15px 30px',
+                fontSize: '18px',
+                width: '100%',
+                maxWidth: '300px',
+                backgroundColor: '#9ecd49',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onClick={handleProgramarEncuesta}
+            >
+              Programar Encuesta
             </button>
           </div>
         </div>

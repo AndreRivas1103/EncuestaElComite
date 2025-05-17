@@ -1,13 +1,9 @@
-
-
-
-
+/* Estilos base */
 .blanco {
   color: #ffffff;
   font-family: "Glock";
   font-size: xx-large;
 }
-
 
 .verde {
   color: #9ecd49;
@@ -15,110 +11,113 @@
   font-size: xx-large;
 }
 
-
-.react-datepicker__header {
-  background-color: #9ecd49 !important;
-  color: white !important;
-  border: none !important;
-  padding: 15px 0 !important;
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-  
-}
-
-.react-datepicker__current-month {
-  font-size: 1.4rem !important;
-  font-weight: 500 !important;
-  margin-bottom: 10px !important;
-  font-family: 'Roboto';
-}
-
-.react-datepicker__day-names {
-  margin: 0 !important;
-  display: flex;
-  justify-content: space-around;
-}
-
-.react-datepicker__day-name {
-  color: white !important;
-  font-size: 1rem !important;
-  width: 2.5rem !important;
-  margin: 0.2rem !important;
-  font-family: 'Roboto';
-}
-
-.react-datepicker__month {
-  margin: 0 !important;
-  padding: 15px 10px !important;
-  background-color: white;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.react-datepicker__day {
-  font-size: 1.1rem !important;
-  width: 5rem !important;
-  height: 3rem !important;
-  line-height: 3rem !important;
-  margin: 0.1rem !important;
-  border-radius: 50% !important;
-  transition: all 0.2s !important;
-  font-family: 'Roboto';
-}
-
-.react-datepicker__day:hover {
-  background-color: #e0e0e0 !important;
-}
-
-.react-datepicker__day--selected {
-  background-color: #9ecd49 !important;
-  color: white !important;
-}
-
-.react-datepicker__day--today {
-  font-weight: bold;
-  color: #9ecd49;
-}
-
-.react-datepicker__navigation {
-  top: 20px !important;
-}
-
+/* Contenedor principal */
 .calendario-container {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.calendario-grande {
+/* Estilos del calendario corporativo */
+.calendario-corporativo {
   width: 100% !important;
-  max-width: 600px !important; 
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
-.react-datepicker__month-container {
+.calendario-corporativo .react-datepicker__month-container {
   width: 100% !important;
 }
 
-/* Estilos para los selectores de mes/año */
-.custom-header select {
-  cursor: pointer;
-  outline: none;
+.calendario-corporativo .react-datepicker__day-names {
+  display: flex !important;
+  justify-content: space-around !important;
+  background-color: #f5f5f5 !important;
+  padding: 8px 0 !important;
+  margin: 0 !important;
 }
 
-/* Ajustes para el contenedor principal */
+.calendario-corporativo .react-datepicker__day-name {
+  color: #1e3766 !important;
+  font-weight: 500 !important;
+  width: 36px !important;
+  margin: 0 !important;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
 
+.calendario-corporativo .react-datepicker__month {
+  margin: 0 !important;
+  padding: 10px !important;
+  background-color: white !important;
+}
 
-/* Ajustes para el calendario en móviles */
+.calendario-corporativo .react-datepicker__week {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin: 2px 0 !important;
+}
+
+.calendario-corporativo .react-datepicker__day {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  color: #333 !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s !important;
+}
+
+.calendario-corporativo .react-datepicker__day:hover {
+  background-color: #e0e0e0 !important;
+}
+
+.calendario-corporativo .react-datepicker__day--selected {
+  background-color: #9ecd49 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.calendario-corporativo .react-datepicker__day--today {
+  font-weight: bold !important;
+  color: #1e3766 !important;
+}
+
+.calendario-corporativo .react-datepicker__day--outside-month {
+  color: #ccc !important;
+}
+
+/* Estilos responsive */
 @media (max-width: 768px) {
   .firtsColor {
     width: 95% !important;
     padding: 20px !important;
-    left: 0 !important;
   }
   
-  .react-datepicker__day {
-    width: 2.5rem !important;
-    height: 2.5rem !important;
-    line-height: 2.5rem !important;
+  .calendario-corporativo .react-datepicker__day {
+    width: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    font-size: 0.8rem !important;
   }
+  
+  .calendario-corporativo .react-datepicker__day-name {
+    width: 30px !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Estilos para el botón */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #8bbd3d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
