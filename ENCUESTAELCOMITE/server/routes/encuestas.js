@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import { 
   crearEncuesta,
-  obtenerEncuestas,
-  actualizarEncuesta
+  programarEncuesta
 } from '../controllers/encuestaController.js';
 
 const router = Router();
 
-// Rutas básicas
+// Ruta para crear encuesta
 router.post('/', crearEncuesta);
-router.get('/', obtenerEncuestas);
-router.put('/:id', actualizarEncuesta);
+
+// Ruta para programar encuesta
+router.put('/:id', programarEncuesta);
 
 export default router;

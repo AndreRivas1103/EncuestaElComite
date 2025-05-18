@@ -24,15 +24,19 @@ function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Datos del usuario
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
     email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
-    id: localStorage.getItem('userId') || "1"
+    cedula: localStorage.getItem('userCedula')
   };
 
   useEffect(() => {
     const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
+    console.log('Encuesta temporal al cargar:', encuestaTemporal);
+    
     if (!encuestaTemporal) {
+      console.warn('No se encontró encuesta temporal, redirigiendo...');
       navigate('/registro-encuestas');
     }
   }, [navigate]);
@@ -47,73 +51,152 @@ function Layout() {
     { path: '/nuevo-evento', icon: '📅', label: 'Nuevo Evento' },
   ];
 
-  const validarFechas = () => {
-    if (fechaCierre <= fechaApertura) {
-      setError('La fecha de cierre debe ser posterior a la fecha de apertura');
+   const validarFechas = () => {
+    console.log('[DEBUG] Validando fechas...');
+    const ahora = new Date();
+    ahora.setHours(0, 0, 0, 0);
+
+    const fechaAperturaSinHora = new Date(fechaApertura);
+    fechaAperturaSinHora.setHours(0, 0, 0, 0);
+
+    const fechaCierreSinHora = new Date(fechaCierre);
+    fechaCierreSinHora.setHours(0, 0, 0, 0);
+
+    console.log('[DEBUG] Fechas comparadas:', {
+      ahora: ahora.toISOString(),
+      apertura: fechaAperturaSinHora.toISOString(),
+      cierre: fechaCierreSinHora.toISOString()
+    });
+
+    if (fechaAperturaSinHora < ahora) {
+      console.error('[ERROR] Fecha apertura en pasado');
+      setError('La fecha de apertura no puede ser en el pasado');
       return false;
     }
+
+    if (fechaCierreSinHora <= fechaAperturaSinHora) {
+      console.error('[ERROR] Fecha cierre anterior a apertura');
+      setError('La fecha de cierre debe ser al menos 1 día después de la apertura');
+      return false;
+    }
+
+    console.log('[DEBUG] Fechas validadas correctamente');
     setError('');
     return true;
   };
 
   const handleProgramarEncuesta = async () => {
-    if (!validarFechas()) return;
-
+    console.group('[DEBUG] Iniciando programación de encuesta');
     try {
-      setLoading(true);
-      const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
+      console.log('[DEBUG] Paso 1/6: Validando fechas y usuario');
+      if (!validarFechas()) return;
       
-      if (!encuestaTemporal) {
-        throw new Error('No se encontraron datos de la encuesta');
+      if (!user?.cedula) {
+        console.error('[ERROR] No hay cédula de usuario');
+        setError('Debe iniciar sesión para programar encuestas');
+        return;
       }
 
-      const encuestaData = {
-        ...encuestaTemporal,
-        fecha_apertura: fechaApertura.toISOString(),
-        fecha_cierre: fechaCierre.toISOString(),
-        estado: 'programada',
-        usuario_id: user.id
+      setLoading(true);
+      setError('');
+      setSuccess('');
+
+      // 2. Formatear fechas
+      const formatDate = (date) => {
+        try {
+          const formatted = new Date(date).toISOString().split('T')[0];
+          console.log(`[DEBUG] Fecha formateada: ${date} -> ${formatted}`);
+          return formatted;
+        } catch (e) {
+          console.error('[ERROR] Formateo de fecha fallido:', e);
+          throw new Error(`Fecha inválida: ${date}`);
+        }
       };
 
-      // 1. Enviar datos al backend
-      const response = await axios.put(
-        `http://localhost:3000/api/encuestas/${encuestaTemporal._id}`,
-        encuestaData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        }
-      );
+      // 3. Obtener datos temporales
+      console.log('[DEBUG] Paso 2/6: Obteniendo encuesta temporal');
+      const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal') || '{}');
+      console.log('[DEBUG] Encuesta temporal obtenida:', encuestaTemporal);
+      
+      if (!encuestaTemporal?.titulo) {
+        console.error('[ERROR] Encuesta temporal sin título');
+        throw new Error('No se encontró la encuesta a programar');
+      }
 
-      // 2. Limpiar localStorage solo si la API responde correctamente
+      // 4. Preparar payload
+      console.log('[DEBUG] Paso 3/6: Preparando payload');
+      const payload = {
+        id: encuestaTemporal.id || undefined,
+        titulo: encuestaTemporal.titulo,
+        fecha_apertura: formatDate(fechaApertura),
+        fecha_cierre: formatDate(fechaCierre),
+        usuario_id: user.cedula,
+        datos_encuesta: encuestaTemporal.datos_encuesta || {},
+      };
+
+      console.log('[DEBUG] Paso 4/6: Payload completo a enviar:', {
+        payload,
+        userCedula: user.cedula,
+        fechaAperturaOriginal: fechaApertura,
+        fechaCierreOriginal: fechaCierre
+      });
+
+      // 5. Enviar al backend
+      console.log('[DEBUG] Paso 5/6: Enviando al backend');
+      const baseURL = 'http://localhost:3000/api/encuestas'; // Ajusta el puerto si es necesario
+      const endpoint = encuestaTemporal.id 
+        ? `${baseURL}/${encuestaTemporal.id}`
+        : baseURL;
+
+      const method = encuestaTemporal.id ? 'put' : 'post';
+      console.log(`[DEBUG] Método: ${method.toUpperCase()} a ${endpoint}`);
+
+      const response = await axios({
+        method,
+        url: endpoint,
+        data: payload,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('[DEBUG] Paso 6/6: Respuesta del servidor:', response.data);
+
+      // Éxito
       localStorage.removeItem('encuestaTemporal');
+      setSuccess('Encuesta programada con éxito');
+      console.log('[DEBUG] Operación completada con éxito');
       
-      // 3. Mostrar feedback al usuario
-      setSuccess('Encuesta programada exitosamente');
-      setError('');
-      
-      // 4. Redirigir después de 2 segundos
       setTimeout(() => {
         navigate('/registro-encuestas', { 
-          state: { 
-            mensaje: 'Encuesta programada exitosamente',
-            encuestaId: encuestaTemporal._id 
-          } 
+          state: { success: true } 
         });
-      }, 2000);
-      
+      }, 1500);
+
     } catch (error) {
-      console.error('Error al programar encuesta:', error);
-      setError('Error al programar la encuesta: ' + 
-        (error.response?.data?.message || error.message));
-      setSuccess('');
+      console.error('[ERROR] Detalles del error:', {
+        message: error.message,
+        response: error.response?.data,
+        request: {
+          url: error.config?.url,
+          method: error.config?.method,
+          data: error.config?.data
+        },
+        stack: error.stack
+      });
+
+      const errorMsg = error.response?.data?.error 
+        || error.response?.data?.message
+        || error.message
+        || 'Error al procesar la encuesta';
+
+      setError(errorMsg);
     } finally {
       setLoading(false);
+      console.groupEnd();
     }
   };
-
   return (
     <div>
       <title>Programar Encuesta</title>

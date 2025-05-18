@@ -1,28 +1,15 @@
 import Encuesta from '../models/Encuesta.js';
 
-// Crear nueva encuesta
 export const crearEncuesta = async (req, res) => {
   try {
-    // Validación manual básica
-    if (!req.body.fecha_apertura || !req.body.fecha_cierre) {
+    if (!req.body.usuario_id) {
       return res.status(400).json({
-        success: false,
-        error: 'Fechas de apertura y cierre son requeridas'
+        error: 'Validación fallida',
+        details: 'El campo usuario_id es requerido'
       });
     }
 
-    const ahora = new Date();
-    const encuestaData = {
-      titulo: req.body.titulo || 'Encuesta de Habilidades Blandas',
-      fecha_creacion: ahora,
-      fecha_apertura: req.body.fecha_apertura,
-      fecha_cierre: req.body.fecha_cierre,
-      usuario_id: req.body.usuario_id,
-      estado: 'borrador', // Estado inicial
-      datos_encuesta: req.body.datos_encuesta || {}
-    };
-
-    const nuevaEncuesta = await Encuesta.create(encuestaData);
+    const nuevaEncuesta = await Encuesta.create(req.body);
     
     res.status(201).json({
       success: true,
@@ -30,67 +17,58 @@ export const crearEncuesta = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error al crear encuesta:', error);
     res.status(500).json({
-      success: false,
-      error: 'Error al crear la encuesta'
+      error: 'Error en el servidor',
+      details: error.message,
+      code: 'ENCUESTA_CREATION_ERROR'
     });
   }
 };
 
-// Obtener todas las encuestas
-export const obtenerEncuestas = async (req, res) => {
-  try {
-    const encuestas = await Encuesta.getAll();
-    res.json({
-      success: true,
-      data: encuestas
-    });
-  } catch (error) {
-    console.error('Error al obtener encuestas:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Error al obtener encuestas'
-    });
-  }
-};
-
-// Actualizar encuesta (para calendario)
-export const actualizarEncuesta = async (req, res) => {
+export const programarEncuesta = async (req, res) => {
   try {
     const { id } = req.params;
-    const { fecha_apertura, fecha_cierre } = req.body;
+    const { fecha_apertura, fecha_cierre, usuario_id } = req.body;
 
-    // Validación manual de fechas
+    // Validación de formato de fecha
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(fecha_apertura) || !dateRegex.test(fecha_cierre)) {
+      return res.status(400).json({ error: 'Formato de fecha inválido' });
+    }
+
+    // Validación de lógica de fechas
     if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
-      return res.status(400).json({
-        success: false,
-        error: 'La fecha de cierre debe ser posterior a la de apertura'
-      });
+      return res.status(400).json({ error: 'Fecha cierre debe ser posterior' });
     }
 
-    const encuestaActualizada = await Encuesta.update(id, {
-      fecha_apertura,
-      fecha_cierre,
-      estado: 'programada'
+    // Operación UPSERT sin estado
+    const [encuesta, created] = await Encuesta.upsert({
+      id: id || generarIdEncuesta(),
+      ...req.body
+    }, {
+      conflictFields: ['id'],
+      returning: true
     });
 
-    if (!encuestaActualizada) {
-      return res.status(404).json({
-        success: false,
-        error: 'Encuesta no encontrada'
-      });
-    }
+    // Eliminar estado de la respuesta si existe
+    const responseData = encuesta.get({ plain: true });
+    delete responseData.estado;
 
-    res.json({
+    res.status(created ? 201 : 200).json({
       success: true,
-      data: encuestaActualizada
+      data: responseData
     });
+
   } catch (error) {
-    console.error('Error al actualizar encuesta:', error);
     res.status(500).json({
-      success: false,
-      error: 'Error al actualizar la encuesta'
+      error: 'Error en el servidor',
+      details: error.message
     });
   }
 };
+
+// Función auxiliar para generar IDs (debe estar en el mismo archivo)
+function generarIdEncuesta() {
+  const now = new Date();
+  return `HB-${now.getFullYear()}-${Math.floor(Math.random() * 90) + 10}`;
+}

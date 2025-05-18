@@ -1,54 +1,85 @@
-import pool from '../db/connection.js';
+import { DataTypes } from 'sequelize';
+import sequelize from '../db/connection.js';
 
-export default {
-  async create(encuestaData) {
-    const query = `
-      INSERT INTO encuesta(
-        titulo, 
-        fecha_creacion, 
-        fecha_apertura, 
-        fecha_cierre, 
-        usuario_id, 
-        estado,
-        datos_encuesta
-      ) VALUES($1, $2, $3, $4, $5, $6, $7) 
-      RETURNING *`;
-    
-    const { rows } = await pool.query(query, [
-      encuestaData.titulo,
-      encuestaData.fecha_creacion,
-      encuestaData.fecha_apertura,
-      encuestaData.fecha_cierre,
-      encuestaData.usuario_id,
-      encuestaData.estado,
-      JSON.stringify(encuestaData.datos_encuesta)
-    ]);
-    return rows[0];
+const Encuesta = sequelize.define('Encuesta', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    defaultValue: () => `HB-${new Date().getFullYear()}-${Math.floor(Math.random() * 90) + 10}`
   },
-
-  async getAll() {
-    const { rows } = await pool.query(
-      'SELECT * FROM encuesta ORDER BY fecha_creacion DESC'
-    );
-    return rows;
+  titulo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'Encuesta de Habilidades Blandas'
   },
-
-  async update(id_encuesta, updateData) {
-    const query = `
-      UPDATE encuesta 
-      SET 
-        fecha_apertura = $1,
-        fecha_cierre = $2,
-        estado = $3
-      WHERE id_encuesta = $4
-      RETURNING *`;
-    
-    const { rows } = await pool.query(query, [
-      updateData.fecha_apertura,
-      updateData.fecha_cierre,
-      updateData.estado,
-      id_encuesta
-    ]);
-    return rows[0];
+  fecha_creacion: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    defaultValue: DataTypes.NOW
+  },
+  fecha_apertura: {
+    type: DataTypes.DATEONLY,
+    allowNull: true
+  },
+  fecha_cierre: {
+    type: DataTypes.DATEONLY,
+    allowNull: true
+  },
+  usuario_id: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  estado: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: [['borrador', 'programada', 'publicada', 'cerrada']]
+    }
+  },
+  datos_encuesta: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+    defaultValue: {}
+  },
+  respuestas_count: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0
   }
+}, {
+  tableName: 'encuestas',
+  freezeTableName: true,
+  timestamps: false,
+  hooks: {
+    beforeSave: (encuesta) => {
+      // Elimina el campo estado en cualquier operación
+      if (encuesta.estado) {
+        delete encuesta.estado;
+      }
+    },
+    beforeCreate: (encuesta) => {
+      if (encuesta.fecha_cierre && encuesta.fecha_apertura) {
+        if (new Date(encuesta.fecha_cierre) <= new Date(encuesta.fecha_apertura)) {
+          throw new Error('La fecha de cierre debe ser posterior a la de apertura');
+        }
+      }
+    }
+  },
+  defaultScope: {
+    attributes: {
+      exclude: ['estado'] // Excluir por defecto
+    }
+  },
+  scopes: {
+    withEstado: {
+      attributes: { include: ['estado'] } // Incluir solo cuando sea necesario
+    }
+  }
+});
+
+// Métodos personalizados
+Encuesta.obtenerPorId = async (id) => {
+  return await Encuesta.scope('withEstado').findByPk(id);
 };
+
+export default Encuesta;

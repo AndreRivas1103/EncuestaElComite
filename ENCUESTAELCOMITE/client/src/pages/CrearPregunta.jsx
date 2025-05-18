@@ -97,7 +97,7 @@ const CrearPregunta = () => {
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
     email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
-    id: localStorage.getItem('userId') || "1"
+    cedula: localStorage.getItem('userCedula') // ← Bien definido
   };
 
   const handleLogout = () => {

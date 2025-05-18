@@ -38,6 +38,7 @@ const IniciarSesion = () => {
         // Guarda datos en localStorage si es necesario
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', response.data.nombre);
+        localStorage.setItem('userCedula', response.data.cedula);
         
         // Redirige a la página de coordinador
         navigate('/inicio-coordinador');
