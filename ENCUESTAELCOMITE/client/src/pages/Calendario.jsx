@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../Pages/styles/calendario.css';
 import '../Pages/styles/home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,6 +19,8 @@ function Layout() {
   });
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,10 +32,10 @@ function Layout() {
 
   useEffect(() => {
     const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
-    if (encuestaTemporal) {
-      // Cargar datos si es necesario
+    if (!encuestaTemporal) {
+      navigate('/registro-encuestas');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     navigate("/confirmar-cierre");
@@ -57,6 +60,7 @@ function Layout() {
     if (!validarFechas()) return;
 
     try {
+      setLoading(true);
       const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
       
       if (!encuestaTemporal) {
@@ -65,18 +69,48 @@ function Layout() {
 
       const encuestaData = {
         ...encuestaTemporal,
-        fecha_apertura: fechaApertura.toISOString().split('T')[0],
-        fecha_cierre: fechaCierre.toISOString().split('T')[0],
+        fecha_apertura: fechaApertura.toISOString(),
+        fecha_cierre: fechaCierre.toISOString(),
+        estado: 'programada',
         usuario_id: user.id
       };
 
-      console.log('Datos a enviar a la API:', encuestaData);
+      // 1. Enviar datos al backend
+      const response = await axios.put(
+        `http://localhost:3000/api/encuestas/${encuestaTemporal._id}`,
+        encuestaData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+
+      // 2. Limpiar localStorage solo si la API responde correctamente
       localStorage.removeItem('encuestaTemporal');
-      navigate('/registro-encuestas', { state: { mensaje: 'Encuesta programada exitosamente' } });
+      
+      // 3. Mostrar feedback al usuario
+      setSuccess('Encuesta programada exitosamente');
+      setError('');
+      
+      // 4. Redirigir después de 2 segundos
+      setTimeout(() => {
+        navigate('/registro-encuestas', { 
+          state: { 
+            mensaje: 'Encuesta programada exitosamente',
+            encuestaId: encuestaTemporal._id 
+          } 
+        });
+      }, 2000);
       
     } catch (error) {
       console.error('Error al programar encuesta:', error);
-      setError('Error al programar la encuesta: ' + error.message);
+      setError('Error al programar la encuesta: ' + 
+        (error.response?.data?.message || error.message));
+      setSuccess('');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -425,6 +459,19 @@ function Layout() {
             </div>
           )}
           
+          {success && (
+            <div style={{ 
+              color: 'green', 
+              marginBottom: '20px', 
+              textAlign: 'center',
+              padding: '10px',
+              backgroundColor: '#e8f5e9',
+              borderRadius: '5px'
+            }}>
+              {success}
+            </div>
+          )}
+          
           <div className='contenedor-botones'>
             <button 
               className='btn' 
@@ -438,11 +485,14 @@ function Layout() {
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                opacity: loading ? 0.7 : 1,
+                pointerEvents: loading ? 'none' : 'auto'
               }}
               onClick={handleProgramarEncuesta}
+              disabled={loading}
             >
-              Programar Encuesta
+              {loading ? 'Enviando...' : 'Programar Encuesta'}
             </button>
           </div>
         </div>

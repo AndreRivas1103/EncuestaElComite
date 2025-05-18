@@ -5,11 +5,12 @@ import '../Pages/styles/Home.css';
 import '../Pages/styles/CreacionPreguntas.css';
 import '../Pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
-  const navigate = useNavigate(); // Añadido useNavigate
+  const navigate = useNavigate();
 
   return (
     <div className='firtsColor'>
@@ -62,8 +63,8 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
           </button>
           <button 
             onClick={() => {
-              onPublicar(); // Primero guarda los datos
-              navigate('/calendario'); // Luego redirige
+              onPublicar();
+              navigate('/calendario');
             }} 
             className="btn-publicar"
           >
@@ -88,6 +89,8 @@ const CrearPregunta = () => {
   const [categoriasConPreguntas, setCategoriasConPreguntas] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [mostrarPreview, setMostrarPreview] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -215,24 +218,45 @@ const CrearPregunta = () => {
     );
   };
 
-  const guardarEncuestaTemporal = () => {
-    if (validarEncuesta()) {
-      const encuestaData = {
-        id: idEncuesta,
-        titulo: "Encuesta de Habilidades Blandas",
-        categorias: categoriasConPreguntas,
-        usuarioId: user.id,
-        fechaCreacion: new Date().toISOString()
-      };
-      
-      localStorage.setItem('encuestaTemporal', JSON.stringify(encuestaData));
-      return true; // Añadido return para indicar éxito
+  const guardarEncuestaTemporal = async () => {
+    if (!validarEncuesta()) return false;
+
+    const encuestaData = {
+      id: idEncuesta,
+      titulo: "Encuesta de Habilidades Blandas",
+      categorias: categoriasConPreguntas,
+      usuarioId: user.id,
+      fechaCreacion: new Date().toISOString(),
+      estado: "borrador"
+    };
+
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:3000/api/encuestas', encuestaData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      localStorage.setItem('encuestaTemporal', JSON.stringify({
+        ...encuestaData,
+        _id: response.data._id
+      }));
+
+      return true;
+    } catch (error) {
+      console.error('Error al guardar encuesta:', error);
+      setError('Error al guardar la encuesta: ' + (error.response?.data?.message || error.message));
+      return false;
+    } finally {
+      setLoading(false);
     }
-    return false;
   };
 
-  const handlePublicarYRedirigir = () => {
-    if (guardarEncuestaTemporal()) {
+  const handlePublicarYRedirigir = async () => {
+    const success = await guardarEncuestaTemporal();
+    if (success) {
       navigate('/calendario');
     }
   };
