@@ -23,8 +23,8 @@ const Home = () => {
           Participa y contribuye a nuestra causa. ¡Apoya a nuestros niños!
         </p>
         
-        <Link to="/encuesta" className="btn">Iniciar Encuesta</Link>
-        <Link to="/resultados" className="btn">Ver resultados</Link>
+        <Link to="/realizar-encuesta" className="btn">Iniciar Encuesta</Link>
+        <Link to="/visualizar-resultados" className="btn">Ver resultados</Link>
       </div>
       
       <div className="admin-section">

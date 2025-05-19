@@ -1,0 +1,213 @@
+/* ConsultaResultados.css */
+
+.consulta-page-contenedor {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: #1E3766;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 3.5rem;
+  text-decoration: none;
+  color: white;
+  font-family: 'Recoleta', serif;
+}
+
+.logo span {
+  color: #8cc63f;
+}
+
+.header-logo {
+  width: 100px;
+  height: auto;
+}
+
+.consulta-contenedor {
+  background-color: #d3edff;
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.consulta-contenido {
+  width: 100%;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  margin: 20px;
+}
+
+
+.consulta-form-container form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group-rellenar {
+  width: 48%;
+  margin-bottom: 20px;
+}
+
+.form-group-rellenar label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Roboto';
+  font-size: 1.1rem;
+  color: #000;
+  font-weight: bold;
+}
+
+.required {
+  color: red;
+  margin-left: 3px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+}
+
+.form-input.error {
+  border-color: #ff3d3d;
+}
+
+.error-text {
+  color: #ff3d3d;
+  font-size: 0.875rem;
+  margin-top: 5px;
+  display: block;
+}
+
+
+.instructions-text {
+  font-family: 'Roboto';
+  font-size: 1.2rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.btn-ver-resultados {
+  background-color: #73A31D;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  width: auto;
+  min-width: 200px;
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+}
+
+.btn-ver-resultados:hover {
+  background-color: #5a8a0f;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 992px) {
+  .consulta-content {
+    padding: 20px;
+  }
+  
+  .form-group {
+    width: 100%;
+  }
+  
+  .instructions-container {
+    width: 100%;
+    margin-top: 10px;
+    order: -1;
+  }
+  
+  .instructions-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 2.5rem;
+  }
+  
+  .header-logo {
+    width: 80px;
+  }
+  
+  .consulta-content {
+    padding: 15px;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+  }
+  
+  .instructions-text {
+    font-size: 0.9rem;
+  }
+  
+  .btn-ver-resultados {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo {
+    font-size: 2rem;
+  }
+  
+  .header {
+    padding: 10px;
+  }
+  
+  .consulta-container {
+    padding: 10px;
+  }
+  
+  .consulta-content {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+  }
+  
+  .form-input {
+    padding: 8px;
+  }
+  
+  .instructions-text {
+    font-size: 0.8rem;
+  }
+}

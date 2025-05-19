@@ -14,6 +14,10 @@ import Encuesta from './pages/Encuesta.jsx';
 import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
 import ConfirmarCierre from './pages/ConfirmLogout'
 import PrevisualizacionE from './pages/PreviewEncuesta.jsx'
+import RealizarEncuesta from './pages/Realizar_Encuentas.jsx'
+import RellenarDatos from './pages/Rellenar_Datos.jsx'
+import VisualizarResultados from './pages/Visualizar_Resultados.jsx'
+
 import './App.css'
 
 
@@ -37,6 +41,10 @@ function App() {
         <Route path="/ensayo" element={<Ensayo />} />
         <Route path="/confirmar-cierre" element={<ConfirmarCierre />} />
         <Route path="/visualizacionE" element={<PrevisualizacionE />} />
+        <Route path="/realizar-encuesta" element={<RealizarEncuesta />} />
+        <Route path="/rellenar-datos" element={<RellenarDatos />} />
+        <Route path="/visualizar-resultados" element={<VisualizarResultados />} />
+
       </Routes>
     </Router>
   )
