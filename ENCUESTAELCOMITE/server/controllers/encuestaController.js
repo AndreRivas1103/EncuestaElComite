@@ -30,18 +30,15 @@ export const programarEncuesta = async (req, res) => {
     const { id } = req.params;
     const { fecha_apertura, fecha_cierre, usuario_id } = req.body;
 
-    // Validación de formato de fecha
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(fecha_apertura) || !dateRegex.test(fecha_cierre)) {
       return res.status(400).json({ error: 'Formato de fecha inválido' });
     }
 
-    // Validación de lógica de fechas
     if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
       return res.status(400).json({ error: 'Fecha cierre debe ser posterior' });
     }
 
-    // Operación UPSERT sin estado
     const [encuesta, created] = await Encuesta.upsert({
       id: id || generarIdEncuesta(),
       ...req.body
@@ -50,7 +47,6 @@ export const programarEncuesta = async (req, res) => {
       returning: true
     });
 
-    // Eliminar estado de la respuesta si existe
     const responseData = encuesta.get({ plain: true });
     delete responseData.estado;
 
@@ -67,7 +63,32 @@ export const programarEncuesta = async (req, res) => {
   }
 };
 
-// Función auxiliar para generar IDs (debe estar en el mismo archivo)
+export const obtenerEncuestasActivas = async (req, res) => {
+  try {
+    const encuestas = await Encuesta.obtenerEncuestasActivas();
+    
+    if (encuestas.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No hay encuestas activas en este momento'
+      });
+    }
+
+    res.json({
+      success: true,
+      count: encuestas.length,
+      data: encuestas
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Error al obtener encuestas',
+      details: error.message
+    });
+  }
+};
+
 function generarIdEncuesta() {
   const now = new Date();
   return `HB-${now.getFullYear()}-${Math.floor(Math.random() * 90) + 10}`;

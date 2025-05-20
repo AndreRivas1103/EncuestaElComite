@@ -1,81 +1,100 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
 
-const Voluntario = sequelize.define('Voluntario', {
-  correo_electronico: {
-    type: DataTypes.STRING(255),
+const Encuesta = sequelize.define('Encuesta', {
+  id: {
+    type: DataTypes.STRING,
     primaryKey: true,
-    allowNull: false,
-    validate: {
-      isEmail: true,
-      notEmpty: true
-    }
+    defaultValue: () => `HB-${new Date().getFullYear()}-${Math.floor(Math.random() * 90) + 10}`
   },
-  nombre_completo: {
-    type: DataTypes.STRING(255),
+  titulo: {
+    type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-      len: [3, 255]
-    }
+    defaultValue: 'Encuesta de Habilidades Blandas'
   },
-  numero_identificacion: {
-    type: DataTypes.STRING(50),
+  fecha_creacion: {
+    type: DataTypes.DATEONLY,
     allowNull: false,
-    unique: true,
-    validate: {
-      notEmpty: true
-    }
+    defaultValue: DataTypes.NOW
   },
-  encuesta_pre: {
-    type: DataTypes.JSONB,
+  fecha_apertura: {
+    type: DataTypes.DATEONLY,
     allowNull: true
   },
-  encuesta_post: {
-    type: DataTypes.JSONB,
+  fecha_cierre: {
+    type: DataTypes.DATEONLY,
     allowNull: true
   },
-  id_encuesta: {
-    type: DataTypes.STRING(50),
+  usuario_id: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  estado: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: [['borrador', 'programada', 'publicada', 'cerrada']]
+    }
+  },
+  datos_encuesta: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+    defaultValue: {}
+  },
+  respuestas_count: {
+    type: DataTypes.INTEGER,
     allowNull: true,
-    references: {
-      model: 'encuestas',
-      key: 'id'
-    }
+    defaultValue: 0
   }
 }, {
-  tableName: 'voluntarios',
+  tableName: 'encuestas',
   freezeTableName: true,
   timestamps: false,
-  underscored: true,
-  paranoid: false
+  hooks: {
+    beforeSave: (encuesta) => {
+      if (encuesta.estado) {
+        delete encuesta.estado;
+      }
+    },
+    beforeCreate: (encuesta) => {
+      if (encuesta.fecha_cierre && encuesta.fecha_apertura) {
+        if (new Date(encuesta.fecha_cierre) <= new Date(encuesta.fecha_apertura)) {
+          throw new Error('La fecha de cierre debe ser posterior a la de apertura');
+        }
+      }
+    }
+  },
+  defaultScope: {
+    attributes: {
+      exclude: ['estado']
+    }
+  },
+  scopes: {
+    withEstado: {
+      attributes: { include: ['estado'] }
+    }
+  }
 });
 
-// Método para encontrar por email
-Voluntario.findByEmail = async (email) => {
-  return await Voluntario.findOne({ 
-    where: { correo_electronico: email },
-    attributes: ['correo_electronico', 'nombre_completo', 'numero_identificacion']
+// Métodos personalizados
+Encuesta.obtenerPorId = async (id) => {
+  return await Encuesta.scope('withEstado').findByPk(id);
+};
+
+Encuesta.obtenerEncuestasActivas = async function() {
+  const hoy = new Date().toISOString().split('T')[0];
+  
+  return await this.findAll({
+    where: {
+      fecha_apertura: {
+        [sequelize.Op.lte]: hoy
+      },
+      fecha_cierre: {
+        [sequelize.Op.gte]: hoy
+      }
+    },
+    attributes: ['id', 'titulo', 'fecha_apertura', 'fecha_cierre', 'datos_encuesta']
   });
 };
 
-// Método personalizado para crear con validación
-Voluntario.createWithValidation = async (data) => {
-  try {
-    const voluntario = await Voluntario.build(data);
-    await voluntario.validate(); // Ejecuta validaciones definidas en el modelo
-    return await voluntario.save(); // Si todo está bien, guarda en BD
-  } catch (error) {
-    throw error; // Lanza el error para que lo maneje quien llama
-  }
-};
-
-// Relación con modelo Encuesta
-Voluntario.associate = (models) => {
-  Voluntario.belongsTo(models.Encuesta, {
-    foreignKey: 'id_encuesta',
-    as: 'encuesta_relacionada'
-  });
-};
-
-export default Voluntario;
+export default Encuesta;

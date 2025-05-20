@@ -52,7 +52,6 @@ const Encuesta = sequelize.define('Encuesta', {
   timestamps: false,
   hooks: {
     beforeSave: (encuesta) => {
-      // Elimina el campo estado en cualquier operación
       if (encuesta.estado) {
         delete encuesta.estado;
       }
@@ -67,12 +66,12 @@ const Encuesta = sequelize.define('Encuesta', {
   },
   defaultScope: {
     attributes: {
-      exclude: ['estado'] // Excluir por defecto
+      exclude: ['estado']
     }
   },
   scopes: {
     withEstado: {
-      attributes: { include: ['estado'] } // Incluir solo cuando sea necesario
+      attributes: { include: ['estado'] }
     }
   }
 });
@@ -80,6 +79,22 @@ const Encuesta = sequelize.define('Encuesta', {
 // Métodos personalizados
 Encuesta.obtenerPorId = async (id) => {
   return await Encuesta.scope('withEstado').findByPk(id);
+};
+
+Encuesta.obtenerEncuestasActivas = async function() {
+  const hoy = new Date().toISOString().split('T')[0];
+  
+  return await this.findAll({
+    where: {
+      fecha_apertura: {
+        [sequelize.Op.lte]: hoy
+      },
+      fecha_cierre: {
+        [sequelize.Op.gte]: hoy
+      }
+    },
+    attributes: ['id', 'titulo', 'fecha_apertura', 'fecha_cierre', 'datos_encuesta']
+  });
 };
 
 export default Encuesta;
