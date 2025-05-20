@@ -12,22 +12,6 @@
   align-items: center;
 }
 
-.logo {
-  font-size: 3.5rem;
-  text-decoration: none;
-  color: white;
-  font-family: 'Recoleta', serif;
-}
-
-.logo span {
-  color: #8cc63f;
-}
-
-.header-logo {
-  height: 50px;
-  width: auto;
-}
-
 .terminos-container {
   background-color: #d3edff;
   flex: 1;

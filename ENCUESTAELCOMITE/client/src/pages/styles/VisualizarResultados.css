@@ -6,30 +6,7 @@
   flex-direction: column;
 }
 
-.header {
-  background-color: #1E3766;
-  padding: 10px 20px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.logo {
-  font-size: 3.5rem;
-  text-decoration: none;
-  color: white;
-  font-family: 'Recoleta', serif;
-}
-
-.logo span {
-  color: #8cc63f;
-}
-
-.header-logo {
-  width: 100px;
-  height: auto;
-}
 
 .consulta-contenedor {
   background-color: #ffff;
