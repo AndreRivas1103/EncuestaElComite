@@ -74,9 +74,15 @@ const ConsultaResultados = () => {
       </div>
 
       <div className="consulta-contenedor">
+        <h1 className="encuesta-title">Visualizar Resultados</h1>
         <div className="consulta-contenido">
           <div className="consulta-form-container">
             <form onSubmit={handleSubmit}>
+              <div className="instructions-container">
+                <p className="instructions-text">
+                  Recuerde que para realizar la consulta de tus resultados debes ingresar tu número de documento y el código único que se te entrega al finalizar la encuesta.
+                </p>
+              </div>
               <div className="form-group-rellenar">
                 <label htmlFor="correoElectronico">Correo Electrónico</label>
                 <input
@@ -129,11 +135,7 @@ const ConsultaResultados = () => {
                 {errors.nombreCompleto && <small className="error-text">{errors.nombreCompleto}</small>}
               </div>
 
-              <div className="instructions-container">
-                <p className="instructions-text">
-                  Recuerde que para realizar la consulta de tus resultados debes ingresar tu número de documento y el código único que se te entrega al finalizar la encuesta.
-                </p>
-              </div>
+
 
               <button type="submit" className="btn-ver-resultados">Ver resultados</button>
             </form>

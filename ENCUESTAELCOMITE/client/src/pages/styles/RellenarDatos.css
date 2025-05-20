@@ -14,6 +14,8 @@
   color: #8cc63f;
 }
 
+
+
 .form-container {
   background-color: #d3edff;
   flex: 1;
@@ -49,6 +51,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+
 }
 
 .logo-container {

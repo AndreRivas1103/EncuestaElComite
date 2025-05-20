@@ -32,7 +32,7 @@
 }
 
 .consulta-contenedor {
-  background-color: #d3edff;
+  background-color: #ffff;
   flex: 1;
   padding: 20px;
   display: flex;
@@ -44,7 +44,7 @@
 .consulta-contenido {
   width: 100%;
   max-width: 900px;
-  background-color: white;
+  background-color: #d3edff;
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -101,9 +101,10 @@
 
 .instructions-text {
   font-family: 'Roboto';
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   text-align: center;
+  padding-bottom: 30px ;
 }
 
 .btn-ver-resultados {

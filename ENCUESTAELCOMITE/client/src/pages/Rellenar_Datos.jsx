@@ -93,7 +93,7 @@ const FormularioRegistro = () => {
           <div className="registro-form">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <h1 className="encuesta-title">Realizar Encuesta</h1>
+                <h1 className="encuesta-title">Rellena Datos</h1>
                 <label htmlFor="nombreCompleto">Nombre completo</label>
                 <input
                   type="text"
@@ -155,11 +155,11 @@ const FormularioRegistro = () => {
                   className="checkbox-input"
                 />
                 <label htmlFor="aceptaTerminos" className="checkbox-label">
-                  <a href='/' className="terms-text">Términos y Condiciones</a>
+                  <Link to="/terminos-y-condiciones" className="terms-text">Términos y Condiciones</Link>
                 </label>
                 {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
               </div>
-              <Link to="/" type="submit" className="btn-siguiente">Siguiente</Link>
+              <button type="submit" className="btn-siguiente">Siguiente</button>
             </form>
           </div>
         </div>

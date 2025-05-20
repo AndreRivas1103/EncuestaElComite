@@ -17,6 +17,7 @@ import PrevisualizacionE from './pages/PreviewEncuesta.jsx'
 import RealizarEncuesta from './pages/Realizar_Encuentas.jsx'
 import RellenarDatos from './pages/Rellenar_Datos.jsx'
 import VisualizarResultados from './pages/Visualizar_Resultados.jsx'
+import TyC from './pages/TyC.jsx'
 
 import './App.css'
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/realizar-encuesta" element={<RealizarEncuesta />} />
         <Route path="/rellenar-datos" element={<RellenarDatos />} />
         <Route path="/visualizar-resultados" element={<VisualizarResultados />} />
+        <Route path="/terminos-y-condiciones" element={<TyC />} />
 
       </Routes>
     </Router>
