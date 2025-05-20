@@ -74,6 +74,8 @@ const FormularioRegistro = () => {
 
   return (
     <div className="registro-page-container">
+      <title>Rellenar Datos</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className="header">
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>

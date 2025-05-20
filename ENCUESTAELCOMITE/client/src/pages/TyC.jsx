@@ -18,6 +18,8 @@ const TerminosCondiciones = () => {
 
   return (
     <div className="terminos-page-container">
+      <title>Terminos y Condiciones</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className="header">
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Logo" className="header-logo"></img>
