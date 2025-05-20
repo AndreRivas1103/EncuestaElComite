@@ -44,14 +44,14 @@ const Voluntario = sequelize.define('Voluntario', {
     }
   }
 }, {
-  // Configuraciones al modelo voluntarios
-  tableName: 'voluntarios',          // Nombre exacto de la tabla en la BD
-  freezeTableName: true,             // Evita pluralización
-  timestamps: false,                 // Sin marcas de tiempo
-  underscored: true,                 // Notación snake_case
-  paranoid: false                    // Sin borrado lógico
+  tableName: 'voluntarios',
+  freezeTableName: true,
+  timestamps: false,
+  underscored: true,
+  paranoid: false
 });
 
+// Método para encontrar por email
 Voluntario.findByEmail = async (email) => {
   return await Voluntario.findOne({ 
     where: { correo_electronico: email },
@@ -59,7 +59,18 @@ Voluntario.findByEmail = async (email) => {
   });
 };
 
-//Relación con Encuestas (acceder a los datos relacionados)
+// Método personalizado para crear con validación
+Voluntario.createWithValidation = async (data) => {
+  try {
+    const voluntario = await Voluntario.build(data);
+    await voluntario.validate(); // Ejecuta validaciones definidas en el modelo
+    return await voluntario.save(); // Si todo está bien, guarda en BD
+  } catch (error) {
+    throw error; // Lanza el error para que lo maneje quien llama
+  }
+};
+
+// Relación con modelo Encuesta
 Voluntario.associate = (models) => {
   Voluntario.belongsTo(models.Encuesta, {
     foreignKey: 'id_encuesta',

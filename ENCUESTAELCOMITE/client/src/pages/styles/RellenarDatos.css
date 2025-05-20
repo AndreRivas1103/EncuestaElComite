@@ -220,3 +220,20 @@
     padding: 10px 20px;
   }
 }
+.loading-dots span {
+  animation: dot-pulse 1.4s infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+.success-message-global {
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 15px 0;
+  text-align: center;
+}

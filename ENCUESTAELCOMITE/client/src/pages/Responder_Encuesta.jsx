@@ -42,10 +42,8 @@ const TerminosCondiciones = () => {
               expresa, inequívoca e informada, que autorizo a EL COMITÉ DE REHABILITACIÓN
               DE ANTIOQUIA, para que realice la recolección, almacenamiento, uso,
               transferencia, circulación, supresión, y, en general, tratamiento de mis datos
-              personales, incluyendo datos sensibles, y los que puedan llegar a ser considerados
-              como tal de conformidad con la Ley, para que dicho Tratamiento se realice con el
-              fin de brindarme información de interés acorde con el objeto de EL COMITÉ DE
-              REHABILITACIÓN DE ANTIOQUIA.
+              personales, incluyendo datos de puteria y que son necesarios para saber samuel como preguntas
+              va a resolver con su vida auxilioooo
             </p>
             <p>
               Declaro que se me ha informado de manera clara y comprensible que tengo

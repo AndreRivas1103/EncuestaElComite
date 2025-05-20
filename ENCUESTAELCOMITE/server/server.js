@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { verificarCorreo } from './controllers/coordinadorController.js';
-import encuestaRoutes from './routes/encuestas.js'; // Nueva importación
+import encuestaRoutes from './routes/encuestas.js';
+import voluntarioRoutes from './routes/voluntarioRoutes.js'; // Nueva importación
 
 // Configuración inicial
 dotenv.config();
@@ -13,14 +14,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'] // Actualizado para más métodos
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 app.use(express.json());
 
 // Conexión a la base de datos
 import './db/connection.js'; 
 
-// Rutas
+// Documentación de endpoints en raíz
 app.get('/', (req, res) => {
   res.json({ 
     status: 'online',
@@ -30,18 +31,24 @@ app.get('/', (req, res) => {
       encuestas: {
         crear: 'POST /api/encuestas',
         listar: 'GET /api/encuestas'
+      },
+      voluntarios: {
+        registrar: 'POST /api/voluntarios',
+        actualizar: 'PUT /api/voluntarios/:correo',
+        verificar: 'POST /api/voluntarios/verificar'
       }
     }
   });
 });
 
-// Autenticación
+// Sistema de autenticación
 app.post('/api/auth/login', verificarCorreo);
 
-// Rutas de Encuestas (Nuevo)
+// Rutas principales
 app.use('/api/encuestas', encuestaRoutes);
+app.use('/api', voluntarioRoutes); // Nuevas rutas de voluntarios
 
-// Manejo de errores centralizado
+// Manejo centralizado de errores
 app.use((err, req, res, next) => {
   console.error('⚠️ Error:', err.stack);
   res.status(500).json({ 
@@ -50,14 +57,20 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Ruta para 404
+// Manejo de rutas no encontradas
 app.use((req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada' });
+  res.status(404).json({ 
+    error: 'Ruta no encontrada',
+    suggestion: 'Verifique la documentación en GET /'
+  });
 });
 
-// Iniciar servidor
+// Inicialización del servidor
 app.listen(PORT, () => {
   console.log(`\n🚀 Servidor escuchando en: http://localhost:${PORT}`);
-  console.log(`🔗 Ruta de prueba: curl http://localhost:${PORT}`);
-  console.log(`📝 Ruta de encuestas: curl -X POST http://localhost:${PORT}/api/encuestas -H "Content-Type: application/json" -d '{"fecha_apertura":"2023-12-01","fecha_cierre":"2023-12-15","usuario_id":"1","datos_encuesta":{}}'`);
+  console.log(`🔗 Endpoints disponibles:`);
+  console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
+  console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
+  console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
+  console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
 });
