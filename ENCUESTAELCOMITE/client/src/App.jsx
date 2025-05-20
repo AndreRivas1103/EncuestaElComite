@@ -34,7 +34,6 @@ function App() {
         <Route path="/inicio-coordinador" element={<InicioCoordinador />} />
         <Route path="/info-encuesta" element={<TukiInicio />} />
         <Route path="/nuevo-evento" element={<NuevoEvento />} />
-        <Route path="/nuevo-evento" element={<NuevoEvento />} />
         <Route path="/guardar-pregunta" element={<GuardarPreguntas />} />
         <Route path="/crear-pregunta" element={<CrearPregunta />} />
         <Route path="/calendario" element={<Calendario />} />
