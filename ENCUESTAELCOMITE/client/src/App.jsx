@@ -16,8 +16,8 @@ import ConfirmarCierre from './pages/ConfirmLogout'
 import PrevisualizacionE from './pages/PreviewEncuesta.jsx'
 import RealizarEncuesta from './pages/Realizar_Encuentas.jsx'
 import RellenarDatos from './pages/Rellenar_Datos.jsx'
+import ResponderEncuesta from './pages/Responder_Encuesta.jsx'
 import VisualizarResultados from './pages/Visualizar_Resultados.jsx'
-import Responder_Encuesta from './pages/Responder_Encuesta.jsx'
 import TyC from './pages/TyC.jsx'
 
 import './App.css'
@@ -44,10 +44,11 @@ function App() {
         <Route path="/visualizacionE" element={<PrevisualizacionE />} />
         <Route path="/realizar-encuesta" element={<RealizarEncuesta />} />
         <Route path="/rellenar-datos" element={<RellenarDatos />} />
+        <Route path="/responder-encuesta" element={<ResponderEncuesta />} />
         <Route path="/visualizar-resultados" element={<VisualizarResultados />} />
         <Route path="/terminos-y-condiciones" element={<TyC />} />
-        <Route path="/responder-encuesta" element={<Responder_Encuesta />} />
-
+        
+        
       </Routes>
     </Router>
   )
