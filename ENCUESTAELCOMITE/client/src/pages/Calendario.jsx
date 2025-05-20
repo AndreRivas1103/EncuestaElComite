@@ -33,13 +33,14 @@ function Layout() {
 
   useEffect(() => {
     const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
-    console.log('Encuesta temporal al cargar:', encuestaTemporal);
-    
-    if (!encuestaTemporal) {
-      console.warn('No se encontró encuesta temporal, redirigiendo...');
-      navigate('/registro-encuestas');
+    console.log('[DEBUG] Encuesta cargada en Calendario:', encuestaTemporal);
+
+    if (!encuestaTemporal?.titulo || !encuestaTemporal?.id) {
+      console.warn('[ERROR] Datos de encuesta faltantes, redirigiendo...');
+      navigate('/crear-pregunta'); // O la ruta que corresponda
     }
   }, [navigate]);
+
 
   const handleLogout = () => {
     navigate("/confirmar-cierre");

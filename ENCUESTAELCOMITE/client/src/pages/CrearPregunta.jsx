@@ -224,35 +224,28 @@ const CrearPregunta = () => {
     const encuestaData = {
       id: idEncuesta,
       titulo: "Encuesta de Habilidades Blandas",
-      categorias: categoriasConPreguntas,
-      usuarioId: user.id,
-      fechaCreacion: new Date().toISOString(),
-      estado: "borrador"
+      usuario_id: user.cedula,
+      datos_encuesta: {
+        categorias: categoriasConPreguntas,
+      },
+      fecha_creacion: new Date().toISOString(),
+      estado: "borrador",
+      fecha_apertura: null,
+      fecha_cierre: null,
     };
 
     try {
-      setLoading(true);
-      const response = await axios.post('http://localhost:3000/api/encuestas', encuestaData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-
-      localStorage.setItem('encuestaTemporal', JSON.stringify({
-        ...encuestaData,
-        _id: response.data._id
-      }));
-
+      console.log("[DEBUG] Simulación de guardado sin API");
+      console.log("[DEBUG] Encuesta guardada:", encuestaData);
+      localStorage.setItem('encuestaTemporal', JSON.stringify(encuestaData));
       return true;
     } catch (error) {
       console.error('Error al guardar encuesta:', error);
-      setError('Error al guardar la encuesta: ' + (error.response?.data?.message || error.message));
+      setError('No se pudo guardar la encuesta.');
       return false;
-    } finally {
-      setLoading(false);
     }
   };
+
 
   const handlePublicarYRedirigir = async () => {
     const success = await guardarEncuestaTemporal();
