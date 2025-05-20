@@ -162,6 +162,7 @@ const FormularioRegistro = () => {
                 {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
               </div>
               <button type="submit" className="btn-siguiente">Siguiente</button>
+               <Link to="/responder-encuesta" className="btn-siguiente">Realizar Encuesta</Link>
             </form>
           </div>
         </div>
