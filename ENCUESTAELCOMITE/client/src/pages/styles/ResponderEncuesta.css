@@ -6,29 +6,6 @@
   padding: 20px;
 }
 
-.header {
-  background-color: #1e3766;
-  color: white;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.logo span {
-  color: #9ecd49;
-}
-
-.header-logo {
-  height: 50px;
-}
-
 /* Contenedor principal */
 .encuesta-container {
   max-width: 1000px;
