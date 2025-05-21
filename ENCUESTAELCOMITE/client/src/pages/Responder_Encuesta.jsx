@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../Pages/styles/ResponderEncuesta.css';
+import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const ResponderEncuesta = () => {

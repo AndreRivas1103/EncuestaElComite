@@ -101,6 +101,7 @@
   min-width: 200px;
   font-family: 'Roboto';
   letter-spacing: 1px;
+  text-decoration: none;
 }
 
 .btn-ver-resultados:hover {

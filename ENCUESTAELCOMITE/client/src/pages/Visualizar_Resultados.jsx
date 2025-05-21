@@ -71,7 +71,7 @@ const ConsultaResultados = () => {
       <title>Rellenar Datos</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className="header">
-        <div className="logo">El Comit<span>é</span></div>
+        <a href="/"className="logo">El Comit<span>é</span></a>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
 

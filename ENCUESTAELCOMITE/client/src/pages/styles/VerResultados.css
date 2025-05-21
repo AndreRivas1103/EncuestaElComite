@@ -1,9 +1,4 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    background-color: #d3edff;
-    font-family: "Yeseva", sans-serif;
-}
+
 
 @font-face {
     font-family: "Glock";
@@ -25,12 +20,7 @@ body, html {
     flex-direction: column;
 }
 
-.firtsColor {
-    background-color: #d3edff;
-    padding: 20px;
-    position: relative;
-    min-height: calc(100vh - 80px);
-}
+
 
 .barra-porcentajes {
     padding: auto;
@@ -62,7 +52,7 @@ body, html {
     z-index: 2;
 }
 
-.btn-pequeno {
+.btn-pequeno2 {
     padding: 8px 16px;
     background: #1e3766;
     color: white;
@@ -74,7 +64,7 @@ body, html {
     font-family: "Roboto";
 }
 
-.btn-pequeno:hover {
+.btn-pequeno2:hover {
     background: #9ecd49;
 }
 
@@ -87,13 +77,12 @@ body, html {
 
 .header-ver-resultados {
     padding: 20px;
-    text-align: center;
-    margin: 0 auto;
+
     font-size: 2.5rem;
 }
 
 
-.sidebar {
+.sidebar2 {
     position: fixed;
     left: 0;
     top: 0;
@@ -109,40 +98,40 @@ body, html {
     justify-content: space-between;
 }
 
-.sidebar-superior {
+.sidebar2-superior {
     flex-grow: 1;
 }
 
-.sidebar-inferior {
+.sidebar2-inferior {
     margin-top: auto;
 }
 
-.sidebar h2 {
+.sidebar2 h2 {
     margin-top: 0;
 }
 
-.sidebar ul {
+.sidebar2 ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.sidebar li {
+.sidebar2 li {
     margin: 20px 0;
     font-size: 18px;
 }
 
-.sidebar a {
+.sidebar2 a {
     color: #d3edff;
     text-decoration: none;
 }
 
-.sidebar a:hover {
+.sidebar2 a:hover {
     text-decoration: underline;
     color: #9ecd49;
 }
 
-.contenido-principal {
+.contenido-principal2 {
     margin-left: 250px; 
     display: flex;
     justify-content: center;
@@ -166,10 +155,10 @@ body, html {
 }
 
 .title-resultados {
-    font-size: 4rem;
+    font-size: 3rem;
     color: #000000;
     margin-bottom: 20px;
-    font-family: "Merryweather";
+    font-family: "Merriweather";
 }
 
 .circular-progress {
@@ -238,10 +227,10 @@ body, html {
 
 
 /* Estilos para el botón de toggle */
-.toggle-sidebar-btn {
+.toggle-sidebar2-btn {
   position: fixed;
-  left: 10px;
-  top: 10px;
+  left: 15px;
+  top: 15px;
   background: #1e3766;
   color: white;
   border: none;
@@ -251,40 +240,41 @@ body, html {
   padding: 5px 10px;
   z-index: 1000;
   transition: all 0.3s;
+  align-items: center;
 }
 
-.toggle-sidebar-btn:hover {
+.toggle-sidebar2-btn:hover {
   background: #9ecd49;
 }
 
 /* Estilos para el sidebar oculto/visible */
-.sidebar.hidden {
+.sidebar2.hidden2 {
   transform: translateX(-100%);
 }
 
-.sidebar.visible {
+.sidebar2.visible2 {
   transform: translateX(0);
 }
 
-.sidebar {
+.sidebar2 {
   transition: transform 0.3s ease-in-out;
 }
 
 /* Ajustes para el contenido principal */
-.contenido-principal.sidebar-hidden {
+.contenido-principal2.sidebar2-hidden {
   margin-left: 0;
 }
 
-.contenido-principal.sidebar-visible {
+.contenido-principal2.sidebar2-visible {
   margin-left: 250px;
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar2 {
     width: 200px;
   }
   
-  .contenido-principal.sidebar-visible {
+  .contenido-principal2.sidebar2-visible {
     margin-left: 200px;
   }
 }
@@ -296,7 +286,7 @@ body, html {
 
 
 /* Estilos para el botón de cerrar sidebar */
-.close-sidebar-btn {
+.close-sidebar2-btn {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -310,16 +300,18 @@ body, html {
   transition: color 0.3s;
 }
 
-.close-sidebar-btn:hover {
+.close-sidebar2-btn:hover {
   color: #9ecd49;
 }
 
 /* Asegurar que el contenido del sidebar no se solape con el botón de cerrar */
-.sidebar-superior {
+.sidebar2-superior {
   padding-top: 20px;
 }
 
 /* Mejorar la visibilidad del botón de toggle cuando el sidebar está abierto */
-.sidebar-visible .toggle-sidebar-btn {
-  display: none;
+.sidebar2-visible .toggle-sidebar2-btn {
+  display: flex;
+  align-items: center;
+
 }

@@ -65,21 +65,21 @@ export default function VerResultados() {
                 <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
         <button 
-          className="toggle-sidebar-btn"
+          className="toggle-sidebar2-btn"
           onClick={() => setSidebarVisible(!sidebarVisible)}
         >
           ☰
         </button>
 
 
-      <div className={`sidebar ${sidebarVisible ? 'visible' : 'hidden'}`}>
+      <div className={`sidebar2 ${sidebarVisible ? 'visible2' : 'hidden2'}`}>
         <button 
-          className="close-sidebar-btn"
+          className="close-sidebar2-btn"
           onClick={() => setSidebarVisible(false)}
         >
           ×
         </button>
-        <div className="sidebar-superior">
+        <div className="sidebar2-superior">
           <div><span className='blanco'>El comit</span><span className='verde'>é</span></div>
           <br />
           <h2>Menú</h2>
@@ -92,14 +92,14 @@ export default function VerResultados() {
           </ul>
         </div>
 
-        <div className="sidebar-inferior">
+        <div className="sidebar2-inferior">
           <ul>
             <li><a href="#">Salir</a></li>
           </ul>
         </div>
       </div>
 
-      <div className={`contenido-principal ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
+      <div className={`contenido-principal2 ${sidebarVisible ? 'sidebar2-visible' : 'sidebar2-hidden'}`}>
         <div className="cuadro-porcentajes">
           <h1 className="title-resultados" >Promedio de habilidades</h1>
           
