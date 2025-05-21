@@ -59,16 +59,18 @@ export default function VerResultados() {
     <title>Resultados</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
 
-      <div className="header">
-        <div className="logo">El Comit<span>é</span></div>
+      <div className="header ">
+        
+        <div className="logo header-ver-resultados">El Comit<span>é</span></div>
+                <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
+      </div>
         <button 
           className="toggle-sidebar-btn"
           onClick={() => setSidebarVisible(!sidebarVisible)}
         >
           ☰
         </button>
-        <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
-      </div>
+
 
       <div className={`sidebar ${sidebarVisible ? 'visible' : 'hidden'}`}>
         <button 
