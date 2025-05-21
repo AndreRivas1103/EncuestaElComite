@@ -33,7 +33,7 @@ const Encuesta = sequelize.define('Encuesta', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isIn: [['borrador', 'programada', 'publicada', 'cerrada']]
+      isIn: [['borrador', 'programada', 'activa', 'cerrada']]
     }
   },
   datos_encuesta: {
@@ -52,7 +52,6 @@ const Encuesta = sequelize.define('Encuesta', {
   timestamps: false,
   hooks: {
     beforeSave: (encuesta) => {
-      // Elimina el campo estado en cualquier operación
       if (encuesta.estado) {
         delete encuesta.estado;
       }
@@ -67,12 +66,12 @@ const Encuesta = sequelize.define('Encuesta', {
   },
   defaultScope: {
     attributes: {
-      exclude: ['estado'] // Excluir por defecto
+      exclude: ['estado']
     }
   },
   scopes: {
     withEstado: {
-      attributes: { include: ['estado'] } // Incluir solo cuando sea necesario
+      attributes: { include: ['estado'] }
     }
   }
 });
@@ -81,5 +80,16 @@ const Encuesta = sequelize.define('Encuesta', {
 Encuesta.obtenerPorId = async (id) => {
   return await Encuesta.scope('withEstado').findByPk(id);
 };
+
+Encuesta.obtenerEncuestaActiva = async function() {
+  return await this.scope('withEstado').findOne({
+    where: {
+      estado: 'activa'
+    }
+  });
+};
+
+
+
 
 export default Encuesta;

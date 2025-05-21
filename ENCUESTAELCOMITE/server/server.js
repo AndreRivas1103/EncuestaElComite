@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { verificarCorreo } from './controllers/coordinadorController.js';
-import encuestaRoutes from './routes/encuestas.js';
-import voluntarioRoutes from './routes/voluntarioRoutes.js'; // Nueva importación
+import encuestaRoutes from './routes/encuestasRoutes.js';
+import voluntarioRoutes from './routes/voluntarioRoutes.js';
 
 // Configuración inicial
 dotenv.config();
@@ -30,7 +30,8 @@ app.get('/', (req, res) => {
       login: 'POST /api/auth/login',
       encuestas: {
         crear: 'POST /api/encuestas',
-        listar: 'GET /api/encuestas'
+        listar: 'GET /api/encuestas',
+        activa: 'GET /api/encuestas/activa',
       },
       voluntarios: {
         registrar: 'POST /api/voluntarios',
@@ -45,8 +46,8 @@ app.get('/', (req, res) => {
 app.post('/api/auth/login', verificarCorreo);
 
 // Rutas principales
-app.use('/api/encuestas', encuestaRoutes);
-app.use('/api', voluntarioRoutes); // Nuevas rutas de voluntarios
+app.use('/api/encuestas', encuestaRoutes); // Incluye /activas
+app.use('/api', voluntarioRoutes);
 
 // Manejo centralizado de errores
 app.use((err, req, res, next) => {
@@ -71,6 +72,7 @@ app.listen(PORT, () => {
   console.log(`🔗 Endpoints disponibles:`);
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
+  console.log(`   - Encuestas activas: GET http://localhost:${PORT}/api/encuestas/activas`); // Nuevo en log
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
 });

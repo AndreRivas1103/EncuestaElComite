@@ -1,0 +1,124 @@
+.encuestas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.loading-container, .error-container, .no-encuestas {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.loading-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container {
+  color: #e74c3c;
+}
+
+.no-encuestas {
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.encuestas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.encuesta-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.encuesta-card:hover {
+  transform: translateY(-5px);
+}
+
+.encuesta-meta {
+  margin: 1rem 0;
+  color: #7f8c8d;
+}
+
+.encuesta-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-responder, .btn-detalles {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-responder {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.btn-detalles {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-responder:hover {
+  background-color: #27ae60;
+}
+
+.btn-detalles:hover {
+  background-color: #2980b9;
+}
+/* Estilos para el botón regresar */
+.header-actions {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.btn-regresar {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-regresar:hover {
+  background-color: #e0e0e0;
+  border-color: #aaa;
+}
+
+.btn-regresar:active {
+  background-color: #d0d0d0;
+}
