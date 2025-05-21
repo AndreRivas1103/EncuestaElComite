@@ -68,7 +68,7 @@ const ConsultaResultados = () => {
 
   return (
     <div className="consulta-page-contenedor">
-      <title>Ver Resultados</title>
+      <title>Rellenar Datos</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <div className="header">
         <div className="logo">El Comit<span>é</span></div>
@@ -139,7 +139,7 @@ const ConsultaResultados = () => {
 
 
 
-              <button type="submit" className="btn-ver-resultados">Ver resultados</button>
+              <Link to="/ver-resultados"type="submit" className="btn-ver-resultados">Ver resultados</Link>
             </form>
           </div>
         </div>

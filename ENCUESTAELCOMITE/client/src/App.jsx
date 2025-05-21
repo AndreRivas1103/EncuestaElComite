@@ -19,10 +19,11 @@ import RellenarDatos from './pages/Rellenar_Datos.jsx'
 import ResponderEncuesta from './pages/Responder_Encuesta.jsx'
 import VisualizarResultados from './pages/Visualizar_Resultados.jsx'
 import TyC from './pages/TyC.jsx'
+import VerResultados from './pages/Ver_Resultados.jsx'
 
 import './App.css'
 
-
+  
 function App() {
   return (
     <Router>
@@ -47,6 +48,7 @@ function App() {
         <Route path="/responder-encuesta" element={<ResponderEncuesta />} />
         <Route path="/visualizar-resultados" element={<VisualizarResultados />} />
         <Route path="/terminos-y-condiciones" element={<TyC />} />
+        <Route path="/ver-resultados" element={<VerResultados />} />
         
         
       </Routes>
