@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { verificarCorreo } from './controllers/coordinadorController.js';
-import encuestaRoutes from './routes/encuestas.js';
+import encuestaRoutes from './routes/encuestasRoutes.js';
 import voluntarioRoutes from './routes/voluntarioRoutes.js';
 
 // Configuración inicial
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
       encuestas: {
         crear: 'POST /api/encuestas',
         listar: 'GET /api/encuestas',
-        activas: 'GET /api/encuestas/activas' 
+        activa: 'GET /api/encuestas/activa',
       },
       voluntarios: {
         registrar: 'POST /api/voluntarios',

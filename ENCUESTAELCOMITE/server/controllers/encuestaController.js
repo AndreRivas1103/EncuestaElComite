@@ -24,6 +24,54 @@ export const crearEncuesta = async (req, res) => {
     });
   }
 };
+// En encuestaController.js
+export const obtenerEncuestaActiva = async (req, res) => {
+  try {
+    const encuesta = await Encuesta.obtenerEncuestaActiva();
+    
+    if (!encuesta) {
+      return res.status(404).json({
+        success: false,
+        message: 'No hay encuestas activas disponibles',
+        details: {
+          requerimientos: {
+            estado: 'activa',
+            fecha_actual: new Date().toISOString(),
+            rango_fechas: 'Debe estar entre fecha_apertura y fecha_cierre'
+          }
+        }
+      });
+    }
+
+    // Parsear datos_encuesta si es necesario
+    let datosEncuesta = encuesta.datos_encuesta;
+    if (typeof datosEncuesta === 'string') {
+      try {
+        datosEncuesta = JSON.parse(datosEncuesta);
+      } catch (error) {
+        console.error('Error parsing datos_encuesta:', error);
+        throw new Error('Formato de datos_encuesta inválido');
+      }
+    }
+
+    res.json({
+      success: true,
+      data: {
+        ...encuesta.get({ plain: true }),
+        datos_encuesta: datosEncuesta
+      }
+    });
+
+  } catch (error) {
+    console.error('Error en obtenerEncuestaActiva:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al obtener encuesta activa',
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+};
 
 export const programarEncuesta = async (req, res) => {
   try {
@@ -58,32 +106,6 @@ export const programarEncuesta = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 'Error en el servidor',
-      details: error.message
-    });
-  }
-};
-
-export const obtenerEncuestasActivas = async (req, res) => {
-  try {
-    const encuestas = await Encuesta.obtenerEncuestasActivas();
-    
-    if (encuestas.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'No hay encuestas activas en este momento'
-      });
-    }
-
-    res.json({
-      success: true,
-      count: encuestas.length,
-      data: encuestas
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Error al obtener encuestas',
       details: error.message
     });
   }

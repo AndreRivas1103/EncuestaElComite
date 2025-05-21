@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { 
   crearEncuesta,
   programarEncuesta,
-  obtenerEncuestasActivas
+  obtenerEncuestaActiva
 } from '../controllers/encuestaController.js';
 
 const router = Router();
@@ -14,6 +14,8 @@ router.post('/', crearEncuesta);
 router.put('/:id', programarEncuesta);
 
 // Ruta para mostrar encuesta disponible
-router.get('/encuestas/activas', obtenerEncuestasActivas);
+
+// En encuestasRoutes.js
+router.get('/activa', obtenerEncuestaActiva);
 
 export default router;

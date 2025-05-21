@@ -33,7 +33,7 @@ const Encuesta = sequelize.define('Encuesta', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isIn: [['borrador', 'programada', 'publicada', 'cerrada']]
+      isIn: [['borrador', 'programada', 'activa', 'cerrada']]
     }
   },
   datos_encuesta: {
@@ -81,20 +81,15 @@ Encuesta.obtenerPorId = async (id) => {
   return await Encuesta.scope('withEstado').findByPk(id);
 };
 
-Encuesta.obtenerEncuestasActivas = async function() {
-  const hoy = new Date().toISOString().split('T')[0];
-  
-  return await this.findAll({
+Encuesta.obtenerEncuestaActiva = async function() {
+  return await this.scope('withEstado').findOne({
     where: {
-      fecha_apertura: {
-        [sequelize.Op.lte]: hoy
-      },
-      fecha_cierre: {
-        [sequelize.Op.gte]: hoy
-      }
-    },
-    attributes: ['id', 'titulo', 'fecha_apertura', 'fecha_cierre', 'datos_encuesta']
+      estado: 'activa'
+    }
   });
 };
+
+
+
 
 export default Encuesta;

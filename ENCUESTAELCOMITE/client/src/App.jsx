@@ -14,7 +14,7 @@ import Encuesta from './pages/Encuesta.jsx';
 import Ensayo from './pages/InicioCoordinadorPrueba.jsx';
 import ConfirmarCierre from './pages/ConfirmLogout'
 import PrevisualizacionE from './pages/PreviewEncuesta.jsx'
-import RealizarEncuesta from './pages/Realizar_Encuentas.jsx'
+import RealizarEncuesta from './pages/Escoger_Encuentas.jsx'
 import RellenarDatos from './pages/Rellenar_Datos.jsx'
 import ResponderEncuesta from './pages/Responder_Encuesta.jsx'
 import VisualizarResultados from './pages/Visualizar_Resultados.jsx'
