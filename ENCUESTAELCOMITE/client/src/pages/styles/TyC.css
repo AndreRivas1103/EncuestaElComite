@@ -5,7 +5,7 @@
 }
 
 .header {
-  background-color: #1E3766;
+  background-color: #1e3766;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -52,7 +52,7 @@
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 20px;
-  font-family: 'Recoleta', serif;
+  font-family: "Recoleta", serif;
 }
 
 .terminos-text {
@@ -60,7 +60,7 @@
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 30px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   text-align: justify;
   line-height: 1.6;
 }
@@ -76,7 +76,8 @@
   gap: 20px;
 }
 
-.btn-aceptar, .btn-cancelar {
+.btn-aceptar,
+.btn-cancelar {
   flex: 1;
   display: block;
   padding: 12px 30px;
@@ -86,33 +87,47 @@
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   letter-spacing: 2px;
   transition: all 0.3s;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-aceptar {
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
 }
 
 .btn-aceptar:hover {
   background-color: #5a8a0f;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-cancelar {
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
 }
 
 .btn-cancelar:hover {
   background-color: #5a8a0f;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.terminos-page-container .migadepan-container {
+  background-color: #1e3766;
+  border-bottom: none;
+}
+
+.terminos-page-container .migadepan-item,
+.terminos-page-container .migadepan-separator {
+  color: white;
+}
+
+.terminos-page-container .migadepan-current {
+  color: #9ecd49;
 }
 
 /* Media Queries para responsividad */
@@ -137,7 +152,8 @@
     flex-direction: column;
   }
 
-  .btn-aceptar, .btn-cancelar {
+  .btn-aceptar,
+  .btn-cancelar {
     margin-bottom: 10px;
   }
 }
@@ -159,7 +175,8 @@
     font-size: 1.8rem;
   }
 
-  .btn-aceptar, .btn-cancelar {
+  .btn-aceptar,
+  .btn-cancelar {
     font-size: 1rem;
     padding: 10px 20px;
   }

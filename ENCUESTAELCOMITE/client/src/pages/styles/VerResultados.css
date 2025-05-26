@@ -1,241 +1,249 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    background-color: #d3edff;
-    font-family: "Yeseva", sans-serif;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #d3edff;
+  font-family: "Yeseva", sans-serif;
 }
 
 @font-face {
-    font-family: "Glock";
-    src: url("fonts/glock.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Glock";
+  src: url("fonts/glock.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Yeseva";
-    src: url("fonts/yeseva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 .app-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .firtsColor {
-    background-color: #d3edff;
-    padding: 20px;
-    position: relative;
-    min-height: calc(100vh - 80px);
+  background-color: #d3edff;
+  padding: 20px;
+  position: relative;
+  min-height: calc(100vh - 80px);
 }
 
 .barra-porcentajes {
-    padding: auto;
-    background-color: #ffffff;
-    position: relative;
-    border-radius: 5px;
+  padding: auto;
+  background-color: #ffffff;
+  position: relative;
+  border-radius: 5px;
 }
 
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #000;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
 .blanco {
-    color: #ffffff;
-    font-family: "Recoleta";
-    font-size: 2rem;
+  color: #ffffff;
+  font-family: "Recoleta";
+  font-size: 2rem;
 }
 
 .verde {
-    color: #9ecd49;
-    font-family: "Recoleta";
-    font-size: 2rem;
+  color: #9ecd49;
+  font-family: "Recoleta";
+  font-size: 2rem;
 }
 
 .botones-izquierda {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 2;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
 }
 
 .btn-pequeno {
-    padding: 8px 16px;
-    background: #1e3766;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: "Roboto";
+  padding: 8px 16px;
+  background: #1e3766;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Roboto";
 }
 
 .btn-pequeno:hover {
-    background: #9ecd49;
+  background: #9ecd49;
 }
 
 .logo-container {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    z-index: 1;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
 }
 
 .header-ver-resultados {
-    padding: 20px;
-    text-align: center;
-    margin: 0 auto;
-    font-size: 2.5rem;
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 2.5rem;
 }
 
-
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 250px;
-    background-color: #1e3766;
-    color: #d3edff;
-    padding: 20px;
-    box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: #1e3766;
+  color: #d3edff;
+  padding: 20px;
+  box-sizing: border-box;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebar-superior {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .sidebar-inferior {
-    margin-top: auto;
+  margin-top: auto;
 }
 
 .sidebar h2 {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar li {
-    margin: 20px 0;
-    font-size: 18px;
+  margin: 20px 0;
+  font-size: 18px;
 }
 
 .sidebar a {
-    color: #d3edff;
-    text-decoration: none;
+  color: #d3edff;
+  text-decoration: none;
 }
 
 .sidebar a:hover {
-    text-decoration: underline;
-    color: #9ecd49;
+  text-decoration: underline;
+  color: #9ecd49;
 }
 
 .contenido-principal {
-    margin-left: 250px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #d3edff;
-    flex-grow: 1;
-    height: calc(100vh - 120px);
+  margin-left: 250px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #d3edff;
+  flex-grow: 1;
+  height: calc(100vh - 120px);
 }
 
 .cuadro-porcentajes {
-    background-color: #ffffff;
-    height: 80%;
-    width: 80%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-    text-align: center;
-    font-family: "Roboto";
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+  margin-top: 100px;
+  background-color: #ffffff;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: "Roboto";
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .title-resultados {
-    font-size: 4rem;
-    color: #000000;
-    margin-bottom: 20px;
-    font-family: "Merryweather";
+  font-size: 4rem;
+  color: #000000;
+  margin-bottom: 20px;
+  font-family: "Merryweather";
 }
 
 .circular-progress {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .circle-bg {
-    fill: none;
-    stroke: #d3edff;
+  fill: none;
+  stroke: #d3edff;
 }
 
 .circle-progress {
-    fill: none;
-    stroke: #9ecd49;
-    stroke-linecap: round;
+  fill: none;
+  stroke: #9ecd49;
+  stroke-linecap: round;
 }
 
 .progress-value {
-    position: absolute;
-    font-size: 1.125rem;
-    font-weight: bold;
-    color: #1e3766;
+  position: absolute;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #1e3766;
 }
 
 .average-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0 30px 0;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 30px 0;
 }
 
 .average-container .progress-value {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 0 40px;
-    margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 40px;
+  margin-bottom: 30px;
 }
 
 .skill-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ecf3fb;
-    padding: 15px;
-    border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ecf3fb;
+  padding: 15px;
+  border-radius: 4px;
 }
 
 .skill-title {
-    color: #1e3766;
-    font-weight: 500;
+  color: #1e3766;
+  font-weight: 500;
 }
-
-
-
-
-
-
-
-
 
 /* Estilos para el botón de toggle */
 .toggle-sidebar-btn {
@@ -283,17 +291,11 @@ body, html {
   .sidebar {
     width: 200px;
   }
-  
+
   .contenido-principal.sidebar-visible {
     margin-left: 200px;
   }
 }
-
-
-
-
-
-
 
 /* Estilos para el botón de cerrar sidebar */
 .close-sidebar-btn {
@@ -314,12 +316,25 @@ body, html {
   color: #9ecd49;
 }
 
-/* Asegurar que el contenido del sidebar no se solape con el botón de cerrar */
 .sidebar-superior {
   padding-top: 20px;
 }
 
-/* Mejorar la visibilidad del botón de toggle cuando el sidebar está abierto */
 .sidebar-visible .toggle-sidebar-btn {
   display: none;
+}
+
+.sidebar + .migadepan-container {
+  margin-left: 250px;
+}
+
+.migadepan-container + .header-ver-resultados {
+  margin-top: 0;
+  padding-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .sidebar + .migadepan-container {
+    margin-left: 0;
+  }
 }

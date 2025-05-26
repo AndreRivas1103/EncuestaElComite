@@ -11,6 +11,7 @@
 .consulta-contenedor {
   background-color: #ffff;
   flex: 1;
+  position: relative;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -107,6 +108,22 @@
   background-color: #5a8a0f;
 }
 
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #000;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 /* Media Queries para responsividad */
 @media (max-width: 992px) {
   .consulta-content {
@@ -127,6 +144,7 @@
     font-size: 1rem;
   }
 }
+
 
 @media (max-width: 768px) {
   .logo {

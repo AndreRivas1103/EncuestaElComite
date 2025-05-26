@@ -10,7 +10,9 @@ h1 {
   margin-bottom: 2rem;
 }
 
-.loading-container, .error-container, .no-encuestas {
+.loading-container,
+.error-container,
+.no-encuestas {
   text-align: center;
   padding: 2rem;
   margin-top: 2rem;
@@ -27,8 +29,12 @@ h1 {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-container {
@@ -69,7 +75,8 @@ h1 {
   margin-top: 1.5rem;
 }
 
-.btn-responder, .btn-detalles {
+.btn-responder,
+.btn-detalles {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -121,4 +128,19 @@ h1 {
 
 .btn-regresar:active {
   background-color: #d0d0d0;
+}
+
+@media (max-width: 768px) {
+  .encuestas-container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.page-with-migadepan .encuestas-container {
+  padding-top: 0.5rem;
 }

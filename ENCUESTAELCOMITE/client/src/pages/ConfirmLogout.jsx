@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Pages/styles/Home.css';
+import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de tener la misma hoja de estilo
 
 const ConfirmarCierre = () => {

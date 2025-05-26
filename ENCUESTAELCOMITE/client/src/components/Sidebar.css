@@ -1,12 +1,11 @@
 /* Estilos exclusivos para el componente Sidebar */
 @font-face {
-  font-family: 'Roboto';
-  src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Medium.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
-
 
 .sidebar {
   width: 250px;
@@ -15,15 +14,18 @@
   color: white;
   padding: 1.5rem;
   position: fixed;
-  left: -250px;
+  left: -270px; /* Extra margin to ensure it's fully hidden */
   top: 0;
   z-index: 1000;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
+  overflow-y: auto;
+  visibility: hidden; /* Hidden by default */
 }
 
 .sidebar.visible {
   left: 0;
+  visibility: visible;
 }
 
 .sidebar-close-btn {
@@ -35,6 +37,13 @@
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 1001; /* Above the sidebar content */
+  outline: none;
+  transition: transform 0.2s;
+}
+
+.sidebar-close-btn:hover {
+  transform: scale(1.2);
 }
 
 .sidebar-header {
@@ -130,11 +139,12 @@
   .sidebar {
     width: 70%;
   }
-  
-  .nav-label, .user-info {
+
+  .nav-label,
+  .user-info {
     display: none;
   }
-  
+
   .avatar {
     margin-right: 0;
     width: 30px;
@@ -154,8 +164,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background-color: #1E3766;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #1e3766;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo-coordinador {
@@ -179,7 +189,7 @@
 .menu-button-container {
   padding: 10px 20px;
   background-color: #d3edff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: flex-start;
 }
@@ -189,7 +199,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #1E3766;
+  color: #1e3766;
   padding: 5px 10px;
   border-radius: 4px;
   transition: background-color 0.3s;
@@ -202,14 +212,14 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #D3EDFF;
+  background-color: #d3edff;
 }
 
 .main-content {
   background-color: white;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 80%;
   max-width: 600px;
@@ -217,7 +227,7 @@
 
 /* Títulos */
 .title-coordinador {
-  color: #1E3766;
+  color: #1e3766;
   margin-bottom: 30px;
   font-family: "Roboto";
 }

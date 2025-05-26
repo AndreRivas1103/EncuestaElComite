@@ -41,10 +41,48 @@
 .read-the-docs {
   color: #888;
 }
+*/
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
 
 body {
   margin: 0;
   padding: 0;
   background-color: white;
-  min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  min-height: 100vh; 
+  transition: margin-left 0.3s ease-in-out;
+}
 
+body.sidebar-visible {
+  margin-left: 0; 
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.migadepan-container + div,
+.migadepan-container + main {
+  padding-top: 0;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 0;
+  }
+}
