@@ -13,6 +13,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@coreui/coreui-pro": "^5.13.0",
+    "@coreui/react-pro": "^5.15.0",
     "@types/react-datepicker": "^7.0.0",
     "axios": "^1.8.4",
     "cors": "^2.8.5",

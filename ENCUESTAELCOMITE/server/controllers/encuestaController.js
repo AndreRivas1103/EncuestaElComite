@@ -1,5 +1,26 @@
 import Encuesta from '../models/Encuesta.js';
 
+// ========== MÉTODOS CON funcion==========
+export const obtenerTodasEncuestas = async (req, res) => {
+  try {
+    const encuestas = await Encuesta.obtenerTodas();
+    
+    res.status(200).json({
+      success: true,
+      count: encuestas.length,
+      data: encuestas
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Error al obtener encuestas',
+      details: error.message
+    });
+  }
+};
+
+// ========== MÉTODOS Normales ==========
 export const crearEncuesta = async (req, res) => {
   try {
     if (!req.body.usuario_id) {
@@ -24,7 +45,7 @@ export const crearEncuesta = async (req, res) => {
     });
   }
 };
-// En encuestaController.js
+
 export const obtenerEncuestaActiva = async (req, res) => {
   try {
     const encuesta = await Encuesta.obtenerEncuestaActiva();
@@ -43,7 +64,6 @@ export const obtenerEncuestaActiva = async (req, res) => {
       });
     }
 
-    // Parsear datos_encuesta si es necesario
     let datosEncuesta = encuesta.datos_encuesta;
     if (typeof datosEncuesta === 'string') {
       try {
@@ -111,6 +131,7 @@ export const programarEncuesta = async (req, res) => {
   }
 };
 
+// ========== FUNCIÓN AUXILIAR ==========
 function generarIdEncuesta() {
   const now = new Date();
   return `HB-${now.getFullYear()}-${Math.floor(Math.random() * 90) + 10}`;

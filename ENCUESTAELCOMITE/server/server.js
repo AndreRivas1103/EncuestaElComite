@@ -19,7 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 // Conexión a la base de datos
-import './db/connection.js'; 
+import './db/connection.js';
 
 // Documentación de endpoints en raíz
 app.get('/', (req, res) => {
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 app.post('/api/auth/login', verificarCorreo);
 
 // Rutas principales
-app.use('/api/encuestas', encuestaRoutes); // Incluye /activas
+app.use('/api/encuestas', encuestaRoutes);
 app.use('/api', voluntarioRoutes);
 
 // Manejo centralizado de errores
@@ -72,7 +72,8 @@ app.listen(PORT, () => {
   console.log(`🔗 Endpoints disponibles:`);
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
-  console.log(`   - Encuestas activas: GET http://localhost:${PORT}/api/encuestas/activas`); // Nuevo en log
+  console.log(`   - Listar encuestas: GET http://localhost:${PORT}/api/encuestas`);
+  console.log(`   - Encuesta activa: GET http://localhost:${PORT}/api/encuestas/activa`);
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
 });
