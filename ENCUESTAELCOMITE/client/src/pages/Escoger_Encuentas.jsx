@@ -2,6 +2,7 @@ import React from 'react';
 import '../pages/styles/RealizarEncuesta.css'; // Importaremos el CSS correspondiente
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link } from 'react-router-dom'; // Importa Link para navegación
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const RealizarEncuesta = () => {
   return (
@@ -13,6 +14,9 @@ const RealizarEncuesta = () => {
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
+      
+      {/* Migas de Pan */}
+      <MigaDePan />
       
       <div className="main-contenido">
         <h1 className="encuesta-title">Realizar Encuesta</h1>

@@ -1,34 +1,29 @@
 .migadepan-container {
   width: 100%;
-  padding: 12px 24px;
-  background-color: #ffffff;
-  border-bottom: 1px solid rgba(30, 55, 102, 0.1);
+  padding: 15px 24px;
+  background: #D3EDFF !important;
   font-family: "Roboto", sans-serif;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   z-index: 800; 
   position: relative;
   box-sizing: border-box;
-  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   display: block;
+  animation: slideInFromTop 0.4s ease-out;
+  margin: 0;  
 }
 
 .coordinator-page {
-  position: sticky;
-  top: 0;
-  z-index: 900;
+  background: #D3EDFF !important;
 }
 
-body.sidebar-visible .migadepan-container,
-body.sidebar-visible .coordinator-page,
-.sidebar-visible .migadepan-container,
-.sidebar-visible .coordinator-page {
-  margin-left: 250px;
-  width: calc(100% - 250px);
+/* Estilos para páginas con sidebar */
+.migadepan-container.with-sidebar {
+  margin-left: 0;
+  width: 100%;
   transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-body.sidebar-visible ~ .migadepan-container,
-.sidebar-visible ~ .migadepan-container {
+body.sidebar-visible .migadepan-container.with-sidebar {
   margin-left: 250px;
   width: calc(100% - 250px);
 }
@@ -38,54 +33,179 @@ body.sidebar-visible ~ .migadepan-container,
   flex-wrap: wrap;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0;
   font-size: 0.95rem;
+  gap: 2px;
 }
 
 .migadepan-item {
   color: #1e3766;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: rgba(30, 55, 102, 0.05);
+  margin: 2px 0;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
 }
 
-.migadepan-icon {
-  margin-right: 5px;
-  font-size: 1rem;
+.migadepan-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(115, 163, 29, 0.1) 0%, rgba(115, 163, 29, 0.2) 100%);
+  transition: width 0.3s ease;
+}
+
+.migadepan-item:hover::before {
+  width: 100%;
 }
 
 .migadepan-item:hover {
   color: #73a31d;
-  text-decoration: underline;
+  transform: translateY(-1px);
+  background-color: rgba(115, 163, 29, 0.08);
+}
+
+.migadepan-icon {
+  margin-right: 8px;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+  z-index: 1;
+  position: relative;
+}
+
+.migadepan-item:hover .migadepan-icon {
+  transform: scale(1.1);
 }
 
 .migadepan-separator {
-  margin: 0 10px;
-  color: #a0a0a0;
-  font-weight: 300;
+  margin: 0 8px;
+  color: #94a3b8;
+  font-weight: 400;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
 }
 
 .migadepan-current {
   color: #73a31d;
-  font-weight: 500;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(115, 163, 29, 0.15) 0%, rgba(115, 163, 29, 0.1) 100%);
+}
+
+.migadepan-current .migadepan-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Efecto de conexión visual entre elementos */
+.migadepan-item + .migadepan-separator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(30, 55, 102, 0.3) 0%, transparent 100%);
+  transform: translateY(-50%);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .migadepan-container {
-    padding: 10px 15px;
+    padding: 12px 15px;
   }
 
   .migadepan {
     font-size: 0.85rem;
+    gap: 1px;
+  }
+
+  .migadepan-item,
+  .migadepan-current {
+    padding: 6px 10px;
+    font-size: 0.85rem;
   }
 
   .migadepan-separator {
-    margin: 0 6px;
+    margin: 0 4px;
+    font-size: 1rem;
+  }
+
+  .migadepan-icon {
+    font-size: 0.95rem;
+    margin-right: 6px;
+  }
+
+  .migadepan-current .migadepan-icon {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .migadepan-container {
+    padding: 10px 12px;
+  }
+
+  .migadepan {
+    font-size: 0.8rem;
+  }
+
+  .migadepan-item,
+  .migadepan-current {
+    padding: 5px 8px;
+    font-size: 0.8rem;
   }
 
   .migadepan-icon {
     font-size: 0.9rem;
+    margin-right: 5px;
+  }
+
+  .migadepan-separator {
+    margin: 0 3px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mejoras adicionales para la accesibilidad */
+.migadepan-item:focus {
+  outline: 2px solid #73a31d;
+  outline-offset: 2px;
+}
+
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

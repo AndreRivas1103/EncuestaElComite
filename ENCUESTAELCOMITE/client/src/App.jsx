@@ -20,13 +20,11 @@ import ResponderEncuesta from "./pages/Responder_Encuesta.jsx";
 import VisualizarResultados from "./pages/Visualizar_Resultados.jsx";
 import TyC from "./pages/TyC.jsx";
 import VerResultados from "./pages/Ver_Resultados.jsx";
-import MigaDePan from "./components/MigaDePan.jsx";
 
 function App() {
   return (
     <Router>
       <div className="app-wrapper">
-        <MigaDePan />
         <main className="page-container">
           <Routes>
             <Route path="/" element={<Home />} />

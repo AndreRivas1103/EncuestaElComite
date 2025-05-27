@@ -2,6 +2,7 @@ import React from 'react';
 import '../pages/styles/TyC.css'; // Importamos el CSS correspondiente
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link, useNavigate } from 'react-router-dom';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const TerminosCondiciones = () => {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ const TerminosCondiciones = () => {
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Logo" className="header-logo"></img>
       </div>
+
+      <MigaDePan />
 
       <div className="terminos-container">
         <Link to="/realizar-encuesta" className="btn-back">

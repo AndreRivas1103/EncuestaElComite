@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de tener la misma hoja de estilo
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const ConfirmarCierre = () => {
   const navigate = useNavigate();

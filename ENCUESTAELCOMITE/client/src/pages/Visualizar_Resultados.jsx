@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../pages/styles/VisualizarResultados.css'; // Importaremos el CSS correspondiente  
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link } from 'react-router-dom';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const ConsultaResultados = () => {
   // Estado para manejar los valores del formulario
@@ -75,6 +76,8 @@ const ConsultaResultados = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
       
+      {/* Migas de Pan */}
+      <MigaDePan />
 
       <div className="consulta-contenedor">
         

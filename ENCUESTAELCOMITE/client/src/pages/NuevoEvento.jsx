@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const NuevoEvento = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -89,6 +90,9 @@ const NuevoEvento = () => {
           ☰
         </button>
       </div>
+
+      {/* Migas de Pan - Ahora debajo del botón de menú */}
+      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       {/* Sidebar */}
       <Sidebar 

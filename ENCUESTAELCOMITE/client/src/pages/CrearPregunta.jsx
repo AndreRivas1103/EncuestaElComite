@@ -6,6 +6,7 @@ import '../pages/styles/CreacionPreguntas.css';
 import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -91,6 +92,7 @@ const CrearPregunta = () => {
   const [mostrarPreview, setMostrarPreview] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [preguntasAnimando, setPreguntasAnimando] = useState(new Set());
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -112,6 +114,9 @@ const CrearPregunta = () => {
 
   const agregarCategoria = () => {
     if (categoriaSeleccionada && !categoriasConPreguntas.some(c => c.nombre === categoriaSeleccionada)) {
+      const nuevoCategoriaIndex = categoriasConPreguntas.length;
+      const preguntaId = `${nuevoCategoriaIndex}-0`;
+      
       setCategoriasConPreguntas([
         ...categoriasConPreguntas,
         {
@@ -120,24 +125,54 @@ const CrearPregunta = () => {
             texto: '',
             tipoRespuesta: 'multiple',
             opciones: ['', '', '', ''],
-            respuestasCorrectas: []
+            respuestasCorrectas: [],
+            id: preguntaId
           }]
         }
       ]);
       setCategoriaSeleccionada('');
+      
+      // Activar animación para la primera pregunta de la nueva categoría
+      setPreguntasAnimando(prev => new Set([...prev, preguntaId]));
+      
+      setTimeout(() => {
+        setPreguntasAnimando(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(preguntaId);
+          return newSet;
+        });
+      }, 800);
     }
   };
 
   const agregarPreguntaACategoria = (categoriaIndex) => {
     const nuevasCategorias = [...categoriasConPreguntas];
     if (nuevasCategorias[categoriaIndex].preguntas.length < 4) {
+      const nuevaPreguntaIndex = nuevasCategorias[categoriaIndex].preguntas.length;
+      const preguntaId = `${categoriaIndex}-${nuevaPreguntaIndex}`;
+      
+      // Agregar la nueva pregunta
       nuevasCategorias[categoriaIndex].preguntas.push({
         texto: '',
         tipoRespuesta: 'multiple',
         opciones: ['', '', '', ''],
-        respuestasCorrectas: []
+        respuestasCorrectas: [],
+        id: preguntaId // Identificador único para la animación
       });
+      
       setCategoriasConPreguntas(nuevasCategorias);
+      
+      // Activar animación para esta pregunta
+      setPreguntasAnimando(prev => new Set([...prev, preguntaId]));
+      
+      // Remover la animación después de que termine
+      setTimeout(() => {
+        setPreguntasAnimando(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(preguntaId);
+          return newSet;
+        });
+      }, 800); // Duración de la animación
     }
   };
 
@@ -196,26 +231,66 @@ const CrearPregunta = () => {
 
   const validarEncuesta = () => {
     if (!idEncuesta.trim()) {
-      alert("Por favor ingresa un ID para la encuesta");
+      alert("❌ Error: Por favor ingresa un ID para la encuesta");
       return false;
     }
     
     if (categoriasConPreguntas.length === 0) {
-      alert("Debes agregar al menos una categoría con preguntas");
+      alert("❌ Error: Debes agregar al menos una categoría con preguntas");
       return false;
     }
     
-    return categoriasConPreguntas.every(categoria => 
-      categoria.preguntas.every(pregunta => {
-        const tieneTexto = pregunta.texto.trim() !== '';
-        const opcionesValidas = pregunta.tipoRespuesta !== 'multiple' || 
-          pregunta.opciones.filter(op => op.trim() !== '').length >= 2;
-        const tieneRespuestasCorrectas = pregunta.tipoRespuesta !== 'multiple' || 
-          pregunta.respuestasCorrectas.length > 0;
+    // Validación detallada pregunta por pregunta
+    for (let categoriaIndex = 0; categoriaIndex < categoriasConPreguntas.length; categoriaIndex++) {
+      const categoria = categoriasConPreguntas[categoriaIndex];
+      
+      if (categoria.preguntas.length === 0) {
+        alert(`❌ Error: La categoría "${categoria.nombre}" no tiene preguntas. Agrega al menos una pregunta.`);
+        return false;
+      }
+      
+      for (let preguntaIndex = 0; preguntaIndex < categoria.preguntas.length; preguntaIndex++) {
+        const pregunta = categoria.preguntas[preguntaIndex];
+        const numeroPregunta = preguntaIndex + 1;
         
-        return tieneTexto && opcionesValidas && tieneRespuestasCorrectas;
-      })
-    );
+        // Validar que tenga texto
+        if (!pregunta.texto.trim()) {
+          alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" no tiene texto. Por favor escriba la pregunta.`);
+          return false;
+        }
+        
+        // Validaciones específicas para preguntas de opción múltiple
+        if (pregunta.tipoRespuesta === 'multiple') {
+          const opcionesConTexto = pregunta.opciones.filter(op => op.trim() !== '');
+          
+          // Validar que tenga al menos 2 opciones
+          if (opcionesConTexto.length < 2) {
+            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" necesita al menos 2 opciones. Actualmente tiene ${opcionesConTexto.length}.`);
+            return false;
+          }
+          
+          // Validar que tenga al menos una respuesta correcta
+          if (pregunta.respuestasCorrectas.length === 0) {
+            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" no tiene ninguna respuesta marcada como correcta. Por favor marca al menos una opción como correcta.`);
+            return false;
+          }
+          
+          // Validar que las respuestas correctas correspondan a opciones con texto
+          const respuestasIncorrectas = pregunta.respuestasCorrectas.filter(index => 
+            !pregunta.opciones[index] || pregunta.opciones[index].trim() === ''
+          );
+          
+          if (respuestasIncorrectas.length > 0) {
+            const letras = ['A', 'B', 'C', 'D'];
+            const opcionesVacias = respuestasIncorrectas.map(index => letras[index]).join(', ');
+            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" tiene opciones marcadas como correctas pero sin texto: ${opcionesVacias}. Complete el texto o desmarque estas opciones.`);
+            return false;
+          }
+        }
+      }
+    }
+    
+    return true;
   };
 
   const guardarEncuestaTemporal = async () => {
@@ -274,6 +349,8 @@ const CrearPregunta = () => {
           ☰
         </button>
       </div>
+
+      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
@@ -364,6 +441,19 @@ const CrearPregunta = () => {
                 <button 
                   onClick={agregarCategoria}
                   className='btn-pequeno'
+                  style={{
+                    backgroundColor: '#73a31d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '8px 16px',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                    fontFamily: 'Roboto'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
                 >
                   Agregar categoría
                 </button>
@@ -399,26 +489,44 @@ const CrearPregunta = () => {
                   onClick={() => eliminarCategoria(categoriaIndex)}
                   className='btn-eliminar'
                   style={{
-                    background: '#fa0505',
+                    background: '#dc3545',
                     color: 'white',
                     border: 'none',
                     borderRadius: '5px',
                     padding: '5px 10px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
                   }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
                 >
                   Eliminar categoría
                 </button>
               </div>
 
-              {categoria.preguntas.map((pregunta, preguntaIndex) => (
+              {categoria.preguntas.map((pregunta, preguntaIndex) => {
+                const preguntaId = pregunta.id || `${categoriaIndex}-${preguntaIndex}`;
+                const estaAnimando = preguntasAnimando.has(preguntaId);
+                
+                return (
                 <div key={preguntaIndex} className="pregunta-container" style={{ 
                   marginBottom: '30px',
                   padding: '15px',
                   backgroundColor: 'white',
                   borderRadius: '5px',
                   border: '1px solid #ddd',
-                  position: 'relative'
+                  position: 'relative',
+                  // Estilos de animación
+                  transform: estaAnimando ? 'scale(1.02) translateY(-5px)' : 'scale(1) translateY(0)',
+                  opacity: estaAnimando ? 1 : 1,
+                  boxShadow: estaAnimando ? 
+                    '0 10px 25px rgba(115, 163, 29, 0.3), 0 0 0 3px rgba(115, 163, 29, 0.1)' : 
+                    '0 2px 8px rgba(0,0,0,0.1)',
+                  transition: 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  animation: estaAnimando ? 'bounceIn 0.8s ease-out' : 'none',
+                  background: estaAnimando ? 
+                    'linear-gradient(145deg, #ffffff 0%, #f8fff8 50%, #ffffff 100%)' : 
+                    'white'
                 }}>
                   <button
                     onClick={() => eliminarPregunta(categoriaIndex, preguntaIndex)}
@@ -426,7 +534,7 @@ const CrearPregunta = () => {
                       position: 'absolute',
                       top: '10px',
                       right: '10px',
-                      background: '#fa0505',
+                      background: '#dc3545',
                       color: 'white',
                       border: 'none',
                       borderRadius: '50%',
@@ -435,8 +543,11 @@ const CrearPregunta = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
                     }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
                     title="Eliminar pregunta"
                   >
                     ×
@@ -453,84 +564,222 @@ const CrearPregunta = () => {
                     required
                   />
 
-                  <br />
-                  <h3 className='texto3'>Tipo de respuesta</h3>
-                  <div className="opciones-container" style={{ justifyContent: 'center', gap: '100px' }}>
-                    <div className="opcion-group">
-                      <label className='contenedor-radio'>
-                        <input 
-                          type="radio" 
-                          name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
-                          className="radio-original" 
-                          checked={pregunta.tipoRespuesta === 'multiple'}
-                          onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'multiple')}
-                        />
-                        <span className="radio-visual"></span>
-                        <span className="radio-texto">Respuesta de opción múltiple</span>
-                      </label>
+                  <div style={{ marginTop: '25px' }}>
+                    <h3 className='texto3' style={{ marginBottom: '20px', textAlign: 'left', marginLeft: '0' }}>Tipo de respuesta</h3>
+                    
+                    {/* Contenedor principal más organizado */}
+                    <div style={{ 
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '20px',
+                      marginLeft: '0'
+                    }}>
                       
-                      {pregunta.tipoRespuesta === 'multiple' && (
-                        <>
-                          <br />
-                          <div className="opciones-abcd">
+                      {/* Opción múltiple */}
+                      <div style={{
+                        padding: '15px',
+                        border: pregunta.tipoRespuesta === 'multiple' ? '2px solid #73a31d' : '2px solid #e9ecef',
+                        borderRadius: '10px',
+                        backgroundColor: pregunta.tipoRespuesta === 'multiple' ? '#f8fff8' : '#f8f9fa',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        <label className='contenedor-radio' style={{ marginBottom: '15px' }}>
+                          <input 
+                            type="radio" 
+                            name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
+                            className="radio-original" 
+                            checked={pregunta.tipoRespuesta === 'multiple'}
+                            onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'multiple')}
+                          />
+                          <span className="radio-visual"></span>
+                          <span className="radio-texto" style={{ fontWeight: 'bold', fontSize: '16px' }}>Respuesta de opción múltiple</span>
+                        </label>
+                        
+                        {pregunta.tipoRespuesta === 'multiple' && (
+                          <div style={{ marginTop: '15px', marginLeft: '0' }}>
                             {['A', 'B', 'C', 'D'].map((letra, opcionIndex) => (
-                              <div className="opcion-item" key={opcionIndex} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                                <span className="opcion-letra">{letra} </span>
+                              <div key={opcionIndex} style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '15px', 
+                                marginBottom: '12px',
+                                padding: '8px',
+                                backgroundColor: 'white',
+                                borderRadius: '8px',
+                                border: '1px solid #e9ecef'
+                              }}>
+                                <span className="opcion-letra" style={{
+                                  minWidth: '35px',
+                                  height: '35px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>{letra}</span>
                                 <input 
                                   type="text" 
                                   className="campo-opcion" 
                                   placeholder={`Escribe la opción ${letra}`}
                                   value={pregunta.opciones[opcionIndex]}
                                   onChange={(e) => cambiarOpcion(categoriaIndex, preguntaIndex, opcionIndex, e.target.value)}
-                                  style={{ flex: 1 }}
+                                  style={{ 
+                                    flex: 1,
+                                    padding: '10px',
+                                    border: '1px solid #73a31d',
+                                    borderRadius: '5px',
+                                    fontSize: '14px'
+                                  }}
                                 />
                                 {pregunta.opciones[opcionIndex] && (
-                                  <label className="respuesta-correcta-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                  <label className="respuesta-correcta-label" style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '8px',
+                                    minWidth: '90px',
+                                    fontSize: '14px',
+                                    fontWeight: '500'
+                                  }}>
                                     <input
                                       type="checkbox"
                                       checked={pregunta.respuestasCorrectas.includes(opcionIndex)}
                                       onChange={() => toggleRespuestaCorrecta(categoriaIndex, preguntaIndex, opcionIndex)}
+                                      style={{ 
+                                        width: '18px', 
+                                        height: '18px',
+                                        accentColor: '#73a31d'
+                                      }}
                                     />
                                     Correcta
                                   </label>
                                 )}
                               </div>
                             ))}
+                            
+                            {/* Indicador de validación en tiempo real */}
+                            {(() => {
+                              const opcionesConTexto = pregunta.opciones.filter(op => op.trim() !== '');
+                              const tieneRespuestasCorrectas = pregunta.respuestasCorrectas.length > 0;
+                              const opcionesMinimas = opcionesConTexto.length >= 2;
+                              
+                              if (!opcionesMinimas || !tieneRespuestasCorrectas) {
+                                return (
+                                  <div style={{
+                                    marginTop: '15px',
+                                    padding: '10px',
+                                    backgroundColor: '#fff3cd',
+                                    border: '1px solid #ffeaa7',
+                                    borderRadius: '8px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px'
+                                  }}>
+                                    <span style={{ fontSize: '18px' }}>⚠️</span>
+                                    <div style={{ fontSize: '14px', color: '#856404' }}>
+                                      {!opcionesMinimas && (
+                                        <div>• Necesitas al menos 2 opciones con texto ({opcionesConTexto.length}/2)</div>
+                                      )}
+                                      {!tieneRespuestasCorrectas && opcionesMinimas && (
+                                        <div>• <strong>Debes marcar al menos una opción como correcta</strong></div>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              }
+                              
+                              return (
+                                <div style={{
+                                  marginTop: '15px',
+                                  padding: '10px',
+                                  backgroundColor: '#d4edda',
+                                  border: '1px solid #c3e6cb',
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '10px'
+                                }}>
+                                  <span style={{ fontSize: '18px' }}>✅</span>
+                                  <div style={{ fontSize: '14px', color: '#155724', fontWeight: '500' }}>
+                                    Pregunta configurada correctamente
+                                  </div>
+                                </div>
+                              );
+                            })()}
                           </div>
-                        </>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className='contenedor-radio'>
-                        <input 
-                          type="radio" 
-                          name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
-                          className="radio-original" 
-                          checked={pregunta.tipoRespuesta === 'abierta'}
-                          onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'abierta')}
-                        />
-                        <span className="radio-visual"></span>
-                        <span className="radio-texto">Respuesta abierta</span>
-                      </label>
-                      {pregunta.tipoRespuesta === 'abierta' && (
-                        <input 
-                          type="text" 
-                          className='campo-respuesta' 
-                          placeholder="Campo para respuesta abierta" 
-                          style={{ marginLeft: '0', width: '100%' }} 
-                        />
-                      )}
+                        )}
+                      </div>
+                      
+                      {/* Respuesta abierta */}
+                      <div style={{
+                        padding: '15px',
+                        border: pregunta.tipoRespuesta === 'abierta' ? '2px solid #73a31d' : '2px solid #e9ecef',
+                        borderRadius: '10px',
+                        backgroundColor: pregunta.tipoRespuesta === 'abierta' ? '#f8fff8' : '#f8f9fa',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        <label className='contenedor-radio' style={{ marginBottom: '15px' }}>
+                          <input 
+                            type="radio" 
+                            name={`tipo-respuesta-${categoriaIndex}-${preguntaIndex}`} 
+                            className="radio-original" 
+                            checked={pregunta.tipoRespuesta === 'abierta'}
+                            onChange={() => cambiarTipoRespuesta(categoriaIndex, preguntaIndex, 'abierta')}
+                          />
+                          <span className="radio-visual"></span>
+                          <span className="radio-texto" style={{ fontWeight: 'bold', fontSize: '16px' }}>Respuesta abierta</span>
+                        </label>
+                        
+                        {pregunta.tipoRespuesta === 'abierta' && (
+                          <div style={{ marginTop: '15px' }}>
+                            <input 
+                              type="text" 
+                              className='campo-respuesta' 
+                              placeholder="Los participantes escribirán aquí su respuesta libre" 
+                              style={{ 
+                                marginLeft: '0', 
+                                width: '100%',
+                                padding: '12px',
+                                border: '1px solid #73a31d',
+                                borderRadius: '5px',
+                                backgroundColor: 'white',
+                                fontSize: '14px'
+                              }}
+                              disabled
+                            />
+                            <small style={{ 
+                              display: 'block', 
+                              marginTop: '5px', 
+                              color: '#6c757d',
+                              fontStyle: 'italic'
+                            }}>
+                              Campo de ejemplo - Los participantes podrán escribir libremente
+                            </small>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
 
               {categoria.preguntas.length < 4 && (
                 <button 
                   onClick={() => agregarPreguntaACategoria(categoriaIndex)}
                   className='btn-pequeno'
-                  style={{ marginLeft: '0', marginTop: '10px' }}
+                  style={{ 
+                    marginLeft: '0', 
+                    marginTop: '10px',
+                    backgroundColor: '#73a31d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '8px 16px',
+                    fontSize: '1.2rem',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                    fontFamily: 'Roboto'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
                 >
                   Agregar pregunta a esta categoría ({4 - categoria.preguntas.length} restantes)
                 </button>
@@ -543,6 +792,19 @@ const CrearPregunta = () => {
               <button 
                 onClick={() => setMostrarPreview(true)} 
                 className='btn-pequeno btn-pequeno-guardar'
+                style={{
+                  backgroundColor: '#73a31d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '5px',
+                  padding: '8px 16px',
+                  fontSize: '1.2rem',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s ease',
+                  fontFamily: 'Roboto'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
               >
                 Previsualizar Encuesta
               </button>
