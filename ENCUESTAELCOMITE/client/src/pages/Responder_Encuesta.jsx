@@ -305,7 +305,7 @@ const ResponderEncuesta = () => {
   }
 
   return (
-    <div className="encuesta-page-container">
+    <div>
       <title>Responder Encuesta</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
