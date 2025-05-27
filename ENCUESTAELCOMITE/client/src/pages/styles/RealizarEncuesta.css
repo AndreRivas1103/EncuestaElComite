@@ -1,11 +1,79 @@
 
 
+/* Reset para asegurar que no hay márgenes/padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
+.main-contenido2 {
+  background-color: #d3edff;
+  margin: 20px;
+  margin-top: 40px; /* Más espacio arriba del contenido */
+
+  padding: 40px;
+
+  min-height: calc(100vh - 200px);
+}
+
 .encuesta-page-container {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff; 
+  background-color: #d3edff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
+
+.header {
+  background-color: #1e3766;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.logo span {
+  color: #73a31d;
+}
+
+
+/* Ajuste para las migas de pan */
+.migadepan-container {
+  background-color: #d3edff;
+  padding: 15px 20px;
+  margin: 0;
+  margin-bottom: 30px; /* Espacio extra después de las migas de pan */
+}
+
+
 
 .encuesta-title {
   color: #000000;
@@ -24,7 +92,7 @@
   width: 90%;
   max-width: 800px;
   padding: 40px;
-  background-color: #d3edff;
+  background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
@@ -45,20 +113,52 @@
   color: #000000;
 }
 
+.btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  color: white;
+}
+
 .btn-encuesta {
   background-color: #73A31D;
-  padding: 12px 25px;
-  width: 200px;
+  width: 220px;
+  min-height: 50px;
+}
+
+.btn-encuesta:hover {
+  background-color: #5a8a0f;
+  transform: translateY(-2px);
 }
 
 .btn-salir {
   background-color: #73A31D;
-  width: 250px;
+  width: 280px;
+  min-height: 50px;
   margin: 30px auto;
+  display: block;
+}
+
+.btn-salir:hover {
+  background-color: #5a8a0f;
+  transform: translateY(-2px);
 }
 
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
+  .main-contenido {
+    margin: 10px;
+    padding: 20px;
+  }
+  
   .encuesta-options-container {
     flex-direction: column;
     gap: 20px;

@@ -3,6 +3,7 @@ import '../pages/styles/Home.css';
 import '../pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const TukiInicio = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -45,6 +46,8 @@ const TukiInicio = () => {
           ☰
         </button>
       </div>
+
+      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       {/* Sidebar */}
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>

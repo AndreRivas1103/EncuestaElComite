@@ -6,7 +6,7 @@ import MigaDePan from '../components/MigaDePan.jsx';
 
 const RealizarEncuesta = () => {
   return (
-    <div className="encuesta-page-container">
+    <div>
       <title>El Comité - Realizar Encuesta</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       
@@ -18,7 +18,7 @@ const RealizarEncuesta = () => {
       {/* Migas de Pan */}
       <MigaDePan />
       
-      <div className="main-contenido">
+      <div className="main-contenido2">
         <h1 className="encuesta-title">Realizar Encuesta</h1>
         
         <div className="encuesta-options-container">
