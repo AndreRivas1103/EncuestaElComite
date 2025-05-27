@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../pages/styles/ResponderEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const ResponderEncuesta = () => {
   const navigate = useNavigate();
@@ -312,6 +313,8 @@ const ResponderEncuesta = () => {
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </div>
+
+      <MigaDePan />
 
       <div className="encuesta-container">
         <button onClick={() => navigate('/realizar-encuesta')} className="btn-back">

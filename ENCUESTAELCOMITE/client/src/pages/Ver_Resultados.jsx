@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../pages/styles/VerResultados.css";
 import { Link } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
+import MigaDePan from "../components/MigaDePan.jsx";
 
 function CircularProgress({ value, size = 40, strokeWidth = 4 }) {
   const radius = (size - strokeWidth) / 2;
@@ -72,12 +73,16 @@ export default function VerResultados() {
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
-        <button 
-          className="toggle-sidebar-btn"
-          onClick={() => setSidebarVisible(!sidebarVisible)}
-        >
-          ☰
-        </button>
+      
+      {/* Migas de Pan */}
+      <MigaDePan />
+      
+      <button
+        className="toggle-sidebar-btn"
+        onClick={() => setSidebarVisible(!sidebarVisible)}
+      >
+        ☰
+      </button>
 
 
       <div className={`sidebar ${sidebarVisible ? 'visible' : 'hidden'}`}>

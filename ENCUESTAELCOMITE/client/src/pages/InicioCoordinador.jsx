@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
 import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
+import MigaDePan from "../components/MigaDePan.jsx";
 
 const Sidebar = ({ isVisible, onClose }) => {
   const navigate = useNavigate();
@@ -117,6 +118,8 @@ const InicioCoordinadorPrueba = () => {
           {sidebarVisible ? "✕" : "☰"}
         </button>
       </div>
+
+      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       <Sidebar
         isVisible={sidebarVisible}

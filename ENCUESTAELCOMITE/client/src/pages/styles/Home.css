@@ -439,6 +439,29 @@ body {
   text-align: center;
 }
 
+/* Contenedor para los botones horizontales */
+/* ===== ESTILOS ESPECÍFICOS DEL HOME ===== */
+.home-botones-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Estilos para contenedor de botones generales (otras páginas) */
+.botones-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  width: 100%;
+}
+
 .welcome-title {
   color: #000000;
   font-family: "Merriweather";
@@ -462,17 +485,18 @@ body {
 
 .mission-text {
   font-size: 1.8rem;
-  max-width: 800px;
+  max-width: 1200px;
   text-align: center;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 10px auto;
   line-height: 1.5;
   color: #000000;
   word-wrap: break-word;
   font-family: "Roboto";
 }
 
-.btn {
-  display: block;
+/* Botones específicos del Home */
+.home-btn {
+  display: inline-block;
   background-color: #73a31d;
   color: white;
   text-align: center;
@@ -481,17 +505,211 @@ body {
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: bold;
-  margin: 15px auto;
+  margin: 0;
   max-width: 400px;
-  width: 100%;
+  min-width: 250px;
   font-family: "Roboto";
   letter-spacing: 2px;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  flex: 0 1 auto;
+}
+
+/* Estilos específicos para botones dentro del contenedor horizontal del Home */
+.home-botones-container .home-btn {
+  flex: 1;
+  max-width: 300px;
+}
+
+.home-btn:hover {
+  background-color: #5a8a0f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para el botón de administrador del Home */
+.home-btn-admin {
+  display: inline-block;
+  background-color: #73a31d;
+  color: white;
+  text-align: center;
+  padding: 15px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  max-width: 350px;
+  min-width: 250px;
+  width: auto;
+  margin: 0;
+  flex: none;
+  font-family: "Roboto";
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.home-btn-admin:hover {
+  background-color: #5a8a0f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .admin-section {
   background-color: #d3edff;
   padding: 40px 20px;
+  margin-top: 20px;
+}
+
+/* ===== CARRUSEL DE FOTOS ===== */
+.carousel-section {
+  width: 100%;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-container {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: 1px solid #e9ecef;
+}
+
+.carousel-track {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  width: 33.333%;
+  height: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+  padding: 40px 30px 30px;
+  text-align: center;
+}
+
+.carousel-caption h3 {
+  font-family: "Merriweather";
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.carousel-caption p {
+  font-family: "Roboto";
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Controles del carrusel */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white ;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #1e3766;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn-prev {
+  left: 20px;
+}
+
+.carousel-btn-next {
+  right: 20px;
+}
+
+/* Indicadores */
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #1e3766;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.indicator.active {
+  background: #1e3766;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Contenedor para el botón de administrador centrado específico del Home */
+.home-admin-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Contenedor para el botón de administrador centrado (otras páginas) */
+.admin-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   margin-top: 20px;
 }
 
@@ -506,9 +724,9 @@ body {
 
 .admin-text {
   font-size: 1.8rem;
-  max-width: 700px;
+  max-width: 1200px;
   text-align: center;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 10px auto;
   line-height: 1.5;
   color: #000000;
   word-wrap: break-word;
@@ -536,6 +754,8 @@ body {
   .mission-text,
   .admin-text {
     font-size: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto 8px auto;
   }
 }
 
@@ -560,10 +780,21 @@ body {
     letter-spacing: 1px;
   }
 
-  .btn {
+  .home-btn {
     font-size: 1.2rem;
     padding: 12px 25px;
     max-width: 300px;
+  }
+
+  /* Botones verticales en tablets para el Home */
+  .home-botones-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .home-botones-container .home-btn {
+    max-width: 300px;
+    width: 100%;
   }
 
   .baby-logo {
@@ -572,6 +803,44 @@ body {
 
   .admin-section {
     padding: 30px 15px;
+  }
+
+  /* Carrusel responsivo para tablets */
+  .carousel-section {
+    padding: 30px 15px;
+  }
+
+  .carousel-container {
+    height: 300px;
+    max-width: 600px;
+  }
+
+  .carousel-caption h3 {
+    font-size: 1.5rem;
+  }
+
+  .carousel-caption p {
+    font-size: 1rem;
+  }
+
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .carousel-btn-prev {
+    left: 15px;
+  }
+
+  .carousel-btn-next {
+    right: 15px;
+  }
+
+  /* Botón de administrador responsivo para tablets en el Home */
+  .home-btn-admin {
+    max-width: 300px;
+    width: 100%;
   }
 }
 
@@ -587,15 +856,78 @@ body {
   .mission-text,
   .admin-text {
     font-size: 1.2rem;
+    max-width: 100%;
+    margin: 0 auto 8px auto;
   }
 
-  .btn {
+  .home-btn {
     font-size: 1rem;
     padding: 10px 20px;
   }
 
+  /* Botones verticales en móviles para el Home */
+  .home-botones-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .home-botones-container .home-btn {
+    max-width: 280px;
+    width: 100%;
+    min-width: auto;
+  }
+
   .admin-title {
     font-size: 1.8rem;
+  }
+
+  /* Carrusel responsivo para móviles */
+  .carousel-section {
+    padding: 20px 10px;
+  }
+
+  .carousel-container {
+    height: 250px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .carousel-caption {
+    padding: 20px 15px 15px;
+  }
+
+  .carousel-caption h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+
+  .carousel-caption p {
+    font-size: 0.9rem;
+  }
+
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .carousel-btn-prev {
+    left: 10px;
+  }
+
+  .carousel-btn-next {
+    right: 10px;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Botón de administrador responsivo para móviles en el Home */
+  .home-btn-admin {
+    max-width: 280px;
+    width: 100%;
   }
 
   .main-content,

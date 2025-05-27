@@ -10,7 +10,7 @@
 .campo-pregunta {
     width: 400px;
     padding: 10px;
-    border: 2px solid #1e3766;
+    border: 2px solid #73a31d;
     border-radius: 5px;
     font-size: 15px;
     outline: none;
@@ -64,17 +64,17 @@
     height: 25px;
     width: 25px;
     background-color: #eee;
-    border: 2px solid #1e3766;
+    border: 2px solid #73a31d;
     border-radius: 50%; 
 }
     
 .contenedor-radio:hover .radio-original ~ .radio-visual {
-    background-color: #1e3766;
+    background-color: #73a31d;
 }
     
 .radio-original:checked ~ .radio-visual {
-    background-color: #9ecd49;
-    border-color: #1e3766;
+    background-color: #73a31d;
+    border-color: #73a31d;
 }
     
 .radio-visual:after {
@@ -125,7 +125,7 @@
     align-items: center;
     width: 30px;
     height: 30px;
-    background-color: #1e3766;
+    background-color: #73a31d;
     color: white;
     border-radius: 50%;
     font-weight: bold;
@@ -134,7 +134,7 @@
 .campo-opcion {
     width: 300px;
     padding: 8px;
-    border: 2px solid #1e3766;
+    border: 2px solid #73a31d;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -142,7 +142,7 @@
 .campo-respuesta {
     width: 400px;
     padding: 10px;
-    border: 2px solid #1e3766;
+    border: 2px solid #73a31d;
     border-radius: 5px;
     font-size: 15px;
     outline: none;
@@ -204,7 +204,7 @@
 }
 
 .btn-eliminar {
-    background: #ff6b6b;
+    background: #dc3545;
     color: white;
     border: none;
     border-radius: 5px;
@@ -215,7 +215,7 @@
 }
 
 .btn-eliminar:hover {
-    background: #e05555;
+    background: #c82333;
 }
 /* Estilos para las respuestas correctas */
 .respuesta-correcta-label {
@@ -231,6 +231,7 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
+    accent-color: #73a31d;
   }
   
   .opcion-item {
@@ -248,7 +249,7 @@
   .campo-opcion {
     flex: 1;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 2px solid #73a31d;
     border-radius: 4px;
   }
   
@@ -260,4 +261,60 @@
     color: white;
     border-radius: 4px;
     font-size: 0.8rem;
+  }
+
+  /* Animaciones para agregar preguntas */
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translateY(-50px);
+    }
+    30% {
+      opacity: 0.8;
+      transform: scale(1.05) translateY(-10px);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(0.98) translateY(5px);
+    }
+    70% {
+      transform: scale(1.02) translateY(-2px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes slideInFromTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px) scale(0.95);
+    }
+    60% {
+      opacity: 0.8;
+      transform: translateY(5px) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    50% {
+      box-shadow: 0 8px 25px rgba(115, 163, 29, 0.3), 0 0 0 3px rgba(115, 163, 29, 0.1);
+    }
+  }
+
+  /* Clase para preguntas recién agregadas */
+  .pregunta-nueva {
+    animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .pregunta-nueva:hover {
+    transform: scale(1.02) translateY(-2px) !important;
   }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../pages/styles/RellenarDatos.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
+import MigaDePan from '../components/MigaDePan.jsx';
 
 const FormularioRegistro = () => {
   const navigate = useNavigate();
@@ -119,6 +120,9 @@ const FormularioRegistro = () => {
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
+
+      {/* Migas de Pan */}
+      <MigaDePan />
 
       <div className="form-container">
         <Link to="/realizar-encuesta" className="btn-back">
