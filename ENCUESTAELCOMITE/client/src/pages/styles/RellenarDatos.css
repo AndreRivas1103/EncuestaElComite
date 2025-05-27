@@ -7,14 +7,12 @@
   font-size: 3.5rem;
   text-decoration: none;
   color: white;
-  font-family: 'Recoleta', serif;
+  font-family: "Recoleta", serif;
 }
 
 .logo span {
   color: #8cc63f;
 }
-
-
 
 .form-container {
   background-color: #d3edff;
@@ -48,10 +46,9 @@
   margin: 0 auto;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
   padding: 20px;
-
 }
 
 .logo-container {
@@ -79,7 +76,7 @@
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 1rem;
   color: #000;
   align-items: center;
@@ -92,13 +89,13 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   background-color: #fff;
 }
 
 .form-input.error {
   border-color: #ff3d3d;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .error-text {
@@ -106,14 +103,13 @@
   font-size: 0.875rem;
   margin-top: 5px;
   display: block;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .checkbox-group {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .checkbox-input {
@@ -125,22 +121,19 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  text-align: center
+  text-align: center;
 }
 
 .terms-text {
-  font-family: 'Roboto';
-  color: #1E3766;
+  font-family: "Roboto";
+  color: #1e3766;
   text-decoration: underline;
   font-weight: bold;
 }
 
-
-
-
 .btn-siguiente {
   display: block;
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
   align-items: center;
   text-align: center;
@@ -154,16 +147,25 @@
   max-width: 200px;
   width: 100%;
   margin: 0 auto; /* Centra el botón horizontalmente */
-  font-family: 'Roboto';
+  font-family: "Roboto";
   letter-spacing: 2px;
   transition: all 0.3s;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .btn-siguiente:hover {
   background-color: #5a8a0f;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.migadepan-container {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.migadepan-container + .form-container {
+  padding-top: 15px;
 }
 
 /* Media Queries para responsividad */
@@ -186,6 +188,14 @@
     left: 10px;
     width: 35px;
     height: 35px;
+  }
+
+  .migadepan-container {
+    padding: 8px 10px;
+  }
+
+  .migadepan-container .migadepan {
+    font-size: 0.8rem;
   }
 }
 
@@ -225,8 +235,14 @@
 }
 
 @keyframes dot-pulse {
-  0%, 80%, 100% { opacity: 0.3; }
-  40% { opacity: 1; }
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 
 .success-message-global {

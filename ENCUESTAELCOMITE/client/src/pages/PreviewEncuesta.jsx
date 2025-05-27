@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Pages/styles/Home.css';
-import '../Pages/styles/PreviewEncuesta.css';
+import '../pages/styles/Home.css';
+import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }) => {

@@ -22,7 +22,8 @@
 }
 
 /* Reset y estilos base */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   background-color: var(--color-background);
@@ -73,11 +74,11 @@ body, html {
 
 /* Botones principales */
 .contenedor-botones {
-  display: flex; 
+  display: flex;
   gap: 120px;
-  justify-content: center;  
-  margin-top: 40px;  
-  flex-direction: row;  
+  justify-content: center;
+  margin-top: 40px;
+  flex-direction: row;
 }
 
 .boton {
@@ -100,24 +101,24 @@ body, html {
 /* Botones laterales */
 .botones-izquierda,
 .botones-derecha {
-  position: absolute; 
-  top: 20px; 
+  position: absolute;
+  top: 20px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 20px;
 }
 
 .botones-izquierda {
-  left: 20px; 
+  left: 20px;
 }
 
 .botones-derecha {
-  right: 20px; 
+  right: 20px;
 }
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: var(--color-primary); 
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: 5px;
@@ -128,25 +129,42 @@ body, html {
 }
 
 .btn-pequeno:hover {
-  background: var(--color-secondary); 
+  background: var(--color-secondary);
 }
 
-/* Responsive */
+.app-container .migadepan-container {
+  background-color: transparent;
+  border-bottom: none;
+  padding: 10px 20px 0;
+}
+
+.migadepan-container + .main-content {
+  padding-top: 15px;
+}
+
 @media (max-width: 768px) {
+  .app-container .migadepan-container {
+    padding: 8px 15px 0;
+  }
+
+  .migadepan-container + .firtsColor {
+    margin-top: 15px;
+  }
+
   .main-content {
     margin-left: 70px;
   }
-  
+
   .firtsColor {
     margin: 20px 20px 20px 10px;
     padding: 80px 20px;
   }
-  
+
   .contenedor-botones {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .boton {
     width: 100%;
     padding: 20px 40px;

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../Pages/styles/calendario.css';
-import '../Pages/styles/home.css';
+import '../pages/styles/Calendario.css';
+import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 

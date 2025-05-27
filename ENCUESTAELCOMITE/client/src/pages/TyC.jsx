@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Pages/styles/TyC.css'; // Importamos el CSS correspondiente
+import '../pages/styles/TyC.css'; // Importamos el CSS correspondiente
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link, useNavigate } from 'react-router-dom';
 

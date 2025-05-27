@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import '../Pages/styles/Home.css';
-import '../Pages/styles/CreacionPreguntas.css';
-import '../Pages/styles/PreviewEncuesta.css';
+import '../pages/styles/Home.css';
+import '../pages/styles/CreacionPreguntas.css';
+import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 

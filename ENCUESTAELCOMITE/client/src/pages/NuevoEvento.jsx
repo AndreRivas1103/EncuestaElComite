@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import '../Pages/styles/Home.css';
+import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 
 const NuevoEvento = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Pages/styles/Home.css';
+import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 

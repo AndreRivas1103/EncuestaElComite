@@ -1,38 +1,38 @@
 /* ===== FUENTES ===== */
 @font-face {
-  font-family: 'Recoleta';
-  src: url('../../assets/fonts/Recoleta-Bold.ttf') format('truetype');
+  font-family: "Recoleta";
+  src: url("../../assets/fonts/Recoleta-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Roboto';
-  src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Medium.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Merriweather';
-  src: url('../../assets/fonts/Merriweather_24pt-Medium.ttf') format('truetype');
+  font-family: "Merriweather";
+  src: url("../../assets/fonts/Merriweather_24pt-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gloock';
-  src: url('fonts/glock.ttf') format('truetype');
+  font-family: "Gloock";
+  src: url("fonts/glock.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Yeseva';
-  src: url('fonts/yeseva.ttf') format('truetype');
+  font-family: "Yeseva";
+  src: url("fonts/yeseva.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -44,11 +44,12 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   background-color: #ffffff;
-  font-family: 'Yeseva', cursive;
+  font-family: "Yeseva", cursive;
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -63,7 +64,10 @@ body, html {
 }
 
 /* ===== ESTRUCTURA PRINCIPAL ===== */
-.header, .blue-header, .navbar, .navbar-coordinador {
+.header,
+.blue-header,
+.navbar,
+.navbar-coordinador {
   background-color: #1e3766;
   color: white;
   padding: 20px;
@@ -83,14 +87,16 @@ body, html {
   font-size: 3.5rem;
   text-decoration: none !important;
   color: white;
-  font-family: 'Recoleta';
+  font-family: "Recoleta";
 }
 
 .logo span {
   color: #8cc63f;
 }
 
-.main-content, .main-contenido, .main-content-coordinador {
+.main-content,
+.main-contenido,
+.main-content-coordinador {
   padding: 25px;
   background-color: white;
   display: flex;
@@ -107,7 +113,7 @@ body, html {
 
 /* ===== TIPOGRAFÍA Y TÍTULOS ===== */
 .title-large {
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
   font-size: 4rem;
   margin-bottom: 20px;
   text-align: center;
@@ -116,7 +122,7 @@ body, html {
 }
 
 .title-medium {
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
   font-size: 3.5rem;
   margin-bottom: 10px;
   text-align: center;
@@ -124,7 +130,7 @@ body, html {
 }
 
 .title-small {
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
   font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;
@@ -133,7 +139,7 @@ body, html {
 }
 
 .subtitle {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 1.8rem;
   max-width: 800px;
   text-align: center;
@@ -144,9 +150,13 @@ body, html {
 }
 
 /* ===== BOTONES ===== */
-.btn, .boton, .btn-encuesta, .login-btn, .boton-ver-encuesta {
+.btn,
+.boton,
+.btn-encuesta,
+.login-btn,
+.boton-ver-encuesta {
   display: block;
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
   text-align: center;
   padding: 15px 30px;
@@ -157,24 +167,27 @@ body, html {
   margin: 15px auto;
   max-width: 400px;
   width: 100%;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   letter-spacing: 2px;
   transition: all 0.3s;
   cursor: pointer;
   border: none;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.btn:hover, .boton:hover, .btn-encuesta:hover, 
-.login-btn:hover, .boton-ver-encuesta:hover {
+.btn:hover,
+.boton:hover,
+.btn-encuesta:hover,
+.login-btn:hover,
+.boton-ver-encuesta:hover {
   background-color: #5a8a0f;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-pequeno {
   padding: 8px 16px;
-  background: #73A31D;
+  background: #73a31d;
   color: white;
   border: none;
   border-radius: 5px;
@@ -196,7 +209,9 @@ body, html {
   margin-top: 40px;
 }
 
-.botones-izquierda, .botones-derecha, .sidebar-buttons {
+.botones-izquierda,
+.botones-derecha,
+.sidebar-buttons {
   position: absolute;
   left: 20px;
   top: 20px;
@@ -225,26 +240,26 @@ body, html {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Gloock';
+  font-family: "Gloock";
 }
 
 .login-box {
-  background-color: #D3EDFF;
+  background-color: #d3edff;
   width: 90%;
   max-width: 1000px;
   margin: 60px auto;
   padding: 180px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-input {
   padding: 12px;
   margin-bottom: 20px;
-  border: 2px solid #1E3766;
+  border: 2px solid #1e3766;
   border-radius: 5px;
   font-size: 1.1rem;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .login-input::placeholder {
@@ -252,7 +267,7 @@ body, html {
   color: #777777;
   letter-spacing: 1px;
   font-size: 1.5rem;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 /* ===== ENCUESTAS ===== */
@@ -267,8 +282,8 @@ body, html {
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  font-family: 'Roboto';
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto";
 }
 
 .resultados-container {
@@ -281,13 +296,15 @@ body, html {
 
 /* ===== MEDIA QUERIES ===== */
 @media (max-width: 1200px) {
-  .logo, .title-large {
+  .logo,
+  .title-large {
     font-size: 3rem;
   }
 }
 
 @media (max-width: 992px) {
-  .logo, .title-large {
+  .logo,
+  .title-large {
     font-size: 2.5rem;
   }
   .subtitle {
@@ -301,73 +318,83 @@ body, html {
     text-align: center;
     padding: 20px;
   }
-  
+
   .header-logo {
     width: 120px;
     margin-top: 15px;
   }
-  
-  .logo, .title-large {
+
+  .logo,
+  .title-large {
     font-size: 2.2rem;
   }
-  
-  .btn, .boton, .btn-encuesta, .login-btn, .boton-ver-encuesta {
-    font-size: 1.2rem;
+
+  .btn,
+  .boton,
+  .btn-encuesta,
+  .login-btn,
+  .boton-ver-encuesta {
+    font-size: 1.5rem;
     padding: 12px 25px;
-    max-width: 300px;
   }
-  
+
   .login-box {
     padding: 30px 15px;
     margin: 20px auto;
   }
-  
+
   .firtsColor {
     margin: 20px;
     padding: 80px 20px;
   }
-  
+
   .contenedor-botones {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .boton {
     width: 100%;
   }
 }
 
 @media (max-width: 576px) {
-  .logo, .title-large {
+  .logo,
+  .title-large {
     font-size: 1.8rem;
   }
-  
+
   .title-medium {
     font-size: 1.6rem;
   }
-  
+
   .subtitle {
     font-size: 1.2rem;
   }
-  
-  .btn, .boton, .btn-encuesta, .login-btn, .boton-ver-encuesta {
+
+  .btn,
+  .boton,
+  .btn-encuesta,
+  .login-btn,
+  .boton-ver-encuesta {
     font-size: 1rem;
     padding: 10px 20px;
   }
-  
-  .main-content, .admin-section {
+
+  .main-content,
+  .admin-section {
     padding: 15px 10px;
   }
 }
 
 body {
-  font-family: 'Yeseva One', cursive;
+  font-family: "Yeseva One", cursive;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
 .header {
-  background-color: #1E3766;
+  background-color: #1e3766;
   padding: 10px 20px;
   color: white;
   display: flex;
@@ -387,7 +414,7 @@ body {
   font-size: 3.5rem;
   text-decoration: none;
   color: white;
-  font-family: 'Recoleta';
+  font-family: "Recoleta";
 }
 
 .logo span {
@@ -414,13 +441,12 @@ body {
 
 .welcome-title {
   color: #000000;
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
   font-size: 3.5rem;
   margin-bottom: 10px;
   text-align: center;
   width: 100%;
   align-items: center;
-  
 }
 
 .welcome-title span {
@@ -442,12 +468,12 @@ body {
   line-height: 1.5;
   color: #000000;
   word-wrap: break-word;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .btn {
   display: block;
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
   text-align: center;
   padding: 15px 30px;
@@ -458,13 +484,13 @@ body {
   margin: 15px auto;
   max-width: 400px;
   width: 100%;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   letter-spacing: 2px;
   transition: background-color 0.3s;
 }
 
 .admin-section {
-  background-color: #D3EDFF;
+  background-color: #d3edff;
   padding: 40px 20px;
   margin-top: 20px;
 }
@@ -474,7 +500,7 @@ body {
   text-align: center;
   margin-bottom: 10px;
   color: #000000;
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
   letter-spacing: 2px;
 }
 
@@ -486,91 +512,95 @@ body {
   line-height: 1.5;
   color: #000000;
   word-wrap: break-word;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 /* Media Queries Responsive */
 @media (max-width: 1200px) {
   .logo {
-      font-size: 3rem;
+    font-size: 3rem;
   }
   .welcome-title {
-      font-size: 3rem;
+    font-size: 3rem;
   }
 }
 
 @media (max-width: 992px) {
   .logo {
-      font-size: 2.5rem;
+    font-size: 2.5rem;
   }
-  .welcome-title, .admin-title {
-      font-size: 2.5rem;
+  .welcome-title,
+  .admin-title {
+    font-size: 2.5rem;
   }
-  .mission-text, .admin-text {
-      font-size: 1.5rem;
+  .mission-text,
+  .admin-text {
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   .header {
-      flex-direction: column;
-      text-align: center;
-      padding: 20px;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
   }
-  
+
   .header-logo {
-      margin-top: 15px;
-      width: 120px;
+    margin-top: 15px;
+    width: 120px;
   }
-  
+
   .logo {
-      font-size: 2.2rem;
+    font-size: 2.2rem;
   }
-  
+
   .welcome-title {
-      font-size: 2rem;
-      letter-spacing: 1px;
+    font-size: 2rem;
+    letter-spacing: 1px;
   }
-  
+
   .btn {
-      font-size: 1.2rem;
-      padding: 12px 25px;
-      max-width: 300px;
+    font-size: 1.2rem;
+    padding: 12px 25px;
+    max-width: 300px;
   }
-  
+
   .baby-logo {
-      width: 120px;
+    width: 120px;
   }
-  
+
   .admin-section {
-      padding: 30px 15px;
+    padding: 30px 15px;
   }
 }
 
 @media (max-width: 576px) {
   .logo {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
-  
+
   .welcome-title {
-      font-size: 1.6rem;
+    font-size: 1.6rem;
   }
-  
-  .mission-text, .admin-text {
-      font-size: 1.2rem;
+
+  .mission-text,
+  .admin-text {
+    font-size: 1.2rem;
   }
-  
+
   .btn {
-      font-size: 1rem;
-      padding: 10px 20px;
+    font-size: 1rem;
+    padding: 10px 20px;
   }
-  
+
   .admin-title {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
-  
-  .main-content, .admin-section {
-      padding: 15px 10px;
+
+  .main-content,
+  .admin-section {
+    padding: 15px 10px;
   }
 }
 
@@ -579,25 +609,24 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Gloock'; /* Tipografía única */
-
+  font-family: "Gloock"; /* Tipografía única */
 }
 
 .blue-header {
-  background-color: #1E3766; /* Azul oscuro */
+  background-color: #1e3766; /* Azul oscuro */
   color: white;
   padding: 20px;
   width: 100%;
 }
 
 .login-box {
-  background-color: #D3EDFF; /* Azul claro */
+  background-color: #d3edff; /* Azul claro */
   width: 90%;
   max-width: 1000px;
   margin: 60px auto;
   padding: 180px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-title {
@@ -609,7 +638,7 @@ body {
   font-size: 3rem;
   margin-bottom: 30px;
   text-align: center;
-  font-family: 'Merriweather';
+  font-family: "Merriweather";
 }
 
 .login-form {
@@ -621,10 +650,10 @@ body {
 .login-input {
   padding: 12px;
   margin-bottom: 20px;
-  border: 2px solid #1E3766;
+  border: 2px solid #1e3766;
   border-radius: 5px;
   font-size: 1.1rem;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .login-input::placeholder {
@@ -632,12 +661,12 @@ body {
   color: #777777;
   letter-spacing: 1px;
   font-size: 1.5rem;
-  font-family: 'Roboto'; /* Tipografía única */
-  letter-spacing: 1px
+  font-family: "Roboto"; /* Tipografía única */
+  letter-spacing: 1px;
 }
 
 .login-btn {
-  background-color: #73A31D;
+  background-color: #73a31d;
   color: white;
   border: none;
   padding: 15px;
@@ -645,104 +674,138 @@ body {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
-  font-family: 'Roboto'; /* Tipografía única */
+  font-family: "Roboto"; /* Tipografía única */
   letter-spacing: 2px;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .forgot-link {
-  color: #1E3766;
+  color: #1e3766;
   text-align: center;
   margin-top: 15px;
   text-decoration: none;
   font-size: 1.3rem;
-  font-family: 'Roboto'; /* Tipografía única */
-
+  font-family: "Roboto"; /* Tipografía única */
 }
 
 @media (max-width: 768px) {
   .header {
-      flex-direction: column;
-      text-align: center;
-      padding: 15px;
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
   }
-  
+
   .logo {
-      margin-bottom: 15px;
-      font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
   }
-  
+
   .header-logo {
-      width: 120px;
+    width: 120px;
   }
-  
+
   .login-box {
-      margin: 20px auto;
-      padding: 30px 15px;
+    margin: 20px auto;
+    padding: 30px 15px;
   }
-  
+
   .login-subtitle {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
-  
+
   .login-input::placeholder {
-      font-size: 1rem;
+    font-size: 1rem;
   }
-  
+
   .login-btn {
-      font-size: 1.1rem;
-      padding: 12px;
+    font-size: 1.1rem;
+    padding: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .login-subtitle {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
-  
+
   .login-input {
-      padding: 10px;
-      font-size: 1rem;
+    padding: 10px;
+    font-size: 1rem;
   }
-  
+
   .login-input::placeholder {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
-  
+
   .login-btn {
-      font-size: 1rem;
-      padding: 10px;
+    font-size: 1rem;
+    padding: 10px;
   }
-  
+
   .forgot-link {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 }
 
-body, html{
+body,
+html {
   margin: 0;
   padding: 0;
   background-color: #ffffff;
 }
 
-
 /* Contacto*/
 
-.text-contact{
-    font-size: 1.8rem;
-    max-width: 700px;
-    text-align: center;
-    margin: 0 auto 30px auto;
-    line-height: 1.5;
-    color: #000000;
-    word-wrap: break-word;
-    font-family: 'Roboto';
+.text-contact {
+  font-size: 1.8rem;
+  max-width: 700px;
+  text-align: center;
+  margin: 0 auto 30px auto;
+  line-height: 1.5;
+  color: #000000;
+  word-wrap: break-word;
+  font-family: "Roboto";
+}
+.title-small-contacto {
+  font-family: "Merriweather";
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #9ecd49;
+  letter-spacing: 2px;
+}
+
+/* Estilos para componentes adicionales */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-with-migadepan {
+  padding-top: 0.5rem;
+}
+
+/* Ajustes responsivos generales */
+@media (max-width: 768px) {
+  .title-large {
+    font-size: 3rem;
   }
-  .title-small-contacto {
-    font-family: 'Merriweather';
-    font-size: 2rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color:#9ecd49 ;
-    letter-spacing: 2px;
+
+  .title-medium {
+    font-size: 2.5rem;
   }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+
+  .btn,
+  .boton,
+  .btn-encuesta,
+  .login-btn,
+  .boton-ver-encuesta {
+    font-size: 1.5rem;
+    padding: 12px 25px;
+  }
+}
