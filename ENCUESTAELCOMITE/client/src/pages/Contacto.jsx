@@ -17,6 +17,14 @@ const Contacto = () => {
       
       {/* Migas de Pan */}
       <MigaDePan />
+
+      <button
+        className="btn-back"
+        style={{margin: '20px auto 0', display: 'block'}}
+        onClick={() => window.history.back()}
+      >
+        ← Volver
+      </button>
       
       <div className="main-contenido">
         <h1 className="contacto-title">Contacto</h1>
