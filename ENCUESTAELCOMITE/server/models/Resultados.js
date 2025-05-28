@@ -3,41 +3,36 @@ import sequelize from '../db/connection.js';
 
 const Resultado = sequelize.define('Resultado', {
   id_encuesta: {
-    type: DataTypes.STRING(50),  // VARCHAR(50)
-    primaryKey: true,
-    allowNull: false
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    primaryKey: true
   },
   correo_voluntario: {
-    type: DataTypes.STRING(255), // VARCHAR(255)
-    primaryKey: true,
+    type: DataTypes.STRING(255),
     allowNull: false,
+    primaryKey: true,
     references: {
       model: 'voluntarios',
       key: 'correo_electronico'
     }
   },
+  tipo: {
+    type: DataTypes.ENUM('pre', 'post'),
+    allowNull: false,
+    primaryKey: true
+  },
   contraseña: {
-    type: DataTypes.STRING(255), // VARCHAR(255)
-    primaryKey: true,
-    allowNull: false
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    primaryKey: true
   },
   resultado: {
     type: DataTypes.JSONB,
     allowNull: true
-  },
-  tipo: {
-    type: DataTypes.ENUM('pre', 'post'),
-    allowNull: false
   }
 }, {
   tableName: 'resultados',
-  timestamps: false,
-  indexes: [
-    {
-      unique: true,
-      fields: ['id_encuesta', 'correo_voluntario', 'contraseña']
-    }
-  ]
+  timestamps: false
 });
 
 // Métodos personalizados
