@@ -38,12 +38,13 @@ app.get('/', (req, res) => {
         registrar: 'POST /api/voluntarios',
         actualizar: 'PUT /api/voluntarios/:correo',
         verificar: 'POST /api/voluntarios/verificar',
+        verificarCredenciales: 'POST /api/voluntarios/verificar-credenciales', // Nueva documentación
         actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento'
       },
       resultados: {
         guardar: 'POST /api/resultados',
         obtenerPorCorreo: 'GET /api/voluntarios/:correo/resultados',
-        obtenerPorCredenciales: 'POST /api/resultados/credenciales' // Nueva documentación
+        obtenerPorCredenciales: 'POST /api/resultados/credenciales'
       }
     }
   });
@@ -80,12 +81,15 @@ app.listen(PORT, () => {
   console.log(`🔗 Endpoints disponibles:`);
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
+  console.log(`   - Verificar voluntario: POST http://localhost:${PORT}/api/voluntarios/verificar`);
+  console.log(`   - Verificar credenciales: POST http://localhost:${PORT}/api/voluntarios/verificar-credenciales`); // Nuevo endpoint
+  console.log(`   - Actualizar pre-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-pre-evento`);
   console.log(`   - Listar encuestas: GET http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Encuesta activa: GET http://localhost:${PORT}/api/encuestas/activa`);
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Guardar resultados: POST http://localhost:${PORT}/api/resultados`);
   console.log(`   - Obtener resultados por correo: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`);
-  console.log(`   - Obtener resultados por credenciales: POST http://localhost:${PORT}/api/resultados/credenciales`); // Nuevo endpoint
+  console.log(`   - Obtener resultados por credenciales: POST http://localhost:${PORT}/api/resultados/credenciales`);
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
   console.log(`Proyecto ElComité 🙊`);
 });

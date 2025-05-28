@@ -174,3 +174,46 @@ export const actualizarPreEvento = async (req, res) => {
     });
   }
 };
+export const verificarCredenciales = async (req, res) => {
+  try {
+    const { correo, identificacion } = req.body;
+    
+    // Validación básica
+    if (!correo || !identificacion) {
+      return res.status(400).json({
+        error: 'Datos incompletos',
+        details: 'Se requieren correo y número de identificación'
+      });
+    }
+
+    const voluntario = await Voluntario.findOne({
+      where: {
+        correo_electronico: correo,
+        numero_identificacion: identificacion
+      },
+      attributes: ['correo_electronico', 'nombre_completo', 'numero_identificacion']
+    });
+
+    if (!voluntario) {
+      return res.status(404).json({
+        error: 'Credenciales inválidas',
+        details: 'No se encontró un voluntario con ese correo y número de identificación'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        correo: voluntario.correo_electronico,
+        nombre: voluntario.nombre_completo,
+        identificacion: voluntario.numero_identificacion
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error en la verificación',
+      details: error.message
+    });
+  }
+};
