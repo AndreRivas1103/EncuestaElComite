@@ -122,16 +122,18 @@ const RegistroEncuesta = () => {
       <p>Cargando encuestas...</p>
     </div>
   ) : encuestas.length > 0 ? (
-    encuestas.map((encuesta) => (
-      <Link
-        key={encuesta.id}
-        to={`/info-encuesta/${encuesta.id}`}
-        className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
-      >
-        <span className="registro-encuesta-id">{encuesta.id}</span>
-        <span className="registro-encuesta-estado">{encuesta.estado}</span>
-      </Link>
-    ))
+    <div className="registro-encuesta-grid">
+      {encuestas.map((encuesta) => (
+        <Link
+          key={encuesta.id}
+          to={`/info-encuesta/${encuesta.id}`}
+          className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
+        >
+          <span className="registro-encuesta-id">{encuesta.id}</span>
+          <span className="registro-encuesta-estado">{encuesta.estado}</span>
+        </Link>
+      ))}
+    </div>
   ) : (
     <div className="registro-encuesta-vacio">
       <p>No se encontraron encuestas registradas</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../pages/styles/RellenarDatos.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
@@ -18,6 +18,32 @@ const FormularioRegistro = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [terminosAceptadosAutomaticamente, setTerminosAceptadosAutomaticamente] = useState(false);
+
+  // useEffect para verificar si los términos fueron aceptados previamente
+  useEffect(() => {
+    const terminosAceptados = localStorage.getItem('terminosAceptados');
+    const fechaAceptacion = localStorage.getItem('fechaAceptacionTerminos');
+    
+    if (terminosAceptados === 'true' && fechaAceptacion) {
+      // Verificar que la aceptación no sea muy antigua (opcional: 24 horas)
+      const fechaAceptacionDate = new Date(fechaAceptacion);
+      const ahora = new Date();
+      const diferenciaHoras = (ahora - fechaAceptacionDate) / (1000 * 60 * 60);
+      
+      if (diferenciaHoras <= 24) { // Válido por 24 horas
+        setFormData(prevData => ({
+          ...prevData,
+          aceptaTerminos: true
+        }));
+        setTerminosAceptadosAutomaticamente(true);
+      } else {
+        // Limpiar términos expirados
+        localStorage.removeItem('terminosAceptados');
+        localStorage.removeItem('fechaAceptacionTerminos');
+      }
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,6 +51,13 @@ const FormularioRegistro = () => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+
+    // Si el usuario desmarca manualmente los términos, actualizar el estado
+    if (name === 'aceptaTerminos' && !checked) {
+      setTerminosAceptadosAutomaticamente(false);
+      localStorage.removeItem('terminosAceptados');
+      localStorage.removeItem('fechaAceptacionTerminos');
+    }
   };
 
   const validateForm = () => {
@@ -89,6 +122,10 @@ const FormularioRegistro = () => {
 
       setSuccessMessage('Registro exitoso! Redirigiendo...');
       
+      // Limpiar términos después del registro exitoso
+      localStorage.removeItem('terminosAceptados');
+      localStorage.removeItem('fechaAceptacionTerminos');
+      
       // Redirección después de 1.5 segundos
       setTimeout(() => {
         navigate(`/responder-encuesta?correo=${encodeURIComponent(formData.correoElectronico)}`);
@@ -135,6 +172,12 @@ const FormularioRegistro = () => {
         <div className="form-content">
           <div className='main-content'>
             <div className="registro-form">
+              {terminosAceptadosAutomaticamente && (
+                <div className="terminos-aceptados-mensaje">
+                  ✅ Términos y condiciones aceptados
+                </div>
+              )}
+              
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <h1 className="encuesta-title">Rellena Datos</h1>
@@ -190,10 +233,13 @@ const FormularioRegistro = () => {
                       name="aceptaTerminos"
                       checked={formData.aceptaTerminos}
                       onChange={handleChange}
-                      className="checkbox-input"
+                      className={`checkbox-input ${terminosAceptadosAutomaticamente ? 'auto-checked' : ''}`}
                     />
                     <label htmlFor="aceptaTerminos" className="checkbox-label">
-                      <Link to="/terminos-y-condiciones" className="terms-text">Acepto los Términos y Condiciones</Link>
+                      <Link to="/terminos-y-condiciones" className="terms-text">
+                        Acepto los Términos y Condiciones
+                        {terminosAceptadosAutomaticamente && <span className="auto-check-indicator"> </span>}
+                      </Link>
                     </label>
                     {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
                   </div>

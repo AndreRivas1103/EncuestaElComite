@@ -1,11 +1,4 @@
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background-color: #d3edff;
-  font-family: "Yeseva", sans-serif;
-}
-
+/* ===== FUENTES ===== */
 @font-face {
   font-family: "Glock";
   src: url("fonts/glock.ttf") format("truetype");
@@ -20,42 +13,69 @@ html {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Medium.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== RESET Y ESTILOS BASE ===== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #d3edff;
+  font-family: "Yeseva", sans-serif;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
 .app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.firtsColor {
-  background-color: #d3edff;
-  padding: 20px;
-  position: relative;
-  min-height: calc(100vh - 80px);
-}
-
-.barra-porcentajes {
-  padding: auto;
-  background-color: #ffffff;
-  position: relative;
-  border-radius: 5px;
-}
-
-.btn-back {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #000;
+/* ===== HEADER ===== */
+.header {
+  background-color: #1e3766;
   color: white;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  padding: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  text-decoration: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 100;
 }
 
+.header-ver-resultados {
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-family: "Recoleta", serif;
+}
+
+.header-logo {
+  width: 150px;
+  height: auto;
+  max-width: 100%;
+}
+
+.logo {
+  font-size: 3.5rem;
+  text-decoration: none !important;
+  color: white;
+  font-family: "Recoleta";
+}
+
+.logo span {
+  color: #8cc63f;
+}
+
+/* ===== COLORES DE TEXTO ===== */
 .blanco {
   color: #ffffff;
   font-family: "Recoleta";
@@ -68,126 +88,245 @@ html {
   font-size: 2rem;
 }
 
-.botones-izquierda {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 2;
-}
-
-.btn-pequeno {
-  padding: 8px 16px;
-  background: #1e3766;
+/* ===== BOTÓN TOGGLE SIDEBAR (ÚNICO PARA VER RESULTADOS) ===== */
+.toggle-sidebar-btn {
+  position: fixed;
+  left: 15px;
+  top: 15px;
+  background: linear-gradient(135deg, #1e3766 0%, #2c4a7a 100%);
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 20px;
   cursor: pointer;
-  transition: background 0.3s;
-  font-family: "Roboto";
+  padding: 10px 15px;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(30, 55, 102, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-pequeno:hover {
-  background: #9ecd49;
+.toggle-sidebar-btn:hover {
+  background: linear-gradient(135deg, #9ecd49 0%, #8bbc38 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(158, 205, 73, 0.4);
 }
 
-.logo-container {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  z-index: 1;
+.toggle-sidebar-btn:active {
+  transform: translateY(0);
 }
 
-.header-ver-resultados {
-  padding: 20px;
-  text-align: center;
-  margin: 0 auto;
-  font-size: 2.5rem;
-}
-
+/* ===== SIDEBAR ÚNICO PARA VER RESULTADOS ===== */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
-  width: 250px;
-  background-color: #1e3766;
-  color: #d3edff;
-  padding: 20px;
+  width: 280px;
+  background: linear-gradient(180deg, #1e3766 0%, #16295a 100%);
+  color: #ffffff;
+  padding: 0;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1000;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  border-right: 3px solid #9ecd49;
 }
 
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+/* ===== BOTÓN CERRAR SIDEBAR ===== */
+.close-sidebar-btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1002;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-sidebar-btn:hover {
+  background: rgba(158, 205, 73, 0.2);
+  color: #9ecd49;
+  transform: rotate(90deg);
+}
+
+/* ===== SECCIÓN SUPERIOR DEL SIDEBAR ===== */
 .sidebar-superior {
   flex-grow: 1;
+  padding: 60px 30px 30px 30px;
+  border-bottom: 1px solid rgba(158, 205, 73, 0.3);
 }
 
-.sidebar-inferior {
-  margin-top: auto;
+.sidebar-superior > div:first-child {
+  font-family: "Recoleta";
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
 }
 
-.sidebar h2 {
-  margin-top: 0;
+.sidebar-superior h2 {
+  font-family: "Roboto";
+  font-size: 1.4rem;
+  margin: 0 0 25px 0;
+  color: #9ecd49;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
-.sidebar ul {
+.sidebar-superior ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar li {
-  margin: 20px 0;
-  font-size: 18px;
+.sidebar-superior li {
+  margin: 15px 0;
+  position: relative;
 }
 
-.sidebar a {
+.sidebar-superior a {
   color: #d3edff;
   text-decoration: none;
+  font-size: 1.1rem;
+  font-family: "Roboto";
+  padding: 12px 20px;
+  display: block;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.sidebar a:hover {
-  text-decoration: underline;
+.sidebar-superior a:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: #9ecd49;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-superior a:hover {
+  background: rgba(158, 205, 73, 0.15);
   color: #9ecd49;
+  padding-left: 30px;
 }
 
+.sidebar-superior a:hover:before {
+  transform: scaleY(1);
+}
+
+/* ===== SECCIÓN INFERIOR DEL SIDEBAR ===== */
+.sidebar2-inferior {
+  margin-top: auto;
+  padding: 20px 30px 40px 30px;
+  border-top: 1px solid rgba(158, 205, 73, 0.3);
+}
+
+.sidebar2-inferior ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar2-inferior li {
+  margin: 10px 0;
+}
+
+.sidebar2-inferior a {
+  color: #ff6b6b;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: "Roboto";
+  padding: 10px 20px;
+  display: block;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.sidebar2-inferior a:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: #ff6b6b;
+  color: #ffffff;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
 .contenido-principal {
-  margin-left: 250px;
+  margin-left: 0;
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
   background-color: #d3edff;
   flex-grow: 1;
-  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  transition: margin-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 20px;
 }
 
+.contenido-principal.sidebar-visible {
+  margin-left: 280px;
+}
+
+.contenido-principal.sidebar-hidden {
+  margin-left: 0;
+}
+
+/* ===== CUADRO DE PORCENTAJES ===== */
 .cuadro-porcentajes {
-  margin-top: 100px;
-  background-color: #ffffff;
-  width: 80%;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 80px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+  width: 90%;
+  max-width: 800px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
   font-family: "Roboto";
-  padding: 20px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgba(158, 205, 73, 0.2);
 }
 
+/* ===== TÍTULO DE RESULTADOS ===== */
 .title-resultados {
-  font-size: 4rem;
+  font-size: 3.5rem;
   color: #000000;
-  margin-bottom: 20px;
-  font-family: "Merryweather";
+  margin-bottom: 30px;
+  font-family: "Merriweather";
+
 }
 
+/* ===== COMPONENTES DE PROGRESO CIRCULAR ===== */
 .circular-progress {
   position: relative;
   display: flex;
@@ -197,13 +336,15 @@ html {
 
 .circle-bg {
   fill: none;
-  stroke: #d3edff;
+  stroke: #e8f4fd;
+  stroke-width: 4;
 }
 
 .circle-progress {
   fill: none;
-  stroke: #9ecd49;
+  stroke: url(#progressGradient);
   stroke-linecap: round;
+  stroke-width: 6;
 }
 
 .progress-value {
@@ -211,23 +352,26 @@ html {
   font-size: 1.125rem;
   font-weight: bold;
   color: #1e3766;
+  font-family: "Roboto";
 }
 
 .average-container {
   display: flex;
   justify-content: center;
-  margin: 20px 0 30px 0;
+  margin: 30px 0 40px 0;
 }
 
 .average-container .progress-value {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: 900;
 }
 
+/* ===== GRID DE HABILIDADES ===== */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 0 40px;
+  gap: 25px;
+  padding: 0 20px;
   margin-bottom: 30px;
 }
 
@@ -235,107 +379,138 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ecf3fb;
-  padding: 15px;
-  border-radius: 4px;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e1f0ff 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(158, 205, 73, 0.3);
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(158, 205, 73, 0.2);
 }
 
 .skill-title {
   color: #1e3766;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: "Roboto";
+  font-size: 1rem;
 }
 
-/* Estilos para el botón de toggle */
-.toggle-sidebar2-btn {
-  position: fixed;
-  left: 15px;
-  top: 15px;
-  background: #1e3766;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 5px 10px;
-  z-index: 1000;
-  transition: all 0.3s;
-  align-items: center;
-}
-
-.toggle-sidebar2-btn:hover {
-  background: #9ecd49;
-}
-
-/* Estilos para el sidebar oculto/visible */
-.sidebar2.hidden2 {
-  transform: translateX(-100%);
-}
-
-.sidebar2.visible2 {
-  transform: translateX(0);
-}
-
-.sidebar2 {
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Ajustes para el contenido principal */
-.contenido-principal2.sidebar2-hidden {
-  margin-left: 0;
-}
-
-.contenido-principal2.sidebar2-visible {
-  margin-left: 250px;
-}
-
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .sidebar2 {
-    width: 200px;
+  .sidebar {
+    width: 250px;
   }
 
   .contenido-principal.sidebar-visible {
-    margin-left: 200px;
+    margin-left: 250px;
+  }
+
+  .cuadro-porcentajes {
+    width: 95%;
+    padding: 30px 20px;
+    margin-top: 60px;
+  }
+
+  .title-resultados {
+    font-size: 2.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .toggle-sidebar-btn {
+    padding: 8px 12px;
+    font-size: 18px;
+  }
+
+  .sidebar-superior {
+    padding: 50px 20px 20px 20px;
+  }
+
+  .sidebar2-inferior {
+    padding: 15px 20px 30px 20px;
   }
 }
 
-/* Estilos para el botón de cerrar sidebar */
-.close-sidebar2-btn {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  background: transparent;
-  color: #d3edff;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 5px;
-  z-index: 10;
-  transition: color 0.3s;
+@media (max-width: 480px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .contenido-principal.sidebar-visible {
+    margin-left: 220px;
+  }
+
+  .cuadro-porcentajes {
+    width: 98%;
+    padding: 25px 15px;
+    margin-top: 40px;
+  }
+
+  .title-resultados {
+    font-size: 2rem;
+  }
+
+  .header-ver-resultados {
+    font-size: 2rem;
+  }
+
+  .toggle-sidebar-btn {
+    left: 10px;
+    top: 10px;
+    padding: 6px 10px;
+    font-size: 16px;
+  }
 }
 
-.close-sidebar2-btn:hover {
-  color: #9ecd49;
+/* ===== GRADIENTES SVG PARA PROGRESO ===== */
+svg defs linearGradient {
+  --start-color: #9ecd49;
+  --end-color: #73a31d;
 }
 
-.sidebar-superior {
-  padding-top: 20px;
-}
-
+/* ===== ESTADOS DE VISIBILIDAD DEL SIDEBAR ===== */
 .sidebar-visible .toggle-sidebar-btn {
-  display: none;
+  opacity: 0.7;
 }
 
-.sidebar + .migadepan-container {
-  margin-left: 250px;
+.sidebar-visible .toggle-sidebar-btn:hover {
+  opacity: 1;
 }
 
-.migadepan-container + .header-ver-resultados {
-  margin-top: 0;
-  padding-top: 15px;
-}
-
-@media (max-width: 768px) {
-  .sidebar + .migadepan-container {
-    margin-left: 0;
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
   }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.sidebar.visible {
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebar.hidden {
+  animation: slideOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }

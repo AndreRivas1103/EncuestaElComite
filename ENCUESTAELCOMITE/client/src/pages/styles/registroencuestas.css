@@ -1,9 +1,23 @@
 /* Contenedor principal */
 .registro-encuesta-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+/* Grid de botones */
+.registro-encuesta-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  justify-items: center;
+  align-items: center;
+  place-items: center;
 }
 
 /* Botones */
@@ -12,73 +26,278 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
+  justify-content: center;
+  padding: 2rem;
   border-radius: 12px;
-  min-height: 120px;
-  transition: transform 0.3s ease;
+  min-height: 140px;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Estados */
-.registro-encuesta-activa { border-left: 5px solid #4CAF50; }
-.registro-encuesta-cerrada { border-left: 5px solid #f44336; }
-.registro-encuesta-borrador { border-left: 5px solid #ff9800; }
-.registro-encuesta-programada { border-left: 5px solid #2196F3; }
+.registro-encuesta-boton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estados - Barras más visibles */
+.registro-encuesta-activa { 
+  border-left: 8px solid #4CAF50;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(76, 175, 80, 0.1);
+}
+
+.registro-encuesta-activa:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(76, 175, 80, 0.2);
+}
+
+.registro-encuesta-cerrada { 
+  border-left: 8px solid #f44336;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(244, 67, 54, 0.1);
+}
+
+.registro-encuesta-cerrada:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(244, 67, 54, 0.2);
+}
+
+.registro-encuesta-borrador { 
+  border-left: 8px solid #ff9800;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(255, 152, 0, 0.1);
+}
+
+.registro-encuesta-borrador:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(255, 152, 0, 0.2);
+}
+
+.registro-encuesta-programada { 
+  border-left: 8px solid #2196F3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(33, 150, 243, 0.1);
+}
+
+.registro-encuesta-programada:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(33, 150, 243, 0.2);
+}
+
+/* Indicador adicional en la esquina superior derecha */
+.registro-encuesta-activa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 20px 20px 0;
+  border-color: transparent #4CAF50 transparent transparent;
+}
+
+.registro-encuesta-cerrada::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 20px 20px 0;
+  border-color: transparent #f44336 transparent transparent;
+}
+
+.registro-encuesta-borrador::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 20px 20px 0;
+  border-color: transparent #ff9800 transparent transparent;
+}
+
+.registro-encuesta-programada::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 20px 20px 0;
+  border-color: transparent #2196F3 transparent transparent;
+}
 
 /* Textos */
 .registro-encuesta-id {
   font-family: "Merriweather";
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #ffffff;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  font-weight: 600;
+  width: 100%;
 }
 
 .registro-encuesta-estado {
   font-family: "Roboto";
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-align: center;
+  width: 100%;
 }
 
 /* Estados de carga */
 .registro-encuesta-cargando {
-  grid-column: 1 / -1;
+  width: 100%;
   text-align: center;
-  padding: 2rem;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .registro-encuesta-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #1e3766;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 1rem;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
   animation: registroSpin 1s linear infinite;
 }
 
-.registro-encuesta-vacio {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
+@keyframes registroSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
+
+.registro-encuesta-vacio {
+  width: 100%;
+  text-align: center;
+  padding: 4rem;
+  background: rgba(30, 55, 102, 0.1);
+  border-radius: 12px;
+  color: #1e3766;
+  border: 2px dashed #1e3766;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.registro-encuesta-vacio p {
+  margin: 0;
+  font-size: 1.2rem;
+  font-family: "Roboto";
+}
+
+.registro-encuesta-vacio .registro-encuesta-boton {
+  background: #9ecd49;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Roboto";
+  font-size: 1rem;
+  transition: background 0.3s ease;
+  width: auto;
+  min-height: auto;
+}
+
+.registro-encuesta-vacio .registro-encuesta-boton:hover {
+  background: #8bbc38;
+  transform: translateY(-2px);
+}
+
 .title-large {
   text-align: center;
-  font-size: 2.5rem;
-  margin: 2rem 0 1rem 0;
-  grid-column: 1 / -1; /* Para que ocupe toda la fila en el grid */
+  font-size: 2.8rem;
+  margin: 0 0 2rem 0;
+  color: #1e3766;
+  font-family: "Merriweather";
+  font-weight: 700;
+  width: 100%;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .registro-encuesta-contenedor {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .registro-encuesta-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
   .registro-encuesta-boton {
-    min-height: 100px;
+    width: 100%;
+    max-width: 350px;
+    min-height: 120px;
+    padding: 1.5rem;
+  }
+
+  .title-large {
+    font-size: 2.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .registro-encuesta-cargando,
+  .registro-encuesta-vacio {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .registro-encuesta-contenedor {
     padding: 1rem;
+    gap: 1rem;
+  }
+
+  .registro-encuesta-grid {
+    gap: 1rem;
+  }
+
+  .title-large {
+    font-size: 1.9rem;
+    margin: 0 0 1rem 0;
+  }
+
+  .registro-encuesta-boton {
+    width: 100%;
+    max-width: none;
+    padding: 1.2rem;
+    min-height: 100px;
+  }
+
+  .registro-encuesta-id {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .registro-encuesta-estado {
+    font-size: 0.85rem;
+  }
+
+  .registro-encuesta-cargando,
+  .registro-encuesta-vacio {
+    padding: 2rem 1rem;
+  }
+
+  /* Reducir el tamaño del indicador en móviles */
+  .registro-encuesta-activa::before,
+  .registro-encuesta-cerrada::before,
+  .registro-encuesta-borrador::before,
+  .registro-encuesta-programada::before {
+    border-width: 0 15px 15px 0;
   }
 }

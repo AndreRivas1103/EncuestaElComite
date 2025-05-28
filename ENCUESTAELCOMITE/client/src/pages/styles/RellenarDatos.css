@@ -69,6 +69,33 @@
   padding: 20px;
 }
 
+/* ===== MENSAJE DE TÉRMINOS ACEPTADOS AUTOMÁTICAMENTE ===== */
+.terminos-aceptados-mensaje {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideInFromTop 0.5s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -110,11 +137,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .checkbox-input {
   margin-right: 10px;
   transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+
+/* ===== ESTILOS PARA CHECKBOX AUTO-MARCADO ===== */
+.checkbox-input.auto-checked {
+  accent-color: #4CAF50;
+  filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.5));
 }
 
 .checkbox-label {
@@ -122,6 +157,7 @@
   align-items: center;
   cursor: pointer;
   text-align: center;
+  position: relative;
 }
 
 .terms-text {
@@ -129,6 +165,34 @@
   color: #1e3766;
   text-decoration: underline;
   font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.terms-text:hover {
+  color: #4CAF50;
+}
+
+/* ===== INDICADOR DE AUTO-CHECK ===== */
+.auto-check-indicator {
+  color: #4CAF50;
+  font-weight: bold;
+  margin-left: 5px;
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .btn-siguiente {
@@ -196,6 +260,16 @@
 
   .migadepan-container .migadepan {
     font-size: 0.8rem;
+  }
+
+  .terminos-aceptados-mensaje {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+
+  .auto-check-indicator {
+    font-size: 0.9rem;
   }
 }
 

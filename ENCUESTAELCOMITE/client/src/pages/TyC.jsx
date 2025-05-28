@@ -8,13 +8,24 @@ const TerminosCondiciones = () => {
   const navigate = useNavigate();
 
   const handleAceptar = () => {
-    // Aquí puedes agregar lógica para guardar la aceptación de términos
-    navigate('/rellenar-datos'); // Redirigir al formulario de datos
+    // Guardar en localStorage que los términos fueron aceptados
+    localStorage.setItem('terminosAceptados', 'true');
+    localStorage.setItem('fechaAceptacionTerminos', new Date().toISOString());
+    
+    // Mostrar mensaje de confirmación
+    alert('Términos y condiciones aceptados correctamente');
+    
+    // Redirigir al formulario de datos
+    navigate('/rellenar-datos');
   };
 
   const handleCancelar = () => {
-    // Aquí puedes agregar lógica para manejar el rechazo
-    navigate('/'); // Redirigir a la página principal
+    // Limpiar cualquier aceptación previa
+    localStorage.removeItem('terminosAceptados');
+    localStorage.removeItem('fechaAceptacionTerminos');
+    
+    // Redirigir a la página principal
+    navigate('/');
   };
 
   return (
