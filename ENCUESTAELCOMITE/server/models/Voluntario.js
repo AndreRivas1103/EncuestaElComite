@@ -42,6 +42,14 @@ const Voluntario = sequelize.define('Voluntario', {
       model: 'encuestas',
       key: 'id'
     }
+  },
+  Contraseña: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    field: 'Contraseña', // ✔ permite null
+    validate: {
+      len: [3, 255]  // ✔ solo se valida si hay valor
+    }
   }
 }, {
   tableName: 'voluntarios',
@@ -76,6 +84,25 @@ Voluntario.associate = (models) => {
     foreignKey: 'id_encuesta',
     as: 'encuesta_relacionada'
   });
+};
+
+Voluntario.actualizarPreEventoDesdeFuncion = async ({ correo, encuesta_pre, id_encuesta, contrasena }) => {
+  try {
+    return await sequelize.query(
+      'SELECT actualizar_voluntario_pre(:correo, :encuesta_pre, :id_encuesta, :contrasena)',
+      {
+        replacements: {
+          correo,
+          encuesta_pre,
+          id_encuesta,
+          contrasena
+        },
+        type: sequelize.QueryTypes.SELECT
+      }
+    );
+  } catch (error) {
+    throw new Error(`Error al ejecutar la función SQL: ${error.message}`);
+  }
 };
 
 export default Voluntario;

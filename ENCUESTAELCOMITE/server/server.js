@@ -36,7 +36,8 @@ app.get('/', (req, res) => {
       voluntarios: {
         registrar: 'POST /api/voluntarios',
         actualizar: 'PUT /api/voluntarios/:correo',
-        verificar: 'POST /api/voluntarios/verificar'
+        verificar: 'POST /api/voluntarios/verificar',
+        actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento'
       }
     }
   });

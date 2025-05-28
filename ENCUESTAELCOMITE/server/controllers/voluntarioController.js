@@ -87,6 +87,14 @@ export const actualizarVoluntario = async (req, res) => {
   }
 };
 
+function generarContrasena(nombre, identificacion) {
+  const prefijo = nombre.trim().toLowerCase().slice(0, 3);
+  const sufijo = identificacion.slice(-3);
+  const anioActual = new Date().getFullYear();
+  return `${prefijo}${sufijo}${anioActual}`;
+}
+
+
 export const verificarVoluntario = async (req, res) => {
   try {
     const { correo } = req.body;
@@ -112,6 +120,41 @@ export const verificarVoluntario = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 'Error en la verificación',
+      details: error.message
+    });
+  }
+};
+
+
+export const actualizarPreEvento = async (req, res) => {
+  try {
+    const { correo, encuesta_pre, id_encuesta, nombre, identificacion } = req.body;
+
+    if (!correo || !encuesta_pre || !id_encuesta || !nombre || !identificacion) {
+      return res.status(400).json({
+        error: 'Datos incompletos',
+        details: 'Se requieren correo, encuesta_pre, id_encuesta, nombre y identificacion'
+      });
+    }
+
+    const contrasenaGenerada = generarContrasena(nombre, identificacion);
+
+    await Voluntario.actualizarPreEventoDesdeFuncion({
+      correo,
+      encuesta_pre,
+      id_encuesta,
+      contrasena: contrasenaGenerada
+    });
+
+    res.json({
+      success: true,
+      message: 'Voluntario actualizado correctamente',
+      contrasena: contrasenaGenerada
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al actualizar voluntario',
       details: error.message
     });
   }
