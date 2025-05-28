@@ -94,6 +94,14 @@ const NuevoEvento = () => {
       {/* Migas de Pan - Ahora debajo del botón de menú */}
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
+      <button
+        className="btn-back"
+        style={{margin: '20px auto 0', display: 'block'}}
+        onClick={() => navigate(-1)}
+      >
+        ← Volver
+      </button>
+
       {/* Sidebar */}
       <Sidebar 
         isVisible={sidebarVisible} 

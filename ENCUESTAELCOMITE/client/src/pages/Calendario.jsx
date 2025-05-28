@@ -258,6 +258,14 @@ function Layout() {
 
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
+      <button
+        className="btn-back"
+        style={{margin: '20px auto 0', display: 'block'}}
+        onClick={() => navigate(-1)}
+      >
+        ← Volver
+      </button>
+
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
         <div className="sidebar-header">

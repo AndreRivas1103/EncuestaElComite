@@ -3,6 +3,7 @@ import '../pages/styles/Home.css';
 import '../pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { useNavigate, useLocation } from 'react-router-dom';
+import MigaDePan from '../components/MigaDePan';
 
 const EncuestaCompleta = () => {
   const [respuestas, setRespuestas] = useState({});
@@ -312,6 +313,16 @@ const EncuestaCompleta = () => {
           </button>
         </nav>
       </div>
+
+      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+
+      <button
+        className="btn-back"
+        style={{margin: '20px auto 0', display: 'block'}}
+        onClick={() => navigate(-1)}
+      >
+        ← Volver
+      </button>
 
       <div className='firtsColor'>
         <div className="encuesta-container">
