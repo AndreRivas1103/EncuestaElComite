@@ -61,4 +61,14 @@ Resultado.insertarResultadoCalculado = async function(id_encuesta, correo_volunt
   });
 };
 
+// Nuevo método para buscar por correo y contraseña
+Resultado.findByEmailAndPassword = async function(correo, contrasena) {
+  return await this.findAll({
+    where: {
+      correo_voluntario: correo,
+      contraseña: contrasena
+    }
+  });
+};
+
 export default Resultado;

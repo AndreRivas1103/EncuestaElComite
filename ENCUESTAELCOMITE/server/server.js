@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { verificarCorreo } from './controllers/coordinadorController.js';
 import encuestaRoutes from './routes/encuestasRoutes.js';
 import voluntarioRoutes from './routes/voluntarioRoutes.js';
-import resultadoRoutes from './routes/resultadosRoutes.js'; // Nueva importación
+import resultadoRoutes from './routes/resultadosRoutes.js';
 
 // Configuración inicial
 dotenv.config();
@@ -40,9 +40,10 @@ app.get('/', (req, res) => {
         verificar: 'POST /api/voluntarios/verificar',
         actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento'
       },
-      resultados: { // Nueva sección para resultados
+      resultados: {
         guardar: 'POST /api/resultados',
-        obtener: 'GET /api/voluntarios/:correo/resultados'
+        obtenerPorCorreo: 'GET /api/voluntarios/:correo/resultados',
+        obtenerPorCredenciales: 'POST /api/resultados/credenciales' // Nueva documentación
       }
     }
   });
@@ -54,7 +55,7 @@ app.post('/api/auth/login', verificarCorreo);
 // Rutas principales
 app.use('/api/encuestas', encuestaRoutes);
 app.use('/api', voluntarioRoutes);
-app.use('/api', resultadoRoutes); // Nueva ruta para resultados
+app.use('/api', resultadoRoutes);
 
 // Manejo centralizado de errores
 app.use((err, req, res, next) => {
@@ -82,7 +83,8 @@ app.listen(PORT, () => {
   console.log(`   - Listar encuestas: GET http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Encuesta activa: GET http://localhost:${PORT}/api/encuestas/activa`);
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
-  console.log(`   - Guardar resultados: POST http://localhost:${PORT}/api/resultados`); // Nuevo endpoint
-  console.log(`   - Obtener resultados: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`); // Nuevo endpoint
+  console.log(`   - Guardar resultados: POST http://localhost:${PORT}/api/resultados`);
+  console.log(`   - Obtener resultados por correo: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`);
+  console.log(`   - Obtener resultados por credenciales: POST http://localhost:${PORT}/api/resultados/credenciales`); // Nuevo endpoint
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
 });
