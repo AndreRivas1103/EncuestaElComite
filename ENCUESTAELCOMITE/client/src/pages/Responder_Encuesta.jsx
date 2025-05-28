@@ -225,7 +225,7 @@ const ResponderEncuesta = () => {
       console.log('[DEBUG] Respuestas formateadas para enviar:', respuestasFormateadas);
       
       // Después de guardar respuestas, actualizar voluntario con encuesta_pre y contraseña generada
-      await axios.post(
+      const response = await axios.post(
         'http://localhost:3000/api/voluntarios/actualizar-pre-evento',
         {
           correo: correoVoluntario,
@@ -236,11 +236,21 @@ const ResponderEncuesta = () => {
         }
       );
 
+      console.log('[DEBUG] Respuesta del servidor:', response.data);
+
       setSubmitSuccess(true);
       sessionStorage.removeItem('datosVoluntario');
       
+      // Guardar la contraseña generada para mostrarla en la página de agradecimiento
+      const contrasenaGenerada = response.data.contrasena;
+      
       setTimeout(() => {
-        navigate('/gracias-por-participar');
+        navigate('/gracias-por-participar', { 
+          state: { 
+            contrasena: contrasenaGenerada,
+            nombreCompleto: sessionStorage.getItem('nombreVoluntario')
+          }
+        });
       }, 2000);
     } catch (err) {
       console.error('[ERROR] Error al enviar respuestas:', err);
@@ -298,7 +308,7 @@ const ResponderEncuesta = () => {
   if (submitSuccess) {
     return (
       <div className="success-container">
-        <h2>¡Gracias por participar!</h2>
+        <h2>Enviando respuestas</h2>
         <p>Tus respuestas han sido guardadas correctamente.</p>
         <p>Redirigiendo...</p>
       </div>

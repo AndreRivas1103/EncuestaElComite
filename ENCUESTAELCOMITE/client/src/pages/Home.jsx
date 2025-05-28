@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import '../pages/styles/Home.css';
-import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
-import { Link } from 'react-router-dom'; // Importa Link para navegación
+import babyLogo from '../assets/LogoMarcaPersonal.png';
+import { Link } from 'react-router-dom';
+
+// Importar imágenes de la fundación
+import fundacion1 from '../assets/imagenes_fundacion/fundacion_1.jpg';
+import fundacion2 from '../assets/imagenes_fundacion/fundacion_2.jpg';
+import fundacion3 from '../assets/imagenes_fundacion/fundacion_3.jpg';
+import fundacion4 from '../assets/imagenes_fundacion/fundacion_4.jpg';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = 3;
+  const totalSlides = 4;
+
+  // Array de imágenes
+  const imagenes = [fundacion1, fundacion2, fundacion3, fundacion4];
+
+  console.log('Current slide:', currentSlide);
+  console.log('Imagenes:', imagenes);
 
   // Función para mover diapositivas
   const moveSlide = (direction) => {
@@ -56,31 +68,15 @@ const Home = () => {
         </div>
       </div>
       
-      {/* Carrusel de Fotos */}
+      {/* Carrusel de Imágenes */}
       <div className="carousel-section">
         <div className="carousel-container">
-          <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-            <div className={`carousel-slide ${currentSlide === 0 ? 'active' : ''}`}>
-              <img src={babyLogo} alt="Imagen 1" className="carousel-image" />
-              <div className="carousel-caption">
-                <h3>Apoyamos a nuestros niños</h3>
-                <p>Juntos hacemos la diferencia en sus vidas</p>
-              </div>
-            </div>
-            <div className={`carousel-slide ${currentSlide === 1 ? 'active' : ''}`}>
-              <img src={babyLogo} alt="Imagen 2" className="carousel-image" />
-              <div className="carousel-caption">
-                <h3>Eventos especiales</h3>
-                <p>Creando momentos inolvidables</p>
-              </div>
-            </div>
-            <div className={`carousel-slide ${currentSlide === 2 ? 'active' : ''}`}>
-              <img src={babyLogo} alt="Imagen 3" className="carousel-image" />
-              <div className="carousel-caption">
-                <h3>Comunidad unida</h3>
-                <p>Trabajando juntos por un futuro mejor</p>
-              </div>
-            </div>
+          <div className="carousel-wrapper">
+            <img 
+              src={imagenes[currentSlide]} 
+              alt={`Fundación Go Baby Go - Imagen ${currentSlide + 1}`} 
+              className="carousel-image-single"
+            />
           </div>
           
           {/* Controles del carrusel */}
@@ -93,9 +89,22 @@ const Home = () => {
           
           {/* Indicadores */}
           <div className="carousel-indicators">
-            <button className={`indicator ${currentSlide === 0 ? 'active' : ''}`} onClick={() => goToSlide(0)}></button>
-            <button className={`indicator ${currentSlide === 1 ? 'active' : ''}`} onClick={() => goToSlide(1)}></button>
-            <button className={`indicator ${currentSlide === 2 ? 'active' : ''}`} onClick={() => goToSlide(2)}></button>
+            <button 
+              className={`indicator ${currentSlide === 0 ? 'active' : ''}`} 
+              onClick={() => goToSlide(0)}
+            ></button>
+            <button 
+              className={`indicator ${currentSlide === 1 ? 'active' : ''}`} 
+              onClick={() => goToSlide(1)}
+            ></button>
+            <button 
+              className={`indicator ${currentSlide === 2 ? 'active' : ''}`} 
+              onClick={() => goToSlide(2)}
+            ></button>
+            <button 
+              className={`indicator ${currentSlide === 3 ? 'active' : ''}`} 
+              onClick={() => goToSlide(3)}
+            ></button>
           </div>
         </div>
       </div>

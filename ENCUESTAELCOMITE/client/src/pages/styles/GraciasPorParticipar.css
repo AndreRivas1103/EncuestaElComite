@@ -1,12 +1,19 @@
+@font-face {
+  font-family: "Merriweather";
+  src: url("../../assets/fonts/Merriweather_24pt-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Página de agradecimiento */
 .gracias-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #d3edff 0%, #a8e6cf 100%);
+  background: #d3edff;
   font-family: "Roboto", Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
-
 
 .gracias-content {
   display: flex;
@@ -19,7 +26,7 @@
 .gracias-main {
   background-color: white;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 50px 40px rgba(0, 0, 0, 0.1);
   padding: 60px 40px;
   text-align: center;
   max-width: 600px;
@@ -89,6 +96,7 @@
   margin-bottom: 20px;
   line-height: 1.2;
   animation: fadeInUp 0.8s ease-out 0.3s both;
+  font-family: 'Merriweather';
 }
 
 .mensaje-secundario {
@@ -113,7 +121,7 @@
 }
 
 .btn-inicio {
-  background: linear-gradient(135deg, #73a31d, #9ecd49);
+  background-color: #9ecd49;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -122,14 +130,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(115, 163, 29, 0.3);
   min-width: 200px;
+  font-family: 'Roboto';
 }
 
 .btn-inicio:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(115, 163, 29, 0.4);
-  background: linear-gradient(135deg, #9ecd49, #73a31d);
+  box-shadow:  12px 25px rgba(26, 37, 5, 0.4);
+  background: #73a31d;
 }
 
 .auto-redirect-info {
@@ -213,5 +221,130 @@
     padding: 12px 25px;
     font-size: 1.1rem;
     min-width: 180px;
+  }
+}
+
+/* Estilos para nombre del usuario */
+.mensaje-nombre {
+  font-size: 1.5rem;
+  color: #73a31d;
+  margin-bottom: 20px;
+  font-weight: bold;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+  font-family: 'Roboto';
+}
+
+/* Sección de contraseña */
+.contrasena-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 3px solid #73a31d;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 30px 0;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.contrasena-titulo {
+  font-size: 1.4rem;
+  color: #1e3766;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.contrasena-display {
+  background-color: #1e3766;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  border: 2px solid #73a31d;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.contrasena-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.contrasena-texto {
+  font-size: 2.2rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 3px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: rgba(115, 163, 29, 0.2);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.contrasena-instruccion {
+  font-size: 1.1rem;
+  color: #d63384;
+  margin-top: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.contrasena-instruccion strong {
+  color: #dc3545;
+}
+
+/* Responsive para contraseña */
+@media (max-width: 768px) {
+  .contrasena-section {
+    padding: 20px;
+    margin: 25px 0;
+  }
+  
+  .contrasena-titulo {
+    font-size: 1.2rem;
+  }
+  
+  .contrasena-texto {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    padding: 6px 12px;
+  }
+  
+  .contrasena-instruccion {
+    font-size: 1rem;
+  }
+  
+  .mensaje-nombre {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contrasena-texto {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+  }
+  
+  .contrasena-section {
+    padding: 15px;
+  }
+  
+  .mensaje-nombre {
+    font-size: 1.2rem;
   }
 } 
