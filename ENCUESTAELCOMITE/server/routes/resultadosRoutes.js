@@ -10,6 +10,6 @@ const router = express.Router();
 router.post('/resultados', guardarResultado);
 
 // Obtener resultados por voluntario
-router.get('/voluntarios/:correo/resultados', obtenerResultadosPorVoluntario);
+router.get('/voluntarios/:correo', obtenerVoluntarioPorCorreo);
 
 export default router;

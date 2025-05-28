@@ -20,7 +20,7 @@ const GraciasPorParticipar = () => {
     respuestas
   } = location.state || {};
 
-  // Función para calcular resultados (con soporte para preguntas abiertas)
+  // Función para calcular resultados (con validaciones robustas)
   const calcularResultados = (respuestas) => {
     // Palabras clave por categoría
     const palabrasClavePorCategoria = {
@@ -34,8 +34,14 @@ const GraciasPorParticipar = () => {
     let totalPreguntas = 0;
     let totalCorrectas = 0;
 
-    // Procesar cada respuesta
+    // Procesar cada respuesta con validaciones
     respuestas.forEach(item => {
+      // Validar que el ítem tenga estructura mínima
+      if (!item || typeof item !== 'object' || !item.categoria || !item.pregunta) {
+        console.error('Ítem de respuesta inválido:', item);
+        return; // Saltar este ítem
+      }
+      
       const categoria = item.categoria;
       
       // Inicializar categoría si no existe
@@ -54,12 +60,30 @@ const GraciasPorParticipar = () => {
 
       let esCorrecta = false;
       let razon = "";
+      let respuestaCorrectaValor = "No disponible";
 
       // Evaluación diferente según tipo de pregunta
       if (item.tipoRespuesta === 'multiple') {
-        // Pregunta de opción múltiple
-        esCorrecta = item.respuesta === String(item.respuestaCorrecta);
+        // Validar y obtener índice de respuesta correcta
+        const respuestaCorrectaIndex = (typeof item.respuestaCorrecta === 'number' && 
+                                      !isNaN(item.respuestaCorrecta))
+          ? item.respuestaCorrecta
+          : -1; // Valor inválido
+        
+        // Validar opciones
+        const opcionesValidas = Array.isArray(item.opciones) && item.opciones.length > 0;
+        
+        // Obtener valor de respuesta correcta si es posible
+        respuestaCorrectaValor = (opcionesValidas && 
+                                 respuestaCorrectaIndex >= 0 && 
+                                 respuestaCorrectaIndex < item.opciones.length)
+          ? item.opciones[respuestaCorrectaIndex]
+          : "Respuesta correcta no disponible";
+        
+        // Determinar si la respuesta es correcta
+        esCorrecta = item.respuesta === String(respuestaCorrectaIndex);
         razon = esCorrecta ? "Respuesta correcta" : "Respuesta incorrecta";
+        
       } else {
         // Pregunta abierta - evaluación por palabras clave
         const palabrasClave = palabrasClavePorCategoria[categoria] || [];
@@ -90,25 +114,30 @@ const GraciasPorParticipar = () => {
       resultadosPorCategoria[categoria].detalles.push({
         pregunta: item.pregunta,
         respuestaUsuario: item.tipoRespuesta === 'multiple' 
-          ? item.opcionSeleccionada 
-          : item.respuesta,
-        respuestaCorrecta: item.tipoRespuesta === 'multiple'
-          ? item.opciones[item.respuestaCorrecta]
-          : "Respuesta basada en palabras clave",
+          ? (item.opcionSeleccionada || "No seleccionada")
+          : (item.respuesta || "Sin respuesta"),
+        respuestaCorrecta: respuestaCorrectaValor,
         esCorrecta,
         razon
       });
     });
 
-    // Calcular porcentajes y niveles
+    // Calcular porcentajes y niveles si hay preguntas
     Object.keys(resultadosPorCategoria).forEach(categoria => {
       const cat = resultadosPorCategoria[categoria];
-      cat.porcentaje = Math.round((cat.correctas / cat.preguntas) * 100);
-      cat.nivel = cat.porcentaje >= 80 ? 'Alto' : 
-                  cat.porcentaje >= 60 ? 'Medio' : 'Bajo';
+      if (cat.preguntas > 0) {
+        cat.porcentaje = Math.round((cat.correctas / cat.preguntas) * 100);
+        cat.nivel = cat.porcentaje >= 80 ? 'Alto' : 
+                    cat.porcentaje >= 60 ? 'Medio' : 'Bajo';
+      } else {
+        cat.porcentaje = 0;
+        cat.nivel = 'Sin datos';
+      }
     });
 
-    const porcentajeTotal = Math.round((totalCorrectas / totalPreguntas) * 100);
+    const porcentajeTotal = totalPreguntas > 0 
+      ? Math.round((totalCorrectas / totalPreguntas) * 100)
+      : 0;
 
     // Generar recomendaciones
     const recomendaciones = [];
@@ -151,9 +180,13 @@ const GraciasPorParticipar = () => {
           throw new Error('Faltan datos necesarios para calcular resultados');
         }
 
+        console.log('[DEBUG] Iniciando cálculo de resultados...');
+        
         // 1. Calcular resultados
         const resultadosCalculados = calcularResultados(respuestas);
         setResultadosCalculados(resultadosCalculados);
+        
+        console.log('[DEBUG] Resultados calculados:', resultadosCalculados);
         
         // 2. Guardar resultados en la base de datos
         await axios.post('http://localhost:3000/api/resultados', {
@@ -230,7 +263,7 @@ const GraciasPorParticipar = () => {
 
           {error && (
             <div className="error-message">
-              <p>{error}</p>
+              <p>Error: {error}</p>
               <p>Por favor contacta al administrador si el problema persiste</p>
             </div>
           )}
