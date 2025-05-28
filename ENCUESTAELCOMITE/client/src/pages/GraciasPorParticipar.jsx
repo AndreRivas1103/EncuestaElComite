@@ -1,10 +1,29 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import './styles/GraciasPorParticipar.css';
 
 const GraciasPorParticipar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Obtener datos del state (contraseña y nombre)
+  const { contrasena, nombreCompleto } = location.state || {};
+
+  // Debug para ver qué datos estamos recibiendo
+  console.log('[DEBUG] Location state:', location.state);
+  console.log('[DEBUG] Contraseña recibida:', contrasena);
+  console.log('[DEBUG] Nombre recibido:', nombreCompleto);
+
+  // Función para probar con datos simulados
+  const probarConDatosSimulados = () => {
+    navigate('/gracias-por-participar', {
+      state: {
+        contrasena: 'and7892024',
+        nombreCompleto: 'Andrea Pérez'
+      }
+    });
+  };
 
   return (
     <div className="gracias-container">
@@ -27,14 +46,44 @@ const GraciasPorParticipar = () => {
           
           <h1 className="mensaje-principal">¡Gracias por participar!</h1>
           
+          {nombreCompleto && (
+            <p className="mensaje-nombre">
+              <strong>{nombreCompleto}</strong>
+            </p>
+          )}
+          
           <p className="mensaje-secundario">
             Tus respuestas han sido registradas exitosamente.
           </p>
+
+          {contrasena ? (
+            <div className="contrasena-section">
+              <h2 className="contrasena-titulo">Tu contraseña de acceso:</h2>
+              <div className="contrasena-display">
+                <span className="contrasena-texto">{contrasena}</span>
+              </div>
+              <p className="contrasena-instruccion">
+                ⚠️ <strong>¡Importante!</strong> Guarda esta contraseña. La necesitarás para acceder a tus resultados.
+              </p>
+            </div>
+          ) : (
+            <div className="contrasena-section">
+              <h2 className="contrasena-titulo">Información de acceso no disponible</h2>
+              <p className="contrasena-instruccion">
+                Si completaste la encuesta correctamente, deberías haber recibido tu contraseña. 
+                Si tienes problemas, contacta al administrador.
+              </p>
+              <button 
+                className="btn-inicio" 
+                onClick={probarConDatosSimulados}
+                style={{ marginTop: '15px', backgroundColor: '#6c757d' }}
+              >
+                🧪 Probar con datos simulados
+              </button>
+            </div>
+          )}
           
-          <p className="mensaje-info">
-            Tu participación es muy valiosa para nosotros y contribuye 
-            al mejoramiento continuo de nuestros eventos.
-          </p>
+
 
           <div className="botones-accion">
             <button 
