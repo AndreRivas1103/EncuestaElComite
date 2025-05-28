@@ -75,7 +75,7 @@ app.use((req, res) => {
 
 // Inicialización del servidor
 app.listen(PORT, () => {
-  console.log(`\n🚀 Servidor escuchando en: http://localhost:${PORT}`);
+  console.log(`\n🚀👌 Servidor iniciado en: http://localhost:${PORT}`);
   console.log(`🔗 Endpoints disponibles:`);
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
@@ -85,4 +85,5 @@ app.listen(PORT, () => {
   console.log(`   - Guardar resultados: POST http://localhost:${PORT}/api/resultados`); // Nuevo endpoint
   console.log(`   - Obtener resultados: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`); // Nuevo endpoint
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
+  console.log(`Proyecto ElComité 🙊`);
 });

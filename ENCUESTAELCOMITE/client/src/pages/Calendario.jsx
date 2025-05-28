@@ -37,6 +37,27 @@ function Layout() {
     cedula: localStorage.getItem('userCedula')
   };
 
+  // Estados para mes y año de apertura
+  const [aperturaMonth, setAperturaMonth] = useState(fechaApertura.getMonth());
+  const [aperturaYear, setAperturaYear] = useState(fechaApertura.getFullYear());
+  // Estados para mes y año de cierre
+  const [cierreMonth, setCierreMonth] = useState(fechaCierre.getMonth());
+  const [cierreYear, setCierreYear] = useState(fechaCierre.getFullYear());
+
+  // Sincronizar fechaApertura cuando cambian mes/año
+  useEffect(() => {
+    const nuevaFecha = new Date(aperturaYear, aperturaMonth, fechaApertura.getDate());
+    setFechaApertura(nuevaFecha);
+    // eslint-disable-next-line
+  }, [aperturaMonth, aperturaYear]);
+
+  // Sincronizar fechaCierre cuando cambian mes/año
+  useEffect(() => {
+    const nuevaFecha = new Date(cierreYear, cierreMonth, fechaCierre.getDate());
+    setFechaCierre(nuevaFecha);
+    // eslint-disable-next-line
+  }, [cierreMonth, cierreYear]);
+
   useEffect(() => {
     const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal'));
     console.log('[DEBUG] Encuesta cargada en Calendario:', encuestaTemporal);
@@ -329,10 +350,14 @@ function Layout() {
                   selected={fechaApertura}
                   onChange={date => {
                     setFechaApertura(date);
+                    setAperturaMonth(date.getMonth());
+                    setAperturaYear(date.getFullYear());
                     if (fechaCierre <= date) {
                       const newCierre = new Date(date);
                       newCierre.setDate(newCierre.getDate() + 1);
                       setFechaCierre(newCierre);
+                      setCierreMonth(newCierre.getMonth());
+                      setCierreYear(newCierre.getFullYear());
                     }
                   }}
                   dateFormat="dd/MM/yyyy"
@@ -343,14 +368,15 @@ function Layout() {
                   showYearDropdown
                   dropdownMode="select"
                   minDate={new Date()}
+                  month={aperturaMonth}
+                  year={aperturaYear}
                   renderCustomHeader={({
-                    monthDate,
                     decreaseMonth,
                     increaseMonth,
                     changeYear,
                     changeMonth,
-                    year,
-                    month
+                    month,
+                    year
                   }) => (
                     <div style={{
                       display: 'flex',
@@ -362,7 +388,14 @@ function Layout() {
                       borderRadius: '8px 8px 0 0'
                     }}>
                       <button
-                        onClick={decreaseMonth}
+                        onClick={() => {
+                          if (aperturaMonth === 0) {
+                            setAperturaMonth(11);
+                            setAperturaYear(aperturaYear - 1);
+                          } else {
+                            setAperturaMonth(aperturaMonth - 1);
+                          }
+                        }}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -373,11 +406,10 @@ function Layout() {
                       >
                         &lt;
                       </button>
-                      
                       <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                         <select
-                          value={month}
-                          onChange={({ target: { value } }) => changeMonth(value)}
+                          value={aperturaMonth}
+                          onChange={({ target: { value } }) => setAperturaMonth(Number(value))}
                           style={{
                             padding: '5px 10px',
                             borderRadius: '5px',
@@ -395,10 +427,9 @@ function Layout() {
                             </option>
                           ))}
                         </select>
-                        
                         <select
-                          value={year}
-                          onChange={({ target: { value } }) => changeYear(value)}
+                          value={aperturaYear}
+                          onChange={({ target: { value } }) => setAperturaYear(Number(value))}
                           style={{
                             padding: '5px 10px',
                             borderRadius: '5px',
@@ -417,9 +448,15 @@ function Layout() {
                           ))}
                         </select>
                       </div>
-                      
                       <button
-                        onClick={increaseMonth}
+                        onClick={() => {
+                          if (aperturaMonth === 11) {
+                            setAperturaMonth(0);
+                            setAperturaYear(aperturaYear + 1);
+                          } else {
+                            setAperturaMonth(aperturaMonth + 1);
+                          }
+                        }}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -474,7 +511,11 @@ function Layout() {
               <div className="calendario-container">
                 <DatePicker
                   selected={fechaCierre}
-                  onChange={date => setFechaCierre(date)}
+                  onChange={date => {
+                    setFechaCierre(date);
+                    setCierreMonth(date.getMonth());
+                    setCierreYear(date.getFullYear());
+                  }}
                   dateFormat="dd/MM/yyyy"
                   locale="es"
                   inline
@@ -483,14 +524,15 @@ function Layout() {
                   showYearDropdown
                   dropdownMode="select"
                   minDate={fechaApertura}
+                  month={cierreMonth}
+                  year={cierreYear}
                   renderCustomHeader={({
-                    monthDate,
                     decreaseMonth,
                     increaseMonth,
                     changeYear,
                     changeMonth,
-                    year,
-                    month
+                    month,
+                    year
                   }) => (
                     <div style={{
                       display: 'flex',
@@ -502,7 +544,14 @@ function Layout() {
                       borderRadius: '8px 8px 0 0'
                     }}>
                       <button
-                        onClick={decreaseMonth}
+                        onClick={() => {
+                          if (cierreMonth === 0) {
+                            setCierreMonth(11);
+                            setCierreYear(cierreYear - 1);
+                          } else {
+                            setCierreMonth(cierreMonth - 1);
+                          }
+                        }}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -513,11 +562,10 @@ function Layout() {
                       >
                         &lt;
                       </button>
-                      
                       <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                         <select
-                          value={month}
-                          onChange={({ target: { value } }) => changeMonth(value)}
+                          value={cierreMonth}
+                          onChange={({ target: { value } }) => setCierreMonth(Number(value))}
                           style={{
                             padding: '5px 10px',
                             borderRadius: '5px',
@@ -535,10 +583,9 @@ function Layout() {
                             </option>
                           ))}
                         </select>
-                        
                         <select
-                          value={year}
-                          onChange={({ target: { value } }) => changeYear(value)}
+                          value={cierreYear}
+                          onChange={({ target: { value } }) => setCierreYear(Number(value))}
                           style={{
                             padding: '5px 10px',
                             borderRadius: '5px',
@@ -557,9 +604,15 @@ function Layout() {
                           ))}
                         </select>
                       </div>
-                      
                       <button
-                        onClick={increaseMonth}
+                        onClick={() => {
+                          if (cierreMonth === 11) {
+                            setCierreMonth(0);
+                            setCierreYear(cierreYear + 1);
+                          } else {
+                            setCierreMonth(cierreMonth + 1);
+                          }
+                        }}
                         style={{
                           background: 'none',
                           border: 'none',

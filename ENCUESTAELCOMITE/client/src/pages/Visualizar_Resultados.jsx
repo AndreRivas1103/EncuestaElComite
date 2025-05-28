@@ -100,7 +100,7 @@ const ConsultaResultados = () => {
                 </p>
               </div>
               <div className="form-group-rellenar">
-                <label htmlFor="correoElectronico">Correo Electrónico</label>
+                <label htmlFor="correoElectronico">Correo Electrónico<span className="required">*</span></label>
                 <input
                   type="email"
                   id="correoElectronico"
@@ -113,7 +113,7 @@ const ConsultaResultados = () => {
               </div>
 
               <div className="form-group-rellenar">
-                <label htmlFor="numeroDocumento">Número de documento<span className="required">*</span></label>
+                <label htmlFor="numeroDocumento">Número de documento</label>
                 <input
                   type="text"
                   id="numeroDocumento"
