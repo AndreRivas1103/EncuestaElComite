@@ -296,23 +296,6 @@ const GraciasPorParticipar = () => {
           )}
           
           {/* Mostrar resumen de resultados si están disponibles */}
-          {resultadosCalculados && (
-            <div className="resumen-resultados">
-              <h2>Resumen de tus resultados</h2>
-              <p>Porcentaje total de aciertos: <strong>{resultadosCalculados.resumen.porcentajeTotal}%</strong></p>
-              <p>Perfil: <strong>{resultadosCalculados.perfil}</strong></p>
-              
-              <div className="recomendaciones">
-                <h3>Recomendaciones:</h3>
-                <ul>
-                  {resultadosCalculados.recomendaciones.map((rec, index) => (
-                    <li key={index}>{rec}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
-
           <div className="botones-accion">
             <button 
               className="btn-inicio" 
