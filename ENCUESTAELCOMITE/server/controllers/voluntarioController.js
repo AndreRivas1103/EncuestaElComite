@@ -130,10 +130,24 @@ export const actualizarPreEvento = async (req, res) => {
   try {
     const { correo, encuesta_pre, id_encuesta, nombre, identificacion } = req.body;
 
+    // Validación básica
     if (!correo || !encuesta_pre || !id_encuesta || !nombre || !identificacion) {
       return res.status(400).json({
         error: 'Datos incompletos',
         details: 'Se requieren correo, encuesta_pre, id_encuesta, nombre y identificacion'
+      });
+    }
+
+    // 🔍 Debug para verificar el tipo de JSON recibido
+    console.log('[DEBUG] Tipo de encuesta_pre:', typeof encuesta_pre);
+    console.log('[DEBUG] ¿Es array?:', Array.isArray(encuesta_pre));
+    console.log('[DEBUG] Fragmento JSON:', JSON.stringify(encuesta_pre).slice(0, 300));
+
+    // Validación estricta de formato JSON
+    if (typeof encuesta_pre !== 'object' || !Array.isArray(encuesta_pre)) {
+      return res.status(400).json({
+        error: 'Formato inválido',
+        details: 'encuesta_pre debe ser un array de objetos JSON válido'
       });
     }
 
@@ -143,7 +157,7 @@ export const actualizarPreEvento = async (req, res) => {
       correo,
       encuesta_pre,
       id_encuesta,
-      contrasena: contrasenaGenerada
+      contraseña: contrasenaGenerada
     });
 
     res.json({
@@ -153,6 +167,7 @@ export const actualizarPreEvento = async (req, res) => {
     });
 
   } catch (error) {
+    console.error('[ERROR] al actualizar voluntario:', error);
     res.status(500).json({
       error: 'Error al actualizar voluntario',
       details: error.message

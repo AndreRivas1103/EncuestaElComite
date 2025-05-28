@@ -86,16 +86,23 @@ Voluntario.associate = (models) => {
   });
 };
 
-Voluntario.actualizarPreEventoDesdeFuncion = async ({ correo, encuesta_pre, id_encuesta, contrasena }) => {
+Voluntario.actualizarPreEventoDesdeFuncion = async ({ correo, encuesta_pre, id_encuesta, contraseña }) => {
   try {
     return await sequelize.query(
-      'SELECT actualizar_voluntario_pre(:correo, :encuesta_pre, :id_encuesta, :contrasena)',
+      `
+      SELECT actualizar_voluntario_pre(
+        :correo,
+        :encuesta_pre::jsonb,
+        :id_encuesta,
+        :contrasena
+      )
+      `,
       {
         replacements: {
           correo,
-          encuesta_pre,
+          encuesta_pre: JSON.stringify(encuesta_pre),
           id_encuesta,
-          contrasena
+          contrasena: contraseña // ✅ importante: la clave debe coincidir con :contrasena (sin ñ)
         },
         type: sequelize.QueryTypes.SELECT
       }
@@ -104,5 +111,8 @@ Voluntario.actualizarPreEventoDesdeFuncion = async ({ correo, encuesta_pre, id_e
     throw new Error(`Error al ejecutar la función SQL: ${error.message}`);
   }
 };
+
+
+
 
 export default Voluntario;

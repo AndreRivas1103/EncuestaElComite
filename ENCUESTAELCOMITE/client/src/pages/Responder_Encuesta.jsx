@@ -217,31 +217,19 @@ const ResponderEncuesta = () => {
       );
 
       console.log('[DEBUG] Respuestas formateadas para enviar:', respuestasFormateadas);
-
-      const response = await axios.post(
-        `http://localhost:3000/api/encuestas/${encuesta.id}/respuestas`,
-        {
-          correo_voluntario: correoVoluntario,
-          respuestas: respuestasFormateadas
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      console.log('[DEBUG] Respuesta del servidor:', response.data);
       
       
       // Después de guardar respuestas, actualizar voluntario con encuesta_pre y contraseña generada
-await axios.post('http://localhost:3000/api/voluntarios/actualizar-pre-evento', {
-  correo: correoVoluntario,
-  encuesta_pre: respuestasFormateadas,
-  id_encuesta: encuesta.id,
-  nombre: sessionStorage.getItem('nombreVoluntario'),
-  identificacion: sessionStorage.getItem('idVoluntario')
-});
+      await axios.post(
+        'http://localhost:3000/api/voluntarios/actualizar-pre-evento', // Corregido
+        {
+          correo: correoVoluntario,
+          encuesta_pre: respuestasFormateadas,
+          id_encuesta: encuesta.id,
+          nombre: sessionStorage.getItem('nombreVoluntario'),
+          identificacion: sessionStorage.getItem('idVoluntario')
+        }
+      );
 
 
 setSubmitSuccess(true);
