@@ -1,0 +1,84 @@
+/* Contenedor principal */
+.registro-encuesta-contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+/* Botones */
+.registro-encuesta-boton {
+  background: #1e3766;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  min-height: 120px;
+  transition: transform 0.3s ease;
+}
+
+/* Estados */
+.registro-encuesta-activa { border-left: 5px solid #4CAF50; }
+.registro-encuesta-cerrada { border-left: 5px solid #f44336; }
+.registro-encuesta-borrador { border-left: 5px solid #ff9800; }
+.registro-encuesta-programada { border-left: 5px solid #2196F3; }
+
+/* Textos */
+.registro-encuesta-id {
+  font-family: "Merriweather";
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.registro-encuesta-estado {
+  font-family: "Roboto";
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Estados de carga */
+.registro-encuesta-cargando {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+}
+
+.registro-encuesta-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1e3766;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem;
+  animation: registroSpin 1s linear infinite;
+}
+
+.registro-encuesta-vacio {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+}
+.title-large {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 2rem 0 1rem 0;
+  grid-column: 1 / -1; /* Para que ocupe toda la fila en el grid */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .registro-encuesta-contenedor {
+    grid-template-columns: 1fr;
+  }
+  
+  .registro-encuesta-boton {
+    min-height: 100px;
+    padding: 1rem;
+  }
+}

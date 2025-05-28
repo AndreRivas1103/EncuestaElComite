@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../pages/styles/registroencuestas.css';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -11,7 +12,6 @@ const RegistroEncuesta = () => {
   const [cargando, setCargando] = useState(true);
   const navigate = useNavigate();
 
-  // Efecto para cargar encuestas al montar el componente
   useEffect(() => {
     const cargarEncuestas = async () => {
       try {
@@ -49,7 +49,7 @@ const RegistroEncuesta = () => {
       <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
         <title>Registro Encuesta</title>
         <button className="sidebar-close-btn" onClick={onClose}>×</button>
-        
+
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">
@@ -89,7 +89,7 @@ const RegistroEncuesta = () => {
   return (
     <div>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-      
+
       <header className="header">
         <div className="logo">
           <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
@@ -98,8 +98,8 @@ const RegistroEncuesta = () => {
       </header>
 
       <div className="menu-button-container">
-        <button 
-          className="menu-button" 
+        <button
+          className="menu-button"
           onClick={() => setSidebarVisible(!sidebarVisible)}
         >
           ☰
@@ -108,47 +108,40 @@ const RegistroEncuesta = () => {
 
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
-      <Sidebar 
-        isVisible={sidebarVisible} 
-        onClose={() => setSidebarVisible(false)} 
+      <Sidebar
+        isVisible={sidebarVisible}
+        onClose={() => setSidebarVisible(false)}
       />
 
-      <div className='firtsColor'>
-        <div>
-          <h1 className='title-large'>Registro de encuesta</h1>
-          <br />
-        </div>
+<div className="registro-encuesta-contenedor">
+  <h1 className="title-large">Registro de encuesta</h1>
 
-        <div className="contenedor-botones">
-          {cargando ? (
-            <div className="cargando-encuestas">
-              <div className="spinner"></div>
-              <p>Cargando encuestas...</p>
-            </div>
-          ) : encuestas.length > 0 ? (
-            encuestas.map((encuesta) => (
-              <Link
-                key={encuesta.id}
-                to={`/info-encuesta/${encuesta.id}`}
-                className={`boton estado-${encuesta.estado}`}
-              >
-                <span className="encuesta-id">{encuesta.id}</span>
-                <span className="encuesta-estado">{encuesta.estado}</span>
-              </Link>
-            ))
-          ) : (
-            <div className="sin-encuestas">
-              <p>No se encontraron encuestas registradas</p>
-              <button 
-                className="boton"
-                onClick={() => window.location.reload()}
-              >
-                Recargar
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+  {cargando ? (
+    <div className="registro-encuesta-cargando">
+      <div className="registro-encuesta-spinner"></div>
+      <p>Cargando encuestas...</p>
+    </div>
+  ) : encuestas.length > 0 ? (
+    encuestas.map((encuesta) => (
+      <Link
+        key={encuesta.id}
+        to={`/info-encuesta/${encuesta.id}`}
+        className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
+      >
+        <span className="registro-encuesta-id">{encuesta.id}</span>
+        <span className="registro-encuesta-estado">{encuesta.estado}</span>
+      </Link>
+    ))
+  ) : (
+    <div className="registro-encuesta-vacio">
+      <p>No se encontraron encuestas registradas</p>
+      <button className="registro-encuesta-boton" onClick={() => window.location.reload()}>
+        Recargar
+      </button>
+    </div>
+  )}
+</div>
+
     </div>
   );
 }
