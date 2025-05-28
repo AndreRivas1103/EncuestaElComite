@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import '../pages/styles/VisualizarResultados.css'; // Importaremos el CSS correspondiente  
-import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
-import { Link } from 'react-router-dom';
+import '../pages/styles/VisualizarResultados.css';
+import babyLogo from '../assets/LogoMarcaPersonal.png';
+import { Link, useNavigate } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import axios from 'axios';
 
 const ConsultaResultados = () => {
+  const navigate = useNavigate();
+  
   // Estado para manejar los valores del formulario
   const [formData, setFormData] = useState({
     correoElectronico: '',
@@ -15,6 +18,13 @@ const ConsultaResultados = () => {
 
   // Estado para validaciones
   const [errors, setErrors] = useState({});
+  
+  // Estado para manejar la respuesta de la API
+  const [apiResponse, setApiResponse] = useState({
+    loading: false,
+    error: null,
+    success: false
+  });
 
   // Manejar cambios en los campos del formulario
   const handleChange = (e) => {
@@ -58,12 +68,50 @@ const ConsultaResultados = () => {
   };
 
   // Manejar envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      // Aquí puedes enviar los datos a tu backend para consultar resultados
-      console.log("Formulario enviado", formData);
-      // Redirigir a la página de resultados o procesar la consulta
+    
+    if (!validateForm()) return;
+    
+    setApiResponse({ loading: true, error: null, success: false });
+    
+    try {
+      // Guardar datos del usuario en localStorage
+      localStorage.setItem('userData', JSON.stringify(formData));
+      
+      // Hacer la petición al backend para verificar credenciales
+      const response = await axios.post(
+        'http://localhost:3000/api/resultados/credenciales', 
+        {
+          correo: formData.correoElectronico,
+          contrasena: formData.codigo
+        }
+      );
+      
+      if (response.data.success && response.data.data.length > 0) {
+        setApiResponse({ loading: false, error: null, success: true });
+        
+        // Guardar los resultados en localStorage
+        localStorage.setItem('resultadosData', JSON.stringify(response.data.data));
+        
+        // Redirigir a la página de resultados después de 1 segundo
+        setTimeout(() => {
+          navigate('/ver-resultados');
+        }, 1000);
+      } else {
+        setApiResponse({
+          loading: false,
+          error: 'Credenciales inválidas o no se encontraron resultados',
+          success: false
+        });
+      }
+    } catch (error) {
+      console.error('Error al verificar credenciales:', error);
+      setApiResponse({
+        loading: false,
+        error: error.response?.data?.error || 'Error al conectar con el servidor',
+        success: false
+      });
     }
   };
 
@@ -80,25 +128,24 @@ const ConsultaResultados = () => {
       <MigaDePan />
 
       <div className="consulta-contenedor">
-        
         <h1 className="encuesta-title">Visualizar Resultados</h1>
        
         <div className="consulta-contenido">
           <Link to="/" className="btn-back">
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                  </svg>
-                </Link>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </Link>
+          
           <div className="consulta-form-container">
-            
-            
             <form onSubmit={handleSubmit}>
               <div className="instructions-container">
                 <p className="instructions-text">
                   Recuerde que para realizar la consulta de tus resultados debes ingresar tu número de documento y el código único que se te entrega al finalizar la encuesta.
                 </p>
               </div>
+              
               <div className="form-group-rellenar">
                 <label htmlFor="correoElectronico">Correo Electrónico<span className="required">*</span></label>
                 <input
@@ -151,9 +198,32 @@ const ConsultaResultados = () => {
                 {errors.nombreCompleto && <small className="error-text">{errors.nombreCompleto}</small>}
               </div>
 
+              {/* Mensajes de respuesta de la API */}
+              {apiResponse.loading && (
+                <div className="api-response loading">
+                  <p>Verificando credenciales...</p>
+                </div>
+              )}
+              
+              {apiResponse.error && (
+                <div className="api-response error">
+                  <p>{apiResponse.error}</p>
+                </div>
+              )}
+              
+              {apiResponse.success && (
+                <div className="api-response success">
+                  <p>¡Credenciales válidas! Redirigiendo a resultados...</p>
+                </div>
+              )}
 
-
-              <Link to="/ver-resultados"type="submit" className="btn-ver-resultados">Ver resultados</Link>
+              <button 
+                type="submit" 
+                className="btn-ver-resultados"
+                disabled={apiResponse.loading}
+              >
+                {apiResponse.loading ? 'Verificando...' : 'Ver resultados'}
+              </button>
             </form>
           </div>
         </div>
