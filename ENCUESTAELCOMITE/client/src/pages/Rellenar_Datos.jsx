@@ -121,20 +121,16 @@ const FormularioRegistro = () => {
       );
 
       setSuccessMessage('Registro exitoso! Redirigiendo...');
-<<<<<<< HEAD
-      
+
       // Limpiar términos después del registro exitoso
       localStorage.removeItem('terminosAceptados');
       localStorage.removeItem('fechaAceptacionTerminos');
       
-      // Redirección después de 1.5 segundos
-=======
-
       // Guardar datos para usarlos en generación de contraseña en encuesta
       sessionStorage.setItem('nombreVoluntario', formData.nombreCompleto);
       sessionStorage.setItem('idVoluntario', formData.numeroIdentificacion);
 
->>>>>>> bed2dd738aad120c211745727a93c3c369ed6a90
+      // Redirección después de 1.5 segundos
       setTimeout(() => {
         navigate(`/responder-encuesta?correo=${encodeURIComponent(formData.correoElectronico)}`);
       }, 1500);
