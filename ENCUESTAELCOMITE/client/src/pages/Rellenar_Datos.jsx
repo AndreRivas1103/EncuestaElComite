@@ -73,7 +73,7 @@ const FormularioRegistro = () => {
 
     try {
       const response = await axios.post(
-          'http://localhost:3000/api/voluntarios',
+        'http://localhost:3000/api/voluntarios',
         {
           nombre_completo: formData.nombreCompleto,
           numero_identificacion: formData.numeroIdentificacion,
@@ -88,20 +88,21 @@ const FormularioRegistro = () => {
       );
 
       setSuccessMessage('Registro exitoso! Redirigiendo...');
-      
-      // Redirección después de 1.5 segundos
+
+      // Guardar datos para usarlos en generación de contraseña en encuesta
+      sessionStorage.setItem('nombreVoluntario', formData.nombreCompleto);
+      sessionStorage.setItem('idVoluntario', formData.numeroIdentificacion);
+
       setTimeout(() => {
         navigate(`/responder-encuesta?correo=${encodeURIComponent(formData.correoElectronico)}`);
       }, 1500);
 
     } catch (error) {
       let errorMessage = 'Error al procesar la solicitud';
-      
+
       if (error.response) {
-        // Error de respuesta del servidor
         errorMessage = error.response.data.details || error.response.data.error || errorMessage;
       } else if (error.request) {
-        // No se recibió respuesta
         errorMessage = 'El servidor no respondió. Intente nuevamente';
       }
 

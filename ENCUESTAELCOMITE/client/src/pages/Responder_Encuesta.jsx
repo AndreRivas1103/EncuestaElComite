@@ -233,7 +233,18 @@ const ResponderEncuesta = () => {
 
       console.log('[DEBUG] Respuesta del servidor:', response.data);
       
-      setSubmitSuccess(true);
+      
+      // Después de guardar respuestas, actualizar voluntario con encuesta_pre y contraseña generada
+await axios.post('http://localhost:3000/api/voluntarios/actualizar-pre-evento', {
+  correo: correoVoluntario,
+  encuesta_pre: respuestasFormateadas,
+  id_encuesta: encuesta.id,
+  nombre: sessionStorage.getItem('nombreVoluntario'),
+  identificacion: sessionStorage.getItem('idVoluntario')
+});
+
+
+setSubmitSuccess(true);
       sessionStorage.removeItem('datosVoluntario');
       
       setTimeout(() => {
@@ -249,8 +260,6 @@ const ResponderEncuesta = () => {
         
         if (err.response.status === 400) {
           errorMessage = 'Datos de respuesta inválidos: ' + errorMessage;
-        } else if (err.response.status === 404) {
-          errorMessage = 'La encuesta ya no está disponible';
         } else if (err.response.status === 500) {
           errorMessage = 'Error en el servidor al procesar las respuestas';
         }
