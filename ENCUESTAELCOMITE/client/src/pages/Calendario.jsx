@@ -26,6 +26,7 @@ function Layout() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -203,6 +204,17 @@ function Layout() {
       console.groupEnd();
     }
   };
+
+  const handleShowConfirmation = () => {
+    if (!validarFechas()) return;
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmProgram = async () => {
+    setShowConfirmModal(false);
+    await handleProgramarEncuesta();
+  };
+
   return (
     <div>
       <title>Programar Encuesta</title>
@@ -648,7 +660,7 @@ function Layout() {
                 boxShadow: '0 4px 12px rgba(158, 205, 73, 0.3)',
                 minWidth: '200px'
               }}
-              onClick={handleProgramarEncuesta}
+              onClick={handleShowConfirmation}
               disabled={loading}
               onMouseOver={(e) => {
                 if (!loading) {
@@ -670,6 +682,61 @@ function Layout() {
           </div>
         </div>
       </div>
+
+      {/* Modal de confirmación */}
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.4)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: 'white',
+            padding: '30px 40px',
+            borderRadius: '12px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            textAlign: 'center',
+            minWidth: '320px',
+            maxWidth: '90vw'
+          }}>
+            <h3 style={{marginBottom: '18px', color: '#1e3766'}}>Confirmar programación</h3>
+            <p style={{marginBottom: '28px'}}>¿Estás seguro de que quieres programar esta encuesta?</p>
+            <div style={{display: 'flex', justifyContent: 'center', gap: '20px'}}>
+              <button 
+                onClick={() => setShowConfirmModal(false)}
+                style={{
+                  padding: '10px 24px',
+                  background: '#e57373',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >Cancelar</button>
+              <button 
+                onClick={handleConfirmProgram}
+                style={{
+                  padding: '10px 24px',
+                  background: '#9ecd49',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >Confirmar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
