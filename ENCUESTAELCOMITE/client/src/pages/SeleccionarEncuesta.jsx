@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../pages/styles/Home.css';
+import '../pages/styles/registroencuestas.css'; // Importar los estilos específicos
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import axios from 'axios';
 
-const RegistroEncuesta = () => {
+const SeleccionarEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [encuestas, setEncuestas] = useState([]);
+  const [cargando, setCargando] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const cargarEncuestas = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/encuestas');
+        setEncuestas(response.data.data);
+      } catch (error) {
+        console.error('Error al cargar encuestas:', error);
+      } finally {
+        setCargando(false);
+      }
+    };
+    cargarEncuestas();
+  }, []);
 
   const Sidebar = ({ isVisible, onClose }) => {
     const navigate = useNavigate();
@@ -18,7 +36,7 @@ const RegistroEncuesta = () => {
     };
 
     const handleLogout = () => {
-      navigate("/confirmar-cierre" );
+      navigate("/confirmar-cierre");
     };
 
     const menuItems = [
@@ -95,23 +113,38 @@ const RegistroEncuesta = () => {
 
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
-      <div className='firtsColor'>
-        <div>
-          <h1 className='title-large'>Seleccionar Encuesta</h1>
-          <br />
-        </div>
+      <div className="registro-encuesta-contenedor">
+        <h1 className="title-large">Seleccionar Encuesta</h1>
 
-        <div className="contenedor-botones">
-          <Link to="/info-encuesta" className="boton">Encuesta 001</Link>
-          <button className="boton">Encuesta 002</button>
-          <button className="boton">Encuesta 003</button>
-          <button className="boton">Encuesta 004</button>
-          <button className="boton">Encuesta 005</button>
-          <button className="boton">Encuesta 006</button>
-        </div>
+        {cargando ? (
+          <div className="registro-encuesta-cargando">
+            <div className="registro-encuesta-spinner"></div>
+            <p>Cargando encuestas...</p>
+          </div>
+        ) : encuestas.length > 0 ? (
+          <div className="registro-encuesta-grid">
+            {encuestas.map((encuesta) => (
+              <Link
+                key={encuesta.id}
+                to={`/info-encuesta/${encuesta.id}`}
+                className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
+              >
+                <span className="registro-encuesta-id">{encuesta.id}</span>
+                <span className="registro-encuesta-estado">{encuesta.estado}</span>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="registro-encuesta-vacio">
+            <p>No se encontraron encuestas registradas</p>
+            <button className="registro-encuesta-boton" onClick={() => window.location.reload()}>
+              Recargar
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default RegistroEncuesta;
+export default SeleccionarEncuesta;

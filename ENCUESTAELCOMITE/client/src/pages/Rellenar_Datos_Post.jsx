@@ -20,25 +20,23 @@ const FormularioRegistro = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [terminosAceptadosAutomaticamente, setTerminosAceptadosAutomaticamente] = useState(false);
 
-  // useEffect para verificar si los términos fueron aceptados previamente
+  // Efecto para verificar términos aceptados previamente
   useEffect(() => {
     const terminosAceptados = localStorage.getItem('terminosAceptados');
     const fechaAceptacion = localStorage.getItem('fechaAceptacionTerminos');
     
     if (terminosAceptados === 'true' && fechaAceptacion) {
-      // Verificar que la aceptación no sea muy antigua (opcional: 24 horas)
       const fechaAceptacionDate = new Date(fechaAceptacion);
       const ahora = new Date();
       const diferenciaHoras = (ahora - fechaAceptacionDate) / (1000 * 60 * 60);
       
-      if (diferenciaHoras <= 24) { // Válido por 24 horas
+      if (diferenciaHoras <= 24) {
         setFormData(prevData => ({
           ...prevData,
           aceptaTerminos: true
         }));
         setTerminosAceptadosAutomaticamente(true);
       } else {
-        // Limpiar términos expirados
         localStorage.removeItem('terminosAceptados');
         localStorage.removeItem('fechaAceptacionTerminos');
       }
@@ -52,7 +50,6 @@ const FormularioRegistro = () => {
       [name]: type === 'checkbox' ? checked : value
     });
 
-    // Si el usuario desmarca manualmente los términos, actualizar el estado
     if (name === 'aceptaTerminos' && !checked) {
       setTerminosAceptadosAutomaticamente(false);
       localStorage.removeItem('terminosAceptados');
@@ -105,13 +102,12 @@ const FormularioRegistro = () => {
     setSuccessMessage('');
 
     try {
+      // Verificar credenciales con el backend
       const response = await axios.post(
-        'http://localhost:3000/api/voluntarios',
+        'http://localhost:3000/api/voluntarios/verificar-credenciales',
         {
-          nombre_completo: formData.nombreCompleto,
-          numero_identificacion: formData.numeroIdentificacion,
-          correo_electronico: formData.correoElectronico,
-          confirmacion_correo: formData.confirmacionCorreo
+          correo: formData.correoElectronico,
+          identificacion: formData.numeroIdentificacion
         },
         {
           headers: {
@@ -120,15 +116,36 @@ const FormularioRegistro = () => {
         }
       );
 
-      setSuccessMessage('Registro exitoso! Redirigiendo...');
-
-      // Limpiar términos después del registro exitoso
-      localStorage.removeItem('terminosAceptados');
-      localStorage.removeItem('fechaAceptacionTerminos');
+      // Si las credenciales son válidas
+      const voluntario = response.data.data;
       
-      // Guardar datos para usarlos en generación de contraseña en encuesta
+      setSuccessMessage('Credenciales verificadas! Redirigiendo...');
+
+      // Guardar TODOS los datos en localStorage para uso futuro
+      const datosCompletos = {
+        nombreCompleto: formData.nombreCompleto,
+        numeroIdentificacion: formData.numeroIdentificacion,
+        correoElectronico: formData.correoElectronico,
+        confirmacionCorreo: formData.confirmacionCorreo,
+        datosBackend: {
+          nombre: voluntario.nombre,
+          identificacion: voluntario.identificacion,
+          correo: voluntario.correo
+        }
+      };
+      
+      localStorage.setItem('datosVoluntario', JSON.stringify(datosCompletos));
+      
+      // Guardar también en sessionStorage para acceso inmediato
       sessionStorage.setItem('nombreVoluntario', formData.nombreCompleto);
       sessionStorage.setItem('idVoluntario', formData.numeroIdentificacion);
+      sessionStorage.setItem('correoVoluntario', formData.correoElectronico);
+
+      // Guardar términos si fueron aceptados
+      if (formData.aceptaTerminos) {
+        localStorage.setItem('terminosAceptados', 'true');
+        localStorage.setItem('fechaAceptacionTerminos', new Date().toISOString());
+      }
 
       // Redirección después de 1.5 segundos
       setTimeout(() => {
@@ -136,7 +153,7 @@ const FormularioRegistro = () => {
       }, 1500);
 
     } catch (error) {
-      let errorMessage = 'Error al procesar la solicitud';
+      let errorMessage = 'Error al verificar las credenciales';
 
       if (error.response) {
         errorMessage = error.response.data.details || error.response.data.error || errorMessage;
@@ -184,7 +201,17 @@ const FormularioRegistro = () => {
                 <div className="form-group">
                   <h1 className="encuesta-title">Rellena Datos PostEvento</h1>
                   
-
+                  <label htmlFor="nombreCompleto">Nombre Completo</label>
+                  <input
+                    type="text"
+                    id="nombreCompleto"
+                    name="nombreCompleto"
+                    value={formData.nombreCompleto}
+                    onChange={handleChange}
+                    className={errors.nombreCompleto ? "form-input error" : "form-input"}
+                    placeholder="Ingrese su nombre completo"
+                  />
+                  {errors.nombreCompleto && <small className="error-text">{errors.nombreCompleto}</small>}
 
                   <label htmlFor="numeroIdentificacion">Número de identificación</label>
                   <input
@@ -194,13 +221,10 @@ const FormularioRegistro = () => {
                     value={formData.numeroIdentificacion}
                     onChange={handleChange}
                     className={errors.numeroIdentificacion ? "form-input error" : "form-input"}
+                    placeholder="Ingrese su número de identificación"
                   />
                   {errors.numeroIdentificacion && <small className="error-text">{errors.numeroIdentificacion}</small>}
 
-                  
-                  <div className="form-group checkbox-group">
-
-                  </div>
                   <label htmlFor="correoElectronico">Correo Electrónico</label>
                   <input
                     type="email"
@@ -209,13 +233,35 @@ const FormularioRegistro = () => {
                     value={formData.correoElectronico}
                     onChange={handleChange}
                     className={errors.correoElectronico ? "form-input error" : "form-input"}
+                    placeholder="Ingrese su correo electrónico"
                   />
                   {errors.correoElectronico && <small className="error-text">{errors.correoElectronico}</small>}
 
-
+                  <label htmlFor="confirmacionCorreo">Confirmar Correo Electrónico</label>
+                  <input
+                    type="email"
+                    id="confirmacionCorreo"
+                    name="confirmacionCorreo"
+                    value={formData.confirmacionCorreo}
+                    onChange={handleChange}
+                    className={errors.confirmacionCorreo ? "form-input error" : "form-input"}
+                    placeholder="Confirme su correo electrónico"
+                  />
+                  {errors.confirmacionCorreo && <small className="error-text">{errors.confirmacionCorreo}</small>}
 
                   <div className="form-group checkbox-group">
-
+                    <input
+                      type="checkbox"
+                      id="aceptaTerminos"
+                      name="aceptaTerminos"
+                      checked={formData.aceptaTerminos}
+                      onChange={handleChange}
+                      className={errors.aceptaTerminos ? "checkbox-input error" : "checkbox-input"}
+                    />
+                    <label htmlFor="aceptaTerminos" className="checkbox-label">
+                      Acepto los términos y condiciones
+                    </label>
+                    {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
                   </div>
 
                   {errors.submit && (
