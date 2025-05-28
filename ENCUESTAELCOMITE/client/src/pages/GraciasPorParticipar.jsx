@@ -1,19 +1,180 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import './styles/GraciasPorParticipar.css';
 
 const GraciasPorParticipar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [resultadosCalculados, setResultadosCalculados] = useState(null);
   
-  // Obtener datos del state (contraseña y nombre)
-  const { contrasena, nombreCompleto } = location.state || {};
+  // Obtener datos del state
+  const { 
+    contrasena, 
+    nombreCompleto, 
+    idEncuesta,
+    correoVoluntario,
+    respuestas
+  } = location.state || {};
 
-  // Debug para ver qué datos estamos recibiendo
-  console.log('[DEBUG] Location state:', location.state);
-  console.log('[DEBUG] Contraseña recibida:', contrasena);
-  console.log('[DEBUG] Nombre recibido:', nombreCompleto);
+  // Función para calcular resultados (con soporte para preguntas abiertas)
+  const calcularResultados = (respuestas) => {
+    // Palabras clave por categoría
+    const palabrasClavePorCategoria = {
+      "Liderazgo": ["iniciativa", "solucionar", "motivar", "proponer", "liderar"],
+      "Trabajo En Equipo": ["colaborar", "equipo", "apoyar", "ayudar", "conjunto"],
+      "Resiliencia": ["persistir", "adaptar", "superar", "resistir", "continuar"],
+      "Obtencion de logros": ["lograr", "meta", "objetivo", "éxito", "conseguir"]
+    };
+
+    const resultadosPorCategoria = {};
+    let totalPreguntas = 0;
+    let totalCorrectas = 0;
+
+    // Procesar cada respuesta
+    respuestas.forEach(item => {
+      const categoria = item.categoria;
+      
+      // Inicializar categoría si no existe
+      if (!resultadosPorCategoria[categoria]) {
+        resultadosPorCategoria[categoria] = {
+          preguntas: 0,
+          correctas: 0,
+          incorrectas: 0,
+          puntaje: 0,
+          detalles: []
+        };
+      }
+      
+      resultadosPorCategoria[categoria].preguntas++;
+      totalPreguntas++;
+
+      let esCorrecta = false;
+      let razon = "";
+
+      // Evaluación diferente según tipo de pregunta
+      if (item.tipoRespuesta === 'multiple') {
+        // Pregunta de opción múltiple
+        esCorrecta = item.respuesta === String(item.respuestaCorrecta);
+        razon = esCorrecta ? "Respuesta correcta" : "Respuesta incorrecta";
+      } else {
+        // Pregunta abierta - evaluación por palabras clave
+        const palabrasClave = palabrasClavePorCategoria[categoria] || [];
+        const respuestaUsuario = (item.respuesta || '').toLowerCase();
+        
+        // Contar palabras clave presentes
+        const palabrasEncontradas = palabrasClave.filter(palabra => 
+          respuestaUsuario.includes(palabra.toLowerCase())
+        ).length;
+        
+        // Considerar correcta si al menos 2 palabras clave están presentes
+        esCorrecta = palabrasEncontradas >= 2;
+        razon = esCorrecta 
+          ? `Contiene ${palabrasEncontradas} palabras clave de la categoría` 
+          : `Solo contiene ${palabrasEncontradas} palabras clave (se requieren al menos 2)`;
+      }
+
+      // Actualizar contadores
+      if (esCorrecta) {
+        resultadosPorCategoria[categoria].correctas++;
+        resultadosPorCategoria[categoria].puntaje++;
+        totalCorrectas++;
+      } else {
+        resultadosPorCategoria[categoria].incorrectas++;
+      }
+
+      // Guardar detalles
+      resultadosPorCategoria[categoria].detalles.push({
+        pregunta: item.pregunta,
+        respuestaUsuario: item.tipoRespuesta === 'multiple' 
+          ? item.opcionSeleccionada 
+          : item.respuesta,
+        respuestaCorrecta: item.tipoRespuesta === 'multiple'
+          ? item.opciones[item.respuestaCorrecta]
+          : "Respuesta basada en palabras clave",
+        esCorrecta,
+        razon
+      });
+    });
+
+    // Calcular porcentajes y niveles
+    Object.keys(resultadosPorCategoria).forEach(categoria => {
+      const cat = resultadosPorCategoria[categoria];
+      cat.porcentaje = Math.round((cat.correctas / cat.preguntas) * 100);
+      cat.nivel = cat.porcentaje >= 80 ? 'Alto' : 
+                  cat.porcentaje >= 60 ? 'Medio' : 'Bajo';
+    });
+
+    const porcentajeTotal = Math.round((totalCorrectas / totalPreguntas) * 100);
+
+    // Generar recomendaciones
+    const recomendaciones = [];
+    Object.entries(resultadosPorCategoria).forEach(([categoria, datos]) => {
+      if (datos.porcentaje < 70) {
+        recomendaciones.push(`Necesitas mejorar en ${categoria} (${datos.porcentaje}% de aciertos)`);
+      }
+    });
+
+    if (recomendaciones.length === 0) {
+      recomendaciones.push("¡Excelente desempeño en todas las áreas! Continúa así.");
+    }
+
+    // Devolver estructura de resultados completa
+    return {
+      resumen: {
+        totalPreguntas,
+        totalCorrectas,
+        totalIncorrectas: totalPreguntas - totalCorrectas,
+        porcentajeTotal,
+        fecha: new Date().toISOString().split('T')[0] // Fecha actual
+      },
+      porCategoria: resultadosPorCategoria,
+      recomendaciones,
+      perfil: porcentajeTotal >= 80 ? 'Perfil Destacado' : 
+              porcentajeTotal >= 60 ? 'Perfil Competente' : 'Perfil en Desarrollo',
+      palabrasClaveUsadas: palabrasClavePorCategoria
+    };
+  };
+
+  // Calcular y guardar resultados cuando el componente se monta
+  useEffect(() => {
+    const procesarYGuardarResultados = async () => {
+      try {
+        setLoading(true);
+        setError('');
+        
+        // Validar que tenemos todos los datos necesarios
+        if (!idEncuesta || !correoVoluntario || !contrasena || !respuestas) {
+          throw new Error('Faltan datos necesarios para calcular resultados');
+        }
+
+        // 1. Calcular resultados
+        const resultadosCalculados = calcularResultados(respuestas);
+        setResultadosCalculados(resultadosCalculados);
+        
+        // 2. Guardar resultados en la base de datos
+        await axios.post('http://localhost:3000/api/resultados', {
+          id_encuesta: idEncuesta,
+          correo_voluntario: correoVoluntario,
+          contrasena: contrasena,
+          resultado: resultadosCalculados
+        });
+        
+        console.log('[SUCCESS] Resultados calculados y guardados exitosamente');
+        
+      } catch (error) {
+        console.error('[ERROR] Al procesar resultados:', error);
+        setError(error.message || 'Error al calcular resultados');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    procesarYGuardarResultados();
+  }, [idEncuesta, correoVoluntario, contrasena, respuestas]);
 
   // Función para probar con datos simulados
   const probarConDatosSimulados = () => {
@@ -24,6 +185,17 @@ const GraciasPorParticipar = () => {
       }
     });
   };
+
+  // Mostrar estado de carga mientras se procesa
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Calculando tus resultados...</p>
+        <p>Esto puede tomar unos momentos</p>
+      </div>
+    );
+  }
 
   return (
     <div className="gracias-container">
@@ -56,6 +228,13 @@ const GraciasPorParticipar = () => {
             Tus respuestas han sido registradas exitosamente.
           </p>
 
+          {error && (
+            <div className="error-message">
+              <p>{error}</p>
+              <p>Por favor contacta al administrador si el problema persiste</p>
+            </div>
+          )}
+
           {contrasena ? (
             <div className="contrasena-section">
               <h2 className="contrasena-titulo">Tu contraseña de acceso:</h2>
@@ -83,7 +262,23 @@ const GraciasPorParticipar = () => {
             </div>
           )}
           
-
+          {/* Mostrar resumen de resultados si están disponibles */}
+          {resultadosCalculados && (
+            <div className="resumen-resultados">
+              <h2>Resumen de tus resultados</h2>
+              <p>Porcentaje total de aciertos: <strong>{resultadosCalculados.resumen.porcentajeTotal}%</strong></p>
+              <p>Perfil: <strong>{resultadosCalculados.perfil}</strong></p>
+              
+              <div className="recomendaciones">
+                <h3>Recomendaciones:</h3>
+                <ul>
+                  {resultadosCalculados.recomendaciones.map((rec, index) => (
+                    <li key={index}>{rec}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           <div className="botones-accion">
             <button 
@@ -99,4 +294,4 @@ const GraciasPorParticipar = () => {
   );
 };
 
-export default GraciasPorParticipar; 
+export default GraciasPorParticipar;

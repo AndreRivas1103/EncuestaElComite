@@ -244,14 +244,18 @@ const ResponderEncuesta = () => {
       // Guardar la contraseña generada para mostrarla en la página de agradecimiento
       const contrasenaGenerada = response.data.contrasena;
       
-      setTimeout(() => {
-        navigate('/gracias-por-participar', { 
-          state: { 
-            contrasena: contrasenaGenerada,
-            nombreCompleto: sessionStorage.getItem('nombreVoluntario')
-          }
-        });
-      }, 2000);
+// En la función handleConfirmSubmit (al final)
+setTimeout(() => {
+  navigate('/gracias-por-participar', { 
+    state: { 
+      contrasena: response.data.contrasena, // Asumiendo que el backend devuelve la contraseña
+      nombreCompleto: sessionStorage.getItem('nombreVoluntario'),
+      idEncuesta: encuesta.id,
+      correoVoluntario: correoVoluntario,
+      respuestas: respuestasFormateadas  // ¡Importante! Enviamos las respuestas
+    }
+  });
+}, 2000);
     } catch (err) {
       console.error('[ERROR] Error al enviar respuestas:', err);
       
