@@ -20,6 +20,7 @@ import ResponderEncuesta from "./pages/Responder_Encuesta.jsx";
 import VisualizarResultados from "./pages/Visualizar_Resultados.jsx";
 import TyC from "./pages/TyC.jsx";
 import VerResultados from "./pages/Ver_Resultados.jsx";
+import GraciasPorParticipar from "./pages/GraciasPorParticipar.jsx";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             />
             <Route path="/terminos-y-condiciones" element={<TyC />} />
             <Route path="/ver-resultados" element={<VerResultados />} />
+            <Route path="/gracias-por-participar" element={<GraciasPorParticipar />} />
           </Routes>
         </main>
       </div>

@@ -14,6 +14,7 @@ const ResponderEncuesta = () => {
   const [respuestas, setRespuestas] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // Obtener encuesta activa con manejo detallado de errores
   useEffect(() => {
@@ -167,11 +168,9 @@ const ResponderEncuesta = () => {
     }));
   };
 
-  // Enviar respuestas con validación y manejo de errores
-  const handleSubmit = async (e) => {
+  // Mostrar modal de confirmación
+  const handleShowConfirmation = (e) => {
     e.preventDefault();
-    
-    console.log('[DEBUG] Intentando enviar respuestas...');
     
     // Validar que todas las preguntas tengan respuesta
     const preguntasSinResponder = Object.entries(respuestas)
@@ -185,6 +184,13 @@ const ResponderEncuesta = () => {
       return;
     }
 
+    setError('');
+    setShowConfirmModal(true);
+  };
+
+  // Confirmar y enviar respuestas
+  const handleConfirmSubmit = async () => {
+    setShowConfirmModal(false);
     setIsSubmitting(true);
     setError('');
     
@@ -218,10 +224,9 @@ const ResponderEncuesta = () => {
 
       console.log('[DEBUG] Respuestas formateadas para enviar:', respuestasFormateadas);
       
-      
       // Después de guardar respuestas, actualizar voluntario con encuesta_pre y contraseña generada
       await axios.post(
-        'http://localhost:3000/api/voluntarios/actualizar-pre-evento', // Corregido
+        'http://localhost:3000/api/voluntarios/actualizar-pre-evento',
         {
           correo: correoVoluntario,
           encuesta_pre: respuestasFormateadas,
@@ -231,8 +236,7 @@ const ResponderEncuesta = () => {
         }
       );
 
-
-setSubmitSuccess(true);
+      setSubmitSuccess(true);
       sessionStorage.removeItem('datosVoluntario');
       
       setTimeout(() => {
@@ -327,7 +331,7 @@ setSubmitSuccess(true);
             Disponible desde: {new Date(encuesta.fecha_apertura).toLocaleDateString()} hasta: {new Date(encuesta.fecha_cierre).toLocaleDateString()}
           </p>
 
-          <form onSubmit={handleSubmit} className="encuesta-form">
+          <form onSubmit={handleShowConfirmation} className="encuesta-form">
             {encuesta.categorias.map((categoria) => (
               <div key={categoria.nombre} className="categoria-group">
                 <h2 className="categoria-titulo">{categoria.nombre}</h2>
@@ -398,6 +402,33 @@ setSubmitSuccess(true);
             </button>
           </form>
         </div>
+
+        {/* Modal de confirmación */}
+        {showConfirmModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Confirmar envío de respuestas</h3>
+              <p>
+                ¿Estás seguro de que quieres enviar tus respuestas? 
+                Una vez enviadas no podrás modificarlas.
+              </p>
+              <div className="modal-buttons">
+                <button 
+                  className="btn-cancelar" 
+                  onClick={() => setShowConfirmModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button 
+                  className="btn-confirmar" 
+                  onClick={handleConfirmSubmit}
+                >
+                  Confirmar y Enviar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
