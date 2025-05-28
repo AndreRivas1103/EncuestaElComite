@@ -514,3 +514,63 @@ svg defs linearGradient {
 .sidebar.hidden {
   animation: slideOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+/* Estilos para la sección de información */
+.resultado-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.resultado-fecha, .resultado-total {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Estilos para recomendaciones */
+.recomendaciones-container {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.recomendaciones-container h3 {
+  text-align: center;
+  color: #73a31d;
+  margin-bottom: 15px;
+}
+
+.recomendaciones-container ul {
+  padding-left: 20px;
+}
+
+.recomendaciones-container li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* Estilos para carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.loading-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #73a31d;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

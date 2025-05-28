@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../pages/styles/VerResultados.css";
 import { Link } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
@@ -46,24 +46,74 @@ function SkillCard({ title, value }) {
     <div className="skill-card">
       <span className="skill-title">{title}</span>
       <CircularProgress value={value} />
+      <div className="skill-label">{value}/10</div>
     </div>
   );
 }
 
 export default function VerResultados() {
+  const [userData, setUserData] = useState(null);
+  const [resultadosData, setResultadosData] = useState(null);
+  const [resultadoPre, setResultadoPre] = useState(null);
+  const [resultadoPost, setResultadoPost] = useState(null);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  
+  // Estado para las habilidades en escala 1-10
   const [skills, setSkills] = useState({
-    liderazgo: 7,
-    obtencionLogros: 8,
-    trabajoEquipo: 6,
-    resiliencia: 7,
+    liderazgo: 0,
+    obtencionLogros: 0,
+    trabajoEquipo: 0,
+    resiliencia: 0,
   });
 
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-
+  // Calcular promedio dinámico en escala 1-10
   const promedio = Math.round(
     Object.values(skills).reduce((a, b) => a + b, 0) /
       Object.values(skills).length
   );
+
+  // Convertir porcentaje a escala 1-10
+  const convertirAScala = (porcentaje) => {
+    return Math.round((porcentaje / 100) * 10);
+  };
+
+  useEffect(() => {
+    // Recuperar datos del usuario
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+
+    // Recuperar resultados
+    const storedResultadosData = localStorage.getItem('resultadosData');
+    if (storedResultadosData) {
+      const parsedData = JSON.parse(storedResultadosData);
+      setResultadosData(parsedData);
+      
+      // Filtrar resultados pre y post
+      const pre = parsedData.find(r => r.tipo === 'pre');
+      const post = parsedData.find(r => r.tipo === 'post');
+      setResultadoPre(pre);
+      setResultadoPost(post);
+      
+      // Actualizar habilidades si hay resultado pre
+      if (pre && pre.resultado && pre.resultado.porCategoria) {
+        const categoriaData = pre.resultado.porCategoria;
+        setSkills({
+          liderazgo: convertirAScala(categoriaData.Liderazgo?.porcentaje || 0),
+          trabajoEquipo: convertirAScala(categoriaData["Trabajo En Equipo"]?.porcentaje || 0),
+          obtencionLogros: convertirAScala(categoriaData["Obtencion de logros"]?.porcentaje || 0),
+          resiliencia: convertirAScala(categoriaData.Resiliencia?.porcentaje || 0)
+        });
+      }
+    }
+    
+    // Limpiar localStorage después de usar los datos
+    return () => {
+      localStorage.removeItem('userData');
+      localStorage.removeItem('resultadosData');
+    };
+  }, []);
 
   const handleCloseSidebar = () => {
     setSidebarVisible(false);
@@ -72,6 +122,24 @@ export default function VerResultados() {
   const handleToggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
+
+  if (!userData || !resultadosData) {
+    return (
+      <div className="app-container">
+        <div className="header ">
+          <div className="logo header-ver-resultados">
+            El Comit<span>é</span>
+          </div>
+          <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
+        </div>
+        
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Cargando resultados...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
@@ -121,7 +189,6 @@ export default function VerResultados() {
                 📊 Post-evento
               </a>
             </li>
-
           </ul>
         </div>
 
@@ -138,10 +205,27 @@ export default function VerResultados() {
 
       <div className={`contenido-principal ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
         <div className="cuadro-porcentajes">
-          <h1 className="title-resultados">Promedio de habilidades</h1>
+          <h1 className="title-resultados">
+            Resultados de {userData.nombreCompleto}
+          </h1>
+          
+          {resultadoPre && resultadoPre.resultado && (
+            <div className="resultado-info">
+              <p className="resultado-fecha">
+                Fecha: {resultadoPre.resultado.resumen?.fecha || 'No disponible'}
+              </p>
+              <p className="resultado-total">
+                Puntuación total: {convertirAScala(resultadoPre.resultado.resumen?.porcentajeTotal || 0)}/10
+              </p>
+              <p className="resultado-perfil">
+                Perfil: {resultadoPre.resultado.perfil || 'No disponible'}
+              </p>
+            </div>
+          )}
 
           <div className="average-container">
             <CircularProgress value={promedio} size={120} strokeWidth={8} />
+            <div className="promedio-label">Promedio: {promedio}/10</div>
           </div>
           
           <div className="skills-grid">
@@ -153,6 +237,17 @@ export default function VerResultados() {
             />
             <SkillCard title="Resiliencia" value={skills.resiliencia} />
           </div>
+          
+          {resultadoPre && resultadoPre.resultado && resultadoPre.resultado.recomendaciones && (
+            <div className="recomendaciones-container">
+              <h3>Recomendaciones</h3>
+              <ul>
+                {resultadoPre.resultado.recomendaciones.map((rec, index) => (
+                  <li key={index}>{rec}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
