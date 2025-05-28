@@ -29,7 +29,7 @@ const RealizarEncuesta = () => {
           
           <div className="encuesta-column">
             <h2 className="encuesta-option-title">Post evento</h2>
-            <Link to="/rellenar-datos" className="btn btn-encuesta">Realizar Encuesta</Link>
+            <Link to="/rellenar-datos-post" className="btn btn-encuesta">Realizar Encuesta</Link>
           </div>
           
         </div>
