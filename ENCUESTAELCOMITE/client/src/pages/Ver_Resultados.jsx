@@ -206,7 +206,10 @@ export default function VerResultados() {
       <div className={`contenido-principal ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
         <div className="cuadro-porcentajes">
           <h1 className="title-resultados">
-            Resultados de {userData.nombreCompleto}
+            Resultados de:
+          </h1>
+          <h1 className="title-resultados">
+            {userData.nombreCompleto}
           </h1>
           
           {resultadoPre && resultadoPre.resultado && (
@@ -215,17 +218,14 @@ export default function VerResultados() {
                 Fecha: {resultadoPre.resultado.resumen?.fecha || 'No disponible'}
               </p>
               <p className="resultado-total">
-                Puntuación total: {convertirAScala(resultadoPre.resultado.resumen?.porcentajeTotal || 0)}/10
+                Puntuación total:
               </p>
-              <p className="resultado-perfil">
-                Perfil: {resultadoPre.resultado.perfil || 'No disponible'}
-              </p>
+
             </div>
           )}
 
           <div className="average-container">
             <CircularProgress value={promedio} size={120} strokeWidth={8} />
-            <div className="promedio-label">Promedio: {promedio}/10</div>
           </div>
           
           <div className="skills-grid">
@@ -241,11 +241,9 @@ export default function VerResultados() {
           {resultadoPre && resultadoPre.resultado && resultadoPre.resultado.recomendaciones && (
             <div className="recomendaciones-container">
               <h3>Recomendaciones</h3>
-              <ul>
                 {resultadoPre.resultado.recomendaciones.map((rec, index) => (
-                  <li key={index}>{rec}</li>
+                  <p key={index}>{rec}</p>
                 ))}
-              </ul>
             </div>
           )}
         </div>
