@@ -230,12 +230,6 @@ const InfoEncuesta = () => {
           {renderDatosEncuesta()}
           
           <div className="encuesta-acciones">
-            <button onClick={handleEditar} className="btn-editar">
-              Editar Encuesta
-            </button>
-            <button onClick={handleEliminar} className="btn-eliminar">
-              Eliminar Encuesta
-            </button>
             <button onClick={() => navigate('/registro-encuestas')} className="btn-volver">
               Volver al listado
             </button>
