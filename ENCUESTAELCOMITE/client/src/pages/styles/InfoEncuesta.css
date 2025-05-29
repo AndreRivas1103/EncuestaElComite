@@ -1,0 +1,163 @@
+.info-encuesta-contenedor {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.encuesta-info-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-top: 20px;
+}
+
+.encuesta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.encuesta-titulo {
+  margin: 0;
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+.encuesta-estado {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.encuesta-estado.activa {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.encuesta-estado.inactiva {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.encuesta-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.metadata-item {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.datos-encuesta-container {
+  margin-top: 25px;
+}
+
+.datos-encuesta-container h3 {
+  margin-bottom: 15px;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.categoria-container {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #f5f7fa;
+  border-radius: 6px;
+}
+
+.categoria-container h4 {
+  margin-top: 0;
+  color: #3498db;
+}
+
+.preguntas-lista {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.pregunta-item {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.opciones-lista {
+  list-style-type: circle;
+  padding-left: 25px;
+  margin-top: 8px;
+}
+
+.encuesta-acciones {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.btn-editar, .btn-eliminar, .btn-volver {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-editar {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-editar:hover {
+  background-color: #2980b9;
+}
+
+.btn-eliminar {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
+
+.btn-volver {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.btn-volver:hover {
+  background-color: #7f8c8d;
+}
+
+.cargando-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-mensaje {
+  color: #e74c3c;
+  font-size: 18px;
+  margin-bottom: 20px;
+}

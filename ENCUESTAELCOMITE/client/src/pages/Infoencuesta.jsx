@@ -1,39 +1,45 @@
-// src/pages/InfoEncuestaPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../pages/styles/InfoEncuestaPage.css';
+import '../pages/styles/InfoEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 
-const InfoEncuestaPage = () => {
+const InfoEncuesta = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [encuesta, setEncuesta] = useState(null);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   useEffect(() => {
-    const cargarEncuesta = async () => {
+    const cargarDetallesEncuesta = async () => {
       try {
+        setCargando(true);
+        setError('');
+        
         const response = await axios.get(`http://localhost:3000/api/encuestas/${id}`);
-        setEncuesta(response.data.data);
-      } catch (err) {
-        setError('Error al cargar la encuesta');
-        console.error(err);
+        const data = response.data.data;
+        
+        // Parsear datos_encuesta si es necesario
+        if (typeof data.datos_encuesta === 'string') {
+          data.datos_encuesta = JSON.parse(data.datos_encuesta);
+        }
+        
+        setEncuesta(data);
+      } catch (error) {
+        console.error('Error al cargar detalles de la encuesta:', error);
+        setError('Error al cargar los detalles de la encuesta');
       } finally {
         setCargando(false);
       }
     };
-    cargarEncuesta();
+    
+    cargarDetallesEncuesta();
   }, [id]);
 
-  // Componente Sidebar (similar al de otras páginas)
   const Sidebar = ({ isVisible, onClose }) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-
     const user = {
       name: localStorage.getItem('userName') || "Usuario",
       email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
@@ -52,7 +58,7 @@ const InfoEncuestaPage = () => {
     return (
       <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={onClose}>×</button>
-        
+
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">
@@ -65,7 +71,7 @@ const InfoEncuestaPage = () => {
           {menuItems.map((item) => (
             <button
               key={item.path}
-              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+              className={`nav-item ${window.location.pathname === item.path ? 'active' : ''}`}
               onClick={() => navigate(item.path)}
             >
               <span className="nav-icon">{item.icon}</span>
@@ -89,138 +95,155 @@ const InfoEncuestaPage = () => {
     );
   };
 
-  // Parsear los datos JSON de la encuesta
-  let datosEncuesta = { categorias: [] };
-  if (encuesta) {
-    try {
-      datosEncuesta = JSON.parse(encuesta.datos_encuesta_name);
-    } catch (e) {
-      console.error('Error al parsear JSON de datos_encuesta', e);
+  const formatearFecha = (fechaISO) => {
+    if (!fechaISO) return 'No disponible';
+    const fecha = new Date(fechaISO);
+    return fecha.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const renderDatosEncuesta = () => {
+    if (!encuesta || !encuesta.datos_encuesta) return null;
+    
+    return (
+      <div className="datos-encuesta-container">
+        <h3>Configuración de la Encuesta</h3>
+        
+        {encuesta.datos_encuesta.categorias?.map((categoria, index) => (
+          <div key={index} className="categoria-container">
+            <h4>{categoria.nombre || `Categoría ${index + 1}`}</h4>
+            
+            <ul className="preguntas-lista">
+              {categoria.preguntas?.map((pregunta, pIndex) => (
+                <li key={pIndex} className="pregunta-item">
+                  <strong>Pregunta {pIndex + 1}:</strong> {pregunta.texto}
+                  
+                  {pregunta.tipoRespuesta === 'multiple' && (
+                    <ul className="opciones-lista">
+                      {pregunta.opciones?.map((opcion, oIndex) => (
+                        <li key={oIndex}>{opcion}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const handleEditar = () => {
+    navigate(`/editar-encuesta/${id}`);
+  };
+
+  const handleEliminar = async () => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta encuesta?')) {
+      try {
+        await axios.delete(`http://localhost:3000/api/encuestas/${id}`);
+        alert('Encuesta eliminada correctamente');
+        navigate('/registro-encuestas');
+      } catch (error) {
+        console.error('Error al eliminar la encuesta:', error);
+        setError('Error al eliminar la encuesta');
+      }
     }
+  };
+
+  if (cargando) {
+    return (
+      <div className="cargando-container">
+        <div className="spinner"></div>
+        <p>Cargando detalles de la encuesta...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-mensaje">{error}</p>
+        <button onClick={() => navigate('/registro-encuestas')} className="btn-volver">
+          Volver a encuestas
+        </button>
+      </div>
+    );
   }
 
   return (
     <div>
-      <title>Detalles de Encuesta</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      
+      <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
       <header className="header">
         <div className="logo">
-          <a href='/inicio-coordinador' className='logo'>El Comit<span>é</span></a>
+          <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
       <div className="menu-button-container">
-        <button 
-          className="menu-button" 
+        <button
+          className="menu-button"
           onClick={() => setSidebarVisible(!sidebarVisible)}
         >
           ☰
         </button>
       </div>
 
-      <Sidebar 
-        isVisible={sidebarVisible} 
-        onClose={() => setSidebarVisible(false)} 
-      />
-
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
-      <div className="info-encuesta-container">
-        {cargando ? (
-          <div className="info-encuesta-cargando">
-            <div className="spinner"></div>
-            <p>Cargando encuesta...</p>
-          </div>
-        ) : error ? (
-          <div className="info-encuesta-error">
-            <p>{error}</p>
-            <button onClick={() => navigate(-1)}>Volver</button>
-          </div>
-        ) : !encuesta ? (
-          <div className="info-encuesta-no-encontrada">
-            <p>No se encontró la encuesta solicitada</p>
-            <button onClick={() => navigate(-1)}>Volver</button>
-          </div>
-        ) : (
-          <>
-            <h1 className="title-large">{encuesta.título || 'Detalles de la encuesta'}</h1>
-            
-            <div className="info-encuesta-metadata">
-              <div className="metadata-card">
-                <div className="metadata-item">
-                  <span className="label">ID:</span>
-                  <span className="value">{encuesta.id}</span>
-                </div>
-                <div className="metadata-item">
-                  <span className="label">Fecha creación:</span>
-                  <span className="value">{encuesta.fecha_creacion}</span>
-                </div>
-              </div>
-              
-              <div className="metadata-card">
-                <div className="metadata-item">
-                  <span className="label">Fecha apertura:</span>
-                  <span className="value">{encuesta.fecha_apertura}</span>
-                </div>
-                <div className="metadata-item">
-                  <span className="label">Fecha cierre:</span>
-                  <span className="value">{encuesta.fecha_cierre}</span>
-                </div>
-              </div>
-            </div>
+      <Sidebar
+        isVisible={sidebarVisible}
+        onClose={() => setSidebarVisible(false)}
+      />
 
-            <div className="info-encuesta-datos">
-              <h2>Contenido de la encuesta</h2>
-              {datosEncuesta.categorias && datosEncuesta.categorias.length > 0 ? (
-                datosEncuesta.categorias.map((categoria, index) => (
-                  <div key={index} className="categoria">
-                    <h3>{categoria.nombre}</h3>
-                    <div className="preguntas-container">
-                      {categoria.preguntas && categoria.preguntas.map((pregunta, idx) => (
-                        <div key={idx} className="pregunta">
-                          <p className="pregunta-texto">{pregunta.texto}</p>
-                          <p className="pregunta-tipo">Tipo: {pregunta.tipo}</p>
-                          {pregunta.opciones && pregunta.opciones.length > 0 && (
-                            <div className="opciones">
-                              <span>Opciones:</span>
-                              <ul>
-                                {pregunta.opciones.map((opcion, i) => (
-                                  <li key={i}>{opcion}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No se encontraron categorías en esta encuesta</p>
-              )}
+      <div className="info-encuesta-contenedor">
+        <h1 className="title-large">Detalles de la Encuesta</h1>
+        
+        <div className="encuesta-info-card">
+          <div className="encuesta-header">
+            <h2 className="encuesta-titulo">{encuesta.titulo || 'Encuesta sin título'}</h2>
+            <span className={`encuesta-estado ${encuesta.estado.toLowerCase()}`}>
+              {encuesta.estado}
+            </span>
+          </div>
+          
+          <div className="encuesta-metadata">
+            <div className="metadata-item">
+              <strong>ID:</strong> {encuesta.id}
             </div>
-
-            <div className="info-encuesta-actions">
-              <button 
-                className="action-button primary"
-                onClick={() => navigate(-1)}
-              >
-                Volver
-              </button>
-              <button 
-                className="action-button secondary"
-                onClick={() => navigate(`/editar-encuesta/${id}`)}
-              >
-                Editar Encuesta
-              </button>
+            <div className="metadata-item">
+              <strong>Fecha de creación:</strong> {formatearFecha(encuesta.fecha_creacion)}
             </div>
-          </>
-        )}
+            <div className="metadata-item">
+              <strong>Fecha de apertura:</strong> {formatearFecha(encuesta.fecha_apertura)}
+            </div>
+            <div className="metadata-item">
+              <strong>Fecha de cierre:</strong> {formatearFecha(encuesta.fecha_cierre)}
+            </div>
+          </div>
+          
+          {renderDatosEncuesta()}
+          
+          <div className="encuesta-acciones">
+            <button onClick={handleEditar} className="btn-editar">
+              Editar Encuesta
+            </button>
+            <button onClick={handleEliminar} className="btn-eliminar">
+              Eliminar Encuesta
+            </button>
+            <button onClick={() => navigate('/registro-encuestas')} className="btn-volver">
+              Volver al listado
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default InfoEncuestaPage;
+export default InfoEncuesta;
