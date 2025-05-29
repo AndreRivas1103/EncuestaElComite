@@ -31,7 +31,7 @@ const Encuesta = sequelize.define('Encuesta', {
   },
   estado: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     validate: {
       isIn: [['borrador', 'programada', 'activa', 'cerrada']]
     }

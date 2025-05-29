@@ -136,26 +136,31 @@ const ClonarEncuesta = () => {
   };
 
   const handleClonar = async () => {
-    if (!nuevoId) {
-      alert('Por favor, ingrese un nuevo ID para la encuesta');
-      return;
-    }
-
     if (!user.cedula) {
       alert('Usuario no identificado');
       return;
     }
 
+    let idFinal = nuevoId.trim();
+    if (!idFinal || idFinal === encuesta.id) {
+      const random = Math.floor(Math.random() * 900 + 100);
+      idFinal = `HB-${new Date().getFullYear()}-${random}`;
+      alert(`ID repetido o vacío. Se generó uno nuevo automáticamente: ${idFinal}`);
+    }
+
     try {
+      const { id: _, ...encuestaSinId } = encuesta;
       const nuevaEncuesta = {
-        ...encuesta,
-        id: nuevoId,
+        ...encuestaSinId,
+        id: idFinal,
         fecha_creacion: new Date().toISOString().split('T')[0],
         fecha_apertura: fechaApertura || null,
         fecha_cierre: fechaCierre || null,
         respuestas_count: 0,
         usuario_id: user.cedula
       };
+
+      console.log('🔍 Clonando encuesta con ID:', nuevaEncuesta.id);
 
       await axios.post('http://localhost:3000/api/encuestas', nuevaEncuesta);
       alert('Encuesta clonada correctamente');
@@ -166,42 +171,51 @@ const ClonarEncuesta = () => {
     }
   };
 
-  const handleProgramar = async () => {
-    if (!fechaApertura || !fechaCierre) {
-      alert('Por favor, complete ambas fechas');
-      return;
-    }
+const handleProgramar = async () => {
+  if (!fechaApertura || !fechaCierre) {
+    alert('Por favor, complete ambas fechas');
+    return;
+  }
 
-    if (new Date(fechaCierre) <= new Date(fechaApertura)) {
-      alert('La fecha de cierre debe ser posterior a la de apertura');
-      return;
-    }
+  if (new Date(fechaCierre) <= new Date(fechaApertura)) {
+    alert('La fecha de cierre debe ser posterior a la de apertura');
+    return;
+  }
 
-    if (!user.cedula) {
-      alert('Usuario no identificado');
-      return;
-    }
+  if (!user.cedula) {
+    alert('Usuario no identificado');
+    return;
+  }
 
-    const payload = {
-      ...encuesta,
-      fecha_apertura: fechaApertura,
-      fecha_cierre: fechaCierre,
-      usuario_id: user.cedula
-      // estado eliminado para evitar error con columna generada
-    };
+  let idFinal = nuevoId.trim();
+  if (!idFinal || idFinal === encuesta.id) {
+    const random = Math.floor(Math.random() * 900 + 100);
+    idFinal = `HB-${new Date().getFullYear()}-${random}`;
+    alert(`ID repetido o vacío. Se generó uno nuevo automáticamente: ${idFinal}`);
+  }
 
-    console.log("📤 Payload final sin estado:", payload);
-
-    try {
-      await axios.post(`http://localhost:3000/api/encuestas/programar/${id}`, payload);
-
-      alert('Encuesta programada correctamente');
-      navigate('/registro-encuestas');
-    } catch (error) {
-      console.error('Error al programar la encuesta:', error.response?.data || error.message);
-      setError(error.response?.data?.error || 'Error al programar la encuesta');
-    }
+  const payload = {
+    id: idFinal,
+    titulo: encuesta.titulo || 'Encuesta Clonada',
+    fecha_apertura: fechaApertura,
+    fecha_cierre: fechaCierre,
+    fecha_creacion: new Date().toISOString().split('T')[0],
+    usuario_id: user.cedula,
+    datos_encuesta: encuesta.datos_encuesta,
+    respuestas_count: 0
   };
+
+  console.log("📤 Payload final:", payload);
+
+  try {
+    await axios.post('http://localhost:3000/api/encuestas/programar', payload);
+    alert('Encuesta programada correctamente');
+    navigate('/registro-encuestas');
+  } catch (error) {
+    console.error('Error al programar la encuesta:', error.response?.data || error.message);
+    setError(error.response?.data?.error || 'Error al programar la encuesta');
+  }
+};
 
   if (cargando) {
     return (

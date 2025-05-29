@@ -93,6 +93,9 @@ export const obtenerEncuestaActiva = async (req, res) => {
   }
 };
 
+import { UniqueConstraintError } from 'sequelize';
+
+
 export const programarEncuesta = async (req, res) => {
   try {
     const {
@@ -105,8 +108,9 @@ export const programarEncuesta = async (req, res) => {
       respuestas_count
     } = req.body;
 
+    // 🛡️ Validación de campos requeridos
     const errores = [];
-
+    if (!id) errores.push('Falta el ID');
     if (!titulo) errores.push('Falta el título');
     if (!fecha_apertura) errores.push('Falta la fecha de apertura');
     if (!fecha_cierre) errores.push('Falta la fecha de cierre');
@@ -117,12 +121,22 @@ export const programarEncuesta = async (req, res) => {
       return res.status(400).json({ error: 'Campos inválidos', detalles: errores });
     }
 
+    // 📅 Validación de fechas
     if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
       return res.status(400).json({ error: 'La fecha de cierre debe ser posterior a la de apertura' });
     }
 
-    const [encuesta, created] = await Encuesta.upsert({
-      id: id || undefined,
+    // 🔍 Validar si el ID ya existe
+    const encuestaExistente = await Encuesta.findByPk(id);
+    if (encuestaExistente) {
+      return res.status(409).json({
+        error: `Ya existe una encuesta con el ID "${id}". Por favor, usa uno distinto.`
+      });
+    }
+
+    // ✅ Insertar la nueva encuesta (sin incluir "estado" generado)
+    const nuevaEncuesta = await Encuesta.create({
+      id,
       titulo,
       fecha_apertura,
       fecha_cierre,
@@ -132,7 +146,11 @@ export const programarEncuesta = async (req, res) => {
       respuestas_count: respuestas_count ?? 0
     });
 
-    res.status(200).json({ message: 'Encuesta programada correctamente', encuesta });
+    console.log('✅ Encuesta insertada con ID:', nuevaEncuesta.id);
+    res.status(201).json({
+      message: 'Encuesta insertada correctamente',
+      encuesta: nuevaEncuesta
+    });
   } catch (error) {
     console.error('⛔ Error al programar encuesta:', error);
     res.status(500).json({
@@ -141,6 +159,7 @@ export const programarEncuesta = async (req, res) => {
     });
   }
 };
+
 
 
 // ========== FUNCIÓN AUXILIAR ==========
