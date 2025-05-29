@@ -79,7 +79,6 @@ export default function VerResultados() {
     return Math.round((porcentaje / 100) * 10);
   };
 
-  // Función modificada: ahora solo requiere el correo
   const fetchResultadoPostDesdeAPI = async (correo) => {
     try {
       setLoading(true);
@@ -87,7 +86,7 @@ export default function VerResultados() {
       
       const response = await axios.post(
         "http://localhost:3000/api/resultados/credenciales/post", 
-        { correo } // Solo enviamos el correo
+        { correo }
       );
 
       if (!response.data.success || !Array.isArray(response.data.data)) {
@@ -141,8 +140,7 @@ export default function VerResultados() {
     }
 
     return () => {
-      localStorage.removeItem("userData");
-      localStorage.removeItem("resultadosData");
+      // Mantener los datos en localStorage
     };
   }, []);
 
@@ -169,7 +167,6 @@ export default function VerResultados() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  // Función modificada: ahora solo pasa el correo
   const handlePostClick = () => {
     setTipoVista("post");
     if (!resultadoPost && userData) {
@@ -180,7 +177,7 @@ export default function VerResultados() {
   const handleLogout = () => {
     localStorage.removeItem("userData");
     localStorage.removeItem("resultadosData");
-    navigate("/consulta-resultados");
+    navigate("/"); // Cambiado para redirigir a la ruta raíz
   };
 
   if (!userData || !resultadosData) {
@@ -250,7 +247,11 @@ export default function VerResultados() {
         <div className="sidebar2-inferior">
           <ul>
             <li>
-              <a href="#" onClick={handleLogout}>🚪 Salir</a>
+              {/* Cambiado para usar handleLogout que redirige a la ruta raíz */}
+              <a href="#" onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}>🚪 Salir</a>
             </li>
           </ul>
         </div>
