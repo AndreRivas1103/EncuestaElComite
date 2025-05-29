@@ -1,4 +1,3 @@
-// ./pages/Responder_Encuesta_Post.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -223,12 +222,12 @@ const ResponderEncuestaPost = () => {
 
       console.log('[DEBUG] Respuestas formateadas para enviar:', respuestasFormateadas);
       
-      // Enviar respuestas al backend
+      // Enviar respuestas al backend (CORRECCIÓN: endpoint y campo actualizados)
       const response = await axios.post(
-        'http://localhost:3000/api/voluntarios/actualizar-pre-evento',
+        'http://localhost:3000/api/voluntarios/actualizar-post-evento',
         {
           correo: correoVoluntario,
-          encuesta_pre: respuestasFormateadas,
+          encuesta_post: respuestasFormateadas,  // Campo corregido
           id_encuesta: encuesta.id,
           nombre: sessionStorage.getItem('nombreVoluntario'),
           identificacion: sessionStorage.getItem('idVoluntario')

@@ -12,11 +12,11 @@ const GraciasPorParticiparPost = () => {
   const [resultadosCalculados, setResultadosCalculados] = useState(null);
   const hasGuardadoRef = useRef(false);
 
-  const { 
-    correo,
-    respuestas,
-    idEncuesta
-  } = location.state || {};
+const { 
+  correoVoluntario: correo,
+  respuestas,
+  idEncuesta
+} = location.state || {};
 
   // Función para calcular resultados (similar a la versión pre-evento)
   const calcularResultados = (respuestas) => {
@@ -51,10 +51,16 @@ const GraciasPorParticiparPost = () => {
       let respuestaCorrectaValor = "No disponible";
 
       if (item.tipoRespuesta === 'multiple') {
-        const respuestaCorrectaIndex = (typeof item.respuestaCorrecta === 'number' && !isNaN(item.respuestaCorrecta)) ? item.respuestaCorrecta : -1;
+        // Validación mejorada para respuestas correctas
+        const respuestaCorrectaIndex = (typeof item.respuestaCorrecta === 'number' && !isNaN(item.respuestaCorrecta)) 
+          ? item.respuestaCorrecta 
+          : -1;
+        
         const opcionesValidas = Array.isArray(item.opciones) && item.opciones.length > 0;
+        
         respuestaCorrectaValor = (opcionesValidas && respuestaCorrectaIndex >= 0 && respuestaCorrectaIndex < item.opciones.length)
-          ? item.opciones[respuestaCorrectaIndex] : "Respuesta correcta no disponible";
+          ? item.opciones[respuestaCorrectaIndex] 
+          : "Respuesta correcta no disponible";
 
         esCorrecta = item.respuesta === String(respuestaCorrectaIndex);
         razon = esCorrecta ? "Respuesta correcta" : "Respuesta incorrecta";
@@ -62,7 +68,10 @@ const GraciasPorParticiparPost = () => {
       } else {
         const palabrasClave = palabrasClavePorCategoria[categoria] || [];
         const respuestaUsuario = (item.respuesta || '').toLowerCase();
-        const palabrasEncontradas = palabrasClave.filter(palabra => respuestaUsuario.includes(palabra.toLowerCase())).length;
+        const palabrasEncontradas = palabrasClave.filter(palabra => 
+          respuestaUsuario.includes(palabra.toLowerCase())
+        ).length;
+        
         esCorrecta = palabrasEncontradas >= 2;
         razon = esCorrecta 
           ? `Contiene ${palabrasEncontradas} palabras clave de la categoría` 
@@ -79,7 +88,9 @@ const GraciasPorParticiparPost = () => {
 
       resultadosPorCategoria[categoria].detalles.push({
         pregunta: item.pregunta,
-        respuestaUsuario: item.tipoRespuesta === 'multiple' ? (item.opcionSeleccionada || "No seleccionada") : (item.respuesta || "Sin respuesta"),
+        respuestaUsuario: item.tipoRespuesta === 'multiple' 
+          ? (item.opcionSeleccionada || "No seleccionada") 
+          : (item.respuesta || "Sin respuesta"),
         respuestaCorrecta: respuestaCorrectaValor,
         esCorrecta,
         razon
@@ -154,13 +165,12 @@ const GraciasPorParticiparPost = () => {
         setResultadosCalculados(resultadosCalculados);
 
         // 3. Guardar los resultados en la base de datos
-        // (Asumiendo que usas el mismo endpoint que para pre-evento)
         await axios.post('http://localhost:3000/api/resultados', {
           id_encuesta: idEncuesta,
           correo_voluntario: correo,
-          contrasena: 'post-evento', // O usa una contraseña específica para post
+          contrasena: 'post-evento',
           resultado: resultadosCalculados,
-          tipo: 'post' // Agregar tipo para distinguir
+          tipo: 'post'
         });
 
       } catch (error) {
