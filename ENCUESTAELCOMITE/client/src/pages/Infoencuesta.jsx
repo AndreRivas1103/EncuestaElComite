@@ -105,37 +105,36 @@ const InfoEncuesta = () => {
     });
   };
 
-  const renderDatosEncuesta = () => {
-    if (!encuesta || !encuesta.datos_encuesta) return null;
-    
-    return (
-      <div className="datos-encuesta-container">
-        <h3>Configuración de la Encuesta</h3>
-        
-        {encuesta.datos_encuesta.categorias?.map((categoria, index) => (
-          <div key={index} className="categoria-container">
-            <h4>{categoria.nombre || `Categoría ${index + 1}`}</h4>
-            
-            <ul className="preguntas-lista">
-              {categoria.preguntas?.map((pregunta, pIndex) => (
-                <li key={pIndex} className="pregunta-item">
-                  <strong>Pregunta {pIndex + 1}:</strong> {pregunta.texto}
-                  
-                  {pregunta.tipoRespuesta === 'multiple' && (
-                    <ul className="opciones-lista">
-                      {pregunta.opciones?.map((opcion, oIndex) => (
+const renderDatosEncuesta = () => {
+  if (!encuesta || !encuesta.datos_encuesta) return null;
+  return (
+    <div className="datos-encuesta-container">
+      <h3>Configuración de la Encuesta</h3>
+      {encuesta.datos_encuesta.categorias?.map((categoria, index) => (
+        <div key={index} className="categoria-container">
+          <h4>{categoria.nombre || `Categoría ${index + 1}`}</h4>
+          <ul className="preguntas-lista">
+            {categoria.preguntas?.map((pregunta, pIndex) => (
+              <li key={pIndex} className="pregunta-item">
+                <strong>Pregunta {pIndex + 1}:</strong> {pregunta.texto}
+                {pregunta.tipoRespuesta === 'multiple' && (
+                  <ul className="opciones-lista">
+                    {pregunta.opciones
+                      ?.filter(op => op && op.trim() !== "")
+                      .map((opcion, oIndex) => (
                         <li key={oIndex}>{opcion}</li>
                       ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    );
-  };
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 
 
   const handleEliminar = async () => {
