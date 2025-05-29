@@ -217,3 +217,56 @@ export const verificarCredenciales = async (req, res) => {
     });
   }
 };
+
+export const actualizarPostEvento = async (req, res) => {
+  try {
+    const { correo, encuesta_post } = req.body;
+
+    // Validación básica
+    if (!correo || !encuesta_post) {
+      return res.status(400).json({
+        error: 'Datos incompletos',
+        details: 'Se requieren correo y encuesta_post'
+      });
+    }
+
+    // Validación de formato JSON
+    if (typeof encuesta_post !== 'object' || !Array.isArray(encuesta_post)) {
+      return res.status(400).json({
+        error: 'Formato inválido',
+        details: 'encuesta_post debe ser un array de objetos JSON válido'
+      });
+    }
+
+    // Buscar voluntario por correo (primary key)
+    const voluntario = await Voluntario.findByPk(correo);
+    
+    if (!voluntario) {
+      return res.status(404).json({
+        error: 'Voluntario no encontrado',
+        details: `No existe voluntario con correo: ${correo}`
+      });
+    }
+
+    // Actualizar solo el campo encuesta_post
+    voluntario.encuesta_post = encuesta_post;
+    await voluntario.save();
+
+    res.json({
+      success: true,
+      message: 'Encuesta post actualizada correctamente',
+      data: {
+        correo: voluntario.correo_electronico,
+        camposActualizados: ['encuesta_post']
+      }
+    });
+
+  } catch (error) {
+    console.error('[ERROR] al actualizar encuesta post:', error);
+    res.status(500).json({
+      error: 'Error al actualizar encuesta post',
+      details: error.message,
+      code: 'VOLUNTARIO_UPDATE_POST_ERROR'
+    });
+  }
+};

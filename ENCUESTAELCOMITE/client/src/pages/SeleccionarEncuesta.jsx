@@ -1,6 +1,7 @@
+// src/pages/SeleccionarEncuesta.jsx
 import React, { useState, useEffect } from 'react';
 import '../pages/styles/Home.css';
-import '../pages/styles/registroencuestas.css'; // Importar los estilos específicos
+import '../pages/styles/registroencuestas.css'; // Importar estilos específicos
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
@@ -12,6 +13,7 @@ const SeleccionarEncuesta = () => {
   const [cargando, setCargando] = useState(true);
   const navigate = useNavigate();
 
+  // Misma lógica para cargar encuestas que en RegistroEncuesta
   useEffect(() => {
     const cargarEncuestas = async () => {
       try {
@@ -26,6 +28,7 @@ const SeleccionarEncuesta = () => {
     cargarEncuestas();
   }, []);
 
+  // Mismo componente Sidebar que en RegistroEncuesta
   const Sidebar = ({ isVisible, onClose }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -113,6 +116,10 @@ const SeleccionarEncuesta = () => {
 
       <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
+      {/* 
+        Misma estructura de visualización que en RegistroEncuesta
+        Solo cambia el título de la página
+      */}
       <div className="registro-encuesta-contenedor">
         <h1 className="title-large">Seleccionar Encuesta</h1>
 
