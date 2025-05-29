@@ -235,3 +235,44 @@
   border-radius: 4px;
   cursor: pointer;
 }
+/* Agrega esto al final del archivo CSS */
+.categoria-container h4 {
+  color: #2ecc71; /* Verde similar al de los botones */
+  font-size: 1.2rem;
+  margin: 15px 0 10px 0;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #eee;
+}
+
+.pregunta-item {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border-left: 4px solid #2ecc71; /* Borde lateral verde */
+}
+
+.pregunta-item strong {
+  color: #2c3e50; /* Color oscuro para el número de pregunta */
+}
+
+.opciones-lista {
+  list-style-type: none; /* Elimina los puntos */
+  padding-left: 0;
+  margin-top: 8px;
+}
+
+.opciones-lista li {
+  padding: 6px 0;
+  position: relative;
+  padding-left: 25px;
+}
+
+.opciones-lista li:before {
+  content: "•"; /* Usamos un círculo en lugar de guión */
+  color: #2ecc71; /* Verde para los puntos */
+  font-size: 1.5rem;
+  position: absolute;
+  left: 5px;
+  top: 2px;
+}
