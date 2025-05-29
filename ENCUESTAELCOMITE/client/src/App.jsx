@@ -23,6 +23,7 @@ import VerResultados from "./pages/Ver_Resultados.jsx";
 import GraciasPorParticipar from "./pages/GraciasPorParticipar.jsx";
 import DatosPost from "./pages/Rellenar_Datos_Post.jsx";
 
+
 function App() {
   return (
     <Router>

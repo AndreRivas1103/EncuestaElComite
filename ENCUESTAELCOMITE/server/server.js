@@ -38,8 +38,9 @@ app.get('/', (req, res) => {
         registrar: 'POST /api/voluntarios',
         actualizar: 'PUT /api/voluntarios/:correo',
         verificar: 'POST /api/voluntarios/verificar',
-        verificarCredenciales: 'POST /api/voluntarios/verificar-credenciales', // Nueva documentación
-        actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento'
+        verificarCredenciales: 'POST /api/voluntarios/verificar-credenciales',
+        actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento',
+        actualizarPostEvento: 'POST /api/voluntarios/actualizar-post-evento' // Nuevo endpoint documentado
       },
       resultados: {
         guardar: 'POST /api/resultados',
@@ -82,8 +83,9 @@ app.listen(PORT, () => {
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);
   console.log(`   - Verificar voluntario: POST http://localhost:${PORT}/api/voluntarios/verificar`);
-  console.log(`   - Verificar credenciales: POST http://localhost:${PORT}/api/voluntarios/verificar-credenciales`); // Nuevo endpoint
+  console.log(`   - Verificar credenciales: POST http://localhost:${PORT}/api/voluntarios/verificar-credenciales`);
   console.log(`   - Actualizar pre-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-pre-evento`);
+  console.log(`   - Actualizar post-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-post-evento`); 
   console.log(`   - Listar encuestas: GET http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Encuesta activa: GET http://localhost:${PORT}/api/encuestas/activa`);
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
