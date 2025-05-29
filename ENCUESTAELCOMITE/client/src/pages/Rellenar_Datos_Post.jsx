@@ -147,9 +147,9 @@ const FormularioRegistro = () => {
         localStorage.setItem('fechaAceptacionTerminos', new Date().toISOString());
       }
 
-      // Redirección después de 1.5 segundos
+      // CAMBIO IMPORTANTE: Redirección a responder-encuesta-post
       setTimeout(() => {
-        navigate(`/responder-encuesta?correo=${encodeURIComponent(formData.correoElectronico)}`);
+        navigate(`/responder-encuesta-post?correo=${encodeURIComponent(formData.correoElectronico)}`);
       }, 1500);
 
     } catch (error) {
