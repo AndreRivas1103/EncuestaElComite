@@ -22,7 +22,8 @@ import TyC from "./pages/TyC.jsx";
 import VerResultados from "./pages/Ver_Resultados.jsx";
 import GraciasPorParticipar from "./pages/GraciasPorParticipar.jsx";
 import DatosPost from "./pages/Rellenar_Datos_Post.jsx";
-
+import GraciasPorParticiparPost from "./pages/GraciasPorParticiparPost.jsx"; // Nuevo
+import ResponderEncuestaPost from "./pages/Responder_Encuesta_Post.jsx"; // Nuevo
 
 function App() {
   return (
@@ -59,6 +60,9 @@ function App() {
             <Route path="/ver-resultados" element={<VerResultados />} />
             <Route path="/gracias-por-participar" element={<GraciasPorParticipar />} />
             <Route path="/rellenar-datos-post" element={<DatosPost />} />
+            {/* Nuevas rutas */}
+            <Route path="/gracias-por-participar-post" element={<GraciasPorParticiparPost />} />
+            <Route path="/responder-encuesta-post" element={<ResponderEncuestaPost />} />
           </Routes>
         </main>
       </div>
