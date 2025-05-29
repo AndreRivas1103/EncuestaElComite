@@ -96,16 +96,16 @@ export const obtenerResultadosPorCredenciales = async (req, res) => {
 
 export const obtenerResultadosPostPorCredenciales = async (req, res) => {
   try {
-    const { correo, contrasena } = req.body;
+    const { correo } = req.body;
 
-    if (!correo || !contrasena) {
+    if (!correo) {
       return res.status(400).json({
         error: 'Datos incompletos',
-        details: 'Se requieren correo y contrasena'
+        details: 'Se requiere correo'
       });
     }
 
-    const resultados = await Resultado.findPostByEmailAndPassword(correo, contrasena);
+    const resultados = await Resultado.findPostByEmail(correo);
 
     res.json({
       success: true,

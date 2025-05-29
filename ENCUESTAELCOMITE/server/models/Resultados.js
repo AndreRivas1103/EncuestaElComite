@@ -65,16 +65,14 @@ Resultado.findByEmailAndPassword = async function(correo, contrasena) {
   });
 };
 
-
-Resultado.findPostByEmailAndPassword = async function(correo, contrasena) {
+// Método modificado: ahora solo requiere el correo
+Resultado.findPostByEmail = async function(correo) {
   return await this.findAll({
     where: {
       correo_voluntario: correo,
-      contraseña: contrasena,
       tipo: 'post'
     }
   });
 };
-
 
 export default Resultado;

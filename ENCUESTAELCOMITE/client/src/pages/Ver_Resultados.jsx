@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "../pages/styles/VerResultados.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
 import MigaDePan from "../components/MigaDePan.jsx";
+import axios from "axios";
 
 function CircularProgress({ value, size = 40, strokeWidth = 4 }) {
   const radius = (size - strokeWidth) / 2;
@@ -52,13 +53,16 @@ function SkillCard({ title, value }) {
 }
 
 export default function VerResultados() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [resultadosData, setResultadosData] = useState(null);
   const [resultadoPre, setResultadoPre] = useState(null);
   const [resultadoPost, setResultadoPost] = useState(null);
+  const [tipoVista, setTipoVista] = useState("pre");
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  
-  // Estado para las habilidades en escala 1-10
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const [skills, setSkills] = useState({
     liderazgo: 0,
     obtencionLogros: 0,
@@ -66,54 +70,96 @@ export default function VerResultados() {
     resiliencia: 0,
   });
 
-  // Calcular promedio dinámico en escala 1-10
   const promedio = Math.round(
     Object.values(skills).reduce((a, b) => a + b, 0) /
       Object.values(skills).length
   );
 
-  // Convertir porcentaje a escala 1-10
   const convertirAScala = (porcentaje) => {
     return Math.round((porcentaje / 100) * 10);
   };
 
+  // Función modificada: ahora solo requiere el correo
+  const fetchResultadoPostDesdeAPI = async (correo) => {
+    try {
+      setLoading(true);
+      setError("");
+      
+      const response = await axios.post(
+        "http://localhost:3000/api/resultados/credenciales/post", 
+        { correo } // Solo enviamos el correo
+      );
+
+      if (!response.data.success || !Array.isArray(response.data.data)) {
+        throw new Error("Formato inesperado de resultados");
+      }
+
+      const post = response.data.data.find(r => r.tipo === "post");
+      if (!post) {
+        throw new Error("No se encontraron resultados post");
+      }
+      
+      setResultadoPost(post);
+      
+      // Actualizar localStorage con el nuevo resultado post
+      const newResultadosData = resultadosData ? [...resultadosData] : [];
+      const existingPostIndex = newResultadosData.findIndex(r => r.tipo === "post");
+      
+      if (existingPostIndex !== -1) {
+        newResultadosData[existingPostIndex] = post;
+      } else {
+        newResultadosData.push(post);
+      }
+      
+      setResultadosData(newResultadosData);
+      localStorage.setItem("resultadosData", JSON.stringify(newResultadosData));
+      
+    } catch (error) {
+      console.error("[ERROR] al obtener resultados post desde API:", error);
+      setError(error.response?.data?.error || error.message || "Error al obtener resultados");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    // Recuperar datos del usuario
-    const storedUserData = localStorage.getItem('userData');
+    const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
     }
 
-    // Recuperar resultados
-    const storedResultadosData = localStorage.getItem('resultadosData');
+    const storedResultadosData = localStorage.getItem("resultadosData");
     if (storedResultadosData) {
       const parsedData = JSON.parse(storedResultadosData);
       setResultadosData(parsedData);
-      
-      // Filtrar resultados pre y post
-      const pre = parsedData.find(r => r.tipo === 'pre');
-      const post = parsedData.find(r => r.tipo === 'post');
+
+      const pre = parsedData.find((r) => r.tipo === "pre");
+      const post = parsedData.find((r) => r.tipo === "post");
       setResultadoPre(pre);
       setResultadoPost(post);
-      
-      // Actualizar habilidades si hay resultado pre
-      if (pre && pre.resultado && pre.resultado.porCategoria) {
-        const categoriaData = pre.resultado.porCategoria;
-        setSkills({
-          liderazgo: convertirAScala(categoriaData.Liderazgo?.porcentaje || 0),
-          trabajoEquipo: convertirAScala(categoriaData["Trabajo En Equipo"]?.porcentaje || 0),
-          obtencionLogros: convertirAScala(categoriaData["Obtencion de logros"]?.porcentaje || 0),
-          resiliencia: convertirAScala(categoriaData.Resiliencia?.porcentaje || 0)
-        });
-      }
     }
-    
-    // Limpiar localStorage después de usar los datos
+
     return () => {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('resultadosData');
+      localStorage.removeItem("userData");
+      localStorage.removeItem("resultadosData");
     };
   }, []);
+
+  useEffect(() => {
+    const resultadoActivo = tipoVista === "pre" ? resultadoPre : resultadoPost;
+    if (resultadoActivo && resultadoActivo.resultado && resultadoActivo.resultado.porCategoria) {
+      const categoriaData = resultadoActivo.resultado.porCategoria;
+      setSkills({
+        liderazgo: convertirAScala(categoriaData.Liderazgo?.porcentaje || 0),
+        trabajoEquipo: convertirAScala(categoriaData["Trabajo En Equipo"]?.porcentaje || 0),
+        obtencionLogros: convertirAScala(categoriaData["Obtencion de logros"]?.porcentaje || 0),
+        resiliencia: convertirAScala(categoriaData.Resiliencia?.porcentaje || 0),
+      });
+    }
+  }, [tipoVista, resultadoPre, resultadoPost]);
+
+  const resultadoActivo = tipoVista === "pre" ? resultadoPre : resultadoPost;
 
   const handleCloseSidebar = () => {
     setSidebarVisible(false);
@@ -121,6 +167,20 @@ export default function VerResultados() {
 
   const handleToggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
+  };
+
+  // Función modificada: ahora solo pasa el correo
+  const handlePostClick = () => {
+    setTipoVista("post");
+    if (!resultadoPost && userData) {
+      fetchResultadoPostDesdeAPI(userData.correoElectronico);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("resultadosData");
+    navigate("/consulta-resultados");
   };
 
   if (!userData || !resultadosData) {
@@ -132,7 +192,7 @@ export default function VerResultados() {
           </div>
           <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
         </div>
-        
+
         <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Cargando resultados...</p>
@@ -144,10 +204,7 @@ export default function VerResultados() {
   return (
     <div className="app-container">
       <title>Resultados</title>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-      ></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       <div className="header ">
         <div className="logo header-ver-resultados">
@@ -155,10 +212,9 @@ export default function VerResultados() {
         </div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
-      
-      {/* Migas de Pan */}
+
       <MigaDePan />
-      
+
       <button
         className="toggle-sidebar-btn"
         onClick={handleToggleSidebar}
@@ -167,8 +223,8 @@ export default function VerResultados() {
         ☰
       </button>
 
-      <div className={`sidebar ${sidebarVisible ? 'visible' : 'hidden'}`}>
-        <button 
+      <div className={`sidebar ${sidebarVisible ? "visible" : "hidden"}`}>
+        <button
           className="close-sidebar-btn"
           onClick={handleCloseSidebar}
           aria-label="Cerrar menú"
@@ -176,18 +232,17 @@ export default function VerResultados() {
           ×
         </button>
         <div className="sidebar-superior">
-          <div><span className='blanco'>El comit</span><span className='verde'>é</span></div>
+          <div>
+            <span className="blanco">El comit</span>
+            <span className="verde">é</span>
+          </div>
           <h2>Menú Principal</h2>
           <ul>
             <li>
-              <a href="#" onClick={() => console.log('Navegando a Pre-evento')}>
-                📋 Pre-evento
-              </a>
+              <a href="#" onClick={() => setTipoVista("pre")}>📋 Pre-evento</a>
             </li>
             <li>
-              <a href="#" onClick={() => console.log('Navegando a Post-evento')}>
-                📊 Post-evento
-              </a>
+              <a href="#" onClick={handlePostClick}>📊 Post-evento</a>
             </li>
           </ul>
         </div>
@@ -195,55 +250,76 @@ export default function VerResultados() {
         <div className="sidebar2-inferior">
           <ul>
             <li>
-              <a href="/" onClick={() => console.log('Salir')}>
-                🚪 Salir
-              </a>
+              <a href="#" onClick={handleLogout}>🚪 Salir</a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className={`contenido-principal ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
+      <div className={`contenido-principal ${sidebarVisible ? "sidebar-visible" : "sidebar-hidden"}`}>
         <div className="cuadro-porcentajes">
-          <h1 className="title-resultados">
-            Resultados de:
-          </h1>
-          <h1 className="title-resultados">
-            {userData.nombreCompleto}
-          </h1>
-          
-          {resultadoPre && resultadoPre.resultado && (
-            <div className="resultado-info">
-              <p className="resultado-fecha">
-                Fecha: {resultadoPre.resultado.resumen?.fecha || 'No disponible'}
-              </p>
-              <p className="resultado-total">
-                Puntuación total:
-              </p>
+          <h1 className="title-resultados">Resultados de:</h1>
+          <h1 className="title-resultados">{userData.nombreCompleto}</h1>
 
+          {loading && (
+            <div className="loading-overlay">
+              <div className="loading-spinner"></div>
+              <p>Cargando resultados post...</p>
             </div>
           )}
 
-          <div className="average-container">
-            <CircularProgress value={promedio} size={120} strokeWidth={8} />
-          </div>
-          
-          <div className="skills-grid">
-            <SkillCard title="Liderazgo" value={skills.liderazgo} />
-            <SkillCard title="Trabajo en equipo" value={skills.trabajoEquipo} />
-            <SkillCard
-              title="Obtención de logros"
-              value={skills.obtencionLogros}
-            />
-            <SkillCard title="Resiliencia" value={skills.resiliencia} />
-          </div>
-          
-          {resultadoPre && resultadoPre.resultado && resultadoPre.resultado.recomendaciones && (
-            <div className="recomendaciones-container">
-              <h3>Recomendaciones</h3>
-                {resultadoPre.resultado.recomendaciones.map((rec, index) => (
-                  <p key={index}>{rec}</p>
-                ))}
+          {error && (
+            <div className="error-message">
+              <p>Error: {error}</p>
+            </div>
+          )}
+
+          {resultadoActivo && resultadoActivo.resultado ? (
+            <>
+              <div className="resultado-info">
+                <p className="resultado-fecha">
+                  Fecha: {resultadoActivo.resultado.resumen?.fecha || "No disponible"}
+                </p>
+                <p className="resultado-total">Puntuación total:</p>
+              </div>
+
+              <div className="average-container">
+                <CircularProgress value={promedio} size={120} strokeWidth={8} />
+                <div className="tipo-evento-badge">
+                  {tipoVista === "pre" ? "PRE-EVENTO" : "POST-EVENTO"}
+                </div>
+              </div>
+
+              <div className="skills-grid">
+                <SkillCard title="Liderazgo" value={skills.liderazgo} />
+                <SkillCard title="Trabajo en equipo" value={skills.trabajoEquipo} />
+                <SkillCard title="Obtención de logros" value={skills.obtencionLogros} />
+                <SkillCard title="Resiliencia" value={skills.resiliencia} />
+              </div>
+
+              {resultadoActivo.resultado.recomendaciones && (
+                <div className="recomendaciones-container">
+                  <h3>Recomendaciones</h3>
+                  {resultadoActivo.resultado.recomendaciones.map((rec, index) => (
+                    <p key={index}>{rec}</p>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : tipoVista === "post" ? (
+            <div className="no-results-message">
+              <p>No se encontraron resultados post-evento</p>
+              <button 
+                className="btn-intentar-nuevamente"
+                onClick={() => fetchResultadoPostDesdeAPI(userData.correoElectronico)}
+              >
+                Intentar nuevamente
+              </button>
+            </div>
+          ) : (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Cargando resultados pre-evento...</p>
             </div>
           )}
         </div>
