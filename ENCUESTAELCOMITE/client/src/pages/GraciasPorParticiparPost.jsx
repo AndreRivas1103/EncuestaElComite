@@ -9,16 +9,16 @@ const GraciasPorParticiparPost = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [resultadosCalculados, setResultadosCalculados] = useState(null);
+  const [contrasenaGenerada, setContrasenaGenerada] = useState('');
   const hasGuardadoRef = useRef(false);
 
-const { 
-  correoVoluntario: correo,
-  respuestas,
-  idEncuesta
-} = location.state || {};
+  const { 
+    correoVoluntario: correo,
+    respuestas,
+    contrasena,
+    idEncuesta
+  } = location.state || {};
 
-  // Función para calcular resultados (similar a la versión pre-evento)
   const calcularResultados = (respuestas) => {
     const palabrasClavePorCategoria = {
       "Liderazgo": ["iniciativa", "solucionar", "motivar", "proponer", "liderar"],
@@ -51,13 +51,12 @@ const {
       let respuestaCorrectaValor = "No disponible";
 
       if (item.tipoRespuesta === 'multiple') {
-        // Validación mejorada para respuestas correctas
         const respuestaCorrectaIndex = (typeof item.respuestaCorrecta === 'number' && !isNaN(item.respuestaCorrecta)) 
           ? item.respuestaCorrecta 
           : -1;
-        
+
         const opcionesValidas = Array.isArray(item.opciones) && item.opciones.length > 0;
-        
+
         respuestaCorrectaValor = (opcionesValidas && respuestaCorrectaIndex >= 0 && respuestaCorrectaIndex < item.opciones.length)
           ? item.opciones[respuestaCorrectaIndex] 
           : "Respuesta correcta no disponible";
@@ -71,7 +70,7 @@ const {
         const palabrasEncontradas = palabrasClave.filter(palabra => 
           respuestaUsuario.includes(palabra.toLowerCase())
         ).length;
-        
+
         esCorrecta = palabrasEncontradas >= 2;
         razon = esCorrecta 
           ? `Contiene ${palabrasEncontradas} palabras clave de la categoría` 
@@ -144,31 +143,28 @@ const {
         setLoading(true);
         setError('');
 
-        // Validar que tenemos los datos necesarios
-        if (!correo || !respuestas) {
+        if (!correo || !respuestas || !idEncuesta) {
           throw new Error('Faltan datos necesarios para guardar la encuesta');
         }
 
-        // Validar formato de respuestas
         if (typeof respuestas !== 'object' || !Array.isArray(respuestas)) {
           throw new Error('Formato de respuestas inválido');
         }
 
-        // 1. Guardar la encuesta post-evento
+        const contrasena = 'post-evento';
+        setContrasenaGenerada(contrasena);
+
         await axios.post('http://localhost:3000/api/voluntarios/actualizar-post-evento', {
           correo,
           encuesta_post: respuestas
         });
 
-        // 2. Calcular resultados
         const resultadosCalculados = calcularResultados(respuestas);
-        setResultadosCalculados(resultadosCalculados);
 
-        // 3. Guardar los resultados en la base de datos
         await axios.post('http://localhost:3000/api/resultados', {
           id_encuesta: idEncuesta,
           correo_voluntario: correo,
-          contrasena: 'post-evento',
+          contrasena,
           resultado: resultadosCalculados,
           tipo: 'post'
         });
@@ -213,9 +209,8 @@ const {
           </div>
 
           <h1 className="mensaje-principal">¡Gracias por completar el post-evento!</h1>
-          
           <p className="mensaje-secundario">
-            Tus respuestas y resultados han sido registrados exitosamente.
+            Tus respuestas han sido registradas exitosamente.
           </p>
 
           {error && (
@@ -225,40 +220,15 @@ const {
             </div>
           )}
 
-          {/* Mostrar resumen de resultados si están disponibles */}
-          {resultadosCalculados && (
-            <div className="resultados-section">
-              <h2 className="resultados-titulo">Resultados Post-Evento</h2>
-              
-              <div className="resumen-total">
-                <h3>Resumen General</h3>
-                <p>Total preguntas: {resultadosCalculados.resumen.totalPreguntas}</p>
-                <p>Respuestas correctas: {resultadosCalculados.resumen.totalCorrectas}</p>
-                <p>Porcentaje total: {resultadosCalculados.resumen.porcentajeTotal}%</p>
-                <p>Perfil: {resultadosCalculados.perfil}</p>
+          {contrasenaGenerada && (
+            <div className="contrasena-section">
+              <h2 className="contrasena-titulo">Tu contraseña de acceso:</h2>
+              <div className="contrasena-display">
+                <span className="contrasena-texto">{contrasenaGenerada}</span>
               </div>
-              
-              <div className="por-categoria">
-                <h3>Resultados por Categoría</h3>
-                {Object.entries(resultadosCalculados.porCategoria).map(([categoria, datos]) => (
-                  <div key={categoria} className="categoria-item">
-                    <h4>{categoria}</h4>
-                    <p>Preguntas: {datos.preguntas}</p>
-                    <p>Correctas: {datos.correctas}</p>
-                    <p>Porcentaje: {datos.porcentaje}%</p>
-                    <p>Nivel: {datos.nivel}</p>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="recomendaciones">
-                <h3>Recomendaciones</h3>
-                <ul>
-                  {resultadosCalculados.recomendaciones.map((rec, index) => (
-                    <li key={index}>{rec}</li>
-                  ))}
-                </ul>
-              </div>
+              <p className="contrasena-instruccion">
+                ⚠️ <strong>¡Importante!</strong> Guarda esta contraseña. La necesitarás para acceder a tus resultados.
+              </p>
             </div>
           )}
 

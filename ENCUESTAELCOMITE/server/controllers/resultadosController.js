@@ -93,3 +93,32 @@ export const obtenerResultadosPorCredenciales = async (req, res) => {
     });
   }
 };
+
+export const obtenerResultadosPostPorCredenciales = async (req, res) => {
+  try {
+    const { correo, contrasena } = req.body;
+
+    if (!correo || !contrasena) {
+      return res.status(400).json({
+        error: 'Datos incompletos',
+        details: 'Se requieren correo y contrasena'
+      });
+    }
+
+    const resultados = await Resultado.findPostByEmailAndPassword(correo, contrasena);
+
+    res.json({
+      success: true,
+      message: 'Resultados post-evento obtenidos correctamente',
+      data: resultados
+    });
+
+  } catch (error) {
+    console.error('Error al obtener resultados post por credenciales:', error);
+    res.status(500).json({
+      error: 'Error al obtener resultados',
+      details: error.message,
+      code: 'RESULTADO_OBTENER_POST_ERROR'
+    });
+  }
+};

@@ -2,7 +2,8 @@ import express from 'express';
 import {
   guardarResultado,
   obtenerResultadosPorVoluntario,
-  obtenerResultadosPorCredenciales // NUEVO IMPORT
+  obtenerResultadosPorCredenciales, 
+  obtenerResultadosPostPorCredenciales
 } from '../controllers/resultadosController.js';
 
 const router = express.Router();
@@ -15,5 +16,7 @@ router.get('/voluntarios/:correo', obtenerResultadosPorVoluntario);
 
 // NUEVA RUTA: Obtener resultados por correo y contraseña
 router.post('/resultados/credenciales', obtenerResultadosPorCredenciales);
+
+router.post('/resultados/credenciales/post', obtenerResultadosPostPorCredenciales);
 
 export default router;

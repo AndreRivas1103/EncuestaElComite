@@ -40,12 +40,13 @@ app.get('/', (req, res) => {
         verificar: 'POST /api/voluntarios/verificar',
         verificarCredenciales: 'POST /api/voluntarios/verificar-credenciales',
         actualizarPreEvento: 'POST /api/voluntarios/actualizar-pre-evento',
-        actualizarPostEvento: 'POST /api/voluntarios/actualizar-post-evento' // Nuevo endpoint documentado
+        actualizarPostEvento: 'POST /api/voluntarios/actualizar-post-evento'
       },
       resultados: {
         guardar: 'POST /api/resultados',
         obtenerPorCorreo: 'GET /api/voluntarios/:correo/resultados',
-        obtenerPorCredenciales: 'POST /api/resultados/credenciales'
+        obtenerPorCredenciales: 'POST /api/resultados/credenciales',
+        obtenerSoloPost: 'POST /api/resultados/credenciales/post'
       }
     }
   });
@@ -85,13 +86,14 @@ app.listen(PORT, () => {
   console.log(`   - Verificar voluntario: POST http://localhost:${PORT}/api/voluntarios/verificar`);
   console.log(`   - Verificar credenciales: POST http://localhost:${PORT}/api/voluntarios/verificar-credenciales`);
   console.log(`   - Actualizar pre-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-pre-evento`);
-  console.log(`   - Actualizar post-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-post-evento`); 
+  console.log(`   - Actualizar post-evento: POST http://localhost:${PORT}/api/voluntarios/actualizar-post-evento`);
   console.log(`   - Listar encuestas: GET http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Encuesta activa: GET http://localhost:${PORT}/api/encuestas/activa`);
   console.log(`   - Programar encuesta: POST http://localhost:${PORT}/api/encuestas`);
   console.log(`   - Guardar resultados: POST http://localhost:${PORT}/api/resultados`);
   console.log(`   - Obtener resultados por correo: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`);
   console.log(`   - Obtener resultados por credenciales: POST http://localhost:${PORT}/api/resultados/credenciales`);
+  console.log(`   - Obtener SOLO resultados POST: POST http://localhost:${PORT}/api/resultados/credenciales/post`);
   console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
   console.log(`Proyecto ElComité 🙊`);
 });
