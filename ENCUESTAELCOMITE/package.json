@@ -26,6 +26,7 @@
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
+    "react-router-dom": "^7.6.1",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {

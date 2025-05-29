@@ -24,3 +24,6 @@
 <h2>Usando</h2>
 <p>React+Vite</p>
 <p>FireBase</p>
+
+cd ENCUESTAELCOMITE && npm install
+cd ENCUESTAELCOMITE && npm install react-router-dom
