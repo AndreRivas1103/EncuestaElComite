@@ -17,20 +17,25 @@ const ClonarEncuesta = () => {
   const [fechaApertura, setFechaApertura] = useState('');
   const [fechaCierre, setFechaCierre] = useState('');
 
+  const user = {
+    name: localStorage.getItem('userName') || "Usuario",
+    email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
+    cedula: localStorage.getItem('userCedula')
+  };
+
   useEffect(() => {
     const cargarDetallesEncuesta = async () => {
       try {
         setCargando(true);
         setError('');
-        
+
         const response = await axios.get(`http://localhost:3000/api/encuestas/${id}`);
         const data = response.data.data;
-        
-        // Parsear datos_encuesta si es necesario
+
         if (typeof data.datos_encuesta === 'string') {
           data.datos_encuesta = JSON.parse(data.datos_encuesta);
         }
-        
+
         setEncuesta(data);
       } catch (error) {
         console.error('Error al cargar detalles de la encuesta:', error);
@@ -39,16 +44,16 @@ const ClonarEncuesta = () => {
         setCargando(false);
       }
     };
-    
-    cargarDetallesEncuesta();
+
+    if (id) {
+      cargarDetallesEncuesta();
+    } else {
+      setError('ID de encuesta no válido');
+      setCargando(false);
+    }
   }, [id]);
 
   const Sidebar = ({ isVisible, onClose }) => {
-    const user = {
-      name: localStorage.getItem('userName') || "Usuario",
-      email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
-    };
-
     const handleLogout = () => navigate("/confirmar-cierre");
 
     const menuItems = [
@@ -104,7 +109,6 @@ const ClonarEncuesta = () => {
 
   const renderDatosEncuesta = () => {
     if (!encuesta || !encuesta.datos_encuesta) return null;
-
     return (
       <div className="datos-encuesta-container">
         <h3>Configuración de la Encuesta</h3>
@@ -137,6 +141,11 @@ const ClonarEncuesta = () => {
       return;
     }
 
+    if (!user.cedula) {
+      alert('Usuario no identificado');
+      return;
+    }
+
     try {
       const nuevaEncuesta = {
         ...encuesta,
@@ -144,8 +153,8 @@ const ClonarEncuesta = () => {
         fecha_creacion: new Date().toISOString().split('T')[0],
         fecha_apertura: fechaApertura || null,
         fecha_cierre: fechaCierre || null,
-        estado: fechaApertura && fechaCierre ? 'programada' : 'borrador',
-        respuestas_count: 0
+        respuestas_count: 0,
+        usuario_id: user.cedula
       };
 
       await axios.post('http://localhost:3000/api/encuestas', nuevaEncuesta);
@@ -168,18 +177,29 @@ const ClonarEncuesta = () => {
       return;
     }
 
+    if (!user.cedula) {
+      alert('Usuario no identificado');
+      return;
+    }
+
+    const payload = {
+      ...encuesta,
+      fecha_apertura: fechaApertura,
+      fecha_cierre: fechaCierre,
+      usuario_id: user.cedula
+      // estado eliminado para evitar error con columna generada
+    };
+
+    console.log("📤 Payload final sin estado:", payload);
+
     try {
-      await axios.put(`http://localhost:3000/api/encuestas/${id}`, {
-        ...encuesta,
-        fecha_apertura: fechaApertura,
-        fecha_cierre: fechaCierre,
-        estado: 'programada'
-      });
+      await axios.post(`http://localhost:3000/api/encuestas/programar/${id}`, payload);
+
       alert('Encuesta programada correctamente');
       navigate('/registro-encuestas');
     } catch (error) {
-      console.error('Error al programar la encuesta:', error);
-      setError('Error al programar la encuesta');
+      console.error('Error al programar la encuesta:', error.response?.data || error.message);
+      setError(error.response?.data?.error || 'Error al programar la encuesta');
     }
   };
 

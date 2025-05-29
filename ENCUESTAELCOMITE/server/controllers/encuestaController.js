@@ -95,41 +95,53 @@ export const obtenerEncuestaActiva = async (req, res) => {
 
 export const programarEncuesta = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { fecha_apertura, fecha_cierre, usuario_id } = req.body;
+    const {
+      id,
+      titulo,
+      fecha_apertura,
+      fecha_cierre,
+      usuario_id,
+      datos_encuesta,
+      respuestas_count
+    } = req.body;
 
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(fecha_apertura) || !dateRegex.test(fecha_cierre)) {
-      return res.status(400).json({ error: 'Formato de fecha inválido' });
+    const errores = [];
+
+    if (!titulo) errores.push('Falta el título');
+    if (!fecha_apertura) errores.push('Falta la fecha de apertura');
+    if (!fecha_cierre) errores.push('Falta la fecha de cierre');
+    if (!usuario_id) errores.push('Falta el usuario_id');
+    if (!datos_encuesta) errores.push('Faltan los datos de la encuesta');
+
+    if (errores.length > 0) {
+      return res.status(400).json({ error: 'Campos inválidos', detalles: errores });
     }
 
     if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
-      return res.status(400).json({ error: 'Fecha cierre debe ser posterior' });
+      return res.status(400).json({ error: 'La fecha de cierre debe ser posterior a la de apertura' });
     }
 
     const [encuesta, created] = await Encuesta.upsert({
-      id: id || generarIdEncuesta(),
-      ...req.body
-    }, {
-      conflictFields: ['id'],
-      returning: true
+      id: id || undefined,
+      titulo,
+      fecha_apertura,
+      fecha_cierre,
+      fecha_creacion: new Date().toISOString().split('T')[0],
+      usuario_id,
+      datos_encuesta,
+      respuestas_count: respuestas_count ?? 0
     });
 
-    const responseData = encuesta.get({ plain: true });
-    delete responseData.estado;
-
-    res.status(created ? 201 : 200).json({
-      success: true,
-      data: responseData
-    });
-
+    res.status(200).json({ message: 'Encuesta programada correctamente', encuesta });
   } catch (error) {
+    console.error('⛔ Error al programar encuesta:', error);
     res.status(500).json({
       error: 'Error en el servidor',
-      details: error.message
+      detalles: error.message
     });
   }
 };
+
 
 // ========== FUNCIÓN AUXILIAR ==========
 function generarIdEncuesta() {
