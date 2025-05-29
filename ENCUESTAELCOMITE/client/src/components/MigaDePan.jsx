@@ -57,11 +57,11 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" }
       ],
 
-      // Flujo del coordinador - gestión de encuestas
+      // Flujo del coordinador - gestión de encuestas (MODIFICADO)
       coordinadorEncuestas: [
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
         { path: "/registro-encuestas", label: "Gestión de Encuestas", icon: "📝" },
-        { path: "/info-encuesta", label: "Información de Encuesta", icon: "ℹ️" }
+        { path: "/info-encuesta", label: "Detalles Encuesta", icon: "ℹ️" }
       ],
 
       // Flujo del coordinador - crear eventos
@@ -97,9 +97,23 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
     
     // Determinar qué flujo estamos siguiendo basado en la página actual
     for (const [flujoNombre, flujo] of Object.entries(flujos)) {
-      const indiceFlujo = flujo.findIndex(item => item.path === currentPath);
+      // MODIFICACIÓN: Reconocer rutas dinámicas como /info-encuesta/:id
+      const indiceFlujo = flujo.findIndex(item => 
+        currentPath.startsWith(item.path) || item.path === currentPath
+      );
+      
       if (indiceFlujo !== -1) {
-        return flujo.slice(0, indiceFlujo + 1);
+        const flujoCompleto = [...flujo];
+        
+        // Si estamos en una ruta dinámica como /info-encuesta/:id
+        if (flujoNombre === "coordinadorEncuestas" && pathnames[0] === "info-encuesta" && pathnames.length > 1) {
+          flujoCompleto[2] = {
+            ...flujoCompleto[2],
+            label: `Detalles Encuesta #${pathnames[1]}`
+          };
+        }
+        
+        return flujoCompleto.slice(0, indiceFlujo + 1);
       }
     }
     

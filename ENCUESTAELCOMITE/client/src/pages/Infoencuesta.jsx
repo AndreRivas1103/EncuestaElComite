@@ -137,9 +137,6 @@ const InfoEncuesta = () => {
     );
   };
 
-  const handleEditar = () => {
-    navigate(`/editar-encuesta/${id}`);
-  };
 
   const handleEliminar = async () => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta encuesta?')) {
@@ -194,7 +191,16 @@ const InfoEncuesta = () => {
         </button>
       </div>
 
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+      {/* Miga de pan actualizada */}
+      <MigaDePan 
+        withSidebar={true} 
+        sidebarVisible={sidebarVisible}
+        migas={[
+          { label: 'Inicio', ruta: '/inicio-coordinador' },
+          { label: 'Registro Encuestas', ruta: '/registro-encuestas' },
+          { label: `Detalles Encuesta #${id}` }
+        ]}
+      />
 
       <Sidebar
         isVisible={sidebarVisible}
