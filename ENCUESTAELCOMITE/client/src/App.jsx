@@ -24,7 +24,8 @@ import GraciasPorParticipar from "./pages/GraciasPorParticipar.jsx";
 import DatosPost from "./pages/Rellenar_Datos_Post.jsx";
 import GraciasPorParticiparPost from "./pages/GraciasPorParticiparPost.jsx";
 import ResponderEncuestaPost from "./pages/Responder_Encuesta_Post.jsx";
-import InfoEncuesta from "./pages/InfoEncuesta.jsx"; // Importación agregada
+import InfoEncuesta from "./pages/InfoEncuesta.jsx";
+import ClonarEncuesta from "./pages/ClonarEncuesta.jsx"; // ✅ NUEVA IMPORTACIÓN
 
 function App() {
   return (
@@ -34,17 +35,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/iniciar-sesion" element={<IniciarSesion />} />
-            <Route
-              path="/seleccionar-encuesta"
-              element={<SeleccionarEncuesta />}
-            />
+            <Route path="/seleccionar-encuesta" element={<SeleccionarEncuesta />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/registro-encuestas" element={<RegistroEncuestas />} />
             <Route path="/inicio-coordinador" element={<InicioCoordinador />} />
-            
-            {/* Ruta actualizada para InfoEncuesta con parámetro ID */}
             <Route path="/info-encuesta/:id" element={<InfoEncuesta />} />
-            
+            <Route path="/clonar-encuesta/:id" element={<ClonarEncuesta />} /> {/* ✅ NUEVA RUTA */}
             <Route path="/nuevo-evento" element={<NuevoEvento />} />
             <Route path="/guardar-pregunta" element={<GuardarPreguntas />} />
             <Route path="/crear-pregunta" element={<CrearPregunta />} />
@@ -56,10 +52,7 @@ function App() {
             <Route path="/realizar-encuesta" element={<RealizarEncuesta />} />
             <Route path="/rellenar-datos" element={<RellenarDatos />} />
             <Route path="/responder-encuesta" element={<ResponderEncuesta />} />
-            <Route
-              path="/visualizar-resultados"
-              element={<VisualizarResultados />}
-            />
+            <Route path="/visualizar-resultados" element={<VisualizarResultados />} />
             <Route path="/terminos-y-condiciones" element={<TyC />} />
             <Route path="/ver-resultados" element={<VerResultados />} />
             <Route path="/gracias-por-participar" element={<GraciasPorParticipar />} />

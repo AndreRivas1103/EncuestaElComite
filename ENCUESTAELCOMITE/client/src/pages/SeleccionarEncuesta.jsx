@@ -131,11 +131,11 @@ const SeleccionarEncuesta = () => {
         ) : encuestas.length > 0 ? (
           <div className="registro-encuesta-grid">
             {encuestas.map((encuesta) => (
-              <Link
-                key={encuesta.id}
-                to={`/info-encuesta/${encuesta.id}`}
-                className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
-              >
+<Link
+  key={encuesta.id}
+  to={`/clonar-encuesta/${encuesta.id}`}
+  className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
+>
                 <span className="registro-encuesta-id">{encuesta.id}</span>
                 <span className="registro-encuesta-estado">{encuesta.estado}</span>
               </Link>
