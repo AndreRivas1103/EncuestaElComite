@@ -136,3 +136,44 @@ function generarIdEncuesta() {
   const now = new Date();
   return `HB-${now.getFullYear()}-${Math.floor(Math.random() * 90) + 10}`;
 }
+export const obtenerEncuestaPorId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const encuesta = await Encuesta.findByPk(id);
+
+    if (!encuesta) {
+      return res.status(404).json({
+        success: false,
+        message: 'Encuesta no encontrada'
+      });
+    }
+
+    // Parsear datos_encuesta si es necesario
+    let datosEncuesta = encuesta.datos_encuesta;
+    if (typeof datosEncuesta === 'string') {
+      try {
+        datosEncuesta = JSON.parse(datosEncuesta);
+      } catch (error) {
+        console.error('Error parsing datos_encuesta:', error);
+        throw new Error('Formato de datos_encuesta inválido');
+      }
+    }
+
+    res.json({
+      success: true,
+      data: {
+        ...encuesta.get({ plain: true }),
+        datos_encuesta: datosEncuesta
+      }
+    });
+
+  } catch (error) {
+    console.error('Error en obtenerEncuestaPorId:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al obtener encuesta por ID',
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+};
