@@ -15,7 +15,7 @@ const GraciasPorParticiparPost = () => {
   const { 
     correoVoluntario: correo,
     respuestas,
-    contrasena,
+    
     idEncuesta
   } = location.state || {};
 

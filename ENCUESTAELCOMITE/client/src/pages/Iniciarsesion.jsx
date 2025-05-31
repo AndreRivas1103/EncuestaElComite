@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png'; 
 import babyLogoICO from '../assets/LogoMarcaPersonal.ico'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const IniciarSesion = () => {
@@ -15,7 +15,6 @@ const IniciarSesion = () => {
     e.preventDefault();
     setError('');
     
-    // Validación mejorada del email
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Por favor ingrese un correo electrónico válido');
       return;
@@ -24,7 +23,6 @@ const IniciarSesion = () => {
     setIsLoading(true);
 
     try {
-      // Llamada al backend con axios (mejor manejo de errores)
       const response = await axios.post('http://localhost:3000/api/auth/login', {
         correo: email
       }, {
@@ -33,28 +31,20 @@ const IniciarSesion = () => {
         }
       });
 
-      // Si la respuesta es exitosa (código 2xx)
       if (response.data.success) {
-        // Guarda datos en localStorage si es necesario
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', response.data.nombre);
         localStorage.setItem('userCedula', response.data.cedula);
-        
-        // Redirige a la página de coordinador
         navigate('/inicio-coordinador');
       } else {
         throw new Error(response.data.error || 'Credenciales incorrectas');
       }
     } catch (err) {
-      // Manejo detallado de errores
       if (err.response) {
-        // Error de respuesta del servidor (4xx/5xx)
         setError(err.response.data.error || 'Error en la autenticación');
       } else if (err.request) {
-        // No se recibió respuesta
         setError('El servidor no respondió. Intente más tarde');
       } else {
-        // Error en la configuración de la solicitud
         setError('Error al configurar la solicitud');
       }
       console.error('Error en login:', err);
@@ -72,7 +62,6 @@ const IniciarSesion = () => {
       <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Recoleta&display=swap" rel="stylesheet" />
       
-      {/* Header con logo y título */}
       <header className="header">
         <div className="logo">
           <a href='/' className="logo">El Comit<span>é</span></a>
@@ -80,7 +69,6 @@ const IniciarSesion = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
       
-      {/* Contenedor del formulario */}
       <main className="login-box">
         <h2 className="login-subtitle">Bienvenido</h2>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -105,12 +93,23 @@ const IniciarSesion = () => {
           >
             {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
           </button>
-          
+
+          {/* Botón de Regreso */}
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <button 
+              onClick={() => navigate('/')} 
+              className="login-btn" 
+              style={{ backgroundColor: '#7f8c8d' }}
+            >
+              Regresar
+            </button>
+          </div>
+
+          {/* Enlace de ayuda */}
           <a href="/contacto" className="forgot-link">
             ¿No recuerdas tu correo?
           </a>
         </form>
-
       </main>
     </div>
   );
