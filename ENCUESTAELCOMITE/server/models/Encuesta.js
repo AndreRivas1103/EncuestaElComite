@@ -31,7 +31,8 @@ const Encuesta = sequelize.define('Encuesta', {
   },
   estado: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,  // Cambiado a false
+    defaultValue: 'borrador', // Valor por defecto
     validate: {
       isIn: [['borrador', 'programada', 'activa', 'cerrada']]
     }
@@ -57,11 +58,21 @@ const Encuesta = sequelize.define('Encuesta', {
           throw new Error('La fecha de cierre debe ser posterior a la de apertura');
         }
       }
+    },
+    beforeUpdate: (encuesta) => {
+      // Validación durante actualización
+      if (encuesta.changed('fecha_cierre') || encuesta.changed('fecha_apertura')) {
+        if (encuesta.fecha_cierre && encuesta.fecha_apertura) {
+          if (new Date(encuesta.fecha_cierre) <= new Date(encuesta.fecha_apertura)) {
+            throw new Error('La fecha de cierre debe ser posterior a la de apertura');
+          }
+        }
+      }
     }
   },
   defaultScope: {
     attributes: {
-      exclude: [] // 👈 Cambiado: Ahora incluye todos los campos
+      exclude: [] 
     }
   },
   scopes: {
@@ -70,9 +81,10 @@ const Encuesta = sequelize.define('Encuesta', {
     }
   }
 });
+
 Encuesta.obtenerTodas = async function() {
   const results = await sequelize.query(
-    "SELECT * FROM obtener_encuestas()", // Usa la función
+    "SELECT * FROM obtener_encuestas()",
     { type: sequelize.QueryTypes.SELECT }
   );
   return results;

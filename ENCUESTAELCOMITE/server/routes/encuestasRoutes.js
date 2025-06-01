@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/', obtenerTodasEncuestas);
 router.post('/', crearEncuesta);
 router.get('/activa', obtenerEncuestaActiva);
-router.post('/programar/:id?', programarEncuesta);
+router.put('/:id', programarEncuesta); // Para permitir actualización por ID
 router.get('/:id', obtenerEncuestaPorId); // Nueva ruta para obtener por ID
 
 export default router;

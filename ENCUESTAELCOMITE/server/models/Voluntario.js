@@ -43,10 +43,10 @@ const Voluntario = sequelize.define('Voluntario', {
       key: 'id'
     }
   },
-  Contraseña: {
+  contraseña: {
     type: DataTypes.STRING(255),
     allowNull: true,
-    field: 'Contraseña', // ✔ permite null
+    field: 'contraseña', // ✔ permite null
     validate: {
       len: [3, 255]  // ✔ solo se valida si hay valor
     }
