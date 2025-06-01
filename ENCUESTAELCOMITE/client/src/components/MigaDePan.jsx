@@ -69,6 +69,7 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
       coordinadorEventos: [
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
         { path: "/nuevo-evento", label: "Nuevo Evento", icon: "📅" },
+        { path: "/crear-pregunta", label: "Crear Encuesta", icon: "❓" },
         { path: "/calendario", label: "Programar Evento", icon: "📆" }
       ],
 
