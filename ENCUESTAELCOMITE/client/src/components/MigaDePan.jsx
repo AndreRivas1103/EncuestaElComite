@@ -17,8 +17,8 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
     "info-encuesta": "Información de Encuesta",
     "nuevo-evento": "Crear Nuevo Evento",
     "guardar-pregunta": "Guardar Pregunta",
-    "crear-pregunta": "Crear Pregunta",
-    calendario: "Calendario de Eventos",
+    "crear-pregunta": "Crear Encuesta",
+    calendario: "Programar Evento",
     encuestas: "Lista de Encuestas",
     ensayo: "Vista Previa",
     "confirmar-cierre": "Confirmar Salida",
@@ -34,6 +34,7 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
     iniciocoordinador: "Inicio Coordinación",
     "encuestas-activas": "Encuestas Activas",
     "crear-encuesta": "Crear Encuesta",
+    "clonar-encuesta": "Clonar Encuesta" // Nueva ruta añadida
   };
 
   // Definir flujos lógicos de navegación mejorados
@@ -46,7 +47,7 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
         { path: "/responder-encuesta", label: "Responder Encuesta", icon: "✍️" },
       ],
       
-      // Flujo de visualización de resultados (corregido)
+      // Flujo de visualización de resultados
       resultados: [
         { path: "/visualizar-resultados", label: "Consultar Resultados", icon: "🔍" },
         { path: "/ver-resultados", label: "Ver Mis Resultados", icon: "📊" }
@@ -57,7 +58,7 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" }
       ],
 
-      // Flujo del coordinador - gestión de encuestas (MODIFICADO)
+      // Flujo del coordinador - gestión de encuestas
       coordinadorEncuestas: [
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
         { path: "/registro-encuestas", label: "Gestión de Encuestas", icon: "📝" },
@@ -67,16 +68,23 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
       // Flujo del coordinador - crear eventos
       coordinadorEventos: [
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
-        { path: "/nuevo-evento", label: "Crear Nuevo Evento", icon: "📅" },
-        { path: "/calendario", label: "Calendario de Eventos", icon: "📆" }
+        { path: "/nuevo-evento", label: "Nuevo Evento", icon: "📅" },
+        { path: "/calendario", label: "Programar Evento", icon: "📆" }
       ],
 
-      // Flujo del coordinador - crear preguntas
-      coordinadorPreguntas: [
+      // Flujo del coordinador - crear preguntas (MODIFICADO según tu requerimiento)
+      coordinadorCrearEncuesta: [
         { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
-        { path: "/crear-pregunta", label: "Crear Pregunta", icon: "❓" },
-        { path: "/guardar-pregunta", label: "Guardar Pregunta", icon: "💾" },
-        { path: "/visualizacionE", label: "Previsualización", icon: "👁️" }
+        { path: "/nuevo-evento", label: "Nuevo Evento", icon: "📅" },
+        { path: "/crear-pregunta", label: "Crear Encuesta", icon: "❓" }
+      ],
+
+      // Flujo del coordinador - clonar encuesta (NUEVO)
+      coordinadorClonarEncuesta: [
+        { path: "/inicio-coordinador", label: "Inicio Coordinación", icon: "⚙️" },
+        { path: "/nuevo-evento", label: "Nuevo Evento", icon: "📅" },
+        { path: "/seleccionar-encuesta", label: "Seleccionar Encuesta", icon: "📋" },
+        { path: "/clonar-encuesta", label: "Clonar Encuesta", icon: "⎘" }
       ],
 
       // Flujo de términos y condiciones
@@ -97,7 +105,6 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
     
     // Determinar qué flujo estamos siguiendo basado en la página actual
     for (const [flujoNombre, flujo] of Object.entries(flujos)) {
-      // MODIFICACIÓN: Reconocer rutas dinámicas como /info-encuesta/:id
       const indiceFlujo = flujo.findIndex(item => 
         currentPath.startsWith(item.path) || item.path === currentPath
       );
@@ -105,7 +112,7 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
       if (indiceFlujo !== -1) {
         const flujoCompleto = [...flujo];
         
-        // Si estamos en una ruta dinámica como /info-encuesta/:id
+        // Manejo de rutas dinámicas
         if (flujoNombre === "coordinadorEncuestas" && pathnames[0] === "info-encuesta" && pathnames.length > 1) {
           flujoCompleto[2] = {
             ...flujoCompleto[2],
@@ -117,7 +124,6 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
       }
     }
     
-    // Si no coincide con ningún flujo predefinido, usar el mapeo tradicional
     return null;
   };
 
@@ -125,7 +131,6 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
   const obtenerContextoEspecial = (pathnames) => {
     const currentPath = "/" + pathnames.join("/");
     
-    // Páginas que requieren contexto especial
     const contextosEspeciales = {
       "/contacto": [
         { path: "/contacto", label: "Contacto", icon: "📞" }
@@ -156,7 +161,8 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
       "visualizacionE",
       "confirmar-cierre",
       "info-encuesta",
-      "seleccionar-encuesta"
+      "seleccionar-encuesta",
+      "clonar-encuesta"
     ].includes(path.toLowerCase())
   );
 

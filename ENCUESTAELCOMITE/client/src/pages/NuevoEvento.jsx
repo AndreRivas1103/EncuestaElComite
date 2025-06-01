@@ -68,30 +68,97 @@ const NuevoEvento = () => {
     );
   };
 
-  // AJUSTES PRINCIPALES (MODIFICA ESTOS VALORES)
+  // AJUSTES PRINCIPALES
   const containerStyles = {
-    width: '90%',              // Cambia este valor para ajustar el ancho (ej: '80%', '700px')
-    maxWidth: '800px',         // Ancho máximo del contenedor blanco
-    minHeight: '60vh',         // Altura mínima del contenedor (ej: '60vh', '500px')
-    padding: '100px 30px',      // Espacio interno (arriba/abajo izquierda/derecha)
-    borderRadius: '20px',      // Radio de las esquinas curvadas
+    width: '90%',
+    maxWidth: '800px',
+    minHeight: '60vh',
+    padding: '100px 30px',
+    borderRadius: '20px',
   };
 
   const titleStyles = {
-    fontSize: '3.5rem',          // Tamaño del título
-    marginBottom: '40px',      // Espacio debajo del título
+    fontSize: '3.5rem',
+    marginBottom: '40px',
   };
 
-  const buttonStyles = {
-    fontSize: '1.6rem',        // Tamaño del texto de los botones
-    padding: '12px 25px',      // Relleno interno de los botones
-    margin: '10px 0',          // Margen entre botones
+  // Estilo base para botones con animaciones
+  const buttonBaseStyle = {
+    display: 'block',
+    backgroundColor: '#9ecd49',
+    color: 'white',
+    textDecoration: 'none',
+    borderRadius: '5px',
+    fontWeight: 'bold',
+    fontFamily: '"Roboto", sans-serif',
+    fontSize: '1.6rem',
+    padding: '12px 25px',
+    margin: '10px 0',
+    cursor: 'pointer',
+    border: 'none',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s',
+    
+    // Efecto hover
+    ':hover': {
+      backgroundColor: '#8bbd39',
+      transform: 'translateY(-3px)',
+      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)'
+    },
+    
+    // Efecto al hacer clic
+    ':active': {
+      transform: 'translateY(1px)',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+    }
+  };
+
+  // Animación keyframes para el efecto ripple
+  const globalStyles = `
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      animation: ripple 0.6s linear;
+    }
+  `;
+
+  // Función para crear efecto ripple
+  const createRipple = (event) => {
+    const button = event.currentTarget;
+    const circle = document.createElement("span");
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+    
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+    circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+    circle.classList.add("ripple-effect");
+    
+    const ripple = button.getElementsByClassName("ripple-effect")[0];
+    if (ripple) ripple.remove();
+    
+    button.appendChild(circle);
   };
 
   return (
     <div className="page-container">
       <title>Nuevo Evento</title>
       <meta name='viewport' content='width=device-width, initial-scale=1.0'></meta>
+      
+      {/* Inyectamos los estilos globales para las animaciones */}
+      <style>{globalStyles}</style>
 
       {/* Header */}
       <header className="header" style={{
@@ -155,40 +222,27 @@ const NuevoEvento = () => {
             ...titleStyles    
           }}>Nuevo Evento</h1>
           
-          {/* Contenedor de botones */}
+          {/* Contenedor de botones - CENTRADO */}
           <div style={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            maxWidth: '500px'
+            maxWidth: '500px',
+            alignItems: 'center' // Centrar los botones horizontalmente
           }}>
             <Link 
               to="/seleccionar-encuesta" 
-              style={{
-                backgroundColor: '#9ecd49',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '5px',
-                fontWeight: 'bold',
-                fontFamily: '"Roboto", sans-serif',
-                transition: 'all 0.3s',
-                ...buttonStyles  
-              }}
+              style={buttonBaseStyle}
+              className="btn"
+              onClick={createRipple}
             >
               Usar Encuestas Anteriores
             </Link>
             <Link 
               to="/crear-pregunta" 
-              style={{
-                backgroundColor: '#9ecd49',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '5px',
-                fontWeight: 'bold',
-                fontFamily: '"Roboto", sans-serif',
-                transition: 'all 0.3s',
-                ...buttonStyles  
-              }}
+              style={buttonBaseStyle}
+              className="btn"
+              onClick={createRipple}
             >
               Crear Encuesta
             </Link>
