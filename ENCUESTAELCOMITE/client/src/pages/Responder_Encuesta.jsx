@@ -34,7 +34,6 @@ const ResponderEncuesta = () => {
           throw new Error('No se recibieron datos de la encuesta');
         }
 
-
         // Validar fechas de la encuesta
         const hoy = new Date();
         const fechaApertura = new Date(data.fecha_apertura);
@@ -45,7 +44,6 @@ const ResponderEncuesta = () => {
         if (hoy < fechaApertura) {
           throw new Error(`Esta encuesta estará disponible a partir del ${fechaApertura.toLocaleDateString()}`);
         }
-
 
         // Parsear y validar datos_encuesta
         let datosEncuesta;
@@ -105,23 +103,23 @@ const ResponderEncuesta = () => {
         }
 
         // Estructurar los datos para el estado
-       const encuestaEstructurada = {
-  id: data.id,
-  titulo: data.titulo || 'Encuesta de Evaluación',
-  fecha_apertura: data.fecha_apertura,
-  fecha_cierre: data.fecha_cierre,
-  categorias: datosEncuesta.categorias.map(categoria => ({
-    nombre: categoria.nombre,
-    preguntas: categoria.preguntas.map(pregunta => ({
-      texto: pregunta.texto,
-      tipoRespuesta: pregunta.tipoRespuesta || 'multiple',
-      opciones: pregunta.tipoRespuesta === 'multiple'
-        ? (pregunta.opciones || ['', '', '', '']).map(op => op || '')
-        : [],
-      respuestasCorrectas: pregunta.respuestasCorrectas || []
-    }))
-  }))
-};
+        const encuestaEstructurada = {
+          id: data.id,
+          titulo: data.titulo || 'Encuesta de Evaluación',
+          fecha_apertura: data.fecha_apertura,
+          fecha_cierre: data.fecha_cierre,
+          categorias: datosEncuesta.categorias.map(categoria => ({
+            nombre: categoria.nombre,
+            preguntas: categoria.preguntas.map(pregunta => ({
+              texto: pregunta.texto,
+              tipoRespuesta: pregunta.tipoRespuesta || 'multiple',
+              opciones: pregunta.tipoRespuesta === 'multiple'
+                ? (pregunta.opciones || ['', '', '', '']).map(op => op || '')
+                : [],
+              respuestasCorrectas: pregunta.respuestasCorrectas || []
+            }))
+          }))
+        };
 
         console.log('[DEBUG] Encuesta estructurada:', encuestaEstructurada);
         setEncuesta(encuestaEstructurada);
@@ -244,18 +242,17 @@ const ResponderEncuesta = () => {
       // Guardar la contraseña generada para mostrarla en la página de agradecimiento
       const contrasenaGenerada = response.data.contrasena;
       
-
-setTimeout(() => {
-  navigate('/gracias-por-participar', { 
-    state: { 
-      contrasena: response.data.contrasena,
-      nombreCompleto: sessionStorage.getItem('nombreVoluntario'),
-      idEncuesta: encuesta.id,
-      correoVoluntario: correoVoluntario,
-      respuestas: respuestasFormateadas 
-    }
-  });
-}, 2000);
+      setTimeout(() => {
+        navigate('/gracias-por-participar', { 
+          state: { 
+            contrasena: response.data.contrasena,
+            nombreCompleto: sessionStorage.getItem('nombreVoluntario'),
+            idEncuesta: encuesta.id,
+            correoVoluntario: correoVoluntario,
+            respuestas: respuestasFormateadas 
+          }
+        });
+      }, 2000);
     } catch (err) {
       console.error('[ERROR] Error al enviar respuestas:', err);
       
@@ -324,6 +321,7 @@ setTimeout(() => {
       <title>Responder Encuesta</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
+      {/* Mantener header original */}
       <div className="header">
         <div className="logo">El Comit<span>é</span></div>
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
@@ -331,6 +329,7 @@ setTimeout(() => {
 
       <MigaDePan />
 
+      {/* Contenedor de encuesta con diseño mejorado */}
       <div className="encuesta-container">
         <button onClick={() => navigate('/realizar-encuesta')} className="btn-back">
           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -340,20 +339,34 @@ setTimeout(() => {
         </button>
 
         <div className="encuesta-content">
-          <h1>{encuesta.titulo}</h1>
-          <p className="encuesta-fechas">
-            Disponible desde: {new Date(encuesta.fecha_apertura).toLocaleDateString()} hasta: {new Date(encuesta.fecha_cierre).toLocaleDateString()}
-          </p>
+          <div className="encuesta-header">
+            <h1>{encuesta.titulo}</h1>
+            <div className="encuesta-dates">
+              <svg className="calendar-icon" viewBox="0 0 24 24">
+                <path d="M19,4H17V3a1,1,0,0,0-2,0V4H9V3A1,1,0,0,0,7,3V4H5A3,3,0,0,0,2,7V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm1,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V12H20ZM20,10H4V7A1,1,0,0,1,5,6H7V7A1,1,0,0,0,9,7V6h6V7a1,1,0,0,0,2,0V6h2a1,1,0,0,1,1,1Z"/>
+              </svg>
+              <span>Disponible: {new Date(encuesta.fecha_apertura).toLocaleDateString()} - {new Date(encuesta.fecha_cierre).toLocaleDateString()}</span>
+            </div>
+          </div>
 
           <form onSubmit={handleShowConfirmation} className="encuesta-form">
             {encuesta.categorias.map((categoria) => (
               <div key={categoria.nombre} className="categoria-group">
-                <h2 className="categoria-titulo">{categoria.nombre}</h2>
+                <div className="categoria-header">
+                  <div className="categoria-icon">
+                    <svg className="star-icon" viewBox="0 0 24 24">
+                      <path d="M12,17.27L18.18,21l-1.64-7.03L22,9.24l-7.19-.61L12,2L9.19,8.63L2,9.24l5.46,4.73L5.82,21Z"/>
+                    </svg>
+                  </div>
+                  <h2 className="categoria-titulo">{categoria.nombre}</h2>
+                </div>
+                
                 {categoria.preguntas.map((pregunta, pIndex) => {
                   const preguntaId = `${categoria.nombre}-p${pIndex}`;
                   return (
-                    <div key={preguntaId} className="pregunta-group">
-                      <label htmlFor={`pregunta-${preguntaId}`}>
+                    <div key={preguntaId} className="pregunta-card">
+                      <label className="pregunta-label">
+                        <span className="question-number">{pIndex + 1}.</span>
                         {pregunta.texto}
                         <span className="required">*</span>
                       </label>
@@ -361,33 +374,38 @@ setTimeout(() => {
                       {pregunta.tipoRespuesta === 'multiple' ? (
                         <div className="opciones-container">
                           {pregunta.opciones.filter(op => op.trim() !== '').map((opcion, oIndex) => (
-                            <div key={oIndex} className="opcion-group">
-                              <input
-                                type="radio"
-                                id={`opcion-${preguntaId}-${oIndex}`}
-                                name={`pregunta-${preguntaId}`}
-                                value={oIndex}
-                                checked={respuestas[preguntaId] === String(oIndex)}
-                                onChange={() => handleChange(preguntaId, String(oIndex))}
-                                required
-                                className="opcion-input"
-                              />
-                              <label htmlFor={`opcion-${preguntaId}-${oIndex}`}>
+                            <div 
+                              key={oIndex} 
+                              className={`opcion-group ${
+                                respuestas[preguntaId] === String(oIndex) ? 'selected' : ''
+                              }`}
+                              onClick={() => handleChange(preguntaId, String(oIndex))}
+                            >
+                              <div className="radio-container">
+                                <div className="radio">
+                                  {respuestas[preguntaId] === String(oIndex) && (
+                                    <div className="radio-dot"></div>
+                                  )}
+                                </div>
+                              </div>
+                              <label className="opcion-label">
                                 {opcion}
                               </label>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <input
-                          type="text"
-                          id={`pregunta-${preguntaId}`}
-                          value={respuestas[preguntaId] || ''}
-                          onChange={(e) => handleChange(preguntaId, e.target.value)}
-                          className="respuesta-abierta"
-                          required
-                          placeholder="Escribe tu respuesta aquí"
-                        />
+                        <div className="text-input-container">
+                          <textarea
+                            id={`pregunta-${preguntaId}`}
+                            value={respuestas[preguntaId] || ''}
+                            onChange={(e) => handleChange(preguntaId, e.target.value)}
+                            className="respuesta-abierta"
+                            required
+                            placeholder="Escribe tu respuesta aquí..."
+                            rows="3"
+                          ></textarea>
+                        </div>
                       )}
                     </div>
                   );
@@ -404,16 +422,23 @@ setTimeout(() => {
               </div>
             )}
 
-            <button type="submit" className="btn-enviar" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <span className="spinner"></span>
-                  Enviando...
-                </>
-              ) : (
-                'Enviar Respuestas'
-              )}
-            </button>
+            <div className="submit-container">
+              <button type="submit" className="btn-enviar" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <div className="spinner"></div>
+                    Enviando respuestas...
+                  </>
+                ) : (
+                  <>
+                    <svg className="send-icon" viewBox="0 0 24 24">
+                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Enviar todas las respuestas
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </div>
 
