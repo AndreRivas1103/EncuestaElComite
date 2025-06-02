@@ -36,12 +36,12 @@
 
 .encuesta-estado.activa {
   background-color: #e8f5e9;
-  color: #2e7d32;
+  color: #73A31D;
 }
 
 .encuesta-estado.inactiva {
   background-color: #ffebee;
-  color: #c62828;
+  color: #c71c1c;
 }
 
 .encuesta-metadata {

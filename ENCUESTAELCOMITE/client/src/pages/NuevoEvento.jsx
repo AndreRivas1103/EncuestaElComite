@@ -85,7 +85,6 @@ const NuevoEvento = () => {
   // Estilo base para botones con animaciones
   const buttonBaseStyle = {
     display: 'block',
-    backgroundColor: '#9ecd49',
     color: 'white',
     textDecoration: 'none',
     borderRadius: '5px',
