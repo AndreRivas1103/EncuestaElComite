@@ -16,6 +16,8 @@ const ClonarEncuesta = () => {
   const [nuevoId, setNuevoId] = useState('');
   const [fechaApertura, setFechaApertura] = useState('');
   const [fechaCierre, setFechaCierre] = useState('');
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [encuestaEditada, setEncuestaEditada] = useState(null);
 
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
@@ -109,34 +111,218 @@ const ClonarEncuesta = () => {
 
 const renderDatosEncuesta = () => {
   if (!encuesta || !encuesta.datos_encuesta) return null;
+  
+  const datosParaMostrar = modoEdicion ? encuestaEditada : encuesta;
+  
   return (
     <div className="datos-encuesta-container">
       <h3>Configuración de la Encuesta</h3>
-      {encuesta.datos_encuesta.categorias?.map((categoria, index) => (
-        <div key={index} className="categoria-container">
-          <h4>{categoria.nombre || `Categoría ${index + 1}`}</h4>
-          <ul className="preguntas-lista">
+      {datosParaMostrar.datos_encuesta.categorias?.map((categoria, catIndex) => (
+        <div key={catIndex} className="categoria-container">
+          {modoEdicion ? (
+            <input
+              type="text"
+              value={categoria.nombre || `Categoría ${catIndex + 1}`}
+              onChange={(e) => handleCategoriaChange(catIndex, 'nombre', e.target.value)}
+              className="categoria-input-editable"
+            />
+          ) : (
+            <h4>{categoria.nombre || `Categoría ${catIndex + 1}`}</h4>
+          )}
+          
+          <div className="preguntas-lista">
             {categoria.preguntas?.map((pregunta, pIndex) => (
-              <li key={pIndex} className="pregunta-item">
-                <strong>Pregunta {pIndex + 1}:</strong> {pregunta.texto}
-                {pregunta.tipoRespuesta === 'multiple' && (
-                  <ul className="opciones-lista">
-                    {pregunta.opciones
-                      ?.filter(op => op && op.trim() !== "")
-                      .map((opcion, oIndex) => (
-                        <li key={oIndex}>{opcion}</li>
-                      ))}
-                  </ul>
+              <div key={pIndex} className="pregunta-item">
+                <div className="pregunta-header">
+                  <strong>Pregunta {pIndex + 1}:</strong>
+                  {modoEdicion && (
+                    <button
+                      onClick={() => eliminarPregunta(catIndex, pIndex)}
+                      className="btn-eliminar-pregunta"
+                    >
+                      ❌
+                    </button>
+                  )}
+                </div>
+                
+                {modoEdicion ? (
+                  <textarea
+                    value={pregunta.texto}
+                    onChange={(e) => handlePreguntaChange(catIndex, pIndex, 'texto', e.target.value)}
+                    className="pregunta-textarea-editable"
+                    rows="2"
+                  />
+                ) : (
+                  <span>{pregunta.texto}</span>
                 )}
-              </li>
+                
+                {modoEdicion && (
+                  <div className="tipo-respuesta-select">
+                    <label>Tipo de respuesta:</label>
+                    <select
+                      value={pregunta.tipoRespuesta}
+                      onChange={(e) => handlePreguntaChange(catIndex, pIndex, 'tipoRespuesta', e.target.value)}
+                    >
+                      <option value="texto">Texto</option>
+                      <option value="multiple">Opción múltiple</option>
+                    </select>
+                  </div>
+                )}
+                
+                {pregunta.tipoRespuesta === 'multiple' && (
+                  <div className="opciones-lista">
+                    {modoEdicion ? (
+                      <div>
+                        {pregunta.opciones
+                          ?.filter(op => op && op.trim() !== "")
+                          .map((opcion, oIndex) => (
+                            <div key={oIndex} className="opcion-editable">
+                              <input
+                                type="text"
+                                value={opcion}
+                                onChange={(e) => handleOpcionChange(catIndex, pIndex, oIndex, e.target.value)}
+                                className="opcion-input"
+                              />
+                              <button
+                                onClick={() => eliminarOpcion(catIndex, pIndex, oIndex)}
+                                className="btn-eliminar-opcion"
+                              >
+                                ❌
+                              </button>
+                            </div>
+                          ))}
+                        <button
+                          onClick={() => agregarOpcion(catIndex, pIndex)}
+                          className="btn-agregar-opcion"
+                        >
+                          + Agregar opción
+                        </button>
+                      </div>
+                    ) : (
+                      <ul>
+                        {pregunta.opciones
+                          ?.filter(op => op && op.trim() !== "")
+                          .map((opcion, oIndex) => (
+                            <li key={oIndex}>{opcion}</li>
+                          ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </div>
             ))}
-          </ul>
+            
+            {modoEdicion && (
+              <button
+                onClick={() => agregarPregunta(catIndex)}
+                className="btn-agregar-pregunta"
+              >
+                + Agregar pregunta
+              </button>
+            )}
+          </div>
         </div>
       ))}
+      
+      {modoEdicion && (
+        <button
+          onClick={agregarCategoria}
+          className="btn-agregar-categoria"
+        >
+          + Agregar categoría
+        </button>
+      )}
     </div>
   );
 };
 
+const handleCategoriaChange = (catIndex, field, value) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex][field] = value;
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const handlePreguntaChange = (catIndex, pIndex, field, value) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex][field] = value;
+  
+  // Si cambia el tipo de respuesta a texto, limpiar opciones
+  if (field === 'tipoRespuesta' && value === 'texto') {
+    nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones = [];
+  }
+  // Si cambia a múltiple y no tiene opciones, agregar una vacía
+  else if (field === 'tipoRespuesta' && value === 'multiple') {
+    if (!nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones) {
+      nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones = [''];
+    }
+  }
+  
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const handleOpcionChange = (catIndex, pIndex, oIndex, value) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones[oIndex] = value;
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const eliminarPregunta = (catIndex, pIndex) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas.splice(pIndex, 1);
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const eliminarOpcion = (catIndex, pIndex, oIndex) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones.splice(oIndex, 1);
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const agregarOpcion = (catIndex, pIndex) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  if (!nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones) {
+    nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones = [];
+  }
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas[pIndex].opciones.push('');
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const agregarPregunta = (catIndex) => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias[catIndex].preguntas.push({
+    texto: '',
+    tipoRespuesta: 'texto',
+    opciones: []
+  });
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const agregarCategoria = () => {
+  const nuevaEncuesta = { ...encuestaEditada };
+  nuevaEncuesta.datos_encuesta.categorias.push({
+    nombre: `Nueva Categoría ${nuevaEncuesta.datos_encuesta.categorias.length + 1}`,
+    preguntas: []
+  });
+  setEncuestaEditada(nuevaEncuesta);
+};
+
+const handleEditar = () => {
+  if (modoEdicion) {
+    // Guardar cambios
+    setEncuesta(encuestaEditada);
+    setModoEdicion(false);
+    alert('Cambios guardados localmente. Usa "Clonar" o "Programar" para crear la nueva encuesta.');
+  } else {
+    // Entrar en modo edición
+    setEncuestaEditada(JSON.parse(JSON.stringify(encuesta))); // Deep copy
+    setModoEdicion(true);
+  }
+};
+
+const cancelarEdicion = () => {
+  setModoEdicion(false);
+  setEncuestaEditada(null);
+};
 
   const handleClonar = async () => {
     if (!user.cedula) {
@@ -306,6 +492,14 @@ const handleProgramar = async () => {
 
             <div className="form-acciones">
               <button onClick={handleClonar} className="btn-clonar">Clonar Encuesta</button>
+              <button onClick={handleEditar} className={`btn-editar ${modoEdicion ? 'editando' : ''}`}>
+                {modoEdicion ? 'Guardar Cambios' : 'Editar Encuesta'}
+              </button>
+              {modoEdicion && (
+                <button onClick={cancelarEdicion} className="btn-cancelar">
+                  Cancelar Edición
+                </button>
+              )}
               <button onClick={handleProgramar} className="btn-programar">Programar Encuesta</button>
               <button onClick={() => navigate('/registro-encuestas')} className="btn-volver">Volver</button>
             </div>

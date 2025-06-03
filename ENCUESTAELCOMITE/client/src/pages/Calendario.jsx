@@ -231,6 +231,16 @@ function Layout() {
     setShowConfirmModal(true);
   };
 
+  // Función para volver a editar la encuesta
+  const handleVolverAEditar = () => {
+    navigate('/crear-pregunta', { 
+      state: { 
+        volviendoDeCalendario: true,
+        encuestaData: JSON.parse(localStorage.getItem('encuestaTemporal') || '{}')
+      } 
+    });
+  };
+
   const handleConfirmProgram = async () => {
     setShowConfirmModal(false);
     await handleProgramarEncuesta();
@@ -702,7 +712,7 @@ function Layout() {
               style={{ 
                 padding: '15px 40px',
                 fontSize: '1.2rem',
-                backgroundColor: '#9ecd49',
+                backgroundColor: '#73A31D',
                 color: 'white',
                 border: 'none',
                 borderRadius: '10px',
@@ -712,27 +722,61 @@ function Layout() {
                 pointerEvents: loading ? 'none' : 'auto',
                 fontFamily: 'Roboto',
                 fontWeight: 'bold',
-                boxShadow: '0 4px 12px rgba(158, 205, 73, 0.3)',
-                minWidth: '200px'
+                boxShadow: '0 4px 12px rgba(115, 163, 29, 0.3)',
+                minWidth: '220px',
+                marginLeft: '10px'
               }}
               onClick={handleShowConfirmation}
               disabled={loading}
               onMouseOver={(e) => {
                 if (!loading) {
-                  e.target.style.backgroundColor = '#8bb63f';
+                  e.target.style.backgroundColor = '#5a8a0f';
                   e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 6px 16px rgba(158, 205, 73, 0.4)';
+                  e.target.style.boxShadow = '0 6px 16px rgba(115, 163, 29, 0.4)';
                 }
               }}
               onMouseOut={(e) => {
                 if (!loading) {
-                  e.target.style.backgroundColor = '#9ecd49';
+                  e.target.style.backgroundColor = '#73A31D';
                   e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(158, 205, 73, 0.3)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(115, 163, 29, 0.3)';
                 }
               }}
             >
               {loading ? 'Enviando...' : 'Programar Encuesta'}
+            </button>
+
+            {/* Botón Volver a Editar */}
+            <button 
+              style={{ 
+                padding: '15px 40px',
+                fontSize: '1.2rem',
+                backgroundColor: '#73A31D',
+                color: 'white',
+                border: 'none',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                fontFamily: 'Roboto',
+                fontWeight: 'bold',
+                boxShadow: '0 4px 12px rgba(115, 163, 29, 0.3)',
+                minWidth: '220px',
+                marginLeft: '10px',
+                marginTop: '15px'
+              }}
+              onClick={handleVolverAEditar}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = '#5a8a0f';
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 16px rgba(115, 163, 29, 0.4)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = '#73A31D';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 12px rgba(115, 163, 29, 0.3)';
+              }}
+            >
+              ← Volver a Editar Encuesta
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import '../pages/styles/Home.css';
@@ -10,45 +10,140 @@ import MigaDePan from '../components/MigaDePan.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// Función para generar letras (A, B, C, D, E, F, ...)
+const obtenerLetraOpcion = (index) => {
+  return String.fromCharCode(65 + index); // A=65, B=66, etc.
+};
+
 const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='firtsColor'>
-      <div className="preview-container">
-        <h1 className='preview-title'>Encuesta de Habilidades Blandas</h1>
-        <h2 className='preview-id'>ID: {idEncuesta}</h2>
-        
+    <div className='firtsColor' style={{ minHeight: '100vh', padding: '20px 0' }}>
+      <div style={{
+        maxWidth: '900px',
+        margin: '0 auto',
+        padding: '0 20px'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '30px',
+          padding: '20px',
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h1 style={{
+            fontSize: '32px',
+            color: '#1e3766',
+            marginBottom: '10px',
+            fontWeight: 'bold'
+          }}>Encuesta de Habilidades Blandas</h1>
+          <h2 style={{
+            fontSize: '20px',
+            color: '#73A31D',
+            margin: '0',
+            fontWeight: '600'
+          }}>ID: {idEncuesta}</h2>
+        </div>
+
         {categoriasConPreguntas.map((categoria, index) => (
-          <div key={index} className="categoria-seccion">
-            <h2 className="titulo-categoria">{categoria.nombre}</h2>
+          <div key={index} style={{
+            marginBottom: '30px',
+            backgroundColor: 'white',
+            border: '1px solid #e0e0e0',
+            borderRadius: '12px',
+            padding: '25px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+          }}>
+            <h2 style={{
+              fontSize: '24px',
+              color: '#1e3766',
+              marginBottom: '20px',
+              paddingBottom: '10px',
+              borderBottom: '2px solid #73A31D'
+            }}>{categoria.nombre}</h2>
             
             {categoria.preguntas.map((pregunta, pIndex) => (
-              <div key={pIndex} className="pregunta-item">
-                <h3 className="texto-pregunta">{pregunta.texto || "Pregunta sin texto"}</h3>
+              <div key={pIndex} style={{
+                marginBottom: '25px',
+                padding: '20px',
+                backgroundColor: '#f8f9fa',
+                borderRadius: '10px',
+                border: '1px solid #e9ecef'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  color: '#1e3766',
+                  marginBottom: '15px',
+                  fontWeight: '600'
+                }}>{pregunta.texto || "Pregunta sin texto"}</h3>
                 
                 <div className="opciones-respuesta">
                   {pregunta.tipoRespuesta === 'multiple' && pregunta.opciones.map((opcion, oIndex) => (
                     opcion && (
-                      <label key={oIndex} className="opcion">
+                      <div key={oIndex} className="opcion" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '10px 15px',
+                        margin: '8px 0',
+                        backgroundColor: 'white',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        transition: 'all 0.2s ease',
+                        cursor: 'pointer'
+                      }}>
                         <input
                           type="radio"
                           name={`pregunta-${index}-${pIndex}`}
                           disabled
+                          style={{
+                            width: '18px',
+                            height: '18px',
+                            margin: '0',
+                            accentColor: '#73A31D'
+                          }}
                         />
-                        <span className="checkmark"></span>
-                        {['A', 'B', 'C', 'D'][oIndex]}) {opcion}
+                        <span style={{
+                          fontSize: '16px',
+                          color: '#333',
+                          flex: 1,
+                          lineHeight: '1.4'
+                        }}>
+                          <strong>{obtenerLetraOpcion(oIndex)})</strong> {opcion}
+                        </span>
                         {pregunta.respuestasCorrectas.includes(oIndex) && (
-                          <span className="correct-badge">✓ Correcta</span>
+                          <span style={{
+                            backgroundColor: '#73A31D',
+                            color: 'white',
+                            padding: '4px 8px',
+                            borderRadius: '12px',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}>
+                            ✓ Correcta
+                          </span>
                         )}
-                      </label>
+                      </div>
                     )
                   ))}
                   {pregunta.tipoRespuesta === 'abierta' && (
                     <input
                       type="text"
                       placeholder="Respuesta abierta"
-                      className="respuesta-abierta"
+                      style={{
+                        width: '100%',
+                        padding: '12px 15px',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        backgroundColor: '#f8f9fa',
+                        color: '#666'
+                      }}
                       disabled
                     />
                   )}
@@ -58,8 +153,36 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
           </div>
         ))}
 
-        <div className="preview-actions">
-          <button onClick={onVolverEdicion} className="btn-editar">
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '20px',
+          marginTop: '40px',
+          padding: '20px'
+        }}>
+          <button 
+            onClick={onVolverEdicion} 
+            style={{
+              backgroundColor: '#f8f9fa',
+              color: '#1e3766',
+              border: '2px solid #1e3766',
+              borderRadius: '8px',
+              padding: '12px 24px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              minWidth: '150px'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = '#1e3766';
+              e.target.style.color = 'white';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = '#f8f9fa';
+              e.target.style.color = '#1e3766';
+            }}
+          >
             Volver a Editar
           </button>
           <button 
@@ -67,7 +190,26 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
               onPublicar();
               navigate('/calendario');
             }} 
-            className="btn-publicar"
+            style={{
+              backgroundColor: '#73A31D',
+              color: 'white',
+              border: '2px solid #73A31D',
+              borderRadius: '8px',
+              padding: '12px 24px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              minWidth: '200px'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = '#5a8a0f';
+              e.target.style.borderColor = '#5a8a0f';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = '#73A31D';
+              e.target.style.borderColor = '#73A31D';
+            }}
           >
             Siguiente: Asignar Fecha
           </button>
@@ -102,6 +244,25 @@ const CrearPregunta = () => {
     cedula: localStorage.getItem('userCedula') // ← Bien definido
   };
 
+  // Efecto para cargar datos cuando se viene del calendario
+  useEffect(() => {
+    const encuestaTemporal = JSON.parse(localStorage.getItem('encuestaTemporal') || '{}');
+    const volviendoDeCalendario = location.state?.volviendoDeCalendario;
+    
+    if (volviendoDeCalendario || encuestaTemporal.id) {
+      console.log('[DEBUG] Cargando encuesta temporal:', encuestaTemporal);
+      
+      if (encuestaTemporal.id) {
+        setIdEncuesta(encuestaTemporal.id);
+      }
+      
+      if (encuestaTemporal.datos_encuesta?.categorias) {
+        setCategoriasConPreguntas(encuestaTemporal.datos_encuesta.categorias);
+        console.log('[DEBUG] Categorías cargadas:', encuestaTemporal.datos_encuesta.categorias);
+      }
+    }
+  }, [location.state]);
+
   const handleLogout = () => {
     navigate("/confirmar-cierre");
   };
@@ -124,7 +285,7 @@ const CrearPregunta = () => {
           preguntas: [{
             texto: '',
             tipoRespuesta: 'multiple',
-            opciones: ['', '', '', ''],
+            opciones: ['', ''], // Cambiar a solo 2 opciones iniciales
             respuestasCorrectas: [],
             id: preguntaId
           }]
@@ -155,7 +316,7 @@ const CrearPregunta = () => {
       nuevasCategorias[categoriaIndex].preguntas.push({
         texto: '',
         tipoRespuesta: 'multiple',
-        opciones: ['', '', '', ''],
+        opciones: ['', ''], // Cambiar a solo 2 opciones iniciales
         respuestasCorrectas: [],
         id: preguntaId // Identificador único para la animación
       });
@@ -205,6 +366,26 @@ const CrearPregunta = () => {
       nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
         nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas.filter(i => i !== opcionIndex);
     }
+    setCategoriasConPreguntas(nuevasCategorias);
+  };
+
+  // Función para agregar una nueva opción
+  const agregarOpcion = (categoriaIndex, preguntaIndex) => {
+    const nuevasCategorias = [...categoriasConPreguntas];
+    nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].opciones.push('');
+    setCategoriasConPreguntas(nuevasCategorias);
+  };
+
+  // Función para eliminar una opción
+  const eliminarOpcion = (categoriaIndex, preguntaIndex, opcionIndex) => {
+    const nuevasCategorias = [...categoriasConPreguntas];
+    // Eliminar la opción
+    nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].opciones.splice(opcionIndex, 1);
+    // Actualizar las respuestas correctas
+    nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas = 
+      nuevasCategorias[categoriaIndex].preguntas[preguntaIndex].respuestasCorrectas
+        .filter(i => i !== opcionIndex)
+        .map(i => i > opcionIndex ? i - 1 : i);
     setCategoriasConPreguntas(nuevasCategorias);
   };
 
@@ -281,8 +462,7 @@ const CrearPregunta = () => {
           );
           
           if (respuestasIncorrectas.length > 0) {
-            const letras = ['A', 'B', 'C', 'D'];
-            const opcionesVacias = respuestasIncorrectas.map(index => letras[index]).join(', ');
+            const opcionesVacias = respuestasIncorrectas.map(index => obtenerLetraOpcion(index)).join(', ');
             alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" tiene opciones marcadas como correctas pero sin texto: ${opcionesVacias}. Complete el texto o desmarque estas opciones.`);
             return false;
           }
@@ -393,6 +573,26 @@ const CrearPregunta = () => {
 
       {!mostrarPreview ? (
         <div className='firtsColor'>
+          {/* Mensaje informativo cuando se viene del calendario */}
+          {location.state?.volviendoDeCalendario && (
+            <div style={{
+              maxWidth: '900px',
+              margin: '0 auto 20px',
+              padding: '15px 20px',
+              backgroundColor: '#e8f5e9',
+              border: '1px solid #c8e6c9',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}>
+              <span style={{ fontSize: '20px' }}>ℹ️</span>
+              <div style={{ fontSize: '14px', color: '#2e7d32', fontWeight: '500' }}>
+                Estás editando la encuesta que creaste anteriormente. Puedes modificar cualquier aspecto y luego volver al calendario para programar las fechas.
+              </div>
+            </div>
+          )}
+
           <div>
             <h1 className='title-large' style={{ textAlign: 'center' }}>Encuesta de Habilidades Blandas</h1>
           </div>
@@ -599,7 +799,7 @@ const CrearPregunta = () => {
                         
                         {pregunta.tipoRespuesta === 'multiple' && (
                           <div style={{ marginTop: '15px', marginLeft: '0' }}>
-                            {['A', 'B', 'C', 'D'].map((letra, opcionIndex) => (
+                            {pregunta.opciones.map((opcion, opcionIndex) => (
                               <div key={opcionIndex} style={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
@@ -616,12 +816,12 @@ const CrearPregunta = () => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center'
-                                }}>{letra}</span>
+                                }}>{obtenerLetraOpcion(opcionIndex)}</span>
                                 <input 
                                   type="text" 
                                   className="campo-opcion" 
-                                  placeholder={`Escribe la opción ${letra}`}
-                                  value={pregunta.opciones[opcionIndex]}
+                                  placeholder={`Escribe la opción ${obtenerLetraOpcion(opcionIndex)}`}
+                                  value={opcion}
                                   onChange={(e) => cambiarOpcion(categoriaIndex, preguntaIndex, opcionIndex, e.target.value)}
                                   style={{ 
                                     flex: 1,
@@ -631,7 +831,7 @@ const CrearPregunta = () => {
                                     fontSize: '14px'
                                   }}
                                 />
-                                {pregunta.opciones[opcionIndex] && (
+                                {opcion && (
                                   <label className="respuesta-correcta-label" style={{ 
                                     display: 'flex', 
                                     alignItems: 'center', 
@@ -653,8 +853,54 @@ const CrearPregunta = () => {
                                     Correcta
                                   </label>
                                 )}
+                                {pregunta.opciones.length > 2 && (
+                                  <button
+                                    onClick={() => eliminarOpcion(categoriaIndex, preguntaIndex, opcionIndex)}
+                                    style={{
+                                      background: '#dc3545',
+                                      color: 'white',
+                                      border: 'none',
+                                      borderRadius: '50%',
+                                      width: '25px',
+                                      height: '25px',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      cursor: 'pointer',
+                                      fontSize: '14px',
+                                      minWidth: '25px'
+                                    }}
+                                    title="Eliminar opción"
+                                  >
+                                    ×
+                                  </button>
+                                )}
                               </div>
                             ))}
+                            
+                            {/* Botón para agregar más opciones */}
+                            <div style={{ marginTop: '10px', marginBottom: '15px' }}>
+                              <button
+                                onClick={() => agregarOpcion(categoriaIndex, preguntaIndex)}
+                                style={{
+                                  backgroundColor: '#73A31D',
+                                  color: 'white',
+                                  border: 'none',
+                                  borderRadius: '5px',
+                                  padding: '8px 16px',
+                                  fontSize: '14px',
+                                  cursor: 'pointer',
+                                  transition: 'background-color 0.3s ease',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '8px'
+                                }}
+                                onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
+                                onMouseOut={(e) => e.target.style.backgroundColor = '#73A31D'}
+                              >
+                                + Agregar opción {obtenerLetraOpcion(pregunta.opciones.length)}
+                              </button>
+                            </div>
                             
                             {/* Indicador de validación en tiempo real */}
                             {(() => {
@@ -700,7 +946,7 @@ const CrearPregunta = () => {
                                 }}>
                                   <span style={{ fontSize: '18px' }}>✅</span>
                                   <div style={{ fontSize: '14px', color: '#155724', fontWeight: '500' }}>
-                                    Pregunta configurada correctamente
+                                    Pregunta configurada correctamente ({opcionesConTexto.length} opciones)
                                   </div>
                                 </div>
                               );
@@ -790,7 +1036,12 @@ const CrearPregunta = () => {
           ))}
 
           {categoriasConPreguntas.length > 0 && (
-            <div className='botones-abajo'>
+            <div className='botones-abajo' style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              gap: '20px',
+              flexWrap: 'wrap'
+            }}>
               <button 
                 onClick={() => setMostrarPreview(true)} 
                 className='btn-pequeno btn-pequeno-guardar'
@@ -810,6 +1061,28 @@ const CrearPregunta = () => {
               >
                 Previsualizar Encuesta
               </button>
+
+              {/* Botón para volver al calendario si se viene de ahí */}
+              {location.state?.volviendoDeCalendario && (
+                <button 
+                  onClick={() => navigate('/calendario')}
+                  style={{
+                    backgroundColor: '#1e3766',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '8px 16px',
+                    fontSize: '1.2rem',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                    fontFamily: 'Roboto'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#142954'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#1e3766'}
+                >
+                  📅 Volver al Calendario
+                </button>
+              )}
             </div>
           )}
         </div>
