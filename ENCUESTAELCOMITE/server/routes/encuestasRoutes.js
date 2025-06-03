@@ -13,6 +13,7 @@ const router = express.Router();
 // Rutas para encuestas
 router.get('/', obtenerTodasEncuestas);
 router.post('/', crearEncuesta);
+router.post('/programar', programarEncuesta);
 router.get('/activa', obtenerEncuestaActiva);
 router.put('/:id', programarEncuesta); // Para permitir actualización por ID
 router.get('/:id', obtenerEncuestaPorId); // Nueva ruta para obtener por ID
