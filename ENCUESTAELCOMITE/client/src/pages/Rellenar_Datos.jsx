@@ -172,106 +172,114 @@ const FormularioRegistro = () => {
         </Link>
 
         <div className="form-content">
-          <div className='main-content'>
-            <div className="registro-form">
+          <div className="registro-form">
+            <form onSubmit={handleSubmit}>
+              <h1 className="encuesta-title">Rellena Datos</h1>
+              
               {terminosAceptadosAutomaticamente && (
                 <div className="terminos-aceptados-mensaje">
                   ✅ Términos y condiciones aceptados
                 </div>
               )}
               
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <h1 className="encuesta-title">Rellena Datos</h1>
-                  
-                  <label htmlFor="nombreCompleto">Nombre completo</label>
-                  <input
-                    type="text"
-                    id="nombreCompleto"
-                    name="nombreCompleto"
-                    value={formData.nombreCompleto}
-                    onChange={handleChange}
-                    className={errors.nombreCompleto ? "form-input error" : "form-input"}
-                  />
-                  {errors.nombreCompleto && <small className="error-text">{errors.nombreCompleto}</small>}
+              <div className="form-group">
+                <label htmlFor="nombreCompleto">Nombre completo</label>
+                <input
+                  type="text"
+                  id="nombreCompleto"
+                  name="nombreCompleto"
+                  value={formData.nombreCompleto}
+                  onChange={handleChange}
+                  className={errors.nombreCompleto ? "form-input error" : "form-input"}
+                  placeholder="Ingresa tu nombre completo"
+                />
+                {errors.nombreCompleto && <small className="error-text">{errors.nombreCompleto}</small>}
+              </div>
 
-                  <label htmlFor="numeroIdentificacion">Número de identificación</label>
-                  <input
-                    type="text"
-                    id="numeroIdentificacion"
-                    name="numeroIdentificacion"
-                    value={formData.numeroIdentificacion}
-                    onChange={handleChange}
-                    className={errors.numeroIdentificacion ? "form-input error" : "form-input"}
-                  />
-                  {errors.numeroIdentificacion && <small className="error-text">{errors.numeroIdentificacion}</small>}
+              <div className="form-group">
+                <label htmlFor="numeroIdentificacion">Número de identificación</label>
+                <input
+                  type="text"
+                  id="numeroIdentificacion"
+                  name="numeroIdentificacion"
+                  value={formData.numeroIdentificacion}
+                  onChange={handleChange}
+                  className={errors.numeroIdentificacion ? "form-input error" : "form-input"}
+                  placeholder="Ingresa tu número de identificación"
+                />
+                {errors.numeroIdentificacion && <small className="error-text">{errors.numeroIdentificacion}</small>}
+              </div>
 
-                  <label htmlFor="correoElectronico">Correo Electrónico</label>
-                  <input
-                    type="email"
-                    id="correoElectronico"
-                    name="correoElectronico"
-                    value={formData.correoElectronico}
-                    onChange={handleChange}
-                    className={errors.correoElectronico ? "form-input error" : "form-input"}
-                  />
-                  {errors.correoElectronico && <small className="error-text">{errors.correoElectronico}</small>}
+              <div className="form-group">
+                <label htmlFor="correoElectronico">Correo Electrónico</label>
+                <input
+                  type="email"
+                  id="correoElectronico"
+                  name="correoElectronico"
+                  value={formData.correoElectronico}
+                  onChange={handleChange}
+                  className={errors.correoElectronico ? "form-input error" : "form-input"}
+                  placeholder="ejemplo@correo.com"
+                />
+                {errors.correoElectronico && <small className="error-text">{errors.correoElectronico}</small>}
+              </div>
 
-                  <label htmlFor="confirmacionCorreo">Confirmación de Correo Electrónico</label>
-                  <input
-                    type="email"
-                    id="confirmacionCorreo"
-                    name="confirmacionCorreo"
-                    value={formData.confirmacionCorreo}
-                    onChange={handleChange}
-                    className={errors.confirmacionCorreo ? "form-input error" : "form-input"}
-                  />
-                  {errors.confirmacionCorreo && <small className="error-text">{errors.confirmacionCorreo}</small>}
+              <div className="form-group">
+                <label htmlFor="confirmacionCorreo">Confirmación de Correo Electrónico</label>
+                <input
+                  type="email"
+                  id="confirmacionCorreo"
+                  name="confirmacionCorreo"
+                  value={formData.confirmacionCorreo}
+                  onChange={handleChange}
+                  className={errors.confirmacionCorreo ? "form-input error" : "form-input"}
+                  placeholder="Confirma tu correo electrónico"
+                />
+                {errors.confirmacionCorreo && <small className="error-text">{errors.confirmacionCorreo}</small>}
+              </div>
 
-                  <div className="form-group checkbox-group">
-                    <input
-                      type="checkbox"
-                      id="aceptaTerminos"
-                      name="aceptaTerminos"
-                      checked={formData.aceptaTerminos}
-                      onChange={handleChange}
-                      className={`checkbox-input ${terminosAceptadosAutomaticamente ? 'auto-checked' : ''}`}
-                    />
-                    <label htmlFor="aceptaTerminos" className="checkbox-label">
-                      <Link to="/terminos-y-condiciones" className="terms-text">
-                        Acepto los Términos y Condiciones
-                        {terminosAceptadosAutomaticamente && <span className="auto-check-indicator"> </span>}
-                      </Link>
-                    </label>
-                    {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
-                  </div>
+              <div className="form-group checkbox-group">
+                <input
+                  type="checkbox"
+                  id="aceptaTerminos"
+                  name="aceptaTerminos"
+                  checked={formData.aceptaTerminos}
+                  onChange={handleChange}
+                  className={`checkbox-input ${terminosAceptadosAutomaticamente ? 'auto-checked' : ''}`}
+                />
+                <label htmlFor="aceptaTerminos" className="checkbox-label">
+                  <Link to="/terminos-y-condiciones" className="terms-text">
+                    Acepto los Términos y Condiciones
+                    {terminosAceptadosAutomaticamente && <span className="auto-check-indicator">✓</span>}
+                  </Link>
+                </label>
+                {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
+              </div>
 
-                  {errors.submit && (
-                    <div className="error-message-global">
-                      ⚠️ {errors.submit}
-                    </div>
-                  )}
-
-                  {successMessage && (
-                    <div className="success-message-global">
-                      ✅ {successMessage}
-                    </div>
-                  )}
-
-                  <button 
-                    type="submit" 
-                    className="btn-siguiente"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <span className="loading-dots">
-                        <span>.</span><span>.</span><span>.</span>
-                      </span>
-                    ) : 'Siguiente'}
-                  </button>
+              {errors.submit && (
+                <div className="error-message-global">
+                  ⚠️ {errors.submit}
                 </div>
-              </form>
-            </div>
+              )}
+
+              {successMessage && (
+                <div className="success-message-global">
+                  ✅ {successMessage}
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                className="btn-siguiente"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="loading-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                  </span>
+                ) : 'Siguiente'}
+              </button>
+            </form>
           </div>
         </div>
       </div>

@@ -423,7 +423,7 @@ const ResponderEncuesta = () => {
             )}
 
             <div className="submit-container">
-              <button type="submit" className="btn-enviar" disabled={isSubmitting}>
+              <button type="submit" className="btn-enviar2" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <div className="spinner"></div>
@@ -431,9 +431,7 @@ const ResponderEncuesta = () => {
                   </>
                 ) : (
                   <>
-                    <svg className="send-icon" viewBox="0 0 24 24">
-                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                    </svg>
+
                     Enviar todas las respuestas
                   </>
                 )}

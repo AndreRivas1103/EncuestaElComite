@@ -46,19 +46,10 @@
 }
 
 /* Estilos de categorías y preguntas (de PreviewEncuesta.css) */
-.categoria-group {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-}
+
 
 .categoria-titulo {
-  color: #1e3766;
   border-bottom: 2px solid #9ecd49;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
   font-size: 1.6rem;
 }
 
@@ -116,7 +107,7 @@
 }
 
 /* Botón de enviar */
-.btn-enviar {
+.btn-enviar2 {
   display: block;
   width: 100%;
   max-width: 300px;
@@ -132,11 +123,11 @@
   transition: background-color 0.3s;
 }
 
-.btn-enviar:hover {
+.btn-enviar2:hover {
   background-color: #5a8a0f;
 }
 
-.btn-enviar:disabled {
+.btn-enviar2:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }

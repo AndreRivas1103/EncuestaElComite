@@ -636,7 +636,7 @@ html, body {
   display: flex;
   align-items: center;
   padding: 20px 25px;
-  background: linear-gradient(to right, #2e7d32, #4caf50);
+  background: #73a31d;
 }
 
 .categoria-icon {
@@ -687,7 +687,7 @@ html, body {
   display: inline-block;
   width: 30px;
   height: 30px;
-  background: #4caf50;
+  background: #73a31d;
   color: white;
   border-radius: 50%;
   text-align: center;
