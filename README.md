@@ -25,5 +25,11 @@
 <p>React+Vite</p>
 <p>FireBase</p>
 
-cd ENCUESTAELCOMITE && npm install
-cd ENCUESTAELCOMITE && npm install react-router-dom
+```bash
+  cd ENCUESTAELCOMITE && npm install
+```
+
+```bash
+  cd ENCUESTAELCOMITE && npm install react-router-dom
+
+
