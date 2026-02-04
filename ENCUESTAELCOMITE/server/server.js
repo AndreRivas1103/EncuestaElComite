@@ -1,13 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { verificarCorreo } from './controllers/coordinadorController.js';
 import encuestaRoutes from './routes/encuestasRoutes.js';
 import voluntarioRoutes from './routes/voluntarioRoutes.js';
 import resultadoRoutes from './routes/resultadosRoutes.js';
 
-// Configuración inicial
-dotenv.config();
+// Configuración inicial: cargar .env desde la carpeta server (funciona en Linux/Windows)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express();
 const PORT = process.env.PORT || 3000;
 

@@ -5,13 +5,11 @@ import SeleccionarEncuesta from "./pages/SeleccionarEncuesta.jsx";
 import Contacto from "./pages/Contacto.jsx";
 import RegistroEncuestas from "./pages/RegistroEncuesta.jsx";
 import InicioCoordinador from "./pages/InicioCoordinador.jsx";
-import TukiInicio from "./pages/prueba1.jsx";
 import NuevoEvento from "./pages/NuevoEvento.jsx";
 import GuardarPreguntas from "./pages/GuardarPreguntas.jsx";
 import CrearPregunta from "./pages/CrearPregunta.jsx";
 import Calendario from "./pages/Calendario.jsx";
 import Encuesta from "./pages/Encuesta.jsx";
-import Ensayo from "./pages/InicioCoordinadorPrueba.jsx";
 import ConfirmarCierre from "./pages/ConfirmLogout";
 import PrevisualizacionE from "./pages/PreviewEncuesta.jsx";
 import RealizarEncuesta from "./pages/Escoger_Encuentas.jsx";
@@ -24,7 +22,7 @@ import GraciasPorParticipar from "./pages/GraciasPorParticipar.jsx";
 import DatosPost from "./pages/Rellenar_Datos_Post.jsx";
 import GraciasPorParticiparPost from "./pages/GraciasPorParticiparPost.jsx";
 import ResponderEncuestaPost from "./pages/Responder_Encuesta_Post.jsx";
-import InfoEncuesta from "./pages/InfoEncuesta.jsx";
+import InfoEncuesta from "./pages/Infoencuesta.jsx";
 import ClonarEncuesta from "./pages/ClonarEncuesta.jsx"; // ✅ NUEVA IMPORTACIÓN
 
 function App() {
@@ -46,7 +44,6 @@ function App() {
             <Route path="/crear-pregunta" element={<CrearPregunta />} />
             <Route path="/calendario" element={<Calendario />} />
             <Route path="/encuestas" element={<Encuesta />} />
-            <Route path="/ensayo" element={<Ensayo />} />
             <Route path="/confirmar-cierre" element={<ConfirmarCierre />} />
             <Route path="/visualizacionE" element={<PrevisualizacionE />} />
             <Route path="/realizar-encuesta" element={<RealizarEncuesta />} />

@@ -7,7 +7,8 @@
 }
 
 /* Fuentes personalizadas */
-@font-face {
+/* Fuentes glock y yeseva comentadas - archivos .ttf no existen */
+/* @font-face {
   font-family: "Glock";
   src: url("fonts/glock.ttf") format("truetype");
   font-weight: normal;
@@ -19,7 +20,7 @@
   src: url("fonts/yeseva.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 /* Reset y estilos base */
 body,

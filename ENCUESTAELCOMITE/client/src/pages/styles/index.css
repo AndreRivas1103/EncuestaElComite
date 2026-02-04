@@ -4,12 +4,13 @@ body, html{
   background-color: #d3edff;
 }
 
-@font-face {
+/* Fuente yeseva comentada - archivo .ttf no existe */
+/* @font-face {
   font-family: "Yeseva";
   src: url("fonts/yeseva.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+} */
 @font-face {
   font-family: 'Roboto';
   src: url('../../assets/fonts/Roboto-Medium.ttf') format('truetype');

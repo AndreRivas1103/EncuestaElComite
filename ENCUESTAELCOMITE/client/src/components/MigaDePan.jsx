@@ -20,7 +20,6 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
     "crear-pregunta": "Crear Encuesta",
     calendario: "Programar Evento",
     encuestas: "Lista de Encuestas",
-    ensayo: "Vista Previa",
     "confirmar-cierre": "Confirmar Salida",
     visualizacionE: "Previsualización",
     "realizar-encuesta": "Seleccionar Encuesta",

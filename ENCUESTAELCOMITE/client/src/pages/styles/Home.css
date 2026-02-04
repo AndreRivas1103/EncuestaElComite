@@ -23,7 +23,8 @@
   font-display: swap;
 }
 
-@font-face {
+/* Fuentes glock y yeseva comentadas - archivos .ttf no existen */
+/* @font-face {
   font-family: "Gloock";
   src: url("fonts/glock.ttf") format("truetype");
   font-weight: normal;
@@ -35,7 +36,7 @@
   src: url("fonts/yeseva.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 /* ===== RESET Y ESTILOS BASE ===== */
 * {
