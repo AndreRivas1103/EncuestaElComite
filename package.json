@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "react-helmet": "^6.1.0",
-    "react-router-dom": "^7.5.0"
-  },
-  "devDependencies": {
-    "vite": "^6.3.0"
-  }
-}

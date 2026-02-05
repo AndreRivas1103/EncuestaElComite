@@ -21,15 +21,25 @@
 
 <br>
 
-<h2>Usando</h2>
+<h2>Ejecución</h2>
 <p>React+Vite</p>
 <p>FireBase</p>
+<br>
+<p>Para ejecutar sigue los siguentes comandos en la terminal:</p>
+
 
 ```bash
   cd ENCUESTAELCOMITE && npm install
 ```
 
+
 ```bash
   cd ENCUESTAELCOMITE && npm install react-router-dom
+```
+<p>Y por último ingresa este:</p>
 
+```bash
+  npm run dev
+```
+<p>Para una informacion mas completa sobre la ejecucion y funcionamiento del proyecto ingresa al README.MD en la carpeta ENCUESTAELCOMITE</p>
 
