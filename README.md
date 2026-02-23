@@ -4,8 +4,8 @@
 
 - Samuel David Gallego Meneses
 - André Rivas Garcia
-- Juliana Franco Alzate
-- Johan Lukas Lopez Bedoya
+- Juliana Franco Alzate 
+- Johan Lukas Lopez Bedoya (No Actualmente)
 
 ## Descripción
 
