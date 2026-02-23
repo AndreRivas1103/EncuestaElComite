@@ -28,6 +28,7 @@ const sequelize = new Sequelize(connectionString, {
   try {
     await sequelize.authenticate();
     console.log('✅ Conexión DIRECTA a NeonDB establecida');
+    console.log('\n  ➜  Server Frontend/Backend:   http://localhost:5173/');
   } catch (error) {
     console.error('❌ Error de conexión:', error.message);
   }
