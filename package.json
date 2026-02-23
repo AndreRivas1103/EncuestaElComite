@@ -1,0 +1,25 @@
+{
+  "name": "encuestaelcomite-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo para Encuesta El Comité GoBabyGo",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "npm run dev -w @encuestaelcomite/client",
+    "dev:server": "npm run dev -w @encuestaelcomite/server",
+    "build": "npm run build -w @encuestaelcomite/client",
+    "build:client": "npm run build -w @encuestaelcomite/client",
+    "start:server": "npm run start -w @encuestaelcomite/server",
+    "lint": "npm run lint -w @encuestaelcomite/client",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
