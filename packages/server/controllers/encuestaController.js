@@ -1,6 +1,6 @@
 // encuestaController.js (modificado sin obtener_encuestas())
 import Encuesta from '../models/Encuesta.js';
-import { UniqueConstraintError } from 'sequelize';
+import { UniqueConstraintError, Op } from 'sequelize';
 
 function calcularEstado(fecha_apertura, fecha_cierre) {
   const hoy = new Date();
@@ -61,11 +61,14 @@ export const crearEncuesta = async (req, res) => {
 
 export const obtenerEncuestaActiva = async (req, res) => {
   try {
-    const encuestas = await Encuesta.findAll();
-
-    const encuestaActiva = encuestas.find(e => {
-      const estado = calcularEstado(e.fecha_apertura, e.fecha_cierre);
-      return estado === 'activa';
+    const hoy = new Date().toISOString().split('T')[0];
+    
+    const encuestaActiva = await Encuesta.findOne({
+      where: {
+        fecha_apertura: { [Op.lte]: hoy },
+        fecha_cierre: { [Op.gte]: hoy }
+      },
+      order: [['fecha_apertura', 'DESC']]
     });
 
     if (!encuestaActiva) {
@@ -91,7 +94,8 @@ export const obtenerEncuestaActiva = async (req, res) => {
       success: true,
       data: {
         ...encuestaActiva.get({ plain: true }),
-        datos_encuesta: datosEncuesta
+        datos_encuesta: datosEncuesta,
+        estado: 'activa'
       }
     });
   } catch (error) {
