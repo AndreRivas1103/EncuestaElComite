@@ -7,6 +7,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
+import PageLead from '../components/PageLead.jsx';
 import axios from 'axios';
 
 const SeleccionarEncuesta = () => {
@@ -120,6 +121,9 @@ const SeleccionarEncuesta = () => {
       */}
       <div className="registro-encuesta-contenedor">
         <h1 className="title-large">Seleccionar Encuesta</h1>
+        <PageLead>
+          Elige una encuesta existente para reutilizarla o tomarla como base antes de clonar o publicar.
+        </PageLead>
 
         {cargando ? (
           <div className="registro-encuesta-cargando">

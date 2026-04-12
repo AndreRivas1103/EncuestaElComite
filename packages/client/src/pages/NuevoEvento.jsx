@@ -5,6 +5,7 @@ import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
+import PageLead from '../components/PageLead.jsx';
 
 const NuevoEvento = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -209,6 +210,9 @@ const NuevoEvento = () => {
             color: '#000000',
             ...titleStyles    
           }}>Nuevo Evento</h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Crea o reutiliza encuestas para un nuevo evento: parte de plantillas guardadas o arma preguntas desde cero.
+          </PageLead>
           
           {/* Contenedor de botones - CENTRADO */}
           <div style={{

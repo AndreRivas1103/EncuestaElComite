@@ -4,6 +4,7 @@ import '../pages/styles/RellenarDatos.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const FormularioRegistro = () => {
   const navigate = useNavigate();
@@ -192,6 +193,9 @@ const FormularioRegistro = () => {
           <div className="registro-form">
             <form onSubmit={handleSubmit}>
               <h1 className="encuesta-title">Rellena Datos PostEvento</h1>
+              <PageLead className="page-lead--center page-lead--tight">
+                Identifícate de nuevo para la encuesta post-evento y así vincular tus respuestas con tu participación previa.
+              </PageLead>
               
               {terminosAceptadosAutomaticamente && (
                 <div className="terminos-aceptados-mensaje">

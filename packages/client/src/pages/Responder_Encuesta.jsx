@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../pages/styles/ResponderEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const ResponderEncuesta = () => {
   const navigate = useNavigate();
@@ -287,21 +288,51 @@ const ResponderEncuesta = () => {
   }
 
   if (error) {
+    const errorDetails = error.includes('estructura')
+      ? 'La encuesta podría estar mal configurada.'
+      : error.includes('fecha')
+        ? 'Verifica las fechas de disponibilidad.'
+        : error.includes('categorías')
+          ? 'Revisa la configuración de categorías.'
+          : '';
+
     return (
       <div className="error-container">
-        <h2>Error</h2>
-        <p className="error-message">{error}</p>
-        <p className="error-hint">
-          {error.includes('estructura') && 'La encuesta podría estar mal configurada.'}
-          {error.includes('fecha') && 'Verifica las fechas de disponibilidad.'}
-          {error.includes('categorías') && 'Revisa la configuración de categorías.'}
-        </p>
-        <button onClick={() => navigate('/realizar-encuesta')} className="btn-volver">
-          Volver a encuestas disponibles
-        </button>
-        <button onClick={() => window.location.reload()} className="btn-reintentar">
-          Reintentar
-        </button>
+        <div className="error-panel" role="alert">
+          <div className="error-icon-wrap" aria-hidden="true">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h1 className="error-title">No pudimos cargar la encuesta</h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Si no hay un evento activo o falla la conexión, vuelve al listado o intenta cargar de nuevo.
+          </PageLead>
+          <p className="error-panel-text">{error}</p>
+          {errorDetails ? <p className="error-hint">{errorDetails}</p> : null}
+          <div className="error-actions">
+            <button
+              type="button"
+              onClick={() => navigate('/realizar-encuesta')}
+              className="btn-volver"
+            >
+              Volver a encuestas disponibles
+            </button>
+            <button type="button" onClick={() => window.location.reload()} className="btn-reintentar">
+              Reintentar
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -341,6 +372,9 @@ const ResponderEncuesta = () => {
         <div className="encuesta-content">
           <div className="encuesta-header">
             <h1>{encuesta.titulo}</h1>
+            <PageLead className="page-lead--tight">
+              Responde por categorías; tus respuestas se guardan al enviar el formulario al final del flujo pre-evento.
+            </PageLead>
             <div className="encuesta-dates">
               <svg className="calendar-icon" viewBox="0 0 24 24">
                 <path d="M19,4H17V3a1,1,0,0,0-2,0V4H9V3A1,1,0,0,0,7,3V4H5A3,3,0,0,0,2,7V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm1,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V12H20ZM20,10H4V7A1,1,0,0,1,5,6H7V7A1,1,0,0,0,9,7V6h6V7a1,1,0,0,0,2,0V6h2a1,1,0,0,1,1,1Z"/>

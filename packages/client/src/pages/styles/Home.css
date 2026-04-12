@@ -440,6 +440,146 @@ body {
   text-align: center;
 }
 
+/* Contenedor raíz de la página de inicio: ancho completo */
+.home-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Home: dos columnas — texto a la izquierda, carrusel a la derecha (blanco a todo el ancho) */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(24px, 4vw, 48px) clamp(20px, 4vw, 56px);
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.home-hero__copy {
+  justify-self: center;
+  width: 100%;
+  max-width: min(34rem, 100%);
+  align-items: flex-start;
+  text-align: left;
+  padding: 12px 0;
+}
+
+.home-hero__copy .welcome-title {
+  text-align: left;
+  white-space: nowrap;
+  /* Escala con el ancho de la ventana para mantener una sola línea en el hero de dos columnas */
+  font-size: clamp(1.05rem, 2.35vw, 2.85rem);
+  line-height: 1.12;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Botones del hero: misma anchura y altura */
+.home-hero__copy .home-botones-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  width: 100%;
+  max-width: 520px;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.home-hero__copy .home-botones-container .home-btn {
+  flex: none;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  font-size: clamp(0.95rem, 1.35vw, 1.2rem);
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.home-hero__copy .mission-text {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+
+.home-hero__carousel.carousel-section {
+  padding: 0;
+  width: 100%;
+  min-height: 0;
+}
+
+.home-hero__carousel .carousel-container {
+  max-width: none;
+  width: 100%;
+  height: clamp(280px, 42vw, 480px);
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-left: clamp(16px, 4vw, 32px);
+    padding-right: clamp(16px, 4vw, 32px);
+  }
+
+  .home-hero__copy {
+    align-items: center;
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .home-hero__copy .welcome-title,
+  .home-hero__copy .mission-text {
+    text-align: center;
+  }
+
+  .home-hero__copy .welcome-title {
+    white-space: normal;
+    font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  }
+
+  .home-hero__copy .home-botones-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: min(520px, 100%);
+  }
+
+  .home-hero__copy .mission-text {
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .home-hero__carousel.carousel-section {
+    padding: 0;
+    order: 2;
+  }
+
+  .home-hero__copy {
+    order: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero__copy .home-botones-container {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+}
+
 /* Contenedor para los botones horizontales */
 /* ===== ESTILOS ESPECÍFICOS DEL HOME ===== */
 .home-botones-container {
@@ -679,7 +819,24 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 24px;
+}
+
+/* Mismo tamaño visual que los botones del hero (Iniciar encuesta / Ver resultados) */
+.admin-section .home-admin-button-container .home-btn--admin-section {
+  flex: none;
+  width: 100%;
+  max-width: 520px;
+  min-width: 0;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  font-size: clamp(0.95rem, 1.35vw, 1.2rem);
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  box-sizing: border-box;
 }
 
 /* Contenedor para el botón de administrador centrado (otras páginas) */
@@ -775,6 +932,12 @@ body {
     width: 100%;
   }
 
+  .admin-section .home-admin-button-container .home-btn--admin-section {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    padding: 14px 16px;
+    max-width: min(520px, 100%);
+  }
+
   .baby-logo {
     width: 120px;
   }
@@ -788,10 +951,18 @@ body {
     padding: 40px 20px;
   }
 
+  .home-hero .carousel-section {
+    padding: 0;
+  }
+
   .carousel-container {
     height: 350px;
     max-width: 700px;
     border-radius: 15px;
+  }
+
+  .home-hero .carousel-container {
+    max-width: none;
   }
 
   .carousel-caption h3 {
@@ -821,10 +992,9 @@ body {
     height: 12px;
   }
 
-  /* Botón de administrador responsivo para tablets en el Home */
-  .home-btn-admin {
-    max-width: 300px;
-    width: 100%;
+  /* Botón de administrador (sección azul) alineado con hero */
+  .admin-section .home-admin-button-container .home-btn--admin-section {
+    max-width: min(520px, 100%);
   }
 }
 
@@ -870,10 +1040,18 @@ body {
     padding: 30px 15px;
   }
 
+  .home-hero .carousel-section {
+    padding: 0;
+  }
+
   .carousel-container {
     height: 280px;
     max-width: 100%;
     border-radius: 12px;
+  }
+
+  .home-hero .carousel-container {
+    max-width: none;
   }
 
   .carousel-caption {
@@ -913,10 +1091,11 @@ body {
     gap: 10px;
   }
 
-  /* Botón de administrador responsivo para móviles en el Home */
-  .home-btn-admin {
-    max-width: 280px;
-    width: 100%;
+  .admin-section .home-admin-button-container .home-btn--admin-section {
+    max-width: min(320px, 100%);
+    min-height: 52px;
+    font-size: clamp(0.88rem, 3.2vw, 1rem);
+    padding: 14px 12px;
   }
 
   .main-content,

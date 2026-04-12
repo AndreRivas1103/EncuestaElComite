@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Home.css';
 import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
+import PageLead from '../components/PageLead.jsx';
 
 const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
   const navigate = useNavigate();
@@ -32,6 +33,9 @@ const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }
       <div className='firtsColor'>
         <div className="preview-container">
           <h1 className='preview-title'>Previsualización de Encuesta</h1>
+          <PageLead className="page-lead--center">
+            Revisa cómo verán los participantes las categorías y preguntas antes de publicar o volver a editar.
+          </PageLead>
           
           {categoriasConPreguntas.map((categoria, index) => (
             <div key={index} className="categoria-seccion">

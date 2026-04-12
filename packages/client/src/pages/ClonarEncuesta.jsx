@@ -7,6 +7,7 @@ import '../pages/styles/ClonarEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
+import PageLead from '../components/PageLead.jsx';
 
 const ClonarEncuesta = () => {
   const { id } = useParams();
@@ -454,6 +455,9 @@ const handleProgramar = async () => {
 
       <div className="clonar-encuesta-contenedor">
         <h1 className="title-large">Clonar Encuesta</h1>
+        <PageLead>
+          Duplica esta encuesta con un nuevo identificador y fechas para reutilizar preguntas en otro evento.
+        </PageLead>
         <div className="encuesta-info-card">
           <div className="encuesta-header">
             <h2 className="encuesta-titulo">{encuesta.titulo || `Encuesta #${encuesta.id}`}</h2>

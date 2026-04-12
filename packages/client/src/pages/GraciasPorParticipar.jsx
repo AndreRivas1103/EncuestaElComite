@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import './styles/GraciasPorParticipar.css';
+import PageLead from '../components/PageLead.jsx';
 
 const GraciasPorParticipar = () => {
   const navigate = useNavigate();
@@ -198,6 +199,9 @@ const GraciasPorParticipar = () => {
           </div>
 
           <h1 className="mensaje-principal">¡Gracias por participar!</h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Confirmación de envío pre-evento; conserva tu contraseña si se muestra para consultar resultados más adelante.
+          </PageLead>
 
           {nombreCompleto && (
             <p className="mensaje-nombre">

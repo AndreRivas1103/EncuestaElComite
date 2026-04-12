@@ -4,6 +4,7 @@ import '../pages/styles/RellenarDatos.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const FormularioRegistro = () => {
   const navigate = useNavigate();
@@ -175,6 +176,9 @@ const FormularioRegistro = () => {
           <div className="registro-form">
             <form onSubmit={handleSubmit}>
               <h1 className="encuesta-title">Rellena Datos</h1>
+              <PageLead className="page-lead--center page-lead--tight">
+                Regístrate con tus datos personales antes de responder la encuesta pre-evento; validaremos tu correo.
+              </PageLead>
               
               {terminosAceptadosAutomaticamente && (
                 <div className="terminos-aceptados-mensaje">

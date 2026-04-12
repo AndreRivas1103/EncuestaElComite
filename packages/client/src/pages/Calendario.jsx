@@ -10,6 +10,7 @@ import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 // Registrar la localización en español
@@ -327,6 +328,9 @@ function Layout() {
           }}>
             Programar Fechas de Encuesta
           </h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Elige apertura y cierre para que los enlaces de la encuesta estén activos solo en ese periodo.
+          </PageLead>
 
           {/* Contenedor de calendarios lado a lado */}
           <div className="calendario-grid" style={{

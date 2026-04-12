@@ -3,6 +3,7 @@ import '../pages/styles/TyC.css'; // Importamos el CSS correspondiente
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link, useNavigate } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const TerminosCondiciones = () => {
   const navigate = useNavigate();
@@ -49,6 +50,9 @@ const TerminosCondiciones = () => {
 
         <div className="terminos-content">
           <h1>Terminos y condiciones</h1>
+          <PageLead>
+            Lee y acepta el tratamiento de datos personales antes de continuar con el formulario de participación.
+          </PageLead>
           
           <div className="terminos-text">
             <p>

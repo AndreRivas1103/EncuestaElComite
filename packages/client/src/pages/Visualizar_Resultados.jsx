@@ -3,6 +3,7 @@ import '../pages/styles/VisualizarResultados.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 import axios from 'axios';
 
 const ConsultaResultados = () => {
@@ -129,6 +130,9 @@ const ConsultaResultados = () => {
 
       <div className="consulta-contenedor">
         <h1 className="encuesta-title">Visualizar Resultados</h1>
+        <PageLead className="page-lead--center">
+          Introduce tus datos de acceso para localizar tu encuesta y ver o descargar tus resultados (pre o post evento).
+        </PageLead>
        
         <div className="consulta-contenido">
           <Link to="/" className="btn-back">

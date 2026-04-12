@@ -146,3 +146,24 @@ body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .mi
     animation: none;
   }
 }
+
+/* Texto guía bajo el título principal de cada página */
+.page-lead {
+  margin: 0.25rem auto 1.15rem;
+  max-width: 40rem;
+  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #3d5a80;
+  font-weight: 400;
+}
+
+.page-lead--center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-lead--tight {
+  margin-bottom: 0.65rem;
+}

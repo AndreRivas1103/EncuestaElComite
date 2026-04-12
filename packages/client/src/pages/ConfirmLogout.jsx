@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const ConfirmarCierre = () => {
   const navigate = useNavigate();
@@ -48,9 +49,10 @@ const ConfirmarCierre = () => {
           width: '90%',
           maxWidth: '620px'
         }}>
-          <h1 className='title-medium' style={{ marginBottom: '40px' }}>
+          <h1 className='title-medium' style={{ marginBottom: '16px' }}>
             ¿Estás seguro de que deseas cerrar sesión?
           </h1>
+
           
           <div className='contenedor-botones' style={{ 
             display: 'flex', 

@@ -4,6 +4,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import babyLogoICO from '../assets/LogoMarcaPersonal.ico'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import PageLead from '../components/PageLead.jsx';
 
 const IniciarSesion = () => {
   const [email, setEmail] = useState('');
@@ -71,6 +72,7 @@ const IniciarSesion = () => {
       
       <main className="login-box">
         <h2 className="login-subtitle">Bienvenido</h2>
+
         <form className="login-form" onSubmit={handleSubmit}>
           <input 
             type="email"

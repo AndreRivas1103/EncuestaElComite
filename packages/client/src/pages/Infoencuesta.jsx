@@ -6,6 +6,7 @@ import '../pages/styles/InfoEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
+import PageLead from '../components/PageLead.jsx';
 
 const InfoEncuesta = () => {
   const { id } = useParams();
@@ -203,6 +204,9 @@ const renderDatosEncuesta = () => {
 
       <div className="info-encuesta-contenedor">
         <h1 className="title-large">Detalles de la Encuesta</h1>
+        <PageLead>
+          Revisa fechas, estado y metadatos de esta encuesta antes de editarla, clonarla o compartirla con participantes.
+        </PageLead>
         
         <div className="encuesta-info-card">
           <div className="encuesta-header">

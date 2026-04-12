@@ -5,6 +5,7 @@ import '../pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan';
+import PageLead from '../components/PageLead.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const EncuestaCompleta = () => {
@@ -231,6 +232,9 @@ const EncuestaCompleta = () => {
       <div className="resultados-container">
         
         <h1>Resultados de tu Encuesta</h1>
+        <PageLead className="page-lead--center page-lead--tight">
+          Resumen por categoría de tu puntuación en esta encuesta de demostración.
+        </PageLead>
         <div className="resultado-categoria">
           <h2>Liderazgo: {resultados.liderazgo}/10</h2>
           <div className="barra-progreso">
@@ -327,7 +331,10 @@ const EncuestaCompleta = () => {
       <div className='firtsColor'>
         <div className="encuesta-container">
           <h1 className='Texto'>Encuesta de Evaluación</h1>
-          
+          <PageLead className="page-lead--center page-lead--tight">
+            Responde cada pregunta y envía al final para ver el resumen de resultados.
+          </PageLead>
+
           {categorias.map((categoria, index) => (
             <div key={index} className="categoria-seccion">
               <h2 className="titulo-categoria">{categoria.nombre}</h2>

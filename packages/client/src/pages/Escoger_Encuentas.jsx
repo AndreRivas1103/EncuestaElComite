@@ -3,6 +3,7 @@ import '../pages/styles/RealizarEncuesta.css'; // Importaremos el CSS correspond
 import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la ruta sea correcta
 import { Link } from 'react-router-dom'; // Importa Link para navegación
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 
 const RealizarEncuesta = () => {
   return (
@@ -20,6 +21,9 @@ const RealizarEncuesta = () => {
       
       <div className="main-contenido2">
         <h1 className="encuesta-title">Realizar Encuesta</h1>
+        <PageLead className="page-lead--center">
+          Elige si vas a responder la encuesta antes del evento (pre) o después (post) y continúa con tus datos.
+        </PageLead>
         
         <div className="encuesta-options-container">
           <div className="encuesta-column">

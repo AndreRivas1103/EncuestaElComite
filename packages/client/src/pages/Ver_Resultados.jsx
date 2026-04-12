@@ -3,6 +3,7 @@ import "../pages/styles/VerResultados.css";
 import { Link, useNavigate } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
 import MigaDePan from "../components/MigaDePan.jsx";
+import PageLead from "../components/PageLead.jsx";
 import { useSidebarClosing } from "../hooks/useSidebarClosing.js";
 import axios from "axios";
 
@@ -261,6 +262,9 @@ export default function VerResultados() {
         <div className="cuadro-porcentajes">
           <h1 className="title-resultados">Resultados de:</h1>
           <h1 className="title-resultados">{userData.nombreCompleto}</h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Consulta tu puntuación y el detalle pre o post evento según la pestaña activa.
+          </PageLead>
 
           {loading && (
             <div className="loading-overlay">

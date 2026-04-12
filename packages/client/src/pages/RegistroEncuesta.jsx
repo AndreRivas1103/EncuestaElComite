@@ -6,6 +6,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
+import PageLead from '../components/PageLead.jsx';
 import axios from 'axios';
 
 const RegistroEncuesta = () => {
@@ -113,6 +114,9 @@ const RegistroEncuesta = () => {
 
 <div className="registro-encuesta-contenedor">
   <h1 className="title-large">Registro de encuesta</h1>
+  <PageLead>
+    Consulta y administra las encuestas creadas: revisa datos, duplica plantillas o entra al detalle de cada una.
+  </PageLead>
 
   {cargando ? (
     <div className="registro-encuesta-cargando">

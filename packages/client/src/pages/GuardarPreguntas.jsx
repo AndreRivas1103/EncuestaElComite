@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import '../pages/styles/Home.css'; 
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link } from 'react-router-dom';
+import PageLead from '../components/PageLead.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -28,6 +29,9 @@ const Layout = () => {
 
         <div>
           <h1 className='title-crear-encuesta'>Preguntas guardadas <br />correctamente</h1>
+          <PageLead className="page-lead--center">
+            Confirmación de que las preguntas quedaron almacenadas; continúa programando el cuestionario o vuelve al inicio.
+          </PageLead>
           <br />
         </div>
 

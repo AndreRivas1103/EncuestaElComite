@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import './styles/GraciasPorParticipar.css';
+import PageLead from '../components/PageLead.jsx';
 
 const GraciasPorParticiparPost = () => {
   const navigate = useNavigate();
@@ -209,6 +210,7 @@ const GraciasPorParticiparPost = () => {
           </div>
 
           <h1 className="mensaje-principal">¡Gracias por completar el post-evento!</h1>
+
           <p className="mensaje-secundario">
             Tus respuestas han sido registradas exitosamente.
           </p>

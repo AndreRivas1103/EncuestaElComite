@@ -149,7 +149,81 @@
   }
 }
 
-/* Mensajes de error */
+/* Mensajes de error (pantalla dedicada) */
+.error-container {
+  --error-primary: #1e3766;
+  --error-accent: #73a31d;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 48px);
+  text-align: center;
+  background: linear-gradient(165deg, #e8f4fc 0%, #d3edff 45%, #c5e3f7 100%);
+}
+
+.error-panel {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 2rem 1.75rem 2.25rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 24px rgba(30, 55, 102, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(30, 55, 102, 0.08);
+}
+
+.error-container .error-icon-wrap {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fde8e8 0%, #fce4ec 100%);
+  color: #c0392b;
+}
+
+.error-container .error-icon-wrap svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.error-title {
+  margin: 0 0 0.5rem;
+  font-family: "Merriweather", Georgia, serif;
+  font-size: clamp(1.35rem, 4vw, 1.6rem);
+  font-weight: 700;
+  color: var(--error-primary);
+  line-height: 1.25;
+}
+
+.error-container .page-lead {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+/* Mensaje destacado solo en la pantalla de error a pantalla completa */
+.error-panel-text {
+  color: #922b21;
+  background: linear-gradient(180deg, #fff5f5 0%, #fdecea 100%);
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin: 0 0 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  border: 1px solid rgba(192, 57, 43, 0.18);
+  border-left: 4px solid #e74c3c;
+}
+
+/* Bloque de error en el formulario de respuestas (mismo archivo) */
 .error-message {
   color: #e74c3c;
   background-color: #fde8e8;
@@ -160,15 +234,85 @@
 }
 
 .error-hint {
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 5px;
+  color: #5d6d7e;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  margin: 0 0 1.25rem;
+}
+
+.error-hint:empty {
+  display: none;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  margin-top: 0.25rem;
+}
+
+/* Botones: mismo tamaño y familia; primario relleno, secundario contorno */
+.error-container .btn-volver,
+.error-container .btn-reintentar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.error-container .btn-volver {
+  background-color: var(--error-primary);
+  color: #fff;
+  border: 2px solid var(--error-primary);
+  box-shadow: 0 2px 8px rgba(30, 55, 102, 0.2);
+}
+
+.error-container .btn-volver:hover {
+  background-color: #152a4d;
+  border-color: #152a4d;
+  box-shadow: 0 4px 14px rgba(30, 55, 102, 0.28);
+}
+
+.error-container .btn-volver:active {
+  transform: translateY(1px);
+}
+
+.error-container .btn-reintentar {
+  background-color: #fff;
+  color: var(--error-primary);
+  border: 2px solid rgba(30, 55, 102, 0.35);
+  box-shadow: none;
+}
+
+.error-container .btn-reintentar:hover {
+  background-color: rgba(30, 55, 102, 0.06);
+  border-color: var(--error-primary);
+}
+
+.error-container .btn-reintentar:focus-visible,
+.error-container .btn-volver:focus-visible {
+  outline: 3px solid rgba(115, 163, 29, 0.45);
+  outline-offset: 2px;
 }
 
 /* Estados de carga y éxito */
 .loading-container,
-.success-container,
-.error-container {
+.success-container {
   text-align: center;
   padding: 50px;
 }
@@ -189,8 +333,7 @@
 }
 
 .migadepan-container + .loading-container,
-.migadepan-container + .success-container,
-.migadepan-container + .error-container {
+.migadepan-container + .success-container {
   padding-top: 30px;
 }
 

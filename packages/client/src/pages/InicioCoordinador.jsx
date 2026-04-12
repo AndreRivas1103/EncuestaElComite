@@ -5,6 +5,7 @@ import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
 import MigaDePan from "../components/MigaDePan.jsx";
 import { useSidebarClosing } from "../hooks/useSidebarClosing.js";
+import PageLead from "../components/PageLead.jsx";
 
 const Sidebar = ({ isVisible, onClose }) => {
   const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
@@ -121,6 +122,9 @@ const InicioCoordinadorPrueba = () => {
       <div className="coordinator-shifted-main" style={styles.contentArea}>
         <div style={styles.mainContent}>
           <h1 style={styles.titleCoordinador}>Bienvenido Coordinador</h1>
+          <PageLead className="page-lead--center">
+            Panel principal para gestionar encuestas, crear eventos y seguir el flujo de trabajo del comité.
+          </PageLead>
 
           <div style={styles.contenedorBotones}>
             <Link to="/registro-encuestas" className="btn">

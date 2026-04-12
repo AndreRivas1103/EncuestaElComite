@@ -8,6 +8,7 @@ import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import PageLead from '../components/PageLead.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -41,6 +42,9 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
             marginBottom: '10px',
             fontWeight: 'bold'
           }}>Encuesta de Habilidades Blandas</h1>
+          <PageLead className="page-lead--center page-lead--tight">
+            Vista previa de cómo verán los participantes las categorías y preguntas antes de publicar.
+          </PageLead>
           <h2 style={{
             fontSize: '20px',
             color: '#73A31D',
@@ -596,6 +600,9 @@ const CrearPregunta = () => {
 
           <div>
             <h1 className='title-large' style={{ textAlign: 'center' }}>Encuesta de Habilidades Blandas</h1>
+            <PageLead className="page-lead--center page-lead--tight">
+              Define categorías, preguntas y opciones; guarda o continúa hacia la vista previa y publicación.
+            </PageLead>
           </div>
 
           <div className='selector-categoria' style={{ 
