@@ -478,6 +478,8 @@ body {
   line-height: 1.12;
   width: 100%;
   max-width: 100%;
+  /* Solo el título: un poco más arriba respecto al párrafo */
+  margin-top: -0.45rem;
 }
 
 /* Botones del hero: misma anchura y altura */
@@ -549,6 +551,7 @@ body {
   .home-hero__copy .welcome-title {
     white-space: normal;
     font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+    margin-top: -0.35rem;
   }
 
   .home-hero__copy .home-botones-container {
