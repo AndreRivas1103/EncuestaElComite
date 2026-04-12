@@ -33,31 +33,6 @@
   z-index: 1;
 }
 
-.btn-back {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #73a31d 0%, #8cc63f 100%);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(115, 163, 29, 0.3);
-  z-index: 10;
-}
-
-.btn-back:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(115, 163, 29, 0.4);
-  background: linear-gradient(135deg, #8cc63f 0%, #73a31d 100%);
-}
-
 .form-content {
   display: flex;
   justify-content: center;
@@ -85,12 +60,19 @@
 .registro-form {
   flex: 1;
   max-width: 500px;
+  min-width: 0;
   width: 100%;
   background: white;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+}
+
+/* Campos alineados a la izquierda (el título lleva su propio text-align: center) */
+.registro-form > form {
+  text-align: left;
 }
 
 /* Hacer la clase encuesta-title específica al contenedor registro-form */
@@ -205,16 +187,97 @@
   padding-left: 5px;
 }
 
-.checkbox-group {
+.form-terms-actions {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 0.25rem;
+  /* Una línea más abajo respecto al último campo */
+  margin-top: 1.75rem;
+  padding-top: 0.35rem;
+  text-align: left;
+}
+
+.form-terms-actions .error-message-global,
+.form-terms-actions .success-message-global {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-group.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 12px;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
+/* Grupo compacto: checkbox + texto juntos (no fila 100% con label estirado) */
+.checkbox-inline {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Evita margin:auto del UA o herencias que empujan el control o el label */
+.checkbox-inline .checkbox-input {
+  margin: 0 !important;
+  margin-inline: 0 !important;
+}
+
+.form-group.checkbox-group .checkbox-label {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  margin-inline: 0 !important;
+  cursor: pointer;
+  text-align: center;
   position: relative;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.form-group.checkbox-group .terms-text {
+  display: inline;
+  margin: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: center;
+}
+
+.form-group.checkbox-group .checkbox-error {
+  text-align: center;
+  padding-left: 0;
+  width: 100%;
+  max-width: none;
 }
 
 .checkbox-input {
-  margin-right: 10px;
-  transform: scale(1.5);
+  margin: 0;
+  flex-shrink: 0;
+  transform: scale(1.35);
+  transform-origin: center;
   transition: all 0.3s ease;
 }
 
@@ -224,16 +287,8 @@
   filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.5));
 }
 
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  text-align: center;
-  position: relative;
-}
-
 .terms-text {
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
   color: #1e3766;
   text-decoration: underline;
   font-weight: bold;
@@ -351,26 +406,23 @@
     margin-bottom: 25px;
   }
 
-  .btn-back {
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-  }
-
   .form-input {
     padding: 12px 15px;
     font-size: 0.95rem;
   }
 
-  .checkbox-group {
-    padding: 15px;
-    margin: 20px 0;
+  .form-group.checkbox-group {
+    padding: 0;
+    margin: 12px 0 8px;
+  }
+
+  .checkbox-inline {
+    gap: 6px 8px;
   }
 
   .checkbox-input {
-    margin-right: 12px;
     transform: scale(1.2);
+    transform-origin: center;
   }
 
   .terms-text {
@@ -425,29 +477,28 @@
     border-radius: 8px;
   }
 
-  .checkbox-group {
-    padding: 12px;
-    margin: 15px 0;
-    flex-direction: column;
-    gap: 10px;
+  .form-group.checkbox-group {
+    padding: 0;
+    margin: 10px 0 6px;
+  }
+
+  .checkbox-inline {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .checkbox-input {
-    margin-right: 0;
-    margin-bottom: 8px;
     transform: scale(1.1);
+    transform-origin: center;
+  }
+
+  .form-group.checkbox-group .terms-text {
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .terms-text {
     font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .btn-back {
-    top: 15px;
-    left: 15px;
-    width: 35px;
-    height: 35px;
   }
 
   .terminos-aceptados-mensaje {

@@ -38,16 +38,9 @@ const TerminosCondiciones = () => {
         <img src={babyLogo} alt="Baby Logo" className="header-logo"></img>
       </div>
 
-      <MigaDePan />
+      <MigaDePan backTo="/realizar-encuesta" />
 
       <div className="terminos-container">
-        <Link to="/realizar-encuesta" className="btn-back">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </Link>
-
         <div className="terminos-content">
           <h1>Terminos y condiciones</h1>
           <PageLead>

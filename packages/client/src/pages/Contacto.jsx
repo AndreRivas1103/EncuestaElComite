@@ -16,17 +16,9 @@ const Contacto = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
       
-      {/* Migas de Pan */}
-      <MigaDePan />
+      {/* Migas de Pan + volver */}
+      <MigaDePan onBack={() => window.history.back()} />
 
-      <button
-        className="btn-back"
-        style={{margin: '20px auto 0', display: 'block'}}
-        onClick={() => window.history.back()}
-      >
-        ← Volver
-      </button>
-      
       <div className="main-contenido">
         <h1 className="contacto-title">Contacto</h1>
         <PageLead className="page-lead--center">

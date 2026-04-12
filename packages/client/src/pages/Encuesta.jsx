@@ -280,6 +280,7 @@ const EncuestaCompleta = () => {
         withSidebar={true}
         sidebarVisible={sidebarVisible}
         onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+        historyBack
       />
 
       {/* Sidebar */}
@@ -319,14 +320,6 @@ const EncuestaCompleta = () => {
           </button>
         </nav>
       </div>
-
-      <button
-        className="btn-back"
-        style={{margin: '20px auto 0', display: 'block'}}
-        onClick={() => navigate(-1)}
-      >
-        ← Volver
-      </button>
 
       <div className='firtsColor'>
         <div className="encuesta-container">

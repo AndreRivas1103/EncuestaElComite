@@ -17,16 +17,6 @@
   position: relative;
 }
 
-.btn-back {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1e3766;
-}
-
 .encuesta-content {
   margin-top: 20px;
 }

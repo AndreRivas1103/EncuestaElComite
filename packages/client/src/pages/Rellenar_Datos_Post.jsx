@@ -179,16 +179,9 @@ const FormularioRegistro = () => {
       </div>
 
       {/* Migas de Pan */}
-      <MigaDePan />
+      <MigaDePan backTo="/realizar-encuesta" />
 
       <div className="form-container">
-        <Link to="/realizar-encuesta" className="btn-back">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </Link>
-
         <div className="form-content">
           <div className="registro-form">
             <form onSubmit={handleSubmit}>
@@ -259,47 +252,55 @@ const FormularioRegistro = () => {
                 {errors.confirmacionCorreo && <small className="error-text">{errors.confirmacionCorreo}</small>}
               </div>
 
-              <div className="form-group checkbox-group">
-                <input
-                  type="checkbox"
-                  id="aceptaTerminos"
-                  name="aceptaTerminos"
-                  checked={formData.aceptaTerminos}
-                  onChange={handleChange}
-                  className={`checkbox-input ${terminosAceptadosAutomaticamente ? 'auto-checked' : ''}`}
-                />
-                <label htmlFor="aceptaTerminos" className="checkbox-label">
-                  <Link to="/terminos-y-condiciones" className="terms-text">
-                    Acepto los Términos y Condiciones
-                    {terminosAceptadosAutomaticamente && <span className="auto-check-indicator">✓</span>}
-                  </Link>
-                </label>
-                {errors.aceptaTerminos && <small className="error-text">{errors.aceptaTerminos}</small>}
+              <div className="form-terms-actions">
+                <div className="form-group checkbox-group">
+                  <div className="checkbox-inline">
+                    <input
+                      type="checkbox"
+                      id="aceptaTerminos"
+                      name="aceptaTerminos"
+                      checked={formData.aceptaTerminos}
+                      onChange={handleChange}
+                      className={`checkbox-input ${terminosAceptadosAutomaticamente ? 'auto-checked' : ''}`}
+                    />
+                    <label htmlFor="aceptaTerminos" className="checkbox-label">
+                      <Link to="/terminos-y-condiciones" className="terms-text">
+                        Acepto los Términos y Condiciones
+                        {terminosAceptadosAutomaticamente && <span className="auto-check-indicator">✓</span>}
+                      </Link>
+                    </label>
+                  </div>
+                  {errors.aceptaTerminos && (
+                    <small className="error-text checkbox-error">{errors.aceptaTerminos}</small>
+                  )}
+                </div>
+
+                {errors.submit && (
+                  <div className="error-message-global">
+                    ⚠️ {errors.submit}
+                  </div>
+                )}
+
+                {successMessage && (
+                  <div className="success-message-global">
+                    ✅ {successMessage}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn-siguiente"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span className="loading-dots">
+                      <span>.</span><span>.</span><span>.</span>
+                    </span>
+                  ) : (
+                    'Siguiente'
+                  )}
+                </button>
               </div>
-
-              {errors.submit && (
-                <div className="error-message-global">
-                  ⚠️ {errors.submit}
-                </div>
-              )}
-
-              {successMessage && (
-                <div className="success-message-global">
-                  ✅ {successMessage}
-                </div>
-              )}
-
-              <button 
-                type="submit" 
-                className="btn-siguiente"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className="loading-dots">
-                    <span>.</span><span>.</span><span>.</span>
-                  </span>
-                ) : 'Siguiente'}
-              </button>
             </form>
           </div>
         </div>

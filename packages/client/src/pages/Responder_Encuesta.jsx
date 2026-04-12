@@ -358,17 +358,10 @@ const ResponderEncuesta = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </div>
 
-      <MigaDePan />
+      <MigaDePan onBack={() => navigate('/realizar-encuesta')} />
 
       {/* Contenedor de encuesta con diseño mejorado */}
       <div className="encuesta-container">
-        <button onClick={() => navigate('/realizar-encuesta')} className="btn-back">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
-
         <div className="encuesta-content">
           <div className="encuesta-header">
             <h1>{encuesta.titulo}</h1>

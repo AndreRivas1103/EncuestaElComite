@@ -1,8 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./MigaDePan.css";
 
 const SIDEBAR_CLOSE_ANIM_MS = 520;
+
+function BackArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  );
+}
 
 const MigaDePan = ({
   withSidebar = false,
@@ -10,8 +29,15 @@ const MigaDePan = ({
   onSidebarToggle,
   sidebarMenuClassName = "migadepan-menu-button",
   sidebarToggleLabel,
+  /** Ruta interna (React Router) para el botón circular atrás */
+  backTo,
+  /** Callback al pulsar atrás (tiene prioridad si no hay backTo) */
+  onBack,
+  /** Si true, ejecuta navigate(-1) en el botón atrás */
+  historyBack = false,
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
   const prevSidebarOpen = useRef(sidebarVisible);
   const [sidebarClosing, setSidebarClosing] = useState(false);
@@ -232,9 +258,37 @@ const MigaDePan = ({
     </button>
   ) : null;
 
+  const backButton =
+    backTo != null && String(backTo).length > 0 ? (
+      <Link to={backTo} className="migadepan-back-btn" aria-label="Volver">
+        <BackArrowIcon />
+      </Link>
+    ) : typeof onBack === "function" ? (
+      <button
+        type="button"
+        className="migadepan-back-btn"
+        onClick={onBack}
+        aria-label="Volver"
+      >
+        <BackArrowIcon />
+      </button>
+    ) : historyBack ? (
+      <button
+        type="button"
+        className="migadepan-back-btn"
+        onClick={() => navigate(-1)}
+        aria-label="Volver"
+      >
+        <BackArrowIcon />
+      </button>
+    ) : null;
+
+  const useBarRow = Boolean(backButton || showMenuToggleInBar);
+
   const wrapTrail = (trail) =>
-    showMenuRow ? (
+    useBarRow ? (
       <div className="migadepan-row">
+        {backButton}
         {menuButton}
         <div className="migadepan migadepan-trail">{trail}</div>
       </div>

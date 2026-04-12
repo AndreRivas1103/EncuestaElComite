@@ -22,22 +22,6 @@
   align-items: center;
 }
 
-.btn-back {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #000;
-  color: white;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
 .terminos-content {
   width: 100%;
   max-width: 800px;
@@ -116,18 +100,22 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Misma franja y chips que el resto de la app (#d3edff + texto #1e3766) */
 .terminos-page-container .migadepan-container {
-  background-color: #1e3766;
   border-bottom: none;
 }
 
-.terminos-page-container .migadepan-item,
-.terminos-page-container .migadepan-separator {
-  color: white;
+/* Paso actual: mismos colores que .migadepan-item (sin verde lima del estilo global) */
+.terminos-page-container .migadepan-current {
+  color: #1e3766;
+  background: rgba(30, 55, 102, 0.08);
+  font-weight: 600;
+  border: none;
+  box-shadow: none;
 }
 
-.terminos-page-container .migadepan-current {
-  color: #9ecd49;
+.terminos-page-container .migadepan-current .migadepan-icon {
+  animation: none;
 }
 
 /* Media Queries para responsividad */
@@ -139,13 +127,6 @@
 
   .terminos-content h1 {
     font-size: 2rem;
-  }
-
-  .btn-back {
-    top: 10px;
-    left: 10px;
-    width: 35px;
-    height: 35px;
   }
 
   .buttons-container {
