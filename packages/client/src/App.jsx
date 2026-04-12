@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PageTransitionShell from "./components/PageTransitionShell.jsx";
 import Home from "./pages/Home.jsx";
 import IniciarSesion from "./pages/Iniciarsesion.jsx";
 import SeleccionarEncuesta from "./pages/SeleccionarEncuesta.jsx";
@@ -30,7 +31,8 @@ function App() {
     <Router>
       <div className="app-wrapper">
         <main className="page-container">
-          <Routes>
+          <PageTransitionShell>
+            <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/iniciar-sesion" element={<IniciarSesion />} />
             <Route path="/seleccionar-encuesta" element={<SeleccionarEncuesta />} />
@@ -56,7 +58,8 @@ function App() {
             <Route path="/rellenar-datos-post" element={<DatosPost />} />
             <Route path="/gracias-por-participar-post" element={<GraciasPorParticiparPost />} />
             <Route path="/responder-encuesta-post" element={<ResponderEncuestaPost />} />
-          </Routes>
+            </Routes>
+          </PageTransitionShell>
         </main>
       </div>
     </Router>

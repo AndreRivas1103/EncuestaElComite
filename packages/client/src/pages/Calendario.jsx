@@ -10,6 +10,7 @@ import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 // Registrar la localización en español
 registerLocale('es', es);
@@ -24,6 +25,10 @@ function Layout() {
     return date;
   });
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const { sidebarClassName, requestClose } = useSidebarClosing(
+    sidebarVisible,
+    () => setSidebarVisible(false)
+  );
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -266,8 +271,8 @@ function Layout() {
 
 
 
-      <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

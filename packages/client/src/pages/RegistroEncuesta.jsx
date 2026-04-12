@@ -5,6 +5,7 @@ import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import axios from 'axios';
 
 const RegistroEncuesta = () => {
@@ -28,6 +29,7 @@ const RegistroEncuesta = () => {
   }, []);
 
   const Sidebar = ({ isVisible, onClose }) => {
+    const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -47,9 +49,9 @@ const RegistroEncuesta = () => {
     ];
 
     return (
-      <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
+      <div className={sidebarClassName}>
         <title>Registro Encuesta</title>
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

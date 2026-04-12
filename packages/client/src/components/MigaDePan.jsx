@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./MigaDePan.css";
+
+const SIDEBAR_CLOSE_ANIM_MS = 520;
 
 const MigaDePan = ({
   withSidebar = false,
@@ -11,6 +13,27 @@ const MigaDePan = ({
 }) => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
+  const prevSidebarOpen = useRef(sidebarVisible);
+  const [sidebarClosing, setSidebarClosing] = useState(false);
+
+  /* Diseño extra al cerrar el panel (paridad con la sensación al abrir) */
+  useEffect(() => {
+    if (sidebarVisible === true) {
+      setSidebarClosing(false);
+    }
+    if (
+      withSidebar &&
+      prevSidebarOpen.current === true &&
+      sidebarVisible === false
+    ) {
+      setSidebarClosing(true);
+      const id = window.setTimeout(() => {
+        setSidebarClosing(false);
+      }, SIDEBAR_CLOSE_ANIM_MS);
+      return () => window.clearTimeout(id);
+    }
+    prevSidebarOpen.current = sidebarVisible;
+  }, [sidebarVisible, withSidebar]);
 
   // Mapeo mejorado de rutas con nombres descriptivos en español
   const pathMap = {
@@ -193,6 +216,7 @@ const MigaDePan = ({
     isCoordinadorPage ? "coordinator-page" : "",
     withSidebar ? "with-sidebar" : "",
     showMenuRow ? "migadepan-with-menu" : "",
+    withSidebar && sidebarClosing ? "migadepan-container--sidebar-closing" : "",
   ]
     .filter(Boolean)
     .join(" ");

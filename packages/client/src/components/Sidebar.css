@@ -38,11 +38,32 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  transform: translate3d(0, 0, 0);
 }
 
 .sidebar.visible {
   left: 0;
   visibility: visible;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+/* Cierre con la X: desliza el panel hacia la izquierda (left sigue en 0 durante el gesto) */
+.sidebar.visible.sidebar-closing {
+  transform: translate3d(calc(-100% - 8px), 0, 0);
+  opacity: 0.82;
+  pointer-events: none;
+  visibility: visible !important;
+  transition: transform var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    opacity calc(var(--sidebar-close-duration, 0.48s) * 0.85) ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar.visible.sidebar-closing {
+    transition-duration: 0.01ms;
+    transform: translate3d(calc(-100% - 8px), 0, 0);
+  }
 }
 
 .sidebar-close-btn {

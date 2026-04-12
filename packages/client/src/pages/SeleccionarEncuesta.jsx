@@ -6,6 +6,7 @@ import '../pages/styles/registroencuestas.css'; // Importar estilos específicos
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import axios from 'axios';
 
 const SeleccionarEncuesta = () => {
@@ -31,6 +32,7 @@ const SeleccionarEncuesta = () => {
 
   // Mismo componente Sidebar que en RegistroEncuesta
   const Sidebar = ({ isVisible, onClose }) => {
+    const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -50,8 +52,8 @@ const SeleccionarEncuesta = () => {
     ];
 
     return (
-      <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

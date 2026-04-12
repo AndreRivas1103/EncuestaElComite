@@ -3,6 +3,7 @@ import "../pages/styles/VerResultados.css";
 import { Link, useNavigate } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
 import MigaDePan from "../components/MigaDePan.jsx";
+import { useSidebarClosing } from "../hooks/useSidebarClosing.js";
 import axios from "axios";
 
 function CircularProgress({ value, size = 40, strokeWidth = 4 }) {
@@ -60,6 +61,11 @@ export default function VerResultados() {
   const [resultadoPost, setResultadoPost] = useState(null);
   const [tipoVista, setTipoVista] = useState("pre");
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const { sidebarClassName, requestClose } = useSidebarClosing(
+    sidebarVisible,
+    () => setSidebarVisible(false),
+    "hidden"
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -159,10 +165,6 @@ export default function VerResultados() {
 
   const resultadoActivo = tipoVista === "pre" ? resultadoPre : resultadoPost;
 
-  const handleCloseSidebar = () => {
-    setSidebarVisible(false);
-  };
-
   const handleToggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
@@ -217,10 +219,11 @@ export default function VerResultados() {
         sidebarMenuClassName="toggle-sidebar-btn"
       />
 
-      <div className={`sidebar ${sidebarVisible ? "visible" : "hidden"}`}>
+      <div className={sidebarClassName}>
         <button
+          type="button"
           className="close-sidebar-btn"
-          onClick={handleCloseSidebar}
+          onClick={requestClose}
           aria-label="Cerrar menú"
         >
           ×

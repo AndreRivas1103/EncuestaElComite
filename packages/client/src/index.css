@@ -5,6 +5,8 @@
   --sidebar-layout-shift: var(--sidebar-width);
   --sidebar-transition-duration: 0.42s;
   --sidebar-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Cierre al pulsar la X (slide + desvanecimiento del panel) */
+  --sidebar-close-duration: 0.48s;
 }
 
 /* Evita la raya/banda entre sidebar y contenido por subpíxeles o sombra */
@@ -61,4 +63,86 @@ body:has(.sidebar.visible) .coordinator-shifted-main,
 body.sidebar-visible .coordinator-shifted-main {
   margin-left: var(--sidebar-layout-shift);
   width: calc(100% - var(--sidebar-layout-shift));
+}
+
+/*
+ * Cierre con la X: cabecera, miga y contenido se mueven en paralelo al panel
+ * (misma --sidebar-close-duration y easing que .sidebar.visible.sidebar-closing).
+ */
+body.sidebar-panel-closing:has(.sidebar.visible) header:not(.sidebar-header),
+body.sidebar-panel-closing.sidebar-visible header:not(.sidebar-header),
+body.sidebar-panel-closing:has(.sidebar.visible)
+  div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+    .categoria-header
+  ),
+body.sidebar-panel-closing.sidebar-visible
+  div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+    .categoria-header
+  ),
+body.sidebar-panel-closing:has(.sidebar.visible) .coordinator-shifted-main,
+body.sidebar-panel-closing.sidebar-visible .coordinator-shifted-main,
+body.sidebar-panel-closing:has(.sidebar.visible) .migadepan-container.with-sidebar,
+body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar {
+  margin-left: 0 !important;
+  width: 100% !important;
+  max-width: none;
+  box-sizing: border-box;
+  transition: margin-left var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    width var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)) !important;
+}
+
+/* Ver resultados: contenido principal alineado al cierre del panel */
+body.sidebar-panel-closing .contenido-principal.sidebar-visible {
+  margin-left: 0 !important;
+  transition: margin-left var(--sidebar-close-duration, 0.48s)
+    var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)) !important;
+}
+
+/* Miga: fila interior en la misma ventana de tiempo que el panel */
+body.sidebar-panel-closing:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row,
+body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .migadepan-row {
+  transform: translate3d(-5px, 0, 0);
+  opacity: 0.97;
+  transition: transform var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    opacity var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.sidebar-panel-closing:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row,
+  body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .migadepan-row {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* —— Transición suave al cambiar de ruta (App → PageTransitionShell) —— */
+@keyframes route-page-soft-in {
+  from {
+    opacity: 0.88;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-shell {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: route-page-soft-in 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-shell {
+    animation: none;
+  }
 }

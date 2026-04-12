@@ -155,6 +155,23 @@ html {
   transform: translateX(0);
 }
 
+/* Cierre animado al pulsar la X (coherente con --sidebar-close-duration) */
+.sidebar.visible.sidebar-closing {
+  animation: none !important;
+  transform: translate3d(-100%, 0, 0);
+  opacity: 0.86;
+  pointer-events: none;
+  transition: transform var(--sidebar-close-duration, 0.48s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    opacity calc(var(--sidebar-close-duration, 0.48s) * 0.85) ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar.visible.sidebar-closing {
+    transition-duration: 0.01ms;
+  }
+}
+
 /* ===== BOTÓN CERRAR SIDEBAR ===== */
 .close-sidebar-btn {
   position: absolute;

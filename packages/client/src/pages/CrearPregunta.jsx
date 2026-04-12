@@ -8,6 +8,7 @@ import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -232,6 +233,10 @@ const CrearPregunta = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [categoriasConPreguntas, setCategoriasConPreguntas] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const { sidebarClassName, requestClose } = useSidebarClosing(
+    sidebarVisible,
+    () => setSidebarVisible(false)
+  );
   const [mostrarPreview, setMostrarPreview] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -530,8 +535,8 @@ const CrearPregunta = () => {
 
 
 
-      <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

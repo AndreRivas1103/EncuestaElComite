@@ -4,6 +4,7 @@ import '../components/Sidebar.css';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const NuevoEvento = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -11,6 +12,7 @@ const NuevoEvento = () => {
 
   // Componente Sidebar
   const Sidebar = ({ isVisible, onClose }) => {
+    const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -30,8 +32,8 @@ const NuevoEvento = () => {
     ];
 
     return (
-      <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

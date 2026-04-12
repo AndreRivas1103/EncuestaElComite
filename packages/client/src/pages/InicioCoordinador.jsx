@@ -4,8 +4,10 @@ import babyLogo from "../assets/LogoMarcaPersonal.png";
 import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
 import MigaDePan from "../components/MigaDePan.jsx";
+import { useSidebarClosing } from "../hooks/useSidebarClosing.js";
 
 const Sidebar = ({ isVisible, onClose }) => {
+  const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,8 +27,13 @@ const Sidebar = ({ isVisible, onClose }) => {
   ];
 
   return (
-    <div className={`sidebar ${isVisible ? "visible" : ""}`}>
-      <button className="sidebar-close-btn" onClick={onClose}>
+    <div className={sidebarClassName}>
+      <button
+        type="button"
+        className="sidebar-close-btn"
+        onClick={requestClose}
+        aria-label="Cerrar menú lateral"
+      >
         ×
       </button>
 

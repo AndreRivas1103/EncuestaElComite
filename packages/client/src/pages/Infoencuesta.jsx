@@ -5,6 +5,7 @@ import '../components/Sidebar.css';
 import '../pages/styles/InfoEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const InfoEncuesta = () => {
   const { id } = useParams();
@@ -41,6 +42,7 @@ const InfoEncuesta = () => {
   }, [id]);
 
   const Sidebar = ({ isVisible, onClose }) => {
+    const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
     const user = {
       name: localStorage.getItem('userName') || "Usuario",
       email: localStorage.getItem('userEmail') || "usuario@ejemplo.com",
@@ -57,8 +59,8 @@ const InfoEncuesta = () => {
     ];
 
     return (
-      <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>

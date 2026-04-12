@@ -6,6 +6,7 @@ import '../components/Sidebar.css';
 import '../pages/styles/ClonarEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const ClonarEncuesta = () => {
   const { id } = useParams();
@@ -57,6 +58,7 @@ const ClonarEncuesta = () => {
   }, [id]);
 
   const Sidebar = ({ isVisible, onClose }) => {
+    const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
     const handleLogout = () => navigate("/confirmar-cierre");
 
     const menuItems = [
@@ -66,8 +68,8 @@ const ClonarEncuesta = () => {
     ];
 
     return (
-      <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">

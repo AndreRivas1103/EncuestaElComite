@@ -5,12 +5,17 @@ import '../pages/styles/VisualizacionEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan';
+import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const EncuestaCompleta = () => {
   const [respuestas, setRespuestas] = useState({});
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const { sidebarClassName, requestClose } = useSidebarClosing(
+    sidebarVisible,
+    () => setSidebarVisible(false)
+  );
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -274,8 +279,8 @@ const EncuestaCompleta = () => {
       />
 
       {/* Sidebar */}
-      <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
-        <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>×</button>
+      <div className={sidebarClassName}>
+        <button type="button" className="sidebar-close-btn" onClick={requestClose} aria-label="Cerrar menú lateral">×</button>
 
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
