@@ -1,5 +1,6 @@
 // src/pages/SeleccionarEncuesta.jsx
 import React, { useState, useEffect } from 'react';
+import '../components/Sidebar.css';
 import '../pages/styles/Home.css';
 import '../pages/styles/registroencuestas.css'; // Importar estilos específicos
 import babyLogo from '../assets/LogoMarcaPersonal.png';
@@ -51,7 +52,7 @@ const SeleccionarEncuesta = () => {
     return (
       <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={onClose}>×</button>
-        
+
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">

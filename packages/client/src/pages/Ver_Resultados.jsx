@@ -211,6 +211,7 @@ export default function VerResultados() {
       </div>
 
       <MigaDePan
+        withSidebar={true}
         onSidebarToggle={handleToggleSidebar}
         sidebarVisible={sidebarVisible}
         sidebarMenuClassName="toggle-sidebar-btn"

@@ -39,7 +39,7 @@ html {
 
 .main-content {
   flex: 1;
-  margin-left: 250px;
+  margin-left: var(--sidebar-width, 300px);
   transition: margin 0.3s;
 }
 

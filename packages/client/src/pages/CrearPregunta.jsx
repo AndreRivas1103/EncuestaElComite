@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
+import '../components/Sidebar.css';
 import '../pages/styles/Home.css';
 import '../pages/styles/CreacionPreguntas.css';
 import '../pages/styles/PreviewEncuesta.css';

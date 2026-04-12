@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../components/Sidebar.css';
 import '../pages/styles/registroencuestas.css';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';

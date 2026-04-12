@@ -133,14 +133,15 @@ html {
   left: 0;
   top: 0;
   height: 100vh;
-  width: 280px;
+  width: var(--sidebar-width, 306px);
   background: linear-gradient(180deg, #1e3766 0%, #16295a 100%);
   color: #ffffff;
   padding: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform var(--sidebar-transition-duration, 0.42s)
+    var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
   z-index: 1000;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
   border-right: 3px solid #9ecd49;
@@ -298,12 +299,13 @@ html {
   background-color: #d3edff;
   flex-grow: 1;
   min-height: calc(100vh - 120px);
-  transition: margin-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: margin-left var(--sidebar-transition-duration, 0.42s)
+    var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
   padding: 20px;
 }
 
 .contenido-principal.sidebar-visible {
-  margin-left: 280px;
+  margin-left: var(--sidebar-width, 306px);
 }
 
 .contenido-principal.sidebar-hidden {
@@ -410,11 +412,11 @@ html {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .sidebar {
-    width: 250px;
+    width: min(82vw, var(--sidebar-width, 306px));
   }
 
   .contenido-principal.sidebar-visible {
-    margin-left: 250px;
+    margin-left: min(82vw, var(--sidebar-width, 306px));
   }
 
   .cuadro-porcentajes {
@@ -449,11 +451,11 @@ html {
 
 @media (max-width: 480px) {
   .sidebar {
-    width: 220px;
+    width: min(90vw, var(--sidebar-width, 306px));
   }
 
   .contenido-principal.sidebar-visible {
-    margin-left: 220px;
+    margin-left: min(90vw, var(--sidebar-width, 306px));
   }
 
   .cuadro-porcentajes {

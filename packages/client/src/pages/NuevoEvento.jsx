@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import '../components/Sidebar.css';
 import '../pages/styles/Home.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
@@ -31,7 +32,7 @@ const NuevoEvento = () => {
     return (
       <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
         <button className="sidebar-close-btn" onClick={onClose}>×</button>
-        
+
         <div className="sidebar-header">
           <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
           <div className="user-info">
@@ -160,11 +161,7 @@ const NuevoEvento = () => {
       <style>{globalStyles}</style>
 
       {/* Header */}
-      <header className="header" style={{
-        marginLeft: sidebarVisible ? '250px' : '0',
-        width: sidebarVisible ? 'calc(100% - 250px)' : '100%',
-        transition: 'all 0.3s ease-in-out'
-      }}>
+      <header className="header">
         <div className="logo">
           <a href='/inicio-coordinador' className="logo">El Comit<span>é</span></a>
         </div>
@@ -183,17 +180,17 @@ const NuevoEvento = () => {
       />
 
       {/* Contenido principal */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: sidebarVisible ? '250px' : '0',
-        width: sidebarVisible ? 'calc(100% - 250px)' : '100%',
-        transition: 'all 0.3s ease-in-out',
-        padding: '20px',
-        backgroundColor: '#d3edff'
-      }}>
+      <div
+        className="coordinator-shifted-main"
+        style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
+          backgroundColor: '#d3edff'
+        }}
+      >
         <div style={{
           backgroundColor: 'white',
           boxShadow: '0 4px 8px rgba(0,0,0,0.1)',

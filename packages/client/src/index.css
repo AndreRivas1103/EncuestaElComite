@@ -1,0 +1,64 @@
+/* Tokens globales (sidebar coordinador y páginas con panel lateral) */
+:root {
+  /* Un poco más ancho para que el borde y el contenido (#D3EDFF) no dejen franja */
+  --sidebar-width: 306px;
+  --sidebar-layout-shift: var(--sidebar-width);
+  --sidebar-transition-duration: 0.42s;
+  --sidebar-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Evita la raya/banda entre sidebar y contenido por subpíxeles o sombra */
+body.sidebar-visible {
+  overflow-x: hidden;
+}
+
+/*
+ * Cabecera: estado base (panel cerrado) con transición para que al cerrar también anime.
+ * Incluye <header> sin clase (p. ej. InicioCoordinador) y div.header (Ver resultados).
+ */
+body:has(.sidebar) header:not(.sidebar-header),
+body:has(.sidebar)
+  div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+    .categoria-header
+  ) {
+  margin-left: 0;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  transition: margin-left var(--sidebar-transition-duration)
+      var(--sidebar-transition-easing),
+    width var(--sidebar-transition-duration) var(--sidebar-transition-easing);
+}
+
+body:has(.sidebar.visible) header:not(.sidebar-header),
+body.sidebar-visible header:not(.sidebar-header),
+body:has(.sidebar.visible)
+  div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+    .categoria-header
+  ),
+body.sidebar-visible
+  div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+    .categoria-header
+  ) {
+  margin-left: var(--sidebar-layout-shift);
+  width: calc(100% - var(--sidebar-layout-shift));
+}
+
+/*
+ * Bloques de contenido principal que se desplazan con el panel (Inicio coordinador, Nuevo evento).
+ */
+body:has(.sidebar) .coordinator-shifted-main {
+  margin-left: 0;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  transition: margin-left var(--sidebar-transition-duration)
+      var(--sidebar-transition-easing),
+    width var(--sidebar-transition-duration) var(--sidebar-transition-easing);
+}
+
+body:has(.sidebar.visible) .coordinator-shifted-main,
+body.sidebar-visible .coordinator-shifted-main {
+  margin-left: var(--sidebar-layout-shift);
+  width: calc(100% - var(--sidebar-layout-shift));
+}

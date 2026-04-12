@@ -88,14 +88,7 @@ const InicioCoordinadorPrueba = () => {
         content="width=device-width, initial-scale=1.0"
       ></meta>
 
-      <header
-        style={{
-          ...styles.header,
-          marginLeft: sidebarVisible ? "250px" : "0",
-          width: sidebarVisible ? "calc(100% - 250px)" : "100%",
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
+      <header style={styles.header}>
         <div style={styles.logo}>
           <a href="#" className="logo">
             El Comit<span style={styles.logoSpan}>é</span>
@@ -118,14 +111,7 @@ const InicioCoordinadorPrueba = () => {
         }}
       />
 
-      <div
-        style={{
-          ...styles.contentArea,
-          marginLeft: sidebarVisible ? "250px" : "0",
-          width: sidebarVisible ? "calc(100% - 250px)" : "100%",
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
+      <div className="coordinator-shifted-main" style={styles.contentArea}>
         <div style={styles.mainContent}>
           <h1 style={styles.titleCoordinador}>Bienvenido Coordinador</h1>
 
@@ -182,7 +168,6 @@ const styles = {
     alignItems: "center",
     padding: "20px",
     backgroundColor: "#d3edff" /* Fondo azul claro */,
-    transition: "all 0.3s ease-in-out",
   },
   mainContent: {
     backgroundColor: "white",

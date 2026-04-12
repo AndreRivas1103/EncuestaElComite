@@ -6,7 +6,8 @@
   z-index: 800; 
   position: relative;
   box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
+  /* Evita "all": no compita con el desplazamiento del sidebar */
+  transition: background-color 0.25s ease;
   display: block;
   animation: slideInFromTop 0.4s ease-out;
   margin: 0;  
@@ -24,6 +25,7 @@
 .migadepan-trail {
   flex: 1;
   min-width: 0;
+  transform-origin: left center;
 }
 
 .migadepan-menu-button {
@@ -52,16 +54,49 @@
   background: #D3EDFF !important;
 }
 
-/* Estilos para páginas con sidebar */
-.migadepan-container.with-sidebar {
+/* Estilos para páginas con sidebar: base + abierto (transición también al cerrar) */
+body:has(.sidebar) .migadepan-container.with-sidebar {
   margin-left: 0;
   width: 100%;
-  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  margin-right: 0;
+  max-width: none;
+  transition: margin-left var(--sidebar-transition-duration, 0.42s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    width var(--sidebar-transition-duration, 0.42s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
 }
 
-body.sidebar-visible .migadepan-container.with-sidebar {
-  margin-left: 250px;
-  width: calc(100% - 250px);
+body.sidebar-visible .migadepan-container.with-sidebar,
+body:has(.sidebar.visible) .migadepan-container.with-sidebar {
+  margin-left: var(--sidebar-layout-shift, var(--sidebar-width, 306px));
+  width: calc(100% - var(--sidebar-layout-shift, var(--sidebar-width, 306px)));
+}
+
+/*
+ * Movimiento extra de la miga al abrir/cerrar el panel (sincronizado con --sidebar-transition-*)
+ * Panel cerrado: ligero desplazamiento; al abrir, entra en su sitio con la misma curva que el layout.
+ */
+body:has(.sidebar) .migadepan-container.with-sidebar .migadepan-row {
+  transition: transform var(--sidebar-transition-duration, 0.42s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1)),
+    opacity var(--sidebar-transition-duration, 0.42s)
+      var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
+  transform: translate3d(-5px, 0, 0);
+  opacity: 0.97;
+}
+
+body.sidebar-visible .migadepan-container.with-sidebar .migadepan-row,
+body:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.sidebar) .migadepan-container.with-sidebar .migadepan-row {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
 }
 
 .migadepan {

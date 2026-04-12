@@ -180,12 +180,12 @@ const MigaDePan = ({
   const flujoAMostrar = contextoEspecial || flujoLogico;
 
   const showMenuRow = typeof onSidebarToggle === "function";
+  /* Con el panel abierto no mostrar botón en la miga: solo la X dentro del sidebar */
+  const showMenuToggleInBar = showMenuRow && !sidebarVisible;
   const menuSymbol =
     sidebarToggleLabel !== undefined && sidebarToggleLabel !== null
       ? sidebarToggleLabel
-      : sidebarVisible
-        ? "✕"
-        : "☰";
+      : "☰";
 
   // Construir las clases CSS
   const containerClasses = [
@@ -197,23 +197,12 @@ const MigaDePan = ({
     .filter(Boolean)
     .join(" ");
 
-  // Aplicar estilo inline para el sidebar si es necesario
-  const containerStyle =
-    withSidebar && sidebarVisible
-      ? {
-          marginLeft: "250px",
-          width: "calc(100% - 250px)",
-        }
-      : {};
-
-  const menuButton = showMenuRow ? (
+  const menuButton = showMenuToggleInBar ? (
     <button
       type="button"
       className={sidebarMenuClassName}
       onClick={onSidebarToggle}
-      aria-label={
-        sidebarVisible ? "Cerrar menú lateral" : "Abrir menú lateral"
-      }
+      aria-label="Abrir menú lateral"
     >
       {menuSymbol}
     </button>
@@ -253,7 +242,7 @@ const MigaDePan = ({
     });
 
     return (
-      <div className={containerClasses} style={containerStyle}>
+      <div className={containerClasses}>
         {wrapTrail(trail)}
       </div>
     );
@@ -290,7 +279,7 @@ const MigaDePan = ({
   );
 
   return (
-    <div className={containerClasses} style={containerStyle}>
+    <div className={containerClasses}>
       {wrapTrail(fallbackTrail)}
     </div>
   );

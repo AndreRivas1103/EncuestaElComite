@@ -29,8 +29,7 @@ const Sidebar = ({ isVisible, onClose }) => {
   return (
     <div className={`sidebar ${isVisible ? 'visible' : ''}`}>
       <button className="sidebar-close-btn" onClick={onClose}>×</button>
-      
-      {/* Encabezado del Sidebar */}
+
       <div className="sidebar-header">
         <div className="avatar">{user.name.charAt(0).toUpperCase()}</div>
         <div className="user-info">
@@ -39,7 +38,6 @@ const Sidebar = ({ isVisible, onClose }) => {
         </div>
       </div>
 
-      {/* Navegación */}
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <button
@@ -54,7 +52,6 @@ const Sidebar = ({ isVisible, onClose }) => {
 
         <div className="nav-divider"></div>
 
-        {/* Botón de Cerrar Sesión */}
         <button className="nav-item logout-item" onClick={handleLogout}>
           <span className="nav-icon">🚪</span>
           <span className="nav-label">Cerrar Sesión</span>
