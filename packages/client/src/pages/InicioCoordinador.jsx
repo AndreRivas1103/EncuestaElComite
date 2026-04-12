@@ -104,23 +104,11 @@ const InicioCoordinadorPrueba = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      <div
-        style={{
-          ...styles.menuButtonContainer,
-          marginLeft: sidebarVisible ? "250px" : "0",
-          width: sidebarVisible ? "calc(100% - 250px)" : "100%",
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
-        <button
-          style={styles.menuButton}
-          onClick={() => setSidebarVisible(!sidebarVisible)}
-        >
-          {sidebarVisible ? "✕" : "☰"}
-        </button>
-      </div>
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
       <Sidebar
         isVisible={sidebarVisible}
@@ -186,24 +174,6 @@ const styles = {
   },
   headerLogo: {
     height: "50px",
-  },
-  menuButtonContainer: {
-    padding: "10px 20px",
-    backgroundColor: "#d3edff",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    display: "flex",
-    justifyContent: "flex-start",
-    transition: "all 0.3s ease-in-out",
-  },
-  menuButton: {
-    background: "none",
-    border: "none",
-    fontSize: "24px",
-    cursor: "pointer",
-    color: "#1E3766" /* Azul corporativo */,
-    padding: "5px 10px",
-    borderRadius: "4px",
-    transition: "background-color 0.3s",
   },
   contentArea: {
     flex: 1,

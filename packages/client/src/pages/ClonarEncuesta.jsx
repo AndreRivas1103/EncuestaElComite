@@ -436,15 +436,10 @@ const handleProgramar = async () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      <div className="menu-button-container">
-        <button className="menu-button" onClick={() => setSidebarVisible(!sidebarVisible)}>
-          ☰
-        </button>
-      </div>
-
       <MigaDePan
         withSidebar={true}
         sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
         migas={[
           { label: 'Inicio', ruta: '/inicio-coordinador' },
           { label: 'Registro Encuestas', ruta: '/registro-encuestas' },

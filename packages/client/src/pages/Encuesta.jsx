@@ -266,15 +266,11 @@ const EncuestaCompleta = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      {/* Sidebar Button */}
-      <div style={{ backgroundColor: '#d3edff', padding: '10px 20px' }}>
-        <button 
-          onClick={() => setSidebarVisible(true)}
-          style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}
-        >
-          ☰
-        </button>
-      </div>
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
       {/* Sidebar */}
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
@@ -313,8 +309,6 @@ const EncuestaCompleta = () => {
           </button>
         </nav>
       </div>
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       <button
         className="btn-back"

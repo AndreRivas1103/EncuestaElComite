@@ -210,15 +210,11 @@ export default function VerResultados() {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo"></img>
       </div>
 
-      <MigaDePan />
-
-      <button
-        className="toggle-sidebar-btn"
-        onClick={handleToggleSidebar}
-        aria-label="Abrir menú"
-      >
-        ☰
-      </button>
+      <MigaDePan
+        onSidebarToggle={handleToggleSidebar}
+        sidebarVisible={sidebarVisible}
+        sidebarMenuClassName="toggle-sidebar-btn"
+      />
 
       <div className={`sidebar ${sidebarVisible ? "visible" : "hidden"}`}>
         <button

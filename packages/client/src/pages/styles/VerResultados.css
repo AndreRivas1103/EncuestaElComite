@@ -90,6 +90,14 @@ html {
 }
 
 /* ===== BOTÓN TOGGLE SIDEBAR (ÚNICO PARA VER RESULTADOS) ===== */
+/* En la barra junto a la miga de pan (no fijo) */
+.migadepan-with-menu .toggle-sidebar-btn {
+  position: static;
+  left: auto;
+  top: auto;
+  z-index: 1;
+}
+
 .toggle-sidebar-btn {
   position: fixed;
   left: 15px;

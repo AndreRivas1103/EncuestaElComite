@@ -12,6 +12,42 @@
   margin: 0;  
 }
 
+/* Botón de menú y miga en una sola fila */
+.migadepan-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.migadepan-trail {
+  flex: 1;
+  min-width: 0;
+}
+
+.migadepan-menu-button {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #1e3766;
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  line-height: 1;
+}
+
+.migadepan-menu-button:hover {
+  background-color: rgba(30, 55, 102, 0.08);
+}
+
+.migadepan-menu-button:focus-visible {
+  outline: 2px solid #73a31d;
+  outline-offset: 2px;
+}
+
 .coordinator-page {
   background: #D3EDFF !important;
 }

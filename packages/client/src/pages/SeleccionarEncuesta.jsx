@@ -100,21 +100,16 @@ const SeleccionarEncuesta = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      <div className="menu-button-container">
-        <button 
-          className="menu-button" 
-          onClick={() => setSidebarVisible(!sidebarVisible)}
-        >
-          ☰
-        </button>
-      </div>
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
       <Sidebar 
         isVisible={sidebarVisible} 
         onClose={() => setSidebarVisible(false)} 
       />
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
 
       {/* 
         Misma estructura de visualización que en RegistroEncuesta

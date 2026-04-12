@@ -521,16 +521,11 @@ const CrearPregunta = () => {
         <img src={babyLogo} alt='Baby Go Logo' className='header-logo' />
       </header>
 
-      <div style={{ backgroundColor: '#d3edff', padding: '10px 20px' }}>
-        <button 
-          onClick={() => setSidebarVisible(true)}
-          style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}
-        >
-          ☰
-        </button>
-      </div>
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
 
 

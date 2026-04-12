@@ -2,7 +2,13 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./MigaDePan.css";
 
-const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
+const MigaDePan = ({
+  withSidebar = false,
+  sidebarVisible = false,
+  onSidebarToggle,
+  sidebarMenuClassName = "migadepan-menu-button",
+  sidebarToggleLabel,
+}) => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
@@ -173,84 +179,119 @@ const MigaDePan = ({ withSidebar = false, sidebarVisible = false }) => {
   // Usar contexto especial si existe, luego flujo lógico, finalmente fallback
   const flujoAMostrar = contextoEspecial || flujoLogico;
 
+  const showMenuRow = typeof onSidebarToggle === "function";
+  const menuSymbol =
+    sidebarToggleLabel !== undefined && sidebarToggleLabel !== null
+      ? sidebarToggleLabel
+      : sidebarVisible
+        ? "✕"
+        : "☰";
+
   // Construir las clases CSS
   const containerClasses = [
     "migadepan-container",
     isCoordinadorPage ? "coordinator-page" : "",
-    withSidebar ? "with-sidebar" : ""
-  ].filter(Boolean).join(" ");
+    withSidebar ? "with-sidebar" : "",
+    showMenuRow ? "migadepan-with-menu" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // Aplicar estilo inline para el sidebar si es necesario
-  const containerStyle = withSidebar && sidebarVisible ? {
-    marginLeft: "250px",
-    width: "calc(100% - 250px)"
-  } : {};
+  const containerStyle =
+    withSidebar && sidebarVisible
+      ? {
+          marginLeft: "250px",
+          width: "calc(100% - 250px)",
+        }
+      : {};
+
+  const menuButton = showMenuRow ? (
+    <button
+      type="button"
+      className={sidebarMenuClassName}
+      onClick={onSidebarToggle}
+      aria-label={
+        sidebarVisible ? "Cerrar menú lateral" : "Abrir menú lateral"
+      }
+    >
+      {menuSymbol}
+    </button>
+  ) : null;
+
+  const wrapTrail = (trail) =>
+    showMenuRow ? (
+      <div className="migadepan-row">
+        {menuButton}
+        <div className="migadepan migadepan-trail">{trail}</div>
+      </div>
+    ) : (
+      <div className="migadepan">{trail}</div>
+    );
 
   if (flujoAMostrar) {
-    return (
-      <div
-        className={containerClasses}
-        style={containerStyle}
-      >
-        <div className="migadepan">
-          {flujoAMostrar.map((item, index) => {
-            const isLast = index === flujoAMostrar.length - 1;
-            const isFirst = index === 0;
+    const trail = flujoAMostrar.map((item, index) => {
+      const isLast = index === flujoAMostrar.length - 1;
+      const isFirst = index === 0;
 
-            return (
-              <React.Fragment key={item.path}>
-                {!isFirst && <span className="migadepan-separator">/</span>}
-                {isLast ? (
-                  <span className="migadepan-current">
-                    <span className="migadepan-icon">{item.icon}</span>
-                    <span>{item.label}</span>
-                  </span>
-                ) : (
-                  <Link to={item.path} className="migadepan-item">
-                    <span className="migadepan-icon">{item.icon}</span>
-                    <span>{item.label}</span>
-                  </Link>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </div>
+      return (
+        <React.Fragment key={item.path}>
+          {!isFirst && <span className="migadepan-separator">/</span>}
+          {isLast ? (
+            <span className="migadepan-current">
+              <span className="migadepan-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </span>
+          ) : (
+            <Link to={item.path} className="migadepan-item">
+              <span className="migadepan-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          )}
+        </React.Fragment>
+      );
+    });
+
+    return (
+      <div className={containerClasses} style={containerStyle}>
+        {wrapTrail(trail)}
       </div>
     );
   }
 
   // Fallback al sistema original si no hay flujo definido
+  const fallbackTrail = (
+    <>
+      <Link to="/" className="migadepan-item">
+        <span className="migadepan-icon">🏠</span>
+        <span>Inicio</span>
+      </Link>
+      {pathnames.map((value, index) => {
+        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+        const isLast = index === pathnames.length - 1;
+
+        const displayName =
+          pathMap[value.toLowerCase()] || value.replace(/-/g, " ");
+
+        return (
+          <React.Fragment key={value}>
+            <span className="migadepan-separator">/</span>
+            {isLast ? (
+              <span className="migadepan-current">{displayName}</span>
+            ) : (
+              <Link to={routeTo} className="migadepan-item">
+                {displayName}
+              </Link>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+
   return (
-    <div
-      className={containerClasses}
-      style={containerStyle}
-    >
-      <div className="migadepan">
-        <Link to="/" className="migadepan-item">
-          <span className="migadepan-icon">🏠</span>
-          <span>Inicio</span>
-        </Link>
-        {pathnames.map((value, index) => {
-          const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-          const isLast = index === pathnames.length - 1;
-
-          const displayName =
-            pathMap[value.toLowerCase()] || value.replace(/-/g, " ");
-
-          return (
-            <React.Fragment key={value}>
-              <span className="migadepan-separator">/</span>
-              {isLast ? (
-                <span className="migadepan-current">{displayName}</span>
-              ) : (
-                <Link to={routeTo} className="migadepan-item">
-                  {displayName}
-                </Link>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
+    <div className={containerClasses} style={containerStyle}>
+      {wrapTrail(fallbackTrail)}
     </div>
   );
 };

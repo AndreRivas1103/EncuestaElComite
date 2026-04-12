@@ -97,16 +97,11 @@ const RegistroEncuesta = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      <div className="menu-button-container">
-        <button
-          className="menu-button"
-          onClick={() => setSidebarVisible(!sidebarVisible)}
-        >
-          ☰
-        </button>
-      </div>
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
       <Sidebar
         isVisible={sidebarVisible}

@@ -171,21 +171,11 @@ const NuevoEvento = () => {
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      {/* Botón del menú */}
-      <div className="menu-button-container" style={{
-        marginLeft: sidebarVisible ? '250px' : '0',
-        width: sidebarVisible ? 'calc(100% - 250px)' : '100%',
-        transition: 'all 0.3s ease-in-out'
-      }}>
-        <button 
-          className="menu-button" 
-          onClick={() => setSidebarVisible(!sidebarVisible)}
-        >
-          {sidebarVisible ? '✕' : '☰'}
-        </button>
-      </div>
-
-      <MigaDePan withSidebar={true} sidebarVisible={sidebarVisible} />
+      <MigaDePan
+        withSidebar={true}
+        sidebarVisible={sidebarVisible}
+        onSidebarToggle={() => setSidebarVisible(!sidebarVisible)}
+      />
 
       <Sidebar 
         isVisible={sidebarVisible} 
