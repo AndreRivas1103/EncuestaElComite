@@ -71,7 +71,7 @@ html {
 .navbar-coordinador {
   background-color: #1e3766;
   color: white;
-  padding: 20px;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,13 +79,15 @@ html {
 }
 
 .header-logo {
-  width: 150px;
+  width: 100px;
   height: auto;
   max-width: 100%;
+  max-height: 48px;
+  object-fit: contain;
 }
 
 .logo {
-  font-size: 3.5rem;
+  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
   text-decoration: none !important;
   color: white;
   font-family: "Recoleta";
@@ -297,14 +299,12 @@ html {
 
 /* ===== MEDIA QUERIES ===== */
 @media (max-width: 1200px) {
-  .logo,
   .title-large {
     font-size: 3rem;
   }
 }
 
 @media (max-width: 992px) {
-  .logo,
   .title-large {
     font-size: 2.5rem;
   }
@@ -317,15 +317,14 @@ html {
   .header {
     flex-direction: column;
     text-align: center;
-    padding: 20px;
+    padding: 12px 14px;
   }
 
   .header-logo {
-    width: 120px;
-    margin-top: 15px;
+    width: 88px;
+    margin-top: 10px;
   }
 
-  .logo,
   .title-large {
     font-size: 2.2rem;
   }
@@ -360,7 +359,6 @@ html {
 }
 
 @media (max-width: 576px) {
-  .logo,
   .title-large {
     font-size: 1.8rem;
   }
@@ -396,7 +394,7 @@ body {
 
 .header {
   background-color: #1e3766;
-  padding: 10px 20px;
+  padding: 8px 16px;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -406,13 +404,15 @@ body {
 }
 
 .header-logo {
-  width: 150px;
+  width: 100px;
   height: auto;
   max-width: 100%;
+  max-height: 48px;
+  object-fit: contain;
 }
 
 .logo {
-  font-size: 3.5rem;
+  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
   text-decoration: none;
   color: white;
   font-family: "Recoleta";
@@ -870,18 +870,12 @@ body {
 
 /* Media Queries Responsive */
 @media (max-width: 1200px) {
-  .logo {
-    font-size: 3rem;
-  }
   .welcome-title {
     font-size: 3rem;
   }
 }
 
 @media (max-width: 992px) {
-  .logo {
-    font-size: 2.5rem;
-  }
   .welcome-title,
   .admin-title {
     font-size: 2.5rem;
@@ -898,16 +892,12 @@ body {
   .header {
     flex-direction: column;
     text-align: center;
-    padding: 20px;
+    padding: 12px 14px;
   }
 
   .header-logo {
-    margin-top: 15px;
-    width: 120px;
-  }
-
-  .logo {
-    font-size: 2.2rem;
+    margin-top: 10px;
+    width: 88px;
   }
 
   .welcome-title {
@@ -999,10 +989,6 @@ body {
 }
 
 @media (max-width: 576px) {
-  .logo {
-    font-size: 1.8rem;
-  }
-
   .welcome-title {
     font-size: 1.6rem;
   }
@@ -1192,16 +1178,17 @@ body {
   .header {
     flex-direction: column;
     text-align: center;
-    padding: 15px;
+    padding: 12px 14px;
   }
 
-  .logo {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
+  .header .logo,
+  .header a.logo {
+    margin-bottom: 10px;
+    font-size: clamp(1.05rem, 3.5vw, 1.45rem);
   }
 
   .header-logo {
-    width: 120px;
+    width: 88px;
   }
 
   .login-box {

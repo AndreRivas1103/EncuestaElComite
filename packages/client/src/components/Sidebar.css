@@ -259,7 +259,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 8px 16px;
   background-color: #1e3766;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -272,7 +272,7 @@
 .logo-link {
   text-decoration: none;
   color: white;
-  font-size: 20px;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
   font-weight: bold;
   font-family: "Roboto";
 }

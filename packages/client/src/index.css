@@ -167,3 +167,46 @@ body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .mi
 .page-lead--tight {
   margin-bottom: 0.65rem;
 }
+
+/*
+ * Cabecera principal (El Comité + logo): más baja en todas las páginas.
+ * Excluye cabeceras de encuesta/sidebar para no romper layouts internos.
+ */
+div.header:not(.encuesta-header):not(.sidebar-header):not(.pregunta-header):not(
+    .categoria-header
+  ),
+header.header:not(.encuesta-header):not(.sidebar-header) {
+  padding: 8px 16px;
+}
+
+div.header:not(.encuesta-header) .header-logo,
+header.header:not(.encuesta-header) .header-logo {
+  width: 100px;
+  max-width: 100%;
+  max-height: 48px;
+  height: auto;
+  object-fit: contain;
+}
+
+div.header:not(.encuesta-header) .logo,
+header.header:not(.encuesta-header) .logo,
+div.header:not(.encuesta-header) a.logo,
+header.header:not(.encuesta-header) a.logo {
+  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  line-height: 1.12;
+}
+
+@media (max-width: 768px) {
+  div.header:not(.encuesta-header) .header-logo,
+  header.header:not(.encuesta-header) .header-logo {
+    width: 88px;
+    max-height: 42px;
+  }
+
+  div.header:not(.encuesta-header) .logo,
+  header.header:not(.encuesta-header) .logo,
+  div.header:not(.encuesta-header) a.logo,
+  header.header:not(.encuesta-header) a.logo {
+    font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+  }
+}

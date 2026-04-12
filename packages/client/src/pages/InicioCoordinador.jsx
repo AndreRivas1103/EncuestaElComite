@@ -102,7 +102,12 @@ const InicioCoordinadorPrueba = () => {
             El Comit<span style={styles.logoSpan}>é</span>
           </a>
         </div>
-        <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
+        <img
+          src={babyLogo}
+          alt="Baby Go Logo"
+          className="header-logo"
+          style={styles.headerLogo}
+        />
       </header>
 
       <MigaDePan
@@ -151,7 +156,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "15px 20px",
+    padding: "8px 16px",
     backgroundColor: "#1E3766" /* Azul corporativo */,
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
@@ -170,7 +175,9 @@ const styles = {
     color: "#9ecd49" /* Verde corporativo */,
   },
   headerLogo: {
-    height: "50px",
+    height: "44px",
+    width: "auto",
+    objectFit: "contain",
   },
   contentArea: {
     flex: 1,

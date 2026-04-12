@@ -42,7 +42,7 @@ html {
 .header {
   background-color: #1e3766;
   color: white;
-  padding: 20px;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,21 +52,23 @@ html {
 }
 
 .header-ver-resultados {
-  padding: 20px;
+  padding: 8px 12px;
   text-align: center;
   margin: 0 auto;
-  font-size: 2.5rem;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
   font-family: "Recoleta", serif;
 }
 
 .header-logo {
-  width: 150px;
+  width: 100px;
   height: auto;
   max-width: 100%;
+  max-height: 48px;
+  object-fit: contain;
 }
 
 .logo {
-  font-size: 3.5rem;
+  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
   text-decoration: none !important;
   color: white;
   font-family: "Recoleta";
@@ -486,7 +488,7 @@ html {
   }
 
   .header-ver-resultados {
-    font-size: 2rem;
+    font-size: clamp(1.05rem, 3.5vw, 1.45rem);
   }
 
   .toggle-sidebar-btn {

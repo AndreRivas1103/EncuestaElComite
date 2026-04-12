@@ -43,7 +43,7 @@ html, body {
 .header {
   background-color: #1e3766;
   color: white;
-  padding: 15px 20px;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,7 +54,7 @@ html, body {
 
 .logo {
   font-family: 'Merriweather', serif;
-  font-size: 1.8rem;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
   font-weight: bold;
   color: white;
   text-decoration: none;
