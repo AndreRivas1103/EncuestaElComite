@@ -1,6 +1,5 @@
 // encuestaController.js (modificado sin obtener_encuestas())
 import Encuesta from '../models/Encuesta.js';
-import { UniqueConstraintError, Op } from 'sequelize';
 
 function calcularEstado(fecha_apertura, fecha_cierre) {
   const hoy = new Date();
@@ -61,15 +60,7 @@ export const crearEncuesta = async (req, res) => {
 
 export const obtenerEncuestaActiva = async (req, res) => {
   try {
-    const hoy = new Date().toISOString().split('T')[0];
-    
-    const encuestaActiva = await Encuesta.findOne({
-      where: {
-        fecha_apertura: { [Op.lte]: hoy },
-        fecha_cierre: { [Op.gte]: hoy }
-      },
-      order: [['fecha_apertura', 'DESC']]
-    });
+    const encuestaActiva = await Encuesta.findOne();
 
     if (!encuestaActiva) {
       return res.status(404).json({
@@ -111,20 +102,14 @@ export const obtenerEncuestaActiva = async (req, res) => {
 export const programarEncuesta = async (req, res) => {
   try {
     const {
-      id,
       titulo,
-      fecha_apertura,
-      fecha_cierre,
       usuario_id,
       datos_encuesta,
-      respuestas_count
+      version
     } = req.body;
 
     const errores = [];
-    if (!id) errores.push('Falta el ID');
     if (!titulo) errores.push('Falta el título');
-    if (!fecha_apertura) errores.push('Falta la fecha de apertura');
-    if (!fecha_cierre) errores.push('Falta la fecha de cierre');
     if (!usuario_id) errores.push('Falta el usuario_id');
     if (!datos_encuesta) errores.push('Faltan los datos de la encuesta');
 
@@ -132,29 +117,11 @@ export const programarEncuesta = async (req, res) => {
       return res.status(400).json({ error: 'Campos inválidos', detalles: errores });
     }
 
-    if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
-      return res.status(400).json({ error: 'La fecha de cierre debe ser posterior a la de apertura' });
-    }
-
-    const encuestaExistente = await Encuesta.findByPk(id);
-    if (encuestaExistente) {
-      return res.status(409).json({
-        error: `Ya existe una encuesta con el ID "${id}". Por favor, usa uno distinto.`
-      });
-    }
-
-    const estado = calcularEstado(fecha_apertura, fecha_cierre);
-
     const nuevaEncuesta = await Encuesta.create({
-      id,
       titulo,
-      fecha_apertura,
-      fecha_cierre,
-      fecha_creacion: new Date().toISOString().split('T')[0],
-      usuario_id,
       datos_encuesta,
-      respuestas_count: respuestas_count ?? 0,
-      estado
+      usuario_id,
+      version: version || 'pre'
     });
 
     res.status(201).json({

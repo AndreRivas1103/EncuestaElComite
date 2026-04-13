@@ -1,165 +1,167 @@
-import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
 
-const Encuesta = sequelize.define('Encuesta', {
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    defaultValue: () => `HB-${new Date().getFullYear()}-${Math.floor(Math.random() * 90) + 10}`
-  },
-  titulo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'Encuesta de Habilidades Blandas'
-  },
-  fecha_creacion: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-    defaultValue: DataTypes.NOW
-  },
-  fecha_apertura: {
-    type: DataTypes.DATEONLY,
-    allowNull: true
-  },
-  fecha_cierre: {
-    type: DataTypes.DATEONLY,
-    allowNull: true
-  },
-  usuario_id: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  estado: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'borrador',
-    validate: {
-      isIn: [['borrador', 'programada', 'activa', 'cerrada']]
+function toDateOnly(value) {
+  if (!value) return new Date().toISOString().split('T')[0];
+  return new Date(value).toISOString().split('T')[0];
+}
+
+function wrapRow(row) {
+  return {
+    ...row,
+    get: () => ({ ...row })
+  };
+}
+
+function buildDatosEncuesta(rows) {
+  const categoriasMap = new Map();
+  for (const row of rows) {
+    if (!categoriasMap.has(row.categoria)) {
+      categoriasMap.set(row.categoria, { nombre: row.categoria, preguntas: [] });
     }
-  },
-  datos_encuesta: {
-    type: DataTypes.JSONB,
-    allowNull: false,
-    defaultValue: {}
-  },
-  respuestas_count: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0
+    const categoria = categoriasMap.get(row.categoria);
+    let pregunta = categoria.preguntas.find((p) => p.id_pregunta === row.id_pregunta);
+    if (!pregunta) {
+      pregunta = {
+        id_pregunta: row.id_pregunta,
+        texto: row.texto_pregunta,
+        tipoRespuesta: row.tipo_respuesta,
+        opciones: []
+      };
+      categoria.preguntas.push(pregunta);
+    }
+    if (row.texto_opcion) {
+      pregunta.opciones.push(row.texto_opcion);
+    }
   }
-}, {
-  tableName: 'encuestas',
-  freezeTableName: true,
-  timestamps: false,
-  hooks: {
-    beforeCreate: (encuesta) => {
-      if (encuesta.fecha_cierre && encuesta.fecha_apertura) {
-        if (new Date(encuesta.fecha_cierre) <= new Date(encuesta.fecha_apertura)) {
-          throw new Error('La fecha de cierre debe ser posterior a la de apertura');
-        }
-      }
-    },
-    beforeUpdate: async (encuesta) => {
-      if (encuesta.fecha_apertura && encuesta.fecha_cierre) {
-        const hoy = new Date();
-        const apertura = new Date(encuesta.fecha_apertura);
-        const cierre = new Date(encuesta.fecha_cierre);
+  return { categorias: [...categoriasMap.values()] };
+}
 
-        let nuevoEstado = 'programada';
-        if (hoy >= apertura && hoy <= cierre) nuevoEstado = 'activa';
-        if (hoy > cierre) nuevoEstado = 'cerrada';
+async function hydrateEncuesta(idEncuesta) {
+  const [baseRows] = await sequelize.query(
+    `SELECT id_encuesta, nombre, fecha, version FROM encuesta WHERE id_encuesta = :id`,
+    { replacements: { id: Number(idEncuesta) } }
+  );
+  const base = baseRows?.[0];
+  if (!base) return null;
 
-        if (encuesta.estado !== nuevoEstado) {
-          encuesta.estado = nuevoEstado;
-        }
-      }
+  const [detailRows] = await sequelize.query(
+    `
+    SELECT p.id_pregunta, p.texto_pregunta, p.tipo_respuesta, h.nombre AS categoria, o.texto_opcion
+    FROM pregunta p
+    JOIN habilidad h ON h.id_habilidad = p.id_habilidad
+    LEFT JOIN opcion o ON o.id_pregunta = p.id_pregunta
+    WHERE p.id_encuesta = :id
+    ORDER BY p.id_pregunta, o.id_opcion
+    `,
+    { replacements: { id: Number(idEncuesta) } }
+  );
 
-      if (encuesta.changed('fecha_cierre') || encuesta.changed('fecha_apertura')) {
-        if (encuesta.fecha_cierre && encuesta.fecha_apertura) {
-          if (new Date(encuesta.fecha_cierre) <= new Date(encuesta.fecha_apertura)) {
-            throw new Error('La fecha de cierre debe ser posterior a la de apertura');
+  const fecha = toDateOnly(base.fecha);
+  return wrapRow({
+    id: String(base.id_encuesta),
+    titulo: base.nombre,
+    fecha_creacion: fecha,
+    fecha_apertura: fecha,
+    fecha_cierre: fecha,
+    estado: 'activa',
+    version: base.version,
+    datos_encuesta: buildDatosEncuesta(detailRows)
+  });
+}
+
+const Encuesta = {
+  async findAll() {
+    const [rows] = await sequelize.query(
+      `SELECT id_encuesta, nombre, fecha, version FROM encuesta ORDER BY id_encuesta DESC`
+    );
+    return rows.map((r) =>
+      wrapRow({
+        id: String(r.id_encuesta),
+        titulo: r.nombre,
+        fecha_creacion: toDateOnly(r.fecha),
+        fecha_apertura: toDateOnly(r.fecha),
+        fecha_cierre: toDateOnly(r.fecha),
+        estado: 'activa',
+        version: r.version,
+        datos_encuesta: { categorias: [] }
+      })
+    );
+  },
+
+  async findOne() {
+    const [rows] = await sequelize.query(
+      `SELECT id_encuesta FROM encuesta WHERE version = 'pre' ORDER BY id_encuesta DESC LIMIT 1`
+    );
+    if (!rows?.[0]) return null;
+    return hydrateEncuesta(rows[0].id_encuesta);
+  },
+
+  async findByPk(id) {
+    return hydrateEncuesta(id);
+  },
+
+  async create(payload) {
+    const version = payload?.version === 'post' ? 'post' : 'pre';
+    const nombre = payload?.titulo || payload?.nombre || 'Encuesta';
+    const fecha = toDateOnly(payload?.fecha_apertura || payload?.fecha || new Date());
+
+    const [inserted] = await sequelize.query(
+      `
+      INSERT INTO encuesta (nombre, fecha, version)
+      VALUES (:nombre, :fecha, :version::enum_encuesta_version)
+      RETURNING id_encuesta
+      `,
+      { replacements: { nombre, fecha, version } }
+    );
+    const idEncuesta = inserted?.[0]?.id_encuesta;
+
+    const categorias = payload?.datos_encuesta?.categorias || [];
+    for (const categoria of categorias) {
+      const nombreHabilidad = categoria?.nombre || 'General';
+      const [habRows] = await sequelize.query(
+        `
+        INSERT INTO habilidad (nombre)
+        VALUES (:nombre)
+        ON CONFLICT (nombre) DO UPDATE SET nombre = EXCLUDED.nombre
+        RETURNING id_habilidad
+        `,
+        { replacements: { nombre: nombreHabilidad } }
+      );
+      const idHabilidad = habRows[0].id_habilidad;
+
+      for (const preg of categoria?.preguntas || []) {
+        const tipo = preg?.tipoRespuesta === 'abierta' ? 'abierta' : 'multiple';
+        const [pregRows] = await sequelize.query(
+          `
+          INSERT INTO pregunta (id_encuesta, texto_pregunta, tipo_respuesta, id_habilidad)
+          VALUES (:id_encuesta, :texto_pregunta, :tipo_respuesta::enum_pregunta_tipo_respuesta, :id_habilidad)
+          RETURNING id_pregunta
+          `,
+          {
+            replacements: {
+              id_encuesta: idEncuesta,
+              texto_pregunta: preg?.texto || 'Pregunta',
+              tipo_respuesta: tipo,
+              id_habilidad: idHabilidad
+            }
+          }
+        );
+        const idPregunta = pregRows[0].id_pregunta;
+
+        if (tipo === 'multiple') {
+          for (const opcion of preg?.opciones || []) {
+            if (!opcion) continue;
+            await sequelize.query(
+              `INSERT INTO opcion (id_pregunta, texto_opcion) VALUES (:id_pregunta, :texto_opcion)`,
+              { replacements: { id_pregunta: idPregunta, texto_opcion: opcion } }
+            );
           }
         }
       }
     }
-  },
-  defaultScope: {
-    attributes: {
-      exclude: [] 
-    }
-  },
-  scopes: {
-    withEstado: {
-      attributes: { include: ['estado'] }
-    }
+
+    return hydrateEncuesta(idEncuesta);
   }
-});
-
-Encuesta.obtenerTodas = async function() {
-  const encuestas = await Encuesta.findAll();
-
-  for (const encuesta of encuestas) {
-    const hoy = new Date();
-    const apertura = new Date(encuesta.fecha_apertura);
-    const cierre = new Date(encuesta.fecha_cierre);
-
-    let nuevoEstado = 'programada';
-    if (hoy >= apertura && hoy <= cierre) nuevoEstado = 'activa';
-    if (hoy > cierre) nuevoEstado = 'cerrada';
-
-    if (encuesta.estado !== nuevoEstado) {
-      encuesta.estado = nuevoEstado;
-      await encuesta.save();
-    }
-  }
-
-  return encuestas;
-};
-
-Encuesta.obtenerPorId = async (id) => {
-  const encuesta = await Encuesta.scope('withEstado').findByPk(id);
-
-  if (encuesta) {
-    const hoy = new Date();
-    const apertura = new Date(encuesta.fecha_apertura);
-    const cierre = new Date(encuesta.fecha_cierre);
-
-    let nuevoEstado = 'programada';
-    if (hoy >= apertura && hoy <= cierre) nuevoEstado = 'activa';
-    if (hoy > cierre) nuevoEstado = 'cerrada';
-
-    if (encuesta.estado !== nuevoEstado) {
-      encuesta.estado = nuevoEstado;
-      await encuesta.save();
-    }
-  }
-
-  return encuesta;
-};
-
-Encuesta.obtenerEncuestaActiva = async function() {
-  const encuestas = await Encuesta.findAll();
-  const hoy = new Date();
-
-  for (const encuesta of encuestas) {
-    const apertura = new Date(encuesta.fecha_apertura);
-    const cierre = new Date(encuesta.fecha_cierre);
-
-    let nuevoEstado = 'programada';
-    if (hoy >= apertura && hoy <= cierre) nuevoEstado = 'activa';
-    if (hoy > cierre) nuevoEstado = 'cerrada';
-
-    if (encuesta.estado !== nuevoEstado) {
-      encuesta.estado = nuevoEstado;
-      await encuesta.save();
-    }
-
-    if (nuevoEstado === 'activa') {
-      return encuesta;
-    }
-  }
-
-  return null;
 };
 
 export default Encuesta;

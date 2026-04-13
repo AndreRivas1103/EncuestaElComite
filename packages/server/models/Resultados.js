@@ -1,78 +1,91 @@
-import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
 
-const Resultado = sequelize.define('Resultado', {
-  id_encuesta: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    primaryKey: true
-  },
-  correo_voluntario: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    primaryKey: true,
-    references: {
-      model: 'voluntarios',
-      key: 'correo_electronico'
+async function getTipoByEncuesta(idEncuesta) {
+  const [rows] = await sequelize.query(
+    `SELECT version FROM encuesta WHERE id_encuesta = :id_encuesta`,
+    { replacements: { id_encuesta: Number(idEncuesta) } }
+  );
+  return rows?.[0]?.version || 'pre';
+}
+
+const Resultado = {
+  async insertarResultadoCalculado(id_encuesta, correo_voluntario, _contrasena, resultado) {
+    const tipo = await getTipoByEncuesta(id_encuesta);
+    const puntajes = resultado?.puntajes_por_habilidad || {};
+    const keys = Object.keys(puntajes);
+
+    for (const habilidadNombre of keys) {
+      const puntaje = Number(puntajes[habilidadNombre] ?? 0);
+      const [habRows] = await sequelize.query(
+        `
+        INSERT INTO habilidad (nombre)
+        VALUES (:nombre)
+        ON CONFLICT (nombre) DO UPDATE SET nombre = EXCLUDED.nombre
+        RETURNING id_habilidad
+        `,
+        { replacements: { nombre: habilidadNombre } }
+      );
+      const id_habilidad = habRows[0].id_habilidad;
+
+      await sequelize.query(
+        `
+        INSERT INTO evaluacion_habilidad (correo, id_encuesta, id_habilidad, puntaje)
+        VALUES (:correo, :id_encuesta, :id_habilidad, :puntaje)
+        ON CONFLICT (correo, id_encuesta, id_habilidad)
+        DO UPDATE SET puntaje = EXCLUDED.puntaje
+        `,
+        {
+          replacements: {
+            correo: correo_voluntario,
+            id_encuesta: Number(id_encuesta),
+            id_habilidad,
+            puntaje
+          }
+        }
+      );
     }
+
+    return { tipo };
   },
-  tipo: {
-    type: DataTypes.ENUM('pre', 'post'),
-    allowNull: false,
-    primaryKey: true
+
+  async findAll({ where }) {
+    const [rows] = await sequelize.query(
+      `
+      SELECT eh.id_encuesta, eh.correo, e.version AS tipo, eh.puntaje, h.nombre AS habilidad
+      FROM evaluacion_habilidad eh
+      JOIN encuesta e ON e.id_encuesta = eh.id_encuesta
+      JOIN habilidad h ON h.id_habilidad = eh.id_habilidad
+      WHERE eh.correo = :correo
+      ORDER BY eh.id_encuesta DESC, h.nombre ASC
+      `,
+      { replacements: { correo: where.correo_voluntario } }
+    );
+    return rows;
   },
-  contraseña: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    primaryKey: true
+
+  async findByEmailAndPassword(correo, contrasena) {
+    const [userRows] = await sequelize.query(
+      `SELECT correo FROM usuario WHERE correo = :correo AND codigo_unico = :codigo`,
+      { replacements: { correo, codigo: contrasena } }
+    );
+    if (!userRows?.length) return [];
+    return this.findAll({ where: { correo_voluntario: correo } });
   },
-  resultado: {
-    type: DataTypes.JSONB,
-    allowNull: true
+
+  async findPostByEmail(correo) {
+    const [rows] = await sequelize.query(
+      `
+      SELECT eh.id_encuesta, eh.correo, e.version AS tipo, eh.puntaje, h.nombre AS habilidad
+      FROM evaluacion_habilidad eh
+      JOIN encuesta e ON e.id_encuesta = eh.id_encuesta
+      JOIN habilidad h ON h.id_habilidad = eh.id_habilidad
+      WHERE eh.correo = :correo AND e.version = 'post'
+      ORDER BY eh.id_encuesta DESC, h.nombre ASC
+      `,
+      { replacements: { correo } }
+    );
+    return rows;
   }
-}, {
-  tableName: 'resultados',
-  timestamps: false
-});
-
-// Métodos personalizados
-Resultado.insertarResultadoCalculado = async function(id_encuesta, correo_voluntario, contrasena, resultado) {
-  const query = `
-    SELECT insertar_resultado_calculado(
-      :id_encuesta,
-      :correo_voluntario,
-      :contrasena,
-      :resultado::jsonb
-    )
-  `;
-  
-  await sequelize.query(query, {
-    replacements: {
-      id_encuesta,
-      correo_voluntario,
-      contrasena,
-      resultado: JSON.stringify(resultado)
-    }
-  });
-};
-
-Resultado.findByEmailAndPassword = async function(correo, contrasena) {
-  return await this.findAll({
-    where: {
-      correo_voluntario: correo,
-      contraseña: contrasena
-    }
-  });
-};
-
-// Método modificado: ahora solo requiere el correo
-Resultado.findPostByEmail = async function(correo) {
-  return await this.findAll({
-    where: {
-      correo_voluntario: correo,
-      tipo: 'post'
-    }
-  });
 };
 
 export default Resultado;

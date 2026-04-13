@@ -7,11 +7,11 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
-// Prioridad: DATABASE_URL (local/Docker) > NEONDB_CONNECTION_STRING (Neon) > Postgres local por defecto
+// Prioridad: DATABASE_URL (local/Docker) > NEONDB_CONNECTION_STRING (Neon) > Postgres Docker por defecto
 const connectionString =
   process.env.DATABASE_URL ||
   process.env.NEONDB_CONNECTION_STRING ||
-  'postgresql://encuesta:encuesta@localhost:5432/encuestaelcomite';
+  'postgresql://encuesta:encuesta@localhost:5433/encuestaelcomite';
 
 function shouldUseSsl(urlString) {
   if (process.env.POSTGRES_SSL === 'false' || process.env.POSTGRES_SSL === '0') {

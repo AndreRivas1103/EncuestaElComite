@@ -190,8 +190,7 @@ export const verificarCredenciales = async (req, res) => {
       where: {
         correo_electronico: correo,
         numero_identificacion: identificacion
-      },
-      attributes: ['correo_electronico', 'nombre_completo', 'numero_identificacion']
+      }
     });
 
     if (!voluntario) {
@@ -238,8 +237,8 @@ export const actualizarPostEvento = async (req, res) => {
       });
     }
 
-    // Buscar voluntario por correo (primary key)
-    const voluntario = await Voluntario.findByPk(correo);
+    // Validar existencia del voluntario en el esquema actual
+    const voluntario = await Voluntario.actualizarPostEventoSimple(correo);
     
     if (!voluntario) {
       return res.status(404).json({
@@ -248,16 +247,12 @@ export const actualizarPostEvento = async (req, res) => {
       });
     }
 
-    // Actualizar solo el campo encuesta_post
-    voluntario.encuesta_post = encuesta_post;
-    await voluntario.save();
-
     res.json({
       success: true,
-      message: 'Encuesta post actualizada correctamente',
+      message: 'Encuesta post recibida correctamente',
       data: {
-        correo: voluntario.correo_electronico,
-        camposActualizados: ['encuesta_post']
+        correo,
+        camposActualizados: ['encuesta_post (procesamiento en capa de resultados)']
       }
     });
 

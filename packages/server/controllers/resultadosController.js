@@ -13,7 +13,7 @@ export const guardarResultado = async (req, res) => {
     }
 
     // Insertar usando la función PostgreSQL
-    await Resultado.insertarResultadoCalculado(
+    const saved = await Resultado.insertarResultadoCalculado(
       id_encuesta,
       correo_voluntario,
       contrasena,
@@ -26,7 +26,7 @@ export const guardarResultado = async (req, res) => {
       data: {
         id_encuesta,
         correo_voluntario,
-        tipo: resultado.tipo // 'pre' o 'post' según lo determine la función
+        tipo: saved?.tipo || resultado?.tipo || 'pre'
       }
     });
 
