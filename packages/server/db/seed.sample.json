@@ -1,0 +1,11 @@
+{
+  "coordinador": {
+    "cedula": "DEV-LOCAL-1",
+    "nombre": "Coordinador de prueba",
+    "correo": "coord.local@ejemplo.dev"
+  },
+  "encuesta": {
+    "id": "HB-DEV-LOCAL",
+    "titulo": "Encuesta de demostración (local)"
+  }
+}

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "db:sync": "node db/syncSchema.js",
+    "db:seed": "node db/seed.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

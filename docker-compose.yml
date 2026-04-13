@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: encuesta
+      POSTGRES_PASSWORD: encuesta
+      POSTGRES_DB: encuestaelcomite
+    ports:
+      - "5432:5432"
+    volumes:
+      - encuesta_pgdata:/var/lib/postgresql/data
+
+volumes:
+  encuesta_pgdata:
