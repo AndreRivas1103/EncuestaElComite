@@ -1,19 +1,19 @@
-# Cliente web — Encuesta El Comité (`@encuestaelcomite/client`)
+# Encuesta El Comité (`@encuestaelcomite/client`)
 
 Aplicación **React** que sirve como interfaz pública y de coordinación para el proyecto **Encuesta El Comité** (Go Baby Go): inicio de encuestas pre y post evento, registro de participantes, visualización de resultados y herramientas para coordinadores.
 
-Este paquete forma parte del **monorepo** de la raíz del repositorio (`encuestaelcomite-monorepo`).
+Este paquete forma parte del **monorepo** de la raíz del repositorio (`encuestaelcomite`).
 
 ---
 
-## Qué contiene
+## Contenido
 
 | Ruta | Descripción |
 |------|-------------|
 | `src/main.jsx` | Punto de entrada: monta React en `#root` e importa estilos globales (`index.css`). |
 | `src/App.jsx` | Enrutador principal (`react-router-dom`): define todas las rutas de la SPA. |
-| `src/pages/` | Pantallas por ruta (formularios, encuestas, coordinador, calendario, etc.). Cada página suele importar su CSS desde `pages/styles/`. |
-| `src/components/` | Piezas reutilizables: por ejemplo `Sidebar`, `MigaDePan`, `PageLead`, `PageTransitionShell`. |
+| `src/pages/` | Pantallas por ruta (formularios, encuestas, coordinador, calendario, etc.). Cada página importa su CSS desde `pages/styles/`. |
+| `src/components/` | Piezas utilizadas: `Sidebar`, `MigaDePan`, `PageLead`, `PageTransitionShell`. |
 | `src/hooks/` | Hooks compartidos (p. ej. animación/cierre del sidebar). |
 | `src/assets/` | Imágenes, logos e iconos usados en la UI. |
 | `index.html` | HTML base que carga el bundle de Vite. |
@@ -21,21 +21,6 @@ Este paquete forma parte del **monorepo** de la raíz del repositorio (`encuesta
 
 La salida de producción se genera en **`dist/`** al ejecutar `npm run build`.
 
----
-
-## Características
-
-- **React 19** y **React DOM 19** con componentes funcionales.
-- **Vite 6** como bundler y servidor de desarrollo (HMR rápido).
-- **React Router DOM 6** para navegación en cliente (`BrowserRouter`, rutas anidadas en `App.jsx`).
-- **Axios** para llamadas HTTP al API del backend (en el código actual muchas URLs apuntan a `http://localhost:3000/api/...`).
-- **@coreui/react-pro** / **@coreui/coreui-pro** para partes de la UI de coordinación.
-- **react-datepicker** para fechas en formularios.
-- **react-helmet** para metadatos/título en algunas páginas.
-- Estilos en **CSS** por página o componente (sin Tailwind en este paquete).
-- **ESLint** configurado para el código del cliente (`npm run lint`).
-
----
 
 ## Funcionamiento (flujo general)
 
@@ -49,7 +34,7 @@ El listado canónico de rutas está en **`src/App.jsx`** (`<Routes>`).
 
 ---
 
-## Páginas: qué hace cada una
+## Páginas: 
 
 Ruta | Archivo (`src/pages/`) | Qué hace
 -----|-------------------------|----------
@@ -62,7 +47,7 @@ Ruta | Archivo (`src/pages/`) | Qué hace
 `/info-encuesta/:id` | `Infoencuesta.jsx` | **Detalle de una encuesta** por ID: ver información, editar, eliminar o ir a clonar según las acciones del UI.
 `/clonar-encuesta/:id` | `ClonarEncuesta.jsx` | **Duplicar una encuesta** existente a partir de su ID (formulario y confirmación vía API).
 `/nuevo-evento` | `NuevoEvento.jsx` | **Alta de evento** (fechas, datos del evento) con calendario / formulario para el coordinador.
-`/guardar-pregunta` | `GuardarPreguntas.jsx` | Pantalla de **confirmación** de que las preguntas se guardaron correctamente (mensaje y enlaces para continuar o volver). *Nota: el fichero monta su propio `createRoot`; conviene alinearlo con el resto de rutas en una refactorización.*
+`/guardar-pregunta` | `GuardarPreguntas.jsx` | Pantalla de **confirmación** de que las preguntas se guardaron correctamente (mensaje y enlaces para continuar o volver).
 `/crear-pregunta` | `CrearPregunta.jsx` | **Crear o editar una pregunta** concreta (tipo de respuesta, texto, etc.) dentro del flujo de armado de encuesta.
 `/calendario` | `Calendario.jsx` | **Vista de calendario** ligada a encuestas/eventos: consulta y operaciones sobre fechas e encuestas temporales vía API.
 `/encuestas` | `Encuesta.jsx` | **Vista interactiva de encuesta completa** (categorías, respuestas y resumen de puntuación de demostración) con **sidebar** de coordinador; sirve para revisar el cuestionario como lo vería un participante.
@@ -83,23 +68,8 @@ Ruta | Archivo (`src/pages/`) | Qué hace
 
 ---
 
-## Scripts npm
 
-Desde **`packages/client`** (o con `-w @encuestaelcomite/client` desde la raíz del monorepo):
 
-| Comando | Acción |
-|---------|--------|
-| `npm run dev` | Arranca Vite en modo desarrollo (URL y puerto en consola, habitualmente `5173`). |
-| `npm run build` | Genera la build optimizada en `dist/`. |
-| `npm run preview` | Sirve localmente la build de `dist/` para comprobar producción. |
-| `npm run lint` | Ejecuta ESLint sobre el proyecto. |
-
-En la **raíz del monorepo** suele usarse:
-
-- `npm run dev` — cliente y servidor a la vez (`concurrently`).
-- `npm run dev:client` — solo este paquete.
-
----
 
 ## Requisitos y desarrollo
 
