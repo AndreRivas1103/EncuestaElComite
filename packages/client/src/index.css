@@ -1,3 +1,38 @@
+/* ========== Base responsive (no altera el aspecto en escritorio ancho) ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+#root,
+.app-wrapper,
+.page-transition-shell {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.app-wrapper {
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  max-width: 100%;
+}
+
 /* Tokens globales (sidebar coordinador y páginas con panel lateral) */
 :root {
   /* Un poco más ancho para que el borde y el contenido (#D3EDFF) no dejen franja */
@@ -111,6 +146,41 @@ body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .mi
       var(--sidebar-transition-easing, cubic-bezier(0.4, 0, 0.2, 1));
 }
 
+/*
+ * Móvil / tablet estrecha: el panel es superpuesto (no reduce el ancho de cabecera ni del contenido).
+ * El diseño de escritorio (>768px) sigue usando --sidebar-layout-shift.
+ */
+@media (max-width: 768px) {
+  body:has(.sidebar.visible) header:not(.sidebar-header),
+  body.sidebar-visible header:not(.sidebar-header),
+  body:has(.sidebar.visible)
+    div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+      .categoria-header
+    ),
+  body.sidebar-visible
+    div.header:not(.sidebar-header):not(.encuesta-header):not(.pregunta-header):not(
+      .categoria-header
+    ) {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  body:has(.sidebar.visible) .coordinator-shifted-main,
+  body.sidebar-visible .coordinator-shifted-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  body.sidebar-visible .migadepan-container.with-sidebar,
+  body:has(.sidebar.visible) .migadepan-container.with-sidebar {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.sidebar-panel-closing:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row,
   body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .migadepan-row {
@@ -169,21 +239,44 @@ body.sidebar-panel-closing.sidebar-visible .migadepan-container.with-sidebar .mi
 }
 
 /*
- * Cabecera principal (El Comité + logo): más baja en todas las páginas.
+ * Cabecera principal (marca + logo Baby Go): fila estable en móvil, sin solapes.
  * Excluye cabeceras de encuesta/sidebar para no romper layouts internos.
  */
 div.header:not(.encuesta-header):not(.sidebar-header):not(.pregunta-header):not(
     .categoria-header
   ),
 header.header:not(.encuesta-header):not(.sidebar-header) {
-  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Marca a la izquierda puede encoger; la imagen derecha mantiene proporción */
+div.header:not(.encuesta-header):not(.sidebar-header):not(.pregunta-header):not(
+    .categoria-header
+  )
+  > *:first-child,
+header.header:not(.encuesta-header):not(.sidebar-header) > *:first-child {
+  min-width: 0;
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
 }
 
 div.header:not(.encuesta-header) .header-logo,
 header.header:not(.encuesta-header) .header-logo {
-  width: 100px;
+  flex-shrink: 0;
+  width: clamp(68px, 16vw, 100px);
   max-width: 100%;
-  max-height: 48px;
+  max-height: clamp(34px, 10vw, 48px);
   height: auto;
   object-fit: contain;
 }
@@ -192,14 +285,16 @@ div.header:not(.encuesta-header) .logo,
 header.header:not(.encuesta-header) .logo,
 div.header:not(.encuesta-header) a.logo,
 header.header:not(.encuesta-header) a.logo {
-  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
   line-height: 1.12;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 768px) {
   div.header:not(.encuesta-header) .header-logo,
   header.header:not(.encuesta-header) .header-logo {
-    width: 88px;
+    width: clamp(64px, 22vw, 88px);
     max-height: 42px;
   }
 
@@ -207,6 +302,21 @@ header.header:not(.encuesta-header) a.logo {
   header.header:not(.encuesta-header) .logo,
   div.header:not(.encuesta-header) a.logo,
   header.header:not(.encuesta-header) a.logo {
-    font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+    font-size: clamp(1.05rem, 3.6vw, 1.55rem);
+  }
+}
+
+@media (max-width: 400px) {
+  div.header:not(.encuesta-header) .header-logo,
+  header.header:not(.encuesta-header) .header-logo {
+    width: clamp(56px, 26vw, 76px);
+    max-height: 36px;
+  }
+
+  div.header:not(.encuesta-header) .logo,
+  header.header:not(.encuesta-header) .logo,
+  div.header:not(.encuesta-header) a.logo,
+  header.header:not(.encuesta-header) a.logo {
+    font-size: clamp(0.98rem, 4.2vw, 1.35rem);
   }
 }

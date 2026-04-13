@@ -143,6 +143,22 @@ html {
   padding-top: 15px;
 }
 
+/* Tablet: reduce marcos del bloque principal sin tocar escritorio ancho */
+@media (max-width: 992px) {
+  .firtsColor {
+    margin: clamp(20px, 4vw, 48px) clamp(16px, 3vw, 32px);
+    padding: clamp(48px, 12vw, 120px) clamp(20px, 4vw, 48px);
+  }
+
+  .contenedor-botones {
+    gap: clamp(24px, 6vw, 80px);
+  }
+
+  .title-coordinador {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+  }
+}
+
 @media (max-width: 768px) {
   .app-container .migadepan-container {
     padding: 8px 15px 0;
@@ -173,5 +189,39 @@ html {
 
   .title-coordinador {
     font-size: 40px;
+  }
+}
+
+/* —— Inicio coordinador (JSX): tarjeta y título responsivos sin perder look en escritorio —— */
+.inicio-coordinador-card {
+  width: min(600px, calc(100% - 24px));
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.inicio-coordinador-title {
+  color: #000000;
+  margin: 0 0 1.25rem;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  text-align: center;
+  /* Entre móvil y desktop: escala suave; tope 4rem como antes */
+  font-size: clamp(1.65rem, 2.8vw + 1.05rem, 4rem);
+  line-height: 1.1;
+  letter-spacing: clamp(0.02em, 0.3vw, 0.1em);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 380px) {
+  .inicio-coordinador-title {
+    font-size: clamp(1.45rem, 7vw + 0.5rem, 2.2rem);
+    letter-spacing: 0.02em;
   }
 }

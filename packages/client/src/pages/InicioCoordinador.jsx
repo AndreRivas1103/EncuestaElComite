@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
 import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
+import "../pages/styles/InicioCoordinador.css";
 import MigaDePan from "../components/MigaDePan.jsx";
 import { useSidebarClosing } from "../hooks/useSidebarClosing.js";
 import PageLead from "../components/PageLead.jsx";
@@ -96,17 +97,16 @@ const InicioCoordinadorPrueba = () => {
         content="width=device-width, initial-scale=1.0"
       ></meta>
 
-      <header style={styles.header}>
-        <div style={styles.logo}>
-          <a href="#" className="logo">
-            El Comit<span style={styles.logoSpan}>é</span>
+      <header className="header">
+        <div className="logo">
+          <a href="/inicio-coordinador" className="logo">
+            El Comit<span>é</span>
           </a>
         </div>
         <img
           src={babyLogo}
           alt="Baby Go Logo"
           className="header-logo"
-          style={styles.headerLogo}
         />
       </header>
 
@@ -125,8 +125,8 @@ const InicioCoordinadorPrueba = () => {
       />
 
       <div className="coordinator-shifted-main" style={styles.contentArea}>
-        <div style={styles.mainContent}>
-          <h1 style={styles.titleCoordinador}>Bienvenido Coordinador</h1>
+        <div className="inicio-coordinador-card" style={styles.mainContent}>
+          <h1 className="inicio-coordinador-title">Bienvenido Coordinador</h1>
           <PageLead className="page-lead--center">
             Panel principal para gestionar encuestas, crear eventos y seguir el flujo de trabajo del comité.
           </PageLead>
@@ -152,33 +152,6 @@ const styles = {
     minHeight: "100vh",
     transition: "all 0.3s ease-in-out",
   },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "8px 16px",
-    backgroundColor: "#1E3766" /* Azul corporativo */,
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  logo: {
-    display: "flex",
-    alignItems: "center",
-  },
-  logoLink: {
-    textDecoration: "none",
-    color: "white",
-    fontSize: "20px",
-    fontWeight: "bold",
-    fontFamily: '"Glock", sans-serif',
-  },
-  logoSpan: {
-    color: "#9ecd49" /* Verde corporativo */,
-  },
-  headerLogo: {
-    height: "44px",
-    width: "auto",
-    objectFit: "contain",
-  },
   contentArea: {
     flex: 1,
     display: "flex",
@@ -189,20 +162,9 @@ const styles = {
   },
   mainContent: {
     backgroundColor: "white",
-    padding: "40px",
     borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
     textAlign: "center",
-    width: "80%",
-    maxWidth: "600px",
-  },
-  titleCoordinador: {
-    color: "#00000" /* Azul corporativo */,
-    marginBottom: "20px",
-    fontFamily: "Merriweather",
-    textAlign: "center",
-    fontSize: "4rem",
-    letterspacing: "6px",
   },
   contenedorBotones: {
     display: "flex",

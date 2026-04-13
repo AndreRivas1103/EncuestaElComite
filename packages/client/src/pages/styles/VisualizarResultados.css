@@ -9,20 +9,27 @@
 .header {
   background-color: #1e3766;
   color: white;
-  padding: 8px 16px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .header .logo,
 .header a.logo {
   font-family: "Recoleta", serif;
-  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
   font-weight: 700;
   color: white;
   text-decoration: none;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .header .logo span,
@@ -31,8 +38,9 @@
 }
 
 .header-logo {
-  width: 100px;
-  max-height: 48px;
+  flex-shrink: 0;
+  width: clamp(68px, 16vw, 100px);
+  max-height: clamp(34px, 10vw, 48px);
   height: auto;
   object-fit: contain;
 }
