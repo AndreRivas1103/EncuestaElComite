@@ -1,118 +1,77 @@
-import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
 
-const Voluntario = sequelize.define('Voluntario', {
-  correo_electronico: {
-    type: DataTypes.STRING(255),
-    primaryKey: true,
-    allowNull: false,
-    validate: {
-      isEmail: true,
-      notEmpty: true
-    }
-  },
-  nombre_completo: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      len: [3, 255]
-    }
-  },
-  numero_identificacion: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    unique: true,
-    validate: {
-      notEmpty: true
-    }
-  },
-  encuesta_pre: {
-    type: DataTypes.JSONB,
-    allowNull: true
-  },
-  encuesta_post: {
-    type: DataTypes.JSONB,
-    allowNull: true
-  },
-  id_encuesta: {
-    type: DataTypes.STRING(50),
-    allowNull: true,
-    references: {
-      model: 'encuestas',
-      key: 'id'
-    }
-  },
-  contraseña: {
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    field: 'contraseña', // ✔ permite null
-    validate: {
-      len: [3, 255]  // ✔ solo se valida si hay valor
-    }
-  }
-}, {
-  tableName: 'voluntarios',
-  freezeTableName: true,
-  timestamps: false,
-  underscored: true,
-  paranoid: false
-});
+function rowToVoluntario(row) {
+  if (!row) return null;
+  return {
+    correo_electronico: row.correo,
+    nombre_completo: row.nombre_completo,
+    numero_identificacion: row.identificacion,
+    codigo_unico: row.codigo_unico
+  };
+}
 
-// Método para encontrar por email
-Voluntario.findByEmail = async (email) => {
-  return await Voluntario.findOne({ 
-    where: { correo_electronico: email },
-    attributes: ['correo_electronico', 'nombre_completo', 'numero_identificacion']
-  });
-};
-
-// Método personalizado para crear con validación
-Voluntario.createWithValidation = async (data) => {
-  try {
-    const voluntario = await Voluntario.build(data);
-    await voluntario.validate(); // Ejecuta validaciones definidas en el modelo
-    return await voluntario.save(); // Si todo está bien, guarda en BD
-  } catch (error) {
-    throw error; // Lanza el error para que lo maneje quien llama
-  }
-};
-
-// Relación con modelo Encuesta
-Voluntario.associate = (models) => {
-  Voluntario.belongsTo(models.Encuesta, {
-    foreignKey: 'id_encuesta',
-    as: 'encuesta_relacionada'
-  });
-};
-
-Voluntario.actualizarPreEventoDesdeFuncion = async ({ correo, encuesta_pre, id_encuesta, contraseña }) => {
-  try {
-    return await sequelize.query(
-      `
-      SELECT actualizar_voluntario_pre(
-        :correo,
-        :encuesta_pre::jsonb,
-        :id_encuesta,
-        :contrasena
-      )
-      `,
-      {
-        replacements: {
-          correo,
-          encuesta_pre: JSON.stringify(encuesta_pre),
-          id_encuesta,
-          contrasena: contraseña // ✅ importante: la clave debe coincidir con :contrasena (sin ñ)
-        },
-        type: sequelize.QueryTypes.SELECT
-      }
+const Voluntario = {
+  async findByEmail(email) {
+    const [rows] = await sequelize.query(
+      `SELECT correo, nombre_completo, identificacion, codigo_unico FROM usuario WHERE correo = :correo`,
+      { replacements: { correo: email } }
     );
-  } catch (error) {
-    throw new Error(`Error al ejecutar la función SQL: ${error.message}`);
+    return rowToVoluntario(rows?.[0]);
+  },
+
+  async findOne({ where }) {
+    const [rows] = await sequelize.query(
+      `
+      SELECT correo, nombre_completo, identificacion, codigo_unico
+      FROM usuario
+      WHERE correo = :correo AND identificacion = :identificacion
+      `,
+      { replacements: { correo: where.correo_electronico, identificacion: where.numero_identificacion } }
+    );
+    return rowToVoluntario(rows?.[0]);
+  },
+
+  async findByPk(correo) {
+    return this.findByEmail(correo);
+  },
+
+  async createWithValidation(data) {
+    const correo = data.correo_electronico;
+    const nombre = data.nombre_completo;
+    const identificacion = data.numero_identificacion;
+    await sequelize.query(
+      `
+      INSERT INTO usuario (correo, nombre_completo, identificacion, acepto_terminos)
+      VALUES (:correo, :nombre, :identificacion, true)
+      `,
+      { replacements: { correo, nombre, identificacion } }
+    );
+    return this.findByEmail(correo);
+  },
+
+  async updateAdditionalData(correo, _data) {
+    const [result] = await sequelize.query(
+      `UPDATE usuario SET correo = correo WHERE correo = :correo RETURNING correo`,
+      { replacements: { correo } }
+    );
+    return [result?.length || 0];
+  },
+
+  async actualizarPreEventoDesdeFuncion({ correo, contraseña }) {
+    await sequelize.query(
+      `UPDATE usuario SET codigo_unico = :codigo WHERE correo = :correo`,
+      { replacements: { correo, codigo: contraseña } }
+    );
+    return true;
+  },
+
+  async actualizarPostEventoSimple(correo) {
+    const [rows] = await sequelize.query(
+      `SELECT correo FROM usuario WHERE correo = :correo`,
+      { replacements: { correo } }
+    );
+    return rows?.[0] || null;
   }
 };
-
-
-
 
 export default Voluntario;

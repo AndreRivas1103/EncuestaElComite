@@ -1,0 +1,18 @@
+{
+  "coordinadores": [
+    {
+      "cedula": "DEV-LOCAL-1",
+      "nombre": "Coordinador de prueba",
+      "correo": "coord.local@ejemplo.dev"
+    },
+    {
+      "cedula": "DEV-LOCAL-2",
+      "nombre": "Carolina Estrada",
+      "correo": "carolina.estrada@elcomite.org.co"
+    }
+  ],
+  "encuesta": {
+    "id": "HB-DEV-LOCAL",
+    "titulo": "Encuesta de demostración (local)"
+  }
+}
