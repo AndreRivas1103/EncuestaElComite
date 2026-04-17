@@ -10,6 +10,9 @@ services:
       - "5433:5432"
     volumes:
       - encuesta_pgdata:/var/lib/postgresql/data
-
+  client:
+    image: marcelillo/frontend
+    ports:
+      - "3000:3000"
 volumes:
   encuesta_pgdata:
