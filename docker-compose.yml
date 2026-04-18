@@ -30,5 +30,11 @@ services:
       timeout: 5s
       retries: 10
 
+  client:
+    image: marcelillo/frontend
+    ports:
+      - "3000:3000"
+
+
 volumes:
   encuesta_pgdata:

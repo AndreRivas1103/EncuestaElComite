@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Encuesta El Comité — API",
+    "description": "Backend Express del proyecto. Amplía esquemas y ejemplos según evolucionen los controladores.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Desarrollo local"
+    }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Autenticación coordinador" },
+    { "name": "Encuestas", "description": "CRUD y programación de encuestas" },
+    { "name": "Voluntarios", "description": "Registro y actualización de voluntarios" },
+    { "name": "Resultados", "description": "Respuestas y consultas" }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login coordinador (verificar correo)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Solicitud inválida" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/api/encuestas": {
+      "get": {
+        "tags": ["Encuestas"],
+        "summary": "Listar encuestas",
+        "responses": { "200": { "description": "Lista de encuestas" } }
+      },
+      "post": {
+        "tags": ["Encuestas"],
+        "summary": "Crear encuesta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Creada" }, "400": { "description": "Error validación" } }
+      }
+    },
+    "/api/encuestas/programar": {
+      "post": {
+        "tags": ["Encuestas"],
+        "summary": "Programar encuesta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/encuestas/activa": {
+      "get": {
+        "tags": ["Encuestas"],
+        "summary": "Encuesta activa",
+        "responses": { "200": { "description": "Encuesta activa o vacío" } }
+      }
+    },
+    "/api/encuestas/{id}": {
+      "get": {
+        "tags": ["Encuestas"],
+        "summary": "Obtener encuesta por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "Encuesta" }, "404": { "description": "No encontrada" } }
+      },
+      "put": {
+        "tags": ["Encuestas"],
+        "summary": "Actualizar / programar por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/voluntarios": {
+      "post": {
+        "tags": ["Voluntarios"],
+        "summary": "Registrar voluntario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Registrado" }, "400": { "description": "Error" } }
+      }
+    },
+    "/api/voluntarios/{correo}": {
+      "get": {
+        "tags": ["Resultados"],
+        "summary": "Resultados por correo (GET)",
+        "parameters": [
+          {
+            "name": "correo",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "Resultados" } }
+      },
+      "put": {
+        "tags": ["Voluntarios"],
+        "summary": "Actualizar voluntario por correo",
+        "parameters": [
+          {
+            "name": "correo",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/voluntarios/verificar": {
+      "post": {
+        "tags": ["Voluntarios"],
+        "summary": "Verificar voluntario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/voluntarios/verificar-credenciales": {
+      "post": {
+        "tags": ["Voluntarios"],
+        "summary": "Verificar credenciales",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/voluntarios/actualizar-pre-evento": {
+      "post": {
+        "tags": ["Voluntarios"],
+        "summary": "Actualizar pre-evento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/voluntarios/actualizar-post-evento": {
+      "post": {
+        "tags": ["Voluntarios"],
+        "summary": "Actualizar post-evento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/resultados": {
+      "post": {
+        "tags": ["Resultados"],
+        "summary": "Guardar resultado",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Guardado" } }
+      }
+    },
+    "/api/resultados/credenciales": {
+      "post": {
+        "tags": ["Resultados"],
+        "summary": "Resultados por credenciales",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/resultados/credenciales/post": {
+      "post": {
+        "tags": ["Resultados"],
+        "summary": "Solo resultados post-evento por credenciales",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  }
+}

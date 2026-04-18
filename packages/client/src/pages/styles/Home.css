@@ -71,26 +71,34 @@ html {
 .navbar-coordinador {
   background-color: #1e3766;
   color: white;
-  padding: 8px 16px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .header-logo {
-  width: 100px;
+  flex-shrink: 0;
+  width: clamp(68px, 16vw, 100px);
   height: auto;
   max-width: 100%;
-  max-height: 48px;
+  max-height: clamp(34px, 10vw, 48px);
   object-fit: contain;
 }
 
 .logo {
-  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
   text-decoration: none !important;
   color: white;
   font-family: "Recoleta";
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .logo span {
@@ -105,6 +113,16 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .main-content,
+  .main-contenido,
+  .main-content-coordinador {
+    padding: clamp(14px, 4vw, 22px);
+  }
 }
 
 .firtsColor {
@@ -112,6 +130,14 @@ html {
   margin: 60px;
   padding: 140px;
   position: relative;
+}
+
+/* Tablets y móviles: menos marco; escritorio >992px sin cambios */
+@media (max-width: 992px) {
+  .firtsColor {
+    margin: clamp(16px, 4vw, 40px);
+    padding: clamp(32px, 10vw, 100px) clamp(20px, 5vw, 48px);
+  }
 }
 
 /* ===== TIPOGRAFÍA Y TÍTULOS ===== */
@@ -384,6 +410,11 @@ html {
   .admin-section {
     padding: 15px 10px;
   }
+
+  .firtsColor {
+    margin: 10px 8px;
+    padding: 24px 14px;
+  }
 }
 
 body {
@@ -394,28 +425,36 @@ body {
 
 .header {
   background-color: #1e3766;
-  padding: 8px 16px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   position: relative;
 }
 
 .header-logo {
-  width: 100px;
+  flex-shrink: 0;
+  width: clamp(68px, 16vw, 100px);
   height: auto;
   max-width: 100%;
-  max-height: 48px;
+  max-height: clamp(34px, 10vw, 48px);
   object-fit: contain;
 }
 
 .logo {
-  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
   text-decoration: none;
   color: white;
   font-family: "Recoleta";
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .logo span {

@@ -222,8 +222,8 @@
   
   .react-datepicker {
     width: 100% !important;
-    min-width: 350px !important;
-    max-width: 420px !important;
+    min-width: 0 !important;
+    max-width: min(420px, calc(100vw - 24px)) !important;
   }
   
   .react-datepicker__day {
@@ -254,8 +254,9 @@
 
 @media (max-width: 576px) {
   .react-datepicker {
-    min-width: 300px !important;
-    max-width: 350px !important;
+    min-width: 0 !important;
+    max-width: min(350px, calc(100vw - 24px)) !important;
+    width: 100% !important;
   }
   
   .react-datepicker__day {

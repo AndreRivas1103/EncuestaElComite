@@ -42,11 +42,16 @@ html {
 .header {
   background-color: #1e3766;
   color: white;
-  padding: 8px 16px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   position: relative;
   z-index: 100;
 }
@@ -60,18 +65,21 @@ html {
 }
 
 .header-logo {
-  width: 100px;
+  flex-shrink: 0;
+  width: clamp(68px, 16vw, 100px);
   height: auto;
   max-width: 100%;
-  max-height: 48px;
+  max-height: clamp(34px, 10vw, 48px);
   object-fit: contain;
 }
 
 .logo {
-  font-size: clamp(1.3rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
   text-decoration: none !important;
   color: white;
   font-family: "Recoleta";
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .logo span {
@@ -431,11 +439,13 @@ html {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .sidebar {
-    width: min(82vw, var(--sidebar-width, 306px));
+    width: min(88vw, 320px);
+    max-width: 100%;
   }
 
+  /* Mismo modo overlay que index.css: el contenido no se estrecha */
   .contenido-principal.sidebar-visible {
-    margin-left: min(82vw, var(--sidebar-width, 306px));
+    margin-left: 0;
   }
 
   .cuadro-porcentajes {
@@ -470,11 +480,11 @@ html {
 
 @media (max-width: 480px) {
   .sidebar {
-    width: min(90vw, var(--sidebar-width, 306px));
+    width: min(92vw, 100%);
   }
 
   .contenido-principal.sidebar-visible {
-    margin-left: min(90vw, var(--sidebar-width, 306px));
+    margin-left: 0;
   }
 
   .cuadro-porcentajes {

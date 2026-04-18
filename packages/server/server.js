@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
+import swaggerUi from 'swagger-ui-express';
 import { verificarCorreo } from './controllers/coordinadorController.js';
 import encuestaRoutes from './routes/encuestasRoutes.js';
 import voluntarioRoutes from './routes/voluntarioRoutes.js';
@@ -11,6 +13,9 @@ import resultadoRoutes from './routes/resultadosRoutes.js';
 // Configuración inicial: cargar .env desde la carpeta server (funciona en Linux/Windows)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '.env') });
+const openapiDocument = JSON.parse(
+  readFileSync(path.join(__dirname, 'openapi.json'), 'utf8')
+);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,11 +30,18 @@ app.use(express.json());
 // Conexión a la base de datos
 import './db/connection.js';
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
+app.get('/openapi.json', (req, res) => {
+  res.json(openapiDocument);
+});
+
 // Documentación de endpoints en raíz
 app.get('/', (req, res) => {
   res.json({ 
     status: 'online',
     message: 'Backend del Comité operativo',
+    swagger: 'GET /api-docs',
+    openApiJson: 'GET /openapi.json',
     endpoints: {
       login: 'POST /api/auth/login',
       encuestas: {
@@ -97,6 +109,7 @@ app.listen(PORT, () => {
   console.log(`   - Obtener resultados por correo: GET http://localhost:${PORT}/api/voluntarios/:correo/resultados`);
   console.log(`   - Obtener resultados por credenciales: POST http://localhost:${PORT}/api/resultados/credenciales`);
   console.log(`   - Obtener SOLO resultados POST: POST http://localhost:${PORT}/api/resultados/credenciales/post`);
-  console.log(`\n📚 Documentación completa disponible en: http://localhost:${PORT}`);
+  console.log(`\n📚 Swagger UI: http://localhost:${PORT}/api-docs`);
+  console.log(`📄 OpenAPI JSON: http://localhost:${PORT}/openapi.json`);
   console.log(`Proyecto ElComité 🙊`);
 });

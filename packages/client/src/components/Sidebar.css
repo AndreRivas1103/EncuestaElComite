@@ -220,31 +220,99 @@
   margin: 0.65rem 0 0.85rem;
 }
 
-/* Responsive */
+/* —— Responsive: tablet / móvil (escritorio >768px sin cambios) —— */
 @media (max-width: 768px) {
   .sidebar {
-    width: min(82vw, var(--sidebar-width, 306px));
-    padding: 1.35rem 1.1rem 1.65rem;
+    width: min(88vw, 320px);
+    max-width: 100%;
+    height: 100dvh;
+    min-height: 100vh;
+    padding: max(0.75rem, env(safe-area-inset-top, 0px))
+      max(0.85rem, env(safe-area-inset-right, 0px))
+      max(1rem, env(safe-area-inset-bottom, 0px))
+      max(0.85rem, env(safe-area-inset-left, 0px));
+    /* Fuera de pantalla aunque el ancho del panel cambie */
+    left: calc(-100vw - 24px);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar.visible {
+    left: 0;
+    box-shadow: 6px 0 28px rgba(15, 35, 70, 0.22);
   }
 
   .sidebar-header {
-    padding: 1rem 2.5rem 1rem 0;
+    padding: 0.5rem 3rem 0.75rem 0;
     margin-top: 0;
+    align-items: flex-start;
   }
 
   .sidebar-nav {
-    padding-top: 0.25rem;
+    padding-top: 0.35rem;
+    gap: 0.35rem;
   }
 
-  .nav-label,
   .user-info {
-    display: none;
+    display: block;
+    min-width: 0;
+  }
+
+  .user-info h3 {
+    font-size: clamp(0.92rem, 3.4vw, 1.05rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user-info p {
+    font-size: clamp(0.72rem, 2.8vw, 0.82rem);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .nav-label {
+    display: inline;
+    font-size: clamp(0.85rem, 2.9vw, 0.95rem);
+  }
+
+  .nav-item {
+    min-height: 44px;
+    padding: 0.65rem 0.85rem;
+    align-items: center;
+  }
+
+  .nav-icon {
+    margin-right: 0.65rem;
+    font-size: 1.2rem;
   }
 
   .avatar {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.05rem;
+  }
+
+  .sidebar-close-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1.45rem;
+    top: max(0.5rem, env(safe-area-inset-top, 0px));
+    right: max(0.5rem, env(safe-area-inset-right, 0px));
+  }
+
+  .logout-item {
+    margin-top: 0.75rem;
+    padding-top: 0.85rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .sidebar {
+    width: min(92vw, 100%);
   }
 }
 /* Estilos generales de la aplicación */

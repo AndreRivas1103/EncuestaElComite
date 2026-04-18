@@ -6,10 +6,16 @@
 
 .header {
   background-color: #1e3766;
-  padding: 8px 16px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 3vw, 20px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .terminos-container {

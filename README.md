@@ -131,6 +131,20 @@ npm install
 
 ## Ejecución
 
+**Requisitos:** Node.js ≥ 18 y una instancia de **PostgreSQL** a la que pueda conectarse el backend.
+
+**Primera vez (después de `npm install`):** levanta la base si usas Docker en la raíz del repo (`docker-compose.yml` expone el puerto **5433**), crea las tablas y, si quieres datos de prueba, ejecuta el seed. El servidor usa por defecto `postgresql://encuesta:encuesta@localhost:5433/encuestaelcomite`; si tu base es otra, configura `DATABASE_URL` en `packages/server/.env`.
+
+```bash
+docker compose up -d
+npm run db:migrate:diagram -w @encuestaelcomite/server
+npm run db:seed -w @encuestaelcomite/server
+```
+
+`db:migrate:diagram` **elimina y vuelve a crear** el esquema; úsalo solo cuando aceptes perder los datos de esa base (por ejemplo en local). El seed deja coordinadores de prueba listos para `POST /api/auth/login` (ver salida del comando).
+
+**Día a día:** con la base ya creada y el backend apuntando a ella:
+
 ```bash
 # Ejecutar cliente y servidor simultáneamente
 npm run dev
@@ -142,6 +156,8 @@ npm run dev:client
 npm run dev:server
 ```
 
+El frontend (Vite) suele quedar en **http://localhost:5173** y el API en **http://localhost:3000**. Si ves `EADDRINUSE` en el puerto 3000, cierra la otra instancia del servidor o define otro `PORT` en `packages/server/.env`.
+
 ## Scripts Disponibles
 
 | Script | Descripción |
@@ -149,6 +165,8 @@ npm run dev:server
 | `npm run dev` | Ejecuta cliente y servidor en paralelo |
 | `npm run dev:client` | Ejecuta solo el frontend |
 | `npm run dev:server` | Ejecuta solo el backend |
+| `npm run db:migrate:diagram -w @encuestaelcomite/server` | Recrea el esquema PostgreSQL según el diagrama (borra datos de ese esquema) |
+| `npm run db:seed -w @encuestaelcomite/server` | Inserta datos iniciales / de prueba (requiere esquema ya migrado) |
 | `npm run build` | Compila el cliente para producción |
 | `npm run start:server` | Inicia el servidor en producción |
 | `npm run lint` | Ejecuta el linter en el cliente |
