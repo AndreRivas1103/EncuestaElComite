@@ -31,7 +31,15 @@ services:
       retries: 10
 
   client:
-    image: marcelillo/frontend
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+    image: encuestaelcomite-client:latest
+    restart: unless-stopped
+    environment:
+      VITE_API_ORIGIN: http://localhost:3010
+    depends_on:
+      - back
     ports:
       - "3000:3000"
 
