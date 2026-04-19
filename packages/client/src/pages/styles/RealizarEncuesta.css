@@ -24,6 +24,10 @@ html, body {
 
 .main-contenido2 {
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: 20px;
   margin-top: 40px; /* Más espacio arriba del contenido */
 
@@ -35,6 +39,10 @@ html, body {
 .encuesta-page-container {
   min-height: 100vh;
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: 0;
   padding: 0;
   width: 100%;

@@ -1,6 +1,10 @@
 .registro-page-container {
   min-height: 100vh;
   background: #D3EDFF;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;

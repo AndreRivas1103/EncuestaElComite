@@ -20,6 +20,10 @@
 
 .terminos-container {
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   flex: 1;
   position: relative;
   padding: 20px;

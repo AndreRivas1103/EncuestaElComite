@@ -28,6 +28,10 @@ html {
   margin: 0;
   padding: 0;
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: "Yeseva", sans-serif;
 }
 
@@ -324,6 +328,10 @@ html {
   justify-content: center;
   align-items: center;
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   flex-grow: 1;
   min-height: calc(100vh - 120px);
   transition: margin-left var(--sidebar-transition-duration, 0.42s)

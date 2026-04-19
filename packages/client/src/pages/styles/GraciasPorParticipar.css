@@ -10,6 +10,10 @@
 .gracias-container {
   min-height: 100vh;
   background: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: "Roboto", Arial, sans-serif;
   margin: 0;
   padding: 0;

@@ -109,12 +109,21 @@ html {
 .main-contenido,
 .main-content-coordinador {
   padding: 25px;
-  background-color: white;
+  background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* Excepción: en la página inicial se conserva el estilo propio del hero */
+.home-container .main-contenido {
+  background: transparent;
 }
 
 @media (max-width: 768px) {

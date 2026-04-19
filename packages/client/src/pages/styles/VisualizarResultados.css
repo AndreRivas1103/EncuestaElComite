@@ -60,6 +60,10 @@
   width: 100%;
   max-width: 900px;
   background-color: #d3edff;
+  background-image: url("../../assets/FondoAzul2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);

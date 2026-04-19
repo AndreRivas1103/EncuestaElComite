@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
+import fondoAzul from "../assets/FondoAzul2.png";
 import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
 import "../pages/styles/InicioCoordinador.css";
@@ -158,7 +159,11 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
-    backgroundColor: "#d3edff" /* Fondo azul claro */,
+    backgroundColor: "#d3edff",
+    backgroundImage: `url(${fondoAzul})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
   },
   mainContent: {
     backgroundColor: "white",
