@@ -1,4 +1,18 @@
 services:
+  back:
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile
+    image: encuestaelcomite-back:latest
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgresql://encuesta:encuesta@db:5432/encuestaelcomite
+    ports:
+      - "3010:3000"
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: postgres:16-alpine
     restart: unless-stopped
@@ -10,9 +24,17 @@ services:
       - "5433:5432"
     volumes:
       - encuesta_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U encuesta -d encuestaelcomite"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   client:
     image: marcelillo/frontend
     ports:
       - "3000:3000"
+
+
 volumes:
   encuesta_pgdata:
