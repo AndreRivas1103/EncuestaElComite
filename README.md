@@ -129,43 +129,133 @@ Proyecto-ElComite-GoBabyGo/
 npm install
 ```
 
-## Ejecución
+## Correr el proyecto por primera vez
 
-**Requisitos:** Node.js ≥ 18 y una instancia de **PostgreSQL** a la que pueda conectarse el backend.
+### Requisitos
 
-**Primera vez (después de `npm install`):** levanta la base si usas Docker en la raíz del repo (`docker-compose.yml` expone el puerto **5433**), crea las tablas y, si quieres datos de prueba, ejecuta el seed. El servidor usa por defecto `postgresql://encuesta:encuesta@localhost:5433/encuestaelcomite`; si tu base es otra, configura `DATABASE_URL` en `packages/server/.env`.
+- Node.js **>= 18**
+- Docker Desktop (si usarás contenedores)
+
+---
+
+### Opción A (recomendada): Todo con Docker
+
+Esta opción levanta **frontend + backend + PostgreSQL** desde `docker-compose.yml`.
+
+1. Levanta contenedores:
 
 ```bash
 docker compose up -d
+```
+
+2. Crea esquema y datos iniciales (primera vez):
+
+```bash
+docker compose exec back npm run db:migrate:diagram -w @encuestaelcomite/server
+docker compose exec back npm run db:seed -w @encuestaelcomite/server
+```
+
+3. Abre el sistema:
+
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:3010`
+- Swagger: `http://localhost:3010/api-docs`
+
+> Nota: `db:migrate:diagram` **borra y recrea** tablas del esquema actual.
+
+---
+
+### Opción B: Desarrollo local (sin Docker para frontend/backend)
+
+Puedes usar Docker solo para la base de datos y correr app en local:
+
+1. Levanta solo PostgreSQL:
+
+```bash
+docker compose up -d db
+```
+
+2. Crea esquema y seed:
+
+```bash
 npm run db:migrate:diagram -w @encuestaelcomite/server
 npm run db:seed -w @encuestaelcomite/server
 ```
 
-`db:migrate:diagram` **elimina y vuelve a crear** el esquema; úsalo solo cuando aceptes perder los datos de esa base (por ejemplo en local). El seed deja coordinadores de prueba listos para `POST /api/auth/login` (ver salida del comando).
-
-**Día a día:** con la base ya creada y el backend apuntando a ella:
+3. Levanta frontend + backend:
 
 ```bash
-# Ejecutar cliente y servidor simultáneamente
 npm run dev
-
-# Ejecutar solo el cliente(Frontend)
-npm run dev:client
-
-# Ejecutar solo el servidor(Backend)
-npm run dev:server
 ```
 
-El frontend (Vite) suele quedar en **http://localhost:5173** y el API en **http://localhost:3000**. Si ves `EADDRINUSE` en el puerto 3000, cierra la otra instancia del servidor o define otro `PORT` en `packages/server/.env`.
+Queda normalmente en:
+
+- Frontend (Vite): `http://localhost:5173`
+- Backend (Node): `http://localhost:3000`
+
+---
+
+## Cuando NO es la primera vez
+
+### Si trabajas con Docker
+
+Para el día a día, normalmente solo necesitas levantar contenedores:
+
+```bash
+docker compose up -d
+```
+
+Luego abres:
+
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:3010`
+
+Solo ejecuta migración/seed otra vez si realmente quieres recrear datos:
+
+```bash
+docker compose exec back npm run db:migrate:diagram -w @encuestaelcomite/server
+docker compose exec back npm run db:seed -w @encuestaelcomite/server
+```
+
+### Si trabajas en modo local
+
+Con la base ya creada, en el día a día solo levantas servicios:
+
+```bash
+docker compose up -d db
+npm run dev
+```
+
+Si prefieres por separado:
+
+```bash
+npm run dev:server
+npm run dev:client
+```
+
+---
+
+### Comandos útiles Docker
+
+```bash
+# Ver logs
+docker compose logs -f
+
+# Parar contenedores
+docker compose down
+
+# Parar y borrar volumen de BD (reseteo total)
+docker compose down -v
+```
 
 ## Scripts Disponibles
 
 | Script | Descripción |
 |--------|-------------|
-| `npm run dev` | Ejecuta cliente y servidor en paralelo |
+| `npm run dev` | Ejecuta cliente y servidor en paralelo (modo local) |
 | `npm run dev:client` | Ejecuta solo el frontend |
 | `npm run dev:server` | Ejecuta solo el backend |
-| `npm run db:migrate:diagram -w @encuestaelcomite/server` | Recrea el esquema PostgreSQL según el diagrama (borra datos de ese esquema) |
+| `npm run db:migrate:diagram -w @encuestaelcomite/server` | Recrea el esquema PostgreSQL según el diagrama (borra datos del esquema) |
 | `npm run db:seed -w @encuestaelcomite/server` | Inserta datos iniciales / de prueba (requiere esquema ya migrado) |
 | `npm run build` | Compila el cliente para producción |
 | `npm run start:server` | Inicia el servidor en producción |
