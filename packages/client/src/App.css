@@ -13,14 +13,26 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
+  z-index: 1;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: transparent;
   min-height: 100vh; 
   transition: margin-left 0.3s ease-in-out;
+}
+
+/* Imagen de fondo por ruta (ver RouteBackground.jsx + routeFondoOverrides.css) */
+.route-background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 body.sidebar-visible {
