@@ -129,6 +129,18 @@ Proyecto-ElComite-GoBabyGo/
 npm install
 ```
 
+## Qué descargar antes de ejecutar el proyecto
+
+Para que el proyecto funcione, instala esto en tu computador:
+
+- **Node.js 18 o superior** (incluye `npm`): [https://nodejs.org/](https://nodejs.org/)
+- **Git** (para clonar el repositorio): [https://git-scm.com/downloads](https://git-scm.com/downloads)
+- **Docker Desktop** (opcional, pero recomendado para correr todo con contenedores): [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+
+Si vas a usar la opción local sin Docker completo:
+
+- Necesitas tener PostgreSQL disponible (puede ser con `docker compose up -d db` como se explica más abajo).
+
 ## Correr el proyecto por primera vez
 
 ### Requisitos
