@@ -30,7 +30,8 @@ const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }
         <img src={babyLogo} alt="Baby Go Logo" className="header-logo" />
       </header>
 
-      <div className='firtsColor'>
+      <div className="page-content-area">
+      <div className="firtsColor page-card--wide">
         <div className="preview-container">
           <h1 className='preview-title'>Previsualización de Encuesta</h1>
           <PageLead className="page-lead--center">
@@ -82,6 +83,7 @@ const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

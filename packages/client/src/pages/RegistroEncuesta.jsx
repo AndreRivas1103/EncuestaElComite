@@ -8,6 +8,7 @@ import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import PageLead from '../components/PageLead.jsx';
 import axios from 'axios';
+import { toast } from '../lib/toast.js';
 
 const RegistroEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -22,6 +23,7 @@ const RegistroEncuesta = () => {
         setEncuestas(response.data.data);
       } catch (error) {
         console.error('Error al cargar encuestas:', error);
+        toast.error('No se pudieron cargar las encuestas');
       } finally {
         setCargando(false);
       }
@@ -112,7 +114,8 @@ const RegistroEncuesta = () => {
         onClose={() => setSidebarVisible(false)}
       />
 
-<div className="registro-encuesta-contenedor">
+<div className="page-content-area">
+<div className="registro-encuesta-contenedor page-card page-card--wide">
   <h1 className="title-large">Registro de encuesta</h1>
   <PageLead>
     Consulta y administra las encuestas creadas: revisa datos, duplica plantillas o entra al detalle de cada una.
@@ -144,6 +147,7 @@ const RegistroEncuesta = () => {
       </button>
     </div>
   )}
+</div>
 </div>
 
     </div>

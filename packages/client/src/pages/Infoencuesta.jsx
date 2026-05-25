@@ -7,6 +7,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import PageLead from '../components/PageLead.jsx';
+import { toast } from '../lib/toast.js';
 
 const InfoEncuesta = () => {
   const { id } = useParams();
@@ -145,11 +146,13 @@ const renderDatosEncuesta = () => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta encuesta?')) {
       try {
         await axios.delete(`http://localhost:3000/api/encuestas/${id}`);
-        alert('Encuesta eliminada correctamente');
+        toast.success('Encuesta eliminada correctamente');
         navigate('/registro-encuestas');
       } catch (error) {
         console.error('Error al eliminar la encuesta:', error);
-        setError('Error al eliminar la encuesta');
+        const msg = 'Error al eliminar la encuesta';
+        setError(msg);
+        toast.error(msg);
       }
     }
   };

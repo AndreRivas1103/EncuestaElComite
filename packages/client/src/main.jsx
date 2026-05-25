@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import axios from 'axios'
 import App from './App'
 import './index.css'
+import './styles/page-surface.css'
 
 const apiOrigin = import.meta.env.VITE_API_ORIGIN || 'http://localhost:3010'
 

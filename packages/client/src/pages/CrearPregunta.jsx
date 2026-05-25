@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import ReactDOM from 'react-dom/client';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import '../components/Sidebar.css';
+import { toast } from '../lib/toast.js';
 import '../pages/styles/Home.css';
 import '../pages/styles/CreacionPreguntas.css';
 import '../pages/styles/PreviewEncuesta.css';
+import '../pages/styles/survey-builder.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
 import PageLead from '../components/PageLead.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Función para generar letras (A, B, C, D, E, F, ...)
 const obtenerLetraOpcion = (index) => {
@@ -22,46 +22,20 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
   const navigate = useNavigate();
 
   return (
-    <div className='firtsColor' style={{ minHeight: '100vh', padding: '20px 0' }}>
-      <div style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '0 20px'
-      }}>
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '30px',
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}>
-          <h1 style={{
-            fontSize: '32px',
-            color: '#1e3766',
-            marginBottom: '10px',
-            fontWeight: 'bold'
-          }}>Encuesta de Habilidades Blandas</h1>
+    <div className="page-content-area survey-preview-surface">
+      <div className="survey-builder" style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div className="page-card survey-builder__hero">
+          <h1 className="title-large" style={{ marginBottom: '0.5rem' }}>Encuesta de Habilidades Blandas</h1>
           <PageLead className="page-lead--center page-lead--tight">
             Vista previa de cómo verán los participantes las categorías y preguntas antes de publicar.
           </PageLead>
-          <h2 style={{
-            fontSize: '20px',
-            color: '#73A31D',
-            margin: '0',
-            fontWeight: '600'
-          }}>ID: {idEncuesta}</h2>
+          <p style={{ fontSize: '1.1rem', color: '#73A31D', fontWeight: 600, margin: '0.5rem 0 0' }}>
+            ID: {idEncuesta}
+          </p>
         </div>
 
         {categoriasConPreguntas.map((categoria, index) => (
-          <div key={index} style={{
-            marginBottom: '30px',
-            backgroundColor: 'white',
-            border: '1px solid #e0e0e0',
-            borderRadius: '12px',
-            padding: '25px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-          }}>
+          <div key={index} className="page-card" style={{ marginBottom: '1.25rem' }}>
             <h2 style={{
               fontSize: '24px',
               color: '#1e3766',
@@ -159,13 +133,7 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
           </div>
         ))}
 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '20px',
-          marginTop: '40px',
-          padding: '20px'
-        }}>
+        <div className="page-card survey-builder__actions">
           <button 
             onClick={onVolverEdicion} 
             style={{
@@ -225,6 +193,27 @@ const PreviewEncuesta = ({ idEncuesta, categoriasConPreguntas, onVolverEdicion, 
   );
 };
 
+const SurveySteps = ({ activeStep }) => {
+  const steps = [
+    { id: 1, label: 'Identificación' },
+    { id: 2, label: 'Categorías' },
+    { id: 3, label: 'Preguntas' },
+  ];
+  return (
+    <ol className="survey-steps" aria-label="Pasos del constructor">
+      {steps.map((step) => (
+        <li
+          key={step.id}
+          className={`survey-steps__item ${activeStep >= step.id ? 'survey-steps__item--active' : ''}`}
+        >
+          <span className="survey-steps__dot">{step.id}</span>
+          {step.label}
+        </li>
+      ))}
+    </ol>
+  );
+};
+
 const CrearPregunta = () => {
   const [categoriasDisponibles] = useState([
     'Liderazgo',
@@ -247,6 +236,10 @@ const CrearPregunta = () => {
   const [preguntasAnimando, setPreguntasAnimando] = useState(new Set());
   const navigate = useNavigate();
   const location = useLocation();
+  const [categoriesListRef] = useAutoAnimate({ duration: 280, easing: 'ease-out' });
+
+  const builderStep =
+    !idEncuesta.trim() ? 1 : categoriasConPreguntas.length === 0 ? 2 : 3;
 
   const user = {
     name: localStorage.getItem('userName') || "Usuario",
@@ -421,65 +414,67 @@ const CrearPregunta = () => {
   };
 
   const validarEncuesta = () => {
+    const mostrarError = (mensaje) => {
+      toast.error(mensaje, { duration: 5000 });
+      return false;
+    };
+
     if (!idEncuesta.trim()) {
-      alert("❌ Error: Por favor ingresa un ID para la encuesta");
-      return false;
+      return mostrarError('Ingresa un ID para la encuesta');
     }
-    
+
     if (categoriasConPreguntas.length === 0) {
-      alert("❌ Error: Debes agregar al menos una categoría con preguntas");
-      return false;
+      return mostrarError('Agrega al menos una categoría con preguntas');
     }
-    
-    // Validación detallada pregunta por pregunta
+
     for (let categoriaIndex = 0; categoriaIndex < categoriasConPreguntas.length; categoriaIndex++) {
       const categoria = categoriasConPreguntas[categoriaIndex];
-      
+
       if (categoria.preguntas.length === 0) {
-        alert(`❌ Error: La categoría "${categoria.nombre}" no tiene preguntas. Agrega al menos una pregunta.`);
-        return false;
+        return mostrarError(`La categoría "${categoria.nombre}" no tiene preguntas`);
       }
-      
+
       for (let preguntaIndex = 0; preguntaIndex < categoria.preguntas.length; preguntaIndex++) {
         const pregunta = categoria.preguntas[preguntaIndex];
         const numeroPregunta = preguntaIndex + 1;
-        
-        // Validar que tenga texto
+
         if (!pregunta.texto.trim()) {
-          alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" no tiene texto. Por favor escriba la pregunta.`);
-          return false;
-        }
-        
-        // Validaciones específicas para preguntas de opción múltiple
-        if (pregunta.tipoRespuesta === 'multiple') {
-          const opcionesConTexto = pregunta.opciones.filter(op => op.trim() !== '');
-          
-          // Validar que tenga al menos 2 opciones
-          if (opcionesConTexto.length < 2) {
-            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" necesita al menos 2 opciones. Actualmente tiene ${opcionesConTexto.length}.`);
-            return false;
-          }
-          
-          // Validar que tenga al menos una respuesta correcta
-          if (pregunta.respuestasCorrectas.length === 0) {
-            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" no tiene ninguna respuesta marcada como correcta. Por favor marca al menos una opción como correcta.`);
-            return false;
-          }
-          
-          // Validar que las respuestas correctas correspondan a opciones con texto
-          const respuestasIncorrectas = pregunta.respuestasCorrectas.filter(index => 
-            !pregunta.opciones[index] || pregunta.opciones[index].trim() === ''
+          return mostrarError(
+            `Pregunta ${numeroPregunta} en "${categoria.nombre}": falta el texto de la pregunta`
           );
-          
+        }
+
+        if (pregunta.tipoRespuesta === 'multiple') {
+          const opcionesConTexto = pregunta.opciones.filter((op) => op.trim() !== '');
+
+          if (opcionesConTexto.length < 2) {
+            return mostrarError(
+              `Pregunta ${numeroPregunta} en "${categoria.nombre}": necesita al menos 2 opciones`
+            );
+          }
+
+          if (pregunta.respuestasCorrectas.length === 0) {
+            return mostrarError(
+              `Pregunta ${numeroPregunta} en "${categoria.nombre}": marca al menos una opción correcta`
+            );
+          }
+
+          const respuestasIncorrectas = pregunta.respuestasCorrectas.filter(
+            (index) => !pregunta.opciones[index] || pregunta.opciones[index].trim() === ''
+          );
+
           if (respuestasIncorrectas.length > 0) {
-            const opcionesVacias = respuestasIncorrectas.map(index => obtenerLetraOpcion(index)).join(', ');
-            alert(`❌ Error: La Pregunta ${numeroPregunta} de la categoría "${categoria.nombre}" tiene opciones marcadas como correctas pero sin texto: ${opcionesVacias}. Complete el texto o desmarque estas opciones.`);
-            return false;
+            const opcionesVacias = respuestasIncorrectas
+              .map((index) => obtenerLetraOpcion(index))
+              .join(', ');
+            return mostrarError(
+              `Pregunta ${numeroPregunta} en "${categoria.nombre}": opciones correctas sin texto (${opcionesVacias})`
+            );
           }
         }
       }
     }
-    
+
     return true;
   };
 
@@ -503,10 +498,13 @@ const CrearPregunta = () => {
       console.log("[DEBUG] Simulación de guardado sin API");
       console.log("[DEBUG] Encuesta guardada:", encuestaData);
       localStorage.setItem('encuestaTemporal', JSON.stringify(encuestaData));
+      toast.success('Borrador guardado correctamente');
       return true;
     } catch (error) {
       console.error('Error al guardar encuesta:', error);
-      setError('No se pudo guardar la encuesta.');
+      const msg = 'No se pudo guardar la encuesta.';
+      setError(msg);
+      toast.error(msg);
       return false;
     }
   };
@@ -577,138 +575,71 @@ const CrearPregunta = () => {
       </div>
 
       {!mostrarPreview ? (
-        <div className='firtsColor'>
-          {/* Mensaje informativo cuando se viene del calendario */}
+        <div className="page-content-area">
+          <div className="survey-builder">
           {location.state?.volviendoDeCalendario && (
-            <div style={{
-              maxWidth: '900px',
-              margin: '0 auto 20px',
-              padding: '15px 20px',
-              backgroundColor: '#e8f5e9',
-              border: '1px solid #c8e6c9',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <span style={{ fontSize: '20px' }}>ℹ️</span>
-              <div style={{ fontSize: '14px', color: '#2e7d32', fontWeight: '500' }}>
+            <div className="survey-builder__hint">
+              <span aria-hidden>ℹ️</span>
+              <span>
                 Estás editando la encuesta que creaste anteriormente. Puedes modificar cualquier aspecto y luego volver al calendario para programar las fechas.
-              </div>
+              </span>
             </div>
           )}
 
-          <div>
-            <h1 className='title-large' style={{ textAlign: 'center' }}>Encuesta de Habilidades Blandas</h1>
+          <section className="page-card survey-builder__hero page-card--wide">
+            <h1 className="title-large">Encuesta de Habilidades Blandas</h1>
             <PageLead className="page-lead--center page-lead--tight">
               Define categorías, preguntas y opciones; guarda o continúa hacia la vista previa y publicación.
             </PageLead>
-          </div>
+            <SurveySteps activeStep={builderStep} />
+          </section>
 
-          <div className='selector-categoria' style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            margin: '20px 0',
-            textAlign: 'center'
-          }}>
-            <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>ID de la encuesta:</h2>
-            <input
-              type="text"
-              className='campo-pregunta'
-              value={idEncuesta}
-              onChange={(e) => setIdEncuesta(e.target.value)}
-              placeholder="Ej: HB-2023-1"
-              style={{ width: '400px' }}
-              required
-            />
-          </div>
+          <section className="page-card survey-builder__panel page-card--wide">
+            <h2 className="survey-builder__panel-title">ID de la encuesta</h2>
+            <div className="survey-builder__field-row">
+              <input
+                type="text"
+                className="campo-pregunta"
+                value={idEncuesta}
+                onChange={(e) => setIdEncuesta(e.target.value)}
+                placeholder="Ej: HB-2023-1"
+                required
+              />
+            </div>
+          </section>
 
-          <div className='selector-categoria' style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            margin: '20px 0 40px',
-            textAlign: 'center',
-          }}>
-            <h2 className='texto2' style={{ textAlign: 'center', marginLeft: '0' }}>Seleccione una categoría:</h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <section className="page-card survey-builder__panel page-card--wide">
+            <h2 className="survey-builder__panel-title">Agregar categoría</h2>
+            <div className="survey-builder__category-row">
               <select
                 value={categoriaSeleccionada}
                 onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-                className='campo-pregunta'
-                style={{ width: '400px' }}
+                className="campo-pregunta"
               >
                 <option value="">Seleccionar...</option>
                 {categoriasDisponibles
-                  .filter(cat => !categoriasConPreguntas.some(c => c.nombre === cat))
+                  .filter((cat) => !categoriasConPreguntas.some((c) => c.nombre === cat))
                   .map((categoria, index) => (
                     <option key={index} value={categoria}>{categoria}</option>
                   ))}
               </select>
-
               {categoriaSeleccionada && (
-                <button 
-                  onClick={agregarCategoria}
-                  className='btn-pequeno'
-                  style={{
-                    backgroundColor: '#73a31d',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    padding: '8px 16px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease',
-                    fontFamily: 'Roboto'
-                  }}
-                  onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
-                  onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
-                >
-                  Agregar categoría
+                <button type="button" onClick={agregarCategoria} className="survey-builder__btn-add">
+                  + Agregar categoría
                 </button>
               )}
             </div>
-          </div>
+          </section>
 
+          <div ref={categoriesListRef}>
           {categoriasConPreguntas.map((categoria, categoriaIndex) => (
-            <div key={categoriaIndex} className='categoria-container' style={{ 
-              margin: '0 auto 40px',
-              border: '2px solid #1e3766',
-              borderRadius: '10px',
-              padding: '20px',
-              maxWidth: '900px',
-              backgroundColor: '#f8f9fa'
-            }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                marginBottom: '20px',
-                paddingBottom: '10px',
-                borderBottom: '1px solid #ddd'
-              }}>
-                <h2 style={{ 
-                  fontSize: '24px', 
-                  color: '#1e3766',
-                  margin: 0
-                }}>
-                  Categoría: {categoria.nombre}
-                </h2>
-                <button 
+            <div key={categoriaIndex} className="survey-builder__category-block page-card page-card--wide categoria-container">
+              <div className="survey-builder__category-header">
+                <h2>Categoría: {categoria.nombre}</h2>
+                <button
+                  type="button"
                   onClick={() => eliminarCategoria(categoriaIndex)}
-                  className='btn-eliminar'
-                  style={{
-                    background: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    padding: '5px 10px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'}
-                  onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
+                  className="btn-eliminar"
                 >
                   Eliminar categoría
                 </button>
@@ -719,25 +650,10 @@ const CrearPregunta = () => {
                 const estaAnimando = preguntasAnimando.has(preguntaId);
                 
                 return (
-                <div key={preguntaIndex} className="pregunta-container" style={{ 
-                  marginBottom: '30px',
-                  padding: '15px',
-                  backgroundColor: 'white',
-                  borderRadius: '5px',
-                  border: '1px solid #ddd',
-                  position: 'relative',
-                  // Estilos de animación
-                  transform: estaAnimando ? 'scale(1.02) translateY(-5px)' : 'scale(1) translateY(0)',
-                  opacity: estaAnimando ? 1 : 1,
-                  boxShadow: estaAnimando ? 
-                    '0 10px 25px rgba(115, 163, 29, 0.3), 0 0 0 3px rgba(115, 163, 29, 0.1)' : 
-                    '0 2px 8px rgba(0,0,0,0.1)',
-                  transition: 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                  animation: estaAnimando ? 'bounceIn 0.8s ease-out' : 'none',
-                  background: estaAnimando ? 
-                    'linear-gradient(145deg, #ffffff 0%, #f8fff8 50%, #ffffff 100%)' : 
-                    'white'
-                }}>
+                <div
+                  key={preguntaIndex}
+                  className={`survey-builder__pregunta pregunta-container ${estaAnimando ? 'pregunta-nueva' : ''}`}
+                >
                   <button
                     onClick={() => eliminarPregunta(categoriaIndex, preguntaIndex)}
                     style={{
@@ -785,14 +701,9 @@ const CrearPregunta = () => {
                       marginLeft: '0'
                     }}>
                       
-                      {/* Opción múltiple */}
-                      <div style={{
-                        padding: '15px',
-                        border: pregunta.tipoRespuesta === 'multiple' ? '2px solid #73a31d' : '2px solid #e9ecef',
-                        borderRadius: '10px',
-                        backgroundColor: pregunta.tipoRespuesta === 'multiple' ? '#f8fff8' : '#f8f9fa',
-                        transition: 'all 0.3s ease'
-                      }}>
+                      <div
+                        className={`survey-builder__type-card ${pregunta.tipoRespuesta === 'multiple' ? 'survey-builder__type-card--selected' : ''}`}
+                      >
                         <label className='contenedor-radio' style={{ marginBottom: '15px' }}>
                           <input 
                             type="radio" 
@@ -963,14 +874,9 @@ const CrearPregunta = () => {
                         )}
                       </div>
                       
-                      {/* Respuesta abierta */}
-                      <div style={{
-                        padding: '15px',
-                        border: pregunta.tipoRespuesta === 'abierta' ? '2px solid #73a31d' : '2px solid #e9ecef',
-                        borderRadius: '10px',
-                        backgroundColor: pregunta.tipoRespuesta === 'abierta' ? '#f8fff8' : '#f8f9fa',
-                        transition: 'all 0.3s ease'
-                      }}>
+                      <div
+                        className={`survey-builder__type-card ${pregunta.tipoRespuesta === 'abierta' ? 'survey-builder__type-card--selected' : ''}`}
+                      >
                         <label className='contenedor-radio' style={{ marginBottom: '15px' }}>
                           <input 
                             type="radio" 
@@ -1018,81 +924,41 @@ const CrearPregunta = () => {
               })}
 
               {categoria.preguntas.length < 4 && (
-                <button 
+                <button
+                  type="button"
                   onClick={() => agregarPreguntaACategoria(categoriaIndex)}
-                  className='btn-pequeno'
-                  style={{ 
-                    marginLeft: '0', 
-                    marginTop: '10px',
-                    backgroundColor: '#73a31d',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    padding: '8px 16px',
-                    fontSize: '1.2rem',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease',
-                    fontFamily: 'Roboto'
-                  }}
-                  onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
-                  onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
+                  className="survey-builder__btn-add"
+                  style={{ marginTop: '0.75rem' }}
                 >
-                  Agregar pregunta a esta categoría ({4 - categoria.preguntas.length} restantes)
+                  + Agregar pregunta ({4 - categoria.preguntas.length} restantes)
                 </button>
               )}
             </div>
           ))}
+          </div>
 
           {categoriasConPreguntas.length > 0 && (
-            <div className='botones-abajo' style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              gap: '20px',
-              flexWrap: 'wrap'
-            }}>
-              <button 
-                onClick={() => setMostrarPreview(true)} 
-                className='btn-pequeno btn-pequeno-guardar'
-                style={{
-                  backgroundColor: '#73a31d',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '5px',
-                  padding: '8px 16px',
-                  fontSize: '1.2rem',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.3s ease',
-                  fontFamily: 'Roboto'
-                }}
-                onMouseOver={(e) => e.target.style.backgroundColor = '#5a8a0f'}
-                onMouseOut={(e) => e.target.style.backgroundColor = '#73a31d'}
+            <div className="page-card page-card--wide survey-builder__actions">
+              <button
+                type="button"
+                onClick={() => setMostrarPreview(true)}
+                className="btn-pequeno btn-pequeno-guardar"
               >
-                Previsualizar Encuesta
+                Previsualizar encuesta
               </button>
-
-              {/* Botón para volver al calendario si se viene de ahí */}
               {location.state?.volviendoDeCalendario && (
-                <button 
+                <button
+                  type="button"
                   onClick={() => navigate('/calendario')}
-                  style={{
-                    backgroundColor: '#1e3766',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    padding: '8px 16px',
-                    fontSize: '1.2rem',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease',
-                    fontFamily: 'Roboto'
-                  }}
-                  onMouseOver={(e) => e.target.style.backgroundColor = '#142954'}
-                  onMouseOut={(e) => e.target.style.backgroundColor = '#1e3766'}
+                  className="btn-pequeno"
+                  style={{ backgroundColor: '#1e3766' }}
                 >
-                  📅 Volver al Calendario
+                  Volver al calendario
                 </button>
               )}
             </div>
           )}
+          </div>
         </div>
       ) : (
         <PreviewEncuesta
@@ -1106,5 +972,4 @@ const CrearPregunta = () => {
   );
 };
 
-root.render(<CrearPregunta />);
 export default CrearPregunta;

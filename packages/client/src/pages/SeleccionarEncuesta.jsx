@@ -119,7 +119,8 @@ const SeleccionarEncuesta = () => {
         Misma estructura de visualización que en RegistroEncuesta
         Solo cambia el título de la página
       */}
-      <div className="registro-encuesta-contenedor">
+      <div className="page-content-area">
+      <div className="registro-encuesta-contenedor page-card page-card--wide">
         <h1 className="title-large">Seleccionar Encuesta</h1>
         <PageLead>
           Elige una encuesta existente para reutilizarla o tomarla como base antes de clonar o publicar.
@@ -151,6 +152,7 @@ const SeleccionarEncuesta = () => {
             </button>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

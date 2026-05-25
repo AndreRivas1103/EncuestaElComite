@@ -45,9 +45,8 @@ html {
 
 /* Sección principal */
 .firtsColor {
-  background-color: var(--color-accent);
-  margin: 60px 60px 60px 30px;
-  padding: 155px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
   position: relative;
 }
 

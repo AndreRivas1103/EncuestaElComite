@@ -6,6 +6,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import PageLead from '../components/PageLead.jsx';
+import PageSurface from '../components/PageSurface.jsx';
 
 const NuevoEvento = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -182,64 +183,30 @@ const NuevoEvento = () => {
         onClose={() => setSidebarVisible(false)} 
       />
 
-      {/* Contenido principal */}
-      <div
-        className="coordinator-shifted-main"
-        style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px',
-          backgroundColor: '#d3edff'
-        }}
-      >
-        <div style={{
-          backgroundColor: 'white',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          ...containerStyles  
-        }}>
-          {/* Título */}
-          <h1 style={{
-            fontFamily: '"Merriweather", serif',
-            color: '#000000',
-            ...titleStyles    
-          }}>Nuevo Evento</h1>
+      <div className="coordinator-shifted-main">
+        <PageSurface centered cardClassName="nuevo-evento-card">
+          <h1 className="nuevo-evento-card__title">Nuevo Evento</h1>
           <PageLead className="page-lead--center page-lead--tight">
             Crea o reutiliza encuestas para un nuevo evento: parte de plantillas guardadas o arma preguntas desde cero.
           </PageLead>
-          
-          {/* Contenedor de botones - CENTRADO */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            maxWidth: '500px',
-            alignItems: 'center' // Centrar los botones horizontalmente
-          }}>
-            <Link 
-              to="/seleccionar-encuesta" 
-              style={buttonBaseStyle}
-              className="btn"
+
+          <div className="nuevo-evento-card__actions">
+            <Link
+              to="/seleccionar-encuesta"
+              className="btn nuevo-evento-card__btn"
               onClick={createRipple}
             >
               Usar Encuestas Anteriores
             </Link>
-            <Link 
-              to="/crear-pregunta" 
-              style={buttonBaseStyle}
-              className="btn"
+            <Link
+              to="/crear-pregunta"
+              className="btn nuevo-evento-card__btn"
               onClick={createRipple}
             >
               Crear Encuesta
             </Link>
           </div>
-        </div>
+        </PageSurface>
       </div>
     </div>
   );

@@ -12,13 +12,15 @@
   "dependencies": {
     "@coreui/coreui-pro": "^5.13.0",
     "@coreui/react-pro": "^5.15.0",
+    "@formkit/auto-animate": "^0.9.0",
     "@types/react-datepicker": "^7.0.0",
     "axios": "^1.8.4",
     "react": "^19.0.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

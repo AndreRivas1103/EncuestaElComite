@@ -154,6 +154,8 @@ Si vas a usar la opción local sin Docker completo:
 
 Esta opción levanta **frontend + backend + PostgreSQL** desde `docker-compose.yml`.
 
+**¿Por qué Docker?** Un solo comando alinea versiones de Node, PostgreSQL y variables de entorno entre el equipo: el backend habla con la BD en la red interna (`db:5432`), el frontend se sirve en el puerto **3000** y el API en **3010**, sin instalar Postgres ni configurar `DATABASE_URL` a mano en cada máquina.
+
 1. Levanta contenedores:
 
 ```bash
@@ -174,6 +176,17 @@ docker compose exec back npm run db:seed -w @encuestaelcomite/server
 - Swagger: `http://localhost:3010/api-docs`
 
 > Nota: `db:migrate:diagram` **borra y recrea** tablas del esquema actual.
+
+#### Datos de prueba (login coordinador)
+
+Tras el seed, el login **solo pide correo** (no hay contraseña). Usa cualquiera de estos:
+
+| Correo | Nombre |
+|--------|--------|
+| `coord.local@ejemplo.dev` | Coordinador de prueba |
+| `carolina.estrada@elcomite.org.co` | Carolina Estrada |
+
+Encuesta demo incluida en seed: ID `HB-DEV-LOCAL` (título *Encuesta de demostración (local)*), ventana de fechas activa (~7 días atrás → ~30 días adelante).
 
 ---
 

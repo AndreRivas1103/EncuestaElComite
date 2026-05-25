@@ -2,7 +2,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background-color: #d3edff;
+  background-color: #e8f4fc;
   max-width: 100%;
   overflow-x: clip;
 }
@@ -30,20 +30,9 @@ html {
   font-display: swap;
 }
 
+/* Definición principal en page-surface.css; calendario hereda tarjeta blanca */
 .firtsColor {
-  background-color: #ffffff;
-  padding: 70px;
-  position: relative;
-  justify-content: center;
   text-align: center;
-  left: auto;
-  top: auto;
-  width: min(900px, calc(100% - 32px));
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
-  box-sizing: border-box;
 }
 
 .navbar {

@@ -150,12 +150,13 @@
 }
     
 .botones-abajo {
-    position: absolute; 
-    left: 20px; 
+    position: static;
     display: flex;
-    flex-direction: row; 
-    gap: 1060px;
-    bottom: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
     
 .btn-pequeno {

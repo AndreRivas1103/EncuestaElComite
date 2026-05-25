@@ -4,6 +4,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png'; // Asegúrate de que la 
 import { Link, useNavigate } from 'react-router-dom';
 import MigaDePan from '../components/MigaDePan.jsx';
 import PageLead from '../components/PageLead.jsx';
+import { toast } from '../lib/toast.js';
 
 const TerminosCondiciones = () => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ const TerminosCondiciones = () => {
     localStorage.setItem('fechaAceptacionTerminos', new Date().toISOString());
     
     // Mostrar mensaje de confirmación
-    alert('Términos y condiciones aceptados correctamente');
-    
+    toast.success('Términos y condiciones aceptados');
+
     // Redirigir al formulario de datos
     navigate('/rellenar-datos');
   };

@@ -8,6 +8,7 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import PageLead from '../components/PageLead.jsx';
+import { toast } from '../lib/toast.js';
 
 const ClonarEncuesta = () => {
   const { id } = useParams();
@@ -315,7 +316,7 @@ const handleEditar = () => {
     // Guardar cambios
     setEncuesta(encuestaEditada);
     setModoEdicion(false);
-    alert('Cambios guardados localmente. Usa "Clonar" o "Programar" para crear la nueva encuesta.');
+    toast.info('Cambios guardados localmente. Usa "Clonar" o "Programar" para crear la nueva encuesta.');
   } else {
     // Entrar en modo edición
     setEncuestaEditada(JSON.parse(JSON.stringify(encuesta))); // Deep copy
@@ -330,7 +331,7 @@ const cancelarEdicion = () => {
 
   const handleClonar = async () => {
     if (!user.cedula) {
-      alert('Usuario no identificado');
+      toast.error('Usuario no identificado. Inicia sesión de nuevo.');
       return;
     }
 
@@ -338,7 +339,7 @@ const cancelarEdicion = () => {
     if (!idFinal || idFinal === encuesta.id) {
       const random = Math.floor(Math.random() * 900 + 100);
       idFinal = `HB-${new Date().getFullYear()}-${random}`;
-      alert(`ID repetido o vacío. Se generó uno nuevo automáticamente: ${idFinal}`);
+      toast.warning(`ID repetido o vacío. Se generó: ${idFinal}`);
     }
 
     try {
@@ -356,7 +357,7 @@ const cancelarEdicion = () => {
       console.log('🔍 Clonando encuesta con ID:', nuevaEncuesta.id);
 
       await axios.post('http://localhost:3000/api/encuestas', nuevaEncuesta);
-      alert('Encuesta clonada correctamente');
+      toast.success('Encuesta clonada correctamente');
       navigate('/registro-encuestas');
     } catch (error) {
       console.error('Error al clonar la encuesta:', error);
@@ -366,17 +367,17 @@ const cancelarEdicion = () => {
 
 const handleProgramar = async () => {
   if (!fechaApertura || !fechaCierre) {
-    alert('Por favor, complete ambas fechas');
+    toast.error('Completa la fecha de apertura y de cierre');
     return;
   }
 
   if (new Date(fechaCierre) <= new Date(fechaApertura)) {
-    alert('La fecha de cierre debe ser posterior a la de apertura');
+    toast.error('La fecha de cierre debe ser posterior a la de apertura');
     return;
   }
 
   if (!user.cedula) {
-    alert('Usuario no identificado');
+    toast.error('Usuario no identificado. Inicia sesión de nuevo.');
     return;
   }
 
@@ -384,7 +385,7 @@ const handleProgramar = async () => {
   if (!idFinal || idFinal === encuesta.id) {
     const random = Math.floor(Math.random() * 900 + 100);
     idFinal = `HB-${new Date().getFullYear()}-${random}`;
-    alert(`ID repetido o vacío. Se generó uno nuevo automáticamente: ${idFinal}`);
+    toast.warning(`ID repetido o vacío. Se generó: ${idFinal}`);
   }
 
   const payload = {
@@ -402,7 +403,7 @@ const handleProgramar = async () => {
 
   try {
     await axios.post('http://localhost:3000/api/encuestas/programar', payload);
-    alert('Encuesta programada correctamente');
+    toast.success('Encuesta programada correctamente');
     navigate('/registro-encuestas');
   } catch (error) {
     console.error('Error al programar la encuesta:', error.response?.data || error.message);

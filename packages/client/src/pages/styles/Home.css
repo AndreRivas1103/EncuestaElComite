@@ -85,15 +85,15 @@ html {
 
 .header-logo {
   flex-shrink: 0;
-  width: clamp(68px, 16vw, 100px);
+  width: clamp(92px, 18vw, 128px);
   height: auto;
   max-width: 100%;
-  max-height: clamp(34px, 10vw, 48px);
+  max-height: clamp(48px, 11vw, 68px);
   object-fit: contain;
 }
 
 .logo {
-  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.45rem, 2.8vw, 2.5rem);
   text-decoration: none !important;
   color: white;
   font-family: "Recoleta";
@@ -109,11 +109,7 @@ html {
 .main-contenido,
 .main-content-coordinador {
   padding: 25px;
-  background-color: #d3edff;
-  background-image: url("../../assets/FondoAzul2.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,18 +130,23 @@ html {
   }
 }
 
+/* Tarjeta blanca sobre fondo decorativo (ver page-surface.css) */
 .firtsColor {
-  background-color: #d3edff;
-  margin: 60px;
-  padding: 140px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(30, 55, 102, 0.1);
+  border: 1px solid rgba(30, 55, 102, 0.08);
+  margin: 0 auto clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 960px;
+  width: min(100%, calc(100% - 2rem));
   position: relative;
+  box-sizing: border-box;
 }
 
-/* Tablets y móviles: menos marco; escritorio >992px sin cambios */
 @media (max-width: 992px) {
   .firtsColor {
-    margin: clamp(16px, 4vw, 40px);
-    padding: clamp(32px, 10vw, 100px) clamp(20px, 5vw, 48px);
+    width: min(100%, calc(100% - 1.5rem));
   }
 }
 
@@ -272,41 +273,7 @@ html {
   bottom: 20px;
 }
 
-/* ===== FORMULARIOS ===== */
-.login-container {
-  background-color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: "Gloock";
-}
-
-.login-box {
-  background-color: #d3edff;
-  width: 90%;
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 180px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.login-input {
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 2px solid #1e3766;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  font-family: "Roboto";
-}
-
-.login-input::placeholder {
-  text-align: center;
-  color: #777777;
-  letter-spacing: 1px;
-  font-size: 1.5rem;
-  font-family: "Roboto";
-}
+/* Login: estilos en page-surface.css (.login-page, .login-card) */
 
 /* ===== ENCUESTAS ===== */
 .encuesta-container {
@@ -379,8 +346,8 @@ html {
   }
 
   .firtsColor {
-    margin: 20px;
-    padding: 80px 20px;
+    margin: 0 auto 1rem;
+    padding: clamp(1.25rem, 4vw, 2rem);
   }
 
   .contenedor-botones {
@@ -450,10 +417,10 @@ body {
 
 .header-logo {
   flex-shrink: 0;
-  width: clamp(68px, 16vw, 100px);
+  width: clamp(92px, 18vw, 128px);
   height: auto;
   max-width: 100%;
-  max-height: clamp(34px, 10vw, 48px);
+  max-height: clamp(48px, 11vw, 68px);
   object-fit: contain;
 }
 
@@ -506,7 +473,7 @@ body {
   margin: 0;
   padding: clamp(24px, 4vw, 48px) clamp(20px, 4vw, 56px);
   box-sizing: border-box;
-  background-color: #ffffff;
+  background: rgba(255, 255, 255, 0.97);
 }
 
 .home-hero__copy {
@@ -745,11 +712,7 @@ body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.admin-section {
-  background-color: #d3edff;
-  padding: 40px 20px;
-  margin-top: 20px;
-}
+/* admin-section: ver page-surface.css (fondo azul FondoAzul2) */
 
 /* ===== CARRUSEL DE IMÁGENES ===== */
 .carousel-section {
@@ -1142,11 +1105,10 @@ body {
 }
 
 .login-container {
-  background-color: white; /* Fondo blanco */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: "Gloock"; /* Tipografía única */
+  background: transparent;
 }
 
 .blue-header {
@@ -1157,13 +1119,13 @@ body {
 }
 
 .login-box {
-  background-color: #d3edff; /* Azul claro */
-  width: 90%;
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 180px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: min(92%, 480px);
+  margin: clamp(2rem, 8vh, 4rem) auto;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(30, 55, 102, 0.12);
+  border: 1px solid rgba(30, 55, 102, 0.08);
+  background: rgba(255, 255, 255, 0.97);
 }
 
 .login-title {
@@ -1172,10 +1134,12 @@ body {
 }
 
 .login-subtitle {
-  font-size: 3rem;
-  margin-bottom: 30px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  margin-bottom: 1.5rem;
   text-align: center;
-  font-family: "Merriweather";
+  font-family: "Merriweather", Georgia, serif;
+  color: #1e3766;
+  font-weight: 400;
 }
 
 .login-form {
@@ -1195,11 +1159,41 @@ body {
 
 .login-input::placeholder {
   text-align: center;
-  color: #777777;
-  letter-spacing: 1px;
-  font-size: 1.5rem;
-  font-family: "Roboto"; /* Tipografía única */
-  letter-spacing: 1px;
+  color: #6b7c93;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #73a31d;
+  box-shadow: 0 0 0 3px rgba(115, 163, 29, 0.2);
+}
+
+.login-form .error-message {
+  margin: -0.5rem 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  color: #922b21;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.login-btn--secondary {
+  background-color: #5a6c7d !important;
+  margin-top: 0.5rem;
+}
+
+.login-btn--secondary:hover:not(:disabled) {
+  background-color: #4a5a6a !important;
+}
+
+.login-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .login-btn {

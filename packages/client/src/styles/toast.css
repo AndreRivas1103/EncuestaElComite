@@ -1,0 +1,63 @@
+/* Toasts Sonner — paleta El Comité */
+[data-sonner-toaster] {
+  --width: min(420px, calc(100vw - 2rem));
+  font-family: "Roboto", system-ui, sans-serif;
+}
+
+.elcomite-toast {
+  border-radius: 10px !important;
+  border: 1px solid #c5d9f0 !important;
+  box-shadow: 0 8px 24px rgba(30, 55, 102, 0.14) !important;
+  background: #ffffff !important;
+  color: #1e3766 !important;
+  padding: 14px 16px !important;
+}
+
+.elcomite-toast__title {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  color: #1e3766 !important;
+}
+
+.elcomite-toast__description {
+  font-size: 0.875rem !important;
+  color: #3d5a80 !important;
+}
+
+.elcomite-toast__close {
+  color: #1e3766 !important;
+  border-color: #d3edff !important;
+  background: #f4f9ff !important;
+}
+
+.elcomite-toast--success {
+  border-left: 4px solid #73a31d !important;
+  background: linear-gradient(90deg, #f4fbf0 0%, #ffffff 12%) !important;
+}
+
+.elcomite-toast--error {
+  border-left: 4px solid #c0392b !important;
+  background: linear-gradient(90deg, #fff5f5 0%, #ffffff 12%) !important;
+}
+
+.elcomite-toast--info {
+  border-left: 4px solid #1e3766 !important;
+  background: linear-gradient(90deg, #eef6ff 0%, #ffffff 12%) !important;
+}
+
+.elcomite-toast--warning {
+  border-left: 4px solid #e6a817 !important;
+  background: linear-gradient(90deg, #fffbf0 0%, #ffffff 12%) !important;
+}
+
+[data-sonner-toast][data-styled="true"] [data-icon] {
+  color: #73a31d;
+}
+
+[data-sonner-toast][data-type="error"] [data-icon] {
+  color: #c0392b;
+}
+
+[data-sonner-toast][data-type="info"] [data-icon] {
+  color: #1e3766;
+}

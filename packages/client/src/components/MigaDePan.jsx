@@ -239,7 +239,7 @@ const MigaDePan = ({
   // Construir las clases CSS
   const containerClasses = [
     "migadepan-container",
-    isCoordinadorPage ? "coordinator-page" : "",
+    isCoordinadorPage ? "coordinator-miga" : "",
     withSidebar ? "with-sidebar" : "",
     showMenuRow ? "migadepan-with-menu" : "",
     withSidebar && sidebarClosing ? "migadepan-container--sidebar-closing" : "",

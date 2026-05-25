@@ -321,7 +321,8 @@ const EncuestaCompleta = () => {
         </nav>
       </div>
 
-      <div className='firtsColor'>
+      <div className="page-content-area">
+      <div className="firtsColor page-card--wide">
         <div className="encuesta-container">
           <h1 className='Texto'>Encuesta de Evaluación</h1>
           <PageLead className="page-lead--center page-lead--tight">
@@ -358,6 +359,7 @@ const EncuestaCompleta = () => {
 
           
         </div>
+      </div>
       </div>
 
       <style jsx>{`

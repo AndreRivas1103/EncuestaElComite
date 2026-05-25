@@ -307,16 +307,8 @@ function Layout() {
         </nav>
       </div>
 
-      <div style={{ 
-        backgroundColor: '#d3edff',
-        minHeight: 'calc(100vh - 200px)',
-        padding: '40px 20px'
-      }}>
-        {/* Contenedor principal de calendarios */}
-        <div style={{ 
-          maxWidth: '1200px',
-          margin: '0 auto'
-        }}>
+      <div className="page-content-area">
+        <div className="page-card page-card--wide" style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Título principal */}
           <h1 style={{ 
             textAlign: 'center', 

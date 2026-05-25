@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import '../pages/styles/Home.css'; 
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import { Link } from 'react-router-dom';
 import PageLead from '../components/PageLead.jsx';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const Layout = () => {
   return (
@@ -20,7 +17,8 @@ const Layout = () => {
         <img src={babyLogo} alt='Baby go Logo' className='header-logo' />
       </header>
 
-      <div className='firtsColor'>
+      <div className="page-content-area">
+      <div className="firtsColor page-card--center">
         <div className="botones-izquierda">
           <button className="btn-pequeno">Regresar</button>
           <button className="btn-pequeno">Inicio</button>
@@ -43,10 +41,9 @@ const Layout = () => {
           <Link to="/" className="btn">Salir</Link> 
         </div>
       </div>
+      </div>
     </div>
   );
 }
-
-root.render(<Layout />);
 
 export default Layout;

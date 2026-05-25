@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import babyLogo from "../assets/LogoMarcaPersonal.png";
-import fondoAzul from "../assets/FondoAzul2.png";
 import "../components/Sidebar.css";
 import "../pages/styles/Home.css";
 import "../pages/styles/InicioCoordinador.css";
@@ -125,8 +124,8 @@ const InicioCoordinadorPrueba = () => {
         }}
       />
 
-      <div className="coordinator-shifted-main" style={styles.contentArea}>
-        <div className="inicio-coordinador-card" style={styles.mainContent}>
+      <div className="coordinator-shifted-main page-content-area page-content-area--centered">
+        <div className="page-card page-card--center inicio-coordinador-card">
           <h1 className="inicio-coordinador-title">Bienvenido Coordinador</h1>
           <PageLead className="page-lead--center">
             Panel principal para gestionar encuestas, crear eventos y seguir el flujo de trabajo del comité.
@@ -159,11 +158,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
-    backgroundColor: "#d3edff",
-    backgroundImage: `url(${fondoAzul})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+    backgroundColor: "transparent",
   },
   mainContent: {
     backgroundColor: "white",

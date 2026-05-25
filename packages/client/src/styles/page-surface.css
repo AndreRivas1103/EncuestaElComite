@@ -1,0 +1,258 @@
+/* Fondos por rama + tarjetas + acentos azul marca */
+
+:root {
+  --bg-white-image: url("../assets/FondoBlanco.jpeg");
+  --bg-blue-image: url("../assets/FondoAzul2.png");
+  --bg-fallback-white: #f4f7fa;
+  --bg-fallback-blue: #d3edff;
+  --accent-blue: #d3edff;
+  --accent-blue-deep: #b8daf5;
+  --brand-navy: #1e3766;
+  --miga-bar-bg: rgba(211, 237, 255, 0.94);
+  --page-card-bg: rgba(255, 255, 255, 0.97);
+  --page-card-border-active: #1e3766;
+}
+
+/* —— Fondo según ruta (RouteTheme → data-app-bg en body) —— */
+body {
+  background-color: var(--bg-fallback-white);
+  background-image: var(--bg-white-image);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  transition: background-color 0.35s ease;
+}
+
+body[data-app-bg='blue'] {
+  background-color: var(--bg-fallback-blue);
+  background-image: var(--bg-blue-image);
+}
+
+body[data-app-bg='home'] {
+  background-color: #fff;
+  background-image: var(--bg-white-image);
+}
+
+body[data-app-bg='white'] {
+  background-color: var(--bg-fallback-white);
+  background-image: var(--bg-white-image);
+}
+
+.page-content-area {
+  background: transparent;
+  min-height: auto;
+  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 3vw, 1.5rem) 2rem;
+  box-sizing: border-box;
+}
+
+.page-content-area--centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 7rem);
+  padding: 1.25rem;
+}
+
+.page-card,
+.firtsColor {
+  background: var(--page-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(30, 55, 102, 0.1);
+  border: 1px solid rgba(30, 55, 102, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  max-width: 960px;
+  width: min(100%, 960px);
+  box-sizing: border-box;
+  position: relative;
+  text-align: left;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page-card--wide {
+  max-width: 1040px;
+  width: min(100%, 1040px);
+}
+
+.page-card--center {
+  text-align: center;
+}
+
+/* Tarjeta con acento azul (paso activo, panel destacado) */
+.page-card--accent,
+.survey-builder__hero.page-card,
+.survey-builder__panel.page-card:focus-within {
+  border-color: rgba(30, 55, 102, 0.22);
+  box-shadow:
+    0 12px 40px rgba(30, 55, 102, 0.1),
+    inset 4px 0 0 var(--brand-navy);
+}
+
+/* Login */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.login-page__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2rem);
+}
+
+.login-card {
+  width: min(94%, 560px);
+  max-width: 560px;
+  padding: clamp(2rem, 5vw, 2.75rem) clamp(2rem, 5vw, 3rem);
+  background: var(--page-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(30, 55, 102, 0.12);
+  border: 1px solid rgba(30, 55, 102, 0.12);
+  border-left: 4px solid var(--brand-navy);
+  box-sizing: border-box;
+}
+
+.login-card .login-subtitle {
+  margin-bottom: 0.75rem;
+}
+
+.login-card .login-form {
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.login-card .login-btn {
+  width: 100%;
+}
+
+.login-card__hint {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  color: #3d5a80;
+  text-align: center;
+  margin: 0 0 1.25rem;
+  line-height: 1.45;
+}
+
+.login-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e3766;
+  text-align: left;
+}
+
+.login-card .login-input {
+  margin-bottom: 0;
+}
+
+.login-card .login-input::placeholder {
+  font-size: 0.95rem;
+  text-align: left;
+  letter-spacing: normal;
+}
+
+.app-page-stack {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.app-page-stack__body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.confirm-logout-card .title-medium {
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  color: #1e3766;
+  margin-bottom: 1rem;
+}
+
+.nuevo-evento-card {
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2rem);
+  min-width: min(100%, 520px);
+  border-left: 4px solid var(--brand-navy);
+}
+
+.nuevo-evento-card__title {
+  font-family: "Merriweather", Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  color: #1e3766;
+  margin: 0 0 1rem;
+}
+
+.nuevo-evento-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 1.5rem auto 0;
+}
+
+.nuevo-evento-card__btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.85rem 1.5rem;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* —— Home —— */
+.home-container {
+  background: transparent;
+}
+
+.home-hero {
+  background: var(--page-card-bg);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 8px 32px rgba(30, 55, 102, 0.06);
+}
+
+/* Sección administrador: fondo azul decorativo como antes */
+.admin-section {
+  background-color: var(--bg-fallback-blue);
+  background-image: var(--bg-blue-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+  margin-top: 0;
+}
+
+.admin-section .admin-title,
+.admin-section .admin-text {
+  color: #1e3766;
+}
+
+.main-content,
+.main-contenido,
+.main-content-coordinador {
+  background: transparent;
+  background-image: none;
+}
+
+.inicio-coordinador-card.page-card {
+  border-left: 4px solid var(--brand-navy);
+  box-shadow:
+    0 16px 48px rgba(30, 55, 102, 0.14),
+    0 0 0 1px rgba(30, 55, 102, 0.06);
+}

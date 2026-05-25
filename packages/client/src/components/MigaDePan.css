@@ -1,7 +1,9 @@
 .migadepan-container {
   width: 100%;
-  padding: 15px 24px;
-  background: #D3EDFF !important;
+  padding: 10px 20px;
+  background: var(--miga-bar-bg, rgba(211, 237, 255, 0.94)) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(30, 55, 102, 0.1);
   font-family: "Roboto", sans-serif;
   z-index: 800; 
   position: relative;
@@ -80,8 +82,9 @@
   outline-offset: 2px;
 }
 
-.coordinator-page {
-  background: #D3EDFF !important;
+/* Solo la barra de miga en área coordinador (no el contenido de la página) */
+.migadepan-container.coordinator-miga {
+  border-bottom: 1px solid rgba(30, 55, 102, 0.08);
 }
 
 /* Estilos para páginas con sidebar: base + abierto (transición también al cerrar) */
@@ -198,12 +201,13 @@ body:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row {
 .migadepan-item {
   color: #1e3766;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   padding: 8px 12px;
   border-radius: 8px;
-  background-color: rgba(30, 55, 102, 0.05);
+  background-color: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(30, 55, 102, 0.08);
   margin: 2px 0;
   font-weight: 500;
   position: relative;
@@ -217,8 +221,8 @@ body:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row {
   left: 0;
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, rgba(115, 163, 29, 0.1) 0%, rgba(115, 163, 29, 0.2) 100%);
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, rgba(30, 55, 102, 0.08) 0%, rgba(211, 237, 255, 0.5) 100%);
+  transition: width 0.25s ease;
 }
 
 .migadepan-item:hover::before {
@@ -226,9 +230,11 @@ body:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row {
 }
 
 .migadepan-item:hover {
-  color: #73a31d;
+  color: #1e3766;
   transform: translateY(-1px);
-  background-color: rgba(115, 163, 29, 0.08);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(30, 55, 102, 0.2);
+  box-shadow: 0 2px 8px rgba(30, 55, 102, 0.1);
 }
 
 .migadepan-icon {
@@ -252,13 +258,15 @@ body:has(.sidebar.visible) .migadepan-container.with-sidebar .migadepan-row {
 }
 
 .migadepan-current {
-  color: #73a31d;
+  color: #1e3766;
   font-weight: 600;
   display: flex;
   align-items: center;
   padding: 8px 12px;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(115, 163, 29, 0.15) 0%, rgba(115, 163, 29, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(211, 237, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border: 1px solid rgba(30, 55, 102, 0.18);
+  box-shadow: 0 2px 10px rgba(30, 55, 102, 0.08);
 }
 
 .migadepan-current .migadepan-icon {

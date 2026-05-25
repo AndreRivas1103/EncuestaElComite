@@ -274,9 +274,9 @@ header.header:not(.encuesta-header):not(.sidebar-header) > *:first-child {
 div.header:not(.encuesta-header) .header-logo,
 header.header:not(.encuesta-header) .header-logo {
   flex-shrink: 0;
-  width: clamp(68px, 16vw, 100px);
+  width: clamp(92px, 18vw, 128px);
   max-width: 100%;
-  max-height: clamp(34px, 10vw, 48px);
+  max-height: clamp(48px, 11vw, 68px);
   height: auto;
   object-fit: contain;
 }
@@ -285,38 +285,39 @@ div.header:not(.encuesta-header) .logo,
 header.header:not(.encuesta-header) .logo,
 div.header:not(.encuesta-header) a.logo,
 header.header:not(.encuesta-header) a.logo {
-  font-size: clamp(1.15rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.45rem, 2.8vw, 2.5rem);
   line-height: 1.12;
   max-width: 100%;
   overflow-wrap: anywhere;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
   div.header:not(.encuesta-header) .header-logo,
   header.header:not(.encuesta-header) .header-logo {
-    width: clamp(64px, 22vw, 88px);
-    max-height: 42px;
+    width: clamp(80px, 24vw, 108px);
+    max-height: 56px;
   }
 
   div.header:not(.encuesta-header) .logo,
   header.header:not(.encuesta-header) .logo,
   div.header:not(.encuesta-header) a.logo,
   header.header:not(.encuesta-header) a.logo {
-    font-size: clamp(1.05rem, 3.6vw, 1.55rem);
+    font-size: clamp(1.25rem, 4vw, 1.85rem);
   }
 }
 
 @media (max-width: 400px) {
   div.header:not(.encuesta-header) .header-logo,
   header.header:not(.encuesta-header) .header-logo {
-    width: clamp(56px, 26vw, 76px);
-    max-height: 36px;
+    width: clamp(72px, 28vw, 96px);
+    max-height: 48px;
   }
 
   div.header:not(.encuesta-header) .logo,
   header.header:not(.encuesta-header) .logo,
   div.header:not(.encuesta-header) a.logo,
   header.header:not(.encuesta-header) a.logo {
-    font-size: clamp(0.98rem, 4.2vw, 1.35rem);
+    font-size: clamp(1.1rem, 4.5vw, 1.5rem);
   }
 }

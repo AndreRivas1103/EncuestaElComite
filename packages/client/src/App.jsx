@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppToaster from "./components/AppToaster.jsx";
+import RouteTheme from "./components/RouteTheme.jsx";
 import PageTransitionShell from "./components/PageTransitionShell.jsx";
 import Home from "./pages/Home.jsx";
 import IniciarSesion from "./pages/Iniciarsesion.jsx";
@@ -29,6 +31,8 @@ import ClonarEncuesta from "./pages/ClonarEncuesta.jsx"; // âœ… NUEVA IMPORTACIÃ
 function App() {
   return (
     <Router>
+      <RouteTheme />
+      <AppToaster />
       <div className="app-wrapper">
         <main className="page-container">
           <PageTransitionShell>
