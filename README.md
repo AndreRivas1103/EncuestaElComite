@@ -260,6 +260,21 @@ npm run dev:client
 
 ---
 
+### Despliegue en Minikube (entrega: frontend + backend + db)
+
+Guía completa paso a paso: **[k8s/README.md](k8s/README.md)**
+
+Resumen:
+
+```bash
+minikube start
+eval $(minikube docker-env)   # PowerShell: ver k8s/README.md
+./k8s/deploy.sh
+minikube service client -n encuesta --url
+```
+
+---
+
 ### Comandos útiles Docker
 
 ```bash

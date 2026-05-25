@@ -18,14 +18,15 @@ const openapiDocument = JSON.parse(
 );
 const app = express();
 const PORT = process.env.PORT || 3000;
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000'
-];
+const defaultOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+const corsOriginsEnv = process.env.CORS_ORIGINS?.trim();
+const allowedOrigins = corsOriginsEnv
+  ? corsOriginsEnv.split(',').map((o) => o.trim()).filter(Boolean)
+  : defaultOrigins;
 
 // Middlewares esenciales
 app.use(cors({
-  origin: allowedOrigins,
+  origin: corsOriginsEnv === '*' ? true : allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
