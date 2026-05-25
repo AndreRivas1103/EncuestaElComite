@@ -271,7 +271,11 @@ minikube start
 eval $(minikube docker-env)   # PowerShell: ver k8s/README.md
 ./k8s/deploy.sh
 minikube service client -n encuesta --url
+minikube service grafana -n encuesta --url    # admin / encuesta
+minikube service prometheus -n encuesta --url
 ```
+
+Incluye **Prometheus** (métricas) y **Grafana** (dashboards). Detalle en [k8s/README.md](k8s/README.md#paso-7--monitoreo-prometheus--grafana).
 
 ---
 

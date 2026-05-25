@@ -9,6 +9,12 @@ import { verificarCorreo } from './controllers/coordinadorController.js';
 import encuestaRoutes from './routes/encuestasRoutes.js';
 import voluntarioRoutes from './routes/voluntarioRoutes.js';
 import resultadoRoutes from './routes/resultadosRoutes.js';
+import {
+  metricsMiddleware,
+  getMetricsText,
+  startBusinessMetricsCollector,
+  register
+} from './metrics.js';
 
 // Configuración inicial: cargar .env desde la carpeta server (funciona en Linux/Windows)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -31,9 +37,19 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 app.use(express.json());
+app.use(metricsMiddleware);
 
 // Conexión a la base de datos
 import './db/connection.js';
+
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await getMetricsText());
+  } catch (err) {
+    res.status(500).end(String(err));
+  }
+});
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
 app.get('/openapi.json', (req, res) => {
@@ -47,6 +63,7 @@ app.get('/', (req, res) => {
     message: 'Backend del Comité operativo',
     swagger: 'GET /api-docs',
     openApiJson: 'GET /openapi.json',
+    metrics: 'GET /metrics',
     endpoints: {
       login: 'POST /api/auth/login',
       encuestas: {
@@ -99,7 +116,9 @@ app.use((req, res) => {
 
 // Inicialización del servidor
 app.listen(PORT, () => {
+  startBusinessMetricsCollector();
   console.log(`\n🚀👌 Servidor iniciado en: http://localhost:${PORT}`);
+  console.log(`📊 Métricas Prometheus: http://localhost:${PORT}/metrics`);
   console.log(`🔗 Endpoints disponibles:`);
   console.log(`   - Autenticación: POST http://localhost:${PORT}/api/auth/login`);
   console.log(`   - Registrar voluntario: POST http://localhost:${PORT}/api/voluntarios`);

@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-encuesta
+  namespace: encuesta
+data:
+  encuesta-overview.json: |
+    {
+      "uid": "encuesta-overview",
+      "title": "Encuesta El Comité — Resumen",
+      "tags": ["encuesta", "minikube"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "10s",
+      "time": { "from": "now-15m", "to": "now" },
+      "panels": [
+        {
+          "id": 1,
+          "title": "Peticiones por segundo",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "sum(rate(encuesta_http_requests_total[1m]))",
+              "legendFormat": "req/s"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "reqps" } }
+        },
+        {
+          "id": 2,
+          "title": "Errores HTTP (5xx) por minuto",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "sum(rate(encuesta_http_requests_total{status_code=~\"5..\"}[1m])) * 60",
+              "legendFormat": "errores/min"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Latencia p95 (segundos)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(encuesta_http_request_duration_seconds_bucket[5m])) by (le))",
+              "legendFormat": "p95"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "s" } }
+        },
+        {
+          "id": 4,
+          "title": "Memoria del backend (MB)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "encuesta_process_resident_memory_bytes / 1024 / 1024",
+              "legendFormat": "RSS MB"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "decmbytes" } }
+        },
+        {
+          "id": 5,
+          "title": "Encuestas en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 0, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_encuestas_registradas" }]
+        },
+        {
+          "id": 6,
+          "title": "Usuarios en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 8, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_usuarios_registrados" }]
+        },
+        {
+          "id": 7,
+          "title": "Coordinadores en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 16, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_coordinadores_registrados" }]
+        },
+        {
+          "id": 8,
+          "title": "Peticiones por ruta (top)",
+          "type": "bargauge",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 22 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "topk(8, sum by (route) (increase(encuesta_http_requests_total[15m])))",
+              "legendFormat": "{{route}}"
+            }
+          ]
+        }
+      ]
+    }
