@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { es } from 'date-fns/locale';
@@ -16,7 +15,42 @@ import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 // Registrar la localización en español
 registerLocale('es', es);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const MESES = Array.from({ length: 12 }, (_, i) => ({
+  value: i,
+  label: new Date(0, i).toLocaleString('es-ES', { month: 'long' }),
+}));
+
+function CalendarNavHeader({ month, year, onMonthChange, onYearChange, onPrev, onNext }) {
+  return (
+    <div className="calendario-header-controls">
+      <button type="button" onClick={onPrev} aria-label="Mes anterior">
+        &lt;
+      </button>
+      <div className="calendario-header-controls__selects">
+        <select value={month} onChange={(e) => onMonthChange(Number(e.target.value))}>
+          {MESES.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+        <select value={year} onChange={(e) => onYearChange(Number(e.target.value))}>
+          {Array.from({ length: 10 }, (_, i) => {
+            const y = new Date().getFullYear() + i;
+            return (
+              <option key={y} value={y}>
+                {y}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <button type="button" onClick={onNext} aria-label="Mes siguiente">
+        &gt;
+      </button>
+    </div>
+  );
+}
 
 function Layout() {
   const [fechaApertura, setFechaApertura] = useState(new Date());
@@ -307,54 +341,27 @@ function Layout() {
         </nav>
       </div>
 
-      <div className="page-content-area">
-        <div className="page-card page-card--wide" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          {/* Título principal */}
-          <h1 style={{ 
-            textAlign: 'center', 
-            marginBottom: '40px', 
-            color: '#1e3766',
-            fontFamily: 'Merriweather',
-            fontSize: '2.5rem',
-            fontWeight: 'bold'
-          }}>
-            Programar Fechas de Encuesta
-          </h1>
+      <div className="page-content-area page-content-area--schedule">
+        <div className="page-card page-card--accent calendario-schedule">
+          <h1 className="calendario-schedule__title">Programar fechas de encuesta</h1>
           <PageLead className="page-lead--center page-lead--tight">
             Elige apertura y cierre para que los enlaces de la encuesta estén activos solo en ese periodo.
           </PageLead>
 
-          {/* Contenedor de calendarios lado a lado */}
-          <div className="calendario-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(520px, 1fr))',
-            gap: '50px',
-            marginBottom: '60px'
-          }}>
+          <div className="calendario-dates-row">
             
-            {/* Calendario Apertura */}
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '15px',
-              padding: '40px',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-              border: '1px solid #e9ecef',
-              minHeight: '580px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start'
-            }}>
-              <h2 style={{ 
-                textAlign: 'center', 
-                marginBottom: '25px', 
-                color: '#1e3766',
-                fontFamily: 'Merriweather',
-                fontSize: '1.8rem',
-                fontWeight: 'bold'
-              }}>
-                Fecha de apertura:
+            <section className="calendario-picker-panel" aria-labelledby="cal-apertura">
+              <h2 id="cal-apertura" className="calendario-picker-panel__title">
+                Fecha de apertura
               </h2>
+              <p className="calendario-picker-panel__fecha">
+                {fechaApertura.toLocaleDateString('es-ES', {
+                  weekday: 'short',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </p>
               <div className="calendario-container">
                 <DatePicker
                   selected={fechaApertura}
@@ -380,144 +387,46 @@ function Layout() {
                   minDate={new Date()}
                   month={aperturaMonth}
                   year={aperturaYear}
-                  renderCustomHeader={({
-                    decreaseMonth,
-                    increaseMonth,
-                    changeYear,
-                    changeMonth,
-                    month,
-                    year
-                  }) => (
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: '10px',
-                      backgroundColor: '#9ecd49',
-                      color: 'white',
-                      borderRadius: '8px 8px 0 0'
-                    }}>
-                      <button
-                        onClick={() => {
-                          if (aperturaMonth === 0) {
-                            setAperturaMonth(11);
-                            setAperturaYear(aperturaYear - 1);
-                          } else {
-                            setAperturaMonth(aperturaMonth - 1);
-                          }
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'white',
-                          fontSize: '20px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        &lt;
-                      </button>
-                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <select
-                          value={aperturaMonth}
-                          onChange={({ target: { value } }) => setAperturaMonth(Number(value))}
-                          style={{
-                            padding: '5px 10px',
-                            borderRadius: '5px',
-                            border: 'none',
-                            backgroundColor: 'rgba(255,255,255,0.9)',
-                            fontFamily: 'Roboto',
-                            fontSize: '16px',
-                            color: '#1e3766',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {Array.from({ length: 12 }, (_, i) => (
-                            <option key={i} value={i}>
-                              {new Date(0, i).toLocaleString('es-ES', { month: 'long' })}
-                            </option>
-                          ))}
-                        </select>
-                        <select
-                          value={aperturaYear}
-                          onChange={({ target: { value } }) => setAperturaYear(Number(value))}
-                          style={{
-                            padding: '5px 10px',
-                            borderRadius: '5px',
-                            border: 'none',
-                            backgroundColor: 'rgba(255,255,255,0.9)',
-                            fontFamily: 'Roboto',
-                            fontSize: '16px',
-                            color: '#1e3766',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {Array.from({ length: 10 }, (_, i) => (
-                            <option key={i} value={new Date().getFullYear() + i}>
-                              {new Date().getFullYear() + i}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <button
-                        onClick={() => {
-                          if (aperturaMonth === 11) {
-                            setAperturaMonth(0);
-                            setAperturaYear(aperturaYear + 1);
-                          } else {
-                            setAperturaMonth(aperturaMonth + 1);
-                          }
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'white',
-                          fontSize: '20px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        &gt;
-                      </button>
-                    </div>
+                  renderCustomHeader={() => (
+                    <CalendarNavHeader
+                      month={aperturaMonth}
+                      year={aperturaYear}
+                      onMonthChange={setAperturaMonth}
+                      onYearChange={setAperturaYear}
+                      onPrev={() => {
+                        if (aperturaMonth === 0) {
+                          setAperturaMonth(11);
+                          setAperturaYear(aperturaYear - 1);
+                        } else {
+                          setAperturaMonth(aperturaMonth - 1);
+                        }
+                      }}
+                      onNext={() => {
+                        if (aperturaMonth === 11) {
+                          setAperturaMonth(0);
+                          setAperturaYear(aperturaYear + 1);
+                        } else {
+                          setAperturaMonth(aperturaMonth + 1);
+                        }
+                      }}
+                    />
                   )}
-                  renderDayContents={(day) => {
-                    return (
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%'
-                      }}>
-                        {day}
-                      </div>
-                    );
-                  }}
                 />
               </div>
-            </div>
-            
-            {/* Calendario Cierre */}
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '15px',
-              padding: '40px',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-              border: '1px solid #e9ecef',
-              minHeight: '580px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start'
-            }}>
-              <h2 style={{ 
-                textAlign: 'center', 
-                marginBottom: '25px', 
-                color: '#1e3766',
-                fontFamily: 'Merriweather',
-                fontSize: '1.8rem',
-                fontWeight: 'bold'
-              }}>
-                Fecha de cierre:
+            </section>
+
+            <section className="calendario-picker-panel" aria-labelledby="cal-cierre">
+              <h2 id="cal-cierre" className="calendario-picker-panel__title">
+                Fecha de cierre
               </h2>
+              <p className="calendario-picker-panel__fecha">
+                {fechaCierre.toLocaleDateString('es-ES', {
+                  weekday: 'short',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </p>
               <div className="calendario-container">
                 <DatePicker
                   selected={fechaCierre}
@@ -536,247 +445,66 @@ function Layout() {
                   minDate={fechaApertura}
                   month={cierreMonth}
                   year={cierreYear}
-                  renderCustomHeader={({
-                    decreaseMonth,
-                    increaseMonth,
-                    changeYear,
-                    changeMonth,
-                    month,
-                    year
-                  }) => (
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: '10px',
-                      backgroundColor: '#9ecd49',
-                      color: 'white',
-                      borderRadius: '8px 8px 0 0'
-                    }}>
-                      <button
-                        onClick={() => {
-                          if (cierreMonth === 0) {
-                            setCierreMonth(11);
-                            setCierreYear(cierreYear - 1);
-                          } else {
-                            setCierreMonth(cierreMonth - 1);
-                          }
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'white',
-                          fontSize: '20px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        &lt;
-                      </button>
-                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <select
-                          value={cierreMonth}
-                          onChange={({ target: { value } }) => setCierreMonth(Number(value))}
-                          style={{
-                            padding: '5px 10px',
-                            borderRadius: '5px',
-                            border: 'none',
-                            backgroundColor: 'rgba(255,255,255,0.9)',
-                            fontFamily: 'Roboto',
-                            fontSize: '16px',
-                            color: '#1e3766',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {Array.from({ length: 12 }, (_, i) => (
-                            <option key={i} value={i}>
-                              {new Date(0, i).toLocaleString('es-ES', { month: 'long' })}
-                            </option>
-                          ))}
-                        </select>
-                        <select
-                          value={cierreYear}
-                          onChange={({ target: { value } }) => setCierreYear(Number(value))}
-                          style={{
-                            padding: '5px 10px',
-                            borderRadius: '5px',
-                            border: 'none',
-                            backgroundColor: 'rgba(255,255,255,0.9)',
-                            fontFamily: 'Roboto',
-                            fontSize: '16px',
-                            color: '#1e3766',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {Array.from({ length: 10 }, (_, i) => (
-                            <option key={i} value={new Date().getFullYear() + i}>
-                              {new Date().getFullYear() + i}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <button
-                        onClick={() => {
-                          if (cierreMonth === 11) {
-                            setCierreMonth(0);
-                            setCierreYear(cierreYear + 1);
-                          } else {
-                            setCierreMonth(cierreMonth + 1);
-                          }
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'white',
-                          fontSize: '20px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        &gt;
-                      </button>
-                    </div>
+                  renderCustomHeader={() => (
+                    <CalendarNavHeader
+                      month={cierreMonth}
+                      year={cierreYear}
+                      onMonthChange={setCierreMonth}
+                      onYearChange={setCierreYear}
+                      onPrev={() => {
+                        if (cierreMonth === 0) {
+                          setCierreMonth(11);
+                          setCierreYear(cierreYear - 1);
+                        } else {
+                          setCierreMonth(cierreMonth - 1);
+                        }
+                      }}
+                      onNext={() => {
+                        if (cierreMonth === 11) {
+                          setCierreMonth(0);
+                          setCierreYear(cierreYear + 1);
+                        } else {
+                          setCierreMonth(cierreMonth + 1);
+                        }
+                      }}
+                    />
                   )}
-                  renderDayContents={(day) => {
-                    return (
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%'
-                      }}>
-                        {day}
-                      </div>
-                    );
-                  }}
                 />
               </div>
-            </div>
+            </section>
           </div>
-          
-          {/* Botón de Programación */}
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '15px',
-            padding: '40px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-            border: '1px solid #e9ecef',
-            textAlign: 'center',
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}>
-            <h2 style={{ 
-              textAlign: 'center', 
-              marginBottom: '30px',
-              color: '#1e3766',
-              fontFamily: 'Merriweather',
-              fontSize: '2rem',
-              fontWeight: 'bold'
-            }}>
-              Programar encuesta
-            </h2>
-            
-            {error && (
-              <div style={{ 
-                color: '#d32f2f', 
-                marginBottom: '20px', 
-                textAlign: 'center',
-                padding: '15px',
-                backgroundColor: '#ffebee',
-                borderRadius: '10px',
-                border: '1px solid #ffcdd2',
-                fontFamily: 'Roboto',
-                fontSize: '1rem'
-              }}>
-                {error}
-              </div>
-            )}
-            
-            {success && (
-              <div style={{ 
-                color: '#2e7d32', 
-                marginBottom: '20px', 
-                textAlign: 'center',
-                padding: '15px',
-                backgroundColor: '#e8f5e9',
-                borderRadius: '10px',
-                border: '1px solid #c8e6c9',
-                fontFamily: 'Roboto',
-                fontSize: '1rem'
-              }}>
-                {success}
-              </div>
-            )}
-            
-            <button 
-              style={{ 
-                padding: '15px 40px',
-                fontSize: '1.2rem',
-                backgroundColor: '#73A31D',
-                color: 'white',
-                border: 'none',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                opacity: loading ? 0.7 : 1,
-                pointerEvents: loading ? 'none' : 'auto',
-                fontFamily: 'Roboto',
-                fontWeight: 'bold',
-                boxShadow: '0 4px 12px rgba(115, 163, 29, 0.3)',
-                minWidth: '220px',
-                marginLeft: '10px'
-              }}
-              onClick={handleShowConfirmation}
-              disabled={loading}
-              onMouseOver={(e) => {
-                if (!loading) {
-                  e.target.style.backgroundColor = '#5a8a0f';
-                  e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 6px 16px rgba(115, 163, 29, 0.4)';
-                }
-              }}
-              onMouseOut={(e) => {
-                if (!loading) {
-                  e.target.style.backgroundColor = '#73A31D';
-                  e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(115, 163, 29, 0.3)';
-                }
-              }}
-            >
-              {loading ? 'Enviando...' : 'Programar Encuesta'}
-            </button>
 
-            {/* Botón Volver a Editar */}
-            <button 
-              style={{ 
-                padding: '15px 40px',
-                fontSize: '1.2rem',
-                backgroundColor: '#73A31D',
-                color: 'white',
-                border: 'none',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                fontFamily: 'Roboto',
-                fontWeight: 'bold',
-                boxShadow: '0 4px 12px rgba(115, 163, 29, 0.3)',
-                minWidth: '220px',
-                marginLeft: '10px',
-                marginTop: '15px'
-              }}
-              onClick={handleVolverAEditar}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#5a8a0f';
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 16px rgba(115, 163, 29, 0.4)';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#73A31D';
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 12px rgba(115, 163, 29, 0.3)';
-              }}
-            >
-              ← Volver a Editar Encuesta
-            </button>
-          </div>
+          <footer className="calendario-actions">
+            <div className="calendario-actions__messages">
+              {error && (
+                <div className="calendario-actions__alert calendario-actions__alert--error" role="alert">
+                  {error}
+                </div>
+              )}
+              {success && (
+                <div className="calendario-actions__alert calendario-actions__alert--success" role="status">
+                  {success}
+                </div>
+              )}
+            </div>
+            <div className="calendario-actions__buttons">
+              <button
+                type="button"
+                className="calendario-actions__btn calendario-actions__btn--primary"
+                onClick={handleShowConfirmation}
+                disabled={loading}
+              >
+                {loading ? 'Enviando...' : 'Programar encuesta'}
+              </button>
+              <button
+                type="button"
+                className="calendario-actions__btn calendario-actions__btn--secondary"
+                onClick={handleVolverAEditar}
+              >
+                Volver a editar encuesta
+              </button>
+            </div>
+          </footer>
         </div>
       </div>
 
@@ -838,5 +566,4 @@ function Layout() {
   );
 }
 
-root.render(<Layout />);
 export default Layout;

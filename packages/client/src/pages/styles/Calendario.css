@@ -1,17 +1,267 @@
-/* Estilos base */
-.blanco {
-  color: #ffffff;
-  font-family: "Glock";
-  font-size: xx-large;
+/* Página programar fechas — tarjeta ancha (~94% del viewport) */
+
+.page-content-area--schedule {
+  padding-left: clamp(0.5rem, 1.25vw, 1rem);
+  padding-right: clamp(0.5rem, 1.25vw, 1rem);
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.verde {
-  color: #9ecd49;
-  font-family: "Glock";
-  font-size: xx-large;
+.page-card.calendario-schedule {
+  max-width: min(94vw, 1420px);
+  width: min(94vw, 1420px);
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.75rem, 4vw, 3rem);
 }
 
-/* Contenedor principal */
+.calendario-schedule__title {
+  text-align: center;
+  margin: 0 0 0.5rem;
+  color: #1e3766;
+  font-family: Merriweather, Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+}
+
+/* Fila: apertura | cierre — centrada, tamaño según el calendario */
+.calendario-dates-row {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  justify-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  margin: 2rem auto 1.75rem;
+  align-items: start;
+  width: 100%;
+}
+
+.calendario-picker-panel {
+  background: #fff;
+  border-radius: 14px;
+  padding: clamp(1.35rem, 3vw, 2.25rem) clamp(1.5rem, 3.5vw, 2.5rem);
+  border: 1px solid rgba(30, 55, 102, 0.1);
+  box-shadow: 0 4px 20px rgba(30, 55, 102, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  max-width: min(100%, 520px);
+  min-width: 0;
+}
+
+.calendario-picker-panel__title {
+  margin: 0 0 1rem;
+  color: #1e3766;
+  font-family: Merriweather, Georgia, serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  text-align: center;
+}
+
+.calendario-picker-panel__fecha {
+  margin: 0 0 0.75rem;
+  font-family: Roboto, sans-serif;
+  font-size: 0.9rem;
+  color: #3d5a80;
+  font-weight: 600;
+}
+
+/* Calendarios centrados y un poco más grandes */
+.calendario-schedule .calendario-container {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendario-schedule .react-datepicker {
+  width: auto !important;
+  min-width: unset !important;
+  max-width: 100% !important;
+  font-size: 1rem !important;
+  margin: 0 auto !important;
+}
+
+.calendario-schedule .react-datepicker__month-container {
+  float: none !important;
+  margin: 0 auto !important;
+}
+
+.calendario-schedule .react-datepicker__month {
+  padding: 16px 12px !important;
+  margin: 0 auto !important;
+}
+
+.calendario-schedule .react-datepicker__week {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.calendario-schedule .react-datepicker__day-names {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 12px 0 !important;
+}
+
+.calendario-schedule .react-datepicker__day-name {
+  width: 2.85rem !important;
+  line-height: 2.85rem !important;
+  font-size: 0.85rem !important;
+  margin: 0.1rem !important;
+}
+
+.calendario-schedule .react-datepicker__day {
+  width: 2.85rem !important;
+  height: 2.85rem !important;
+  line-height: 2.85rem !important;
+  font-size: 1rem !important;
+  border-radius: 10px !important;
+  margin: 0.1rem !important;
+}
+
+.calendario-schedule .react-datepicker__header {
+  padding: 12px !important;
+}
+
+.calendario-schedule .react-datepicker__navigation {
+  width: 32px !important;
+  height: 32px !important;
+  top: 12px !important;
+}
+
+.calendario-schedule .calendario-header-controls {
+  padding: 10px 12px;
+}
+
+.calendario-schedule .calendario-header-controls select {
+  font-size: 0.95rem;
+  padding: 6px 10px;
+}
+
+/* Acciones debajo de ambos calendarios */
+.calendario-actions {
+  margin-top: 0.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(30, 55, 102, 0.1);
+  text-align: center;
+}
+
+.calendario-actions__messages {
+  margin-bottom: 1rem;
+}
+
+.calendario-actions__alert {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-family: Roboto, sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendario-actions__alert--error {
+  color: #c62828;
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+}
+
+.calendario-actions__alert--success {
+  color: #2e7d32;
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.calendario-actions__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.85rem 1rem;
+}
+
+.calendario-actions__btn {
+  padding: 0.85rem 1.75rem;
+  font-size: 1.05rem;
+  font-family: Roboto, sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  min-width: 200px;
+}
+
+.calendario-actions__btn--primary {
+  background: #73a31d;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(115, 163, 29, 0.3);
+}
+
+.calendario-actions__btn--primary:hover:not(:disabled) {
+  background: #5a8a0f;
+  transform: translateY(-2px);
+}
+
+.calendario-actions__btn--primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.calendario-actions__btn--secondary {
+  background: #1e3766;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(30, 55, 102, 0.2);
+}
+
+.calendario-actions__btn--secondary:hover {
+  background: #142954;
+  transform: translateY(-2px);
+}
+
+.calendario-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: #9ecd49;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendario-header-controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.calendario-header-controls select {
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  font-family: Roboto, sans-serif;
+  font-size: 0.85rem;
+  color: #1e3766;
+  cursor: pointer;
+}
+
+.calendario-header-controls__selects {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Legacy / global datepicker (otras páginas) */
 .calendario-container {
   display: flex;
   justify-content: center;
@@ -20,286 +270,67 @@
   margin: 0 auto;
 }
 
-/* Estilos personalizados para el DatePicker */
 .react-datepicker {
   border: none !important;
   box-shadow: none !important;
-  font-family: 'Roboto', sans-serif !important;
+  font-family: Roboto, sans-serif !important;
   background-color: transparent !important;
-  width: 100% !important;
-  min-width: 450px !important;
-  max-width: 500px !important;
-  margin: 0 auto !important;
 }
 
 .react-datepicker__header {
   background-color: #9ecd49 !important;
   border-bottom: none !important;
-  padding: 20px !important;
-  border-radius: 10px 10px 0 0 !important;
-}
-
-.react-datepicker__current-month {
-  color: white !important;
-  font-weight: bold !important;
-  font-size: 1.5rem !important;
-  margin-bottom: 15px !important;
-  font-family: 'Merriweather', serif !important;
-}
-
-.react-datepicker__day-names {
-  background-color: #f8f9fa !important;
-  margin: 0 !important;
-  padding: 15px 0 !important;
-  border-top: 1px solid #e9ecef !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 4px !important;
-}
-
-.react-datepicker__day-name {
-  color: #6c757d !important;
-  font-weight: 600 !important;
-  font-size: 1.2rem !important;
-  width: 4rem !important;
-  line-height: 3rem !important;
-  margin: 0 !important;
-  font-family: 'Roboto', sans-serif !important;
-}
-
-.react-datepicker__month {
-  background-color: white !important;
-  padding: 25px !important;
-  margin: 0 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-}
-
-.react-datepicker__week {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 4px !important;
-  margin-bottom: 10px !important;
-  width: 100% !important;
-}
-
-.react-datepicker__day {
-  width: 4rem !important;
-  height: 4rem !important;
-  line-height: 4rem !important;
-  margin: 0 !important;
-  border-radius: 10px !important;
-  color: #495057 !important;
-  font-weight: 500 !important;
-  font-size: 1.4rem !important;
-  transition: all 0.2s ease !important;
-  cursor: pointer !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-family: 'Roboto', sans-serif !important;
-}
-
-.react-datepicker__day:hover {
-  background-color: #f0f8f0 !important;
-  color: #73a31d !important;
-  transform: scale(1.05) !important;
-  border: 1px solid #73a31d !important;
 }
 
 .react-datepicker__day--selected {
   background-color: #73a31d !important;
   color: white !important;
-  font-weight: bold !important;
-  box-shadow: 0 2px 8px rgba(115, 163, 29, 0.4) !important;
-  border: 2px solid #73a31d !important;
 }
 
-.react-datepicker__day--selected:hover {
-  background-color: #5a8a0f !important;
-  color: white !important;
-  transform: scale(1.05) !important;
-  border: 2px solid #5a8a0f !important;
+.react-datepicker__day:hover {
+  background-color: #f0f8f0 !important;
+  color: #73a31d !important;
 }
 
-.react-datepicker__day--today {
-  background-color: #6c757d !important;
-  color: white !important;
-  font-weight: bold !important;
-  border: 2px solid #495057 !important;
-  box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.2) !important;
-}
-
-.react-datepicker__day--today:hover {
-  background-color: #5a6268 !important;
-  color: white !important;
-  border: 2px solid #495057 !important;
-}
-
-/* Estilo especial para día seleccionado que también es hoy */
-.react-datepicker__day--selected.react-datepicker__day--today {
-  background-color: #73a31d !important;
-  color: white !important;
-  font-weight: bold !important;
-  border: 3px solid #6c757d !important;
-  box-shadow: 0 2px 8px rgba(115, 163, 29, 0.4), 0 0 0 2px rgba(108, 117, 125, 0.3) !important;
-}
-
-.react-datepicker__day--selected.react-datepicker__day--today:hover {
-  background-color: #5a8a0f !important;
-  border: 3px solid #5a6268 !important;
-  transform: scale(1.05) !important;
-}
-
-.react-datepicker__day--disabled {
-  color: #ced4da !important;
-  background-color: transparent !important;
-  cursor: not-allowed !important;
-}
-
-.react-datepicker__day--disabled:hover {
-  background-color: transparent !important;
-  color: #ced4da !important;
-  transform: none !important;
-}
-
-.react-datepicker__day--outside-month {
-  color: #ced4da !important;
-}
-
-.react-datepicker__day--outside-month:hover {
-  background-color: #f8f9fa !important;
-  color: #6c757d !important;
-}
-
-/* Estilos para los navegadores de mes/año */
-.react-datepicker__navigation {
-  background-color: white !important;
-  border: 2px solid #9ecd49 !important;
-  border-radius: 50% !important;
-  width: 35px !important;
-  height: 35px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  top: 12px !important;
-  transition: all 0.2s ease !important;
-}
-
-.react-datepicker__navigation:hover {
-  background-color: #9ecd49 !important;
-  border-color: #8bb63f !important;
-  transform: scale(1.1) !important;
-}
-
-.react-datepicker__navigation--previous {
-  left: 15px !important;
-}
-
-.react-datepicker__navigation--next {
-  right: 15px !important;
-}
-
-.react-datepicker__navigation-icon::before {
-  border-color: #9ecd49 !important;
-  border-width: 2px 2px 0 0 !important;
-  width: 8px !important;
-  height: 8px !important;
-}
-
-.react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
-  border-color: white !important;
-}
-
-/* Estilos responsive para calendarios */
-@media (max-width: 768px) {
-  .calendario-container {
-    padding: 15px;
+@media (max-width: 900px) {
+  .calendario-dates-row {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1.5rem;
   }
-  
-  .react-datepicker {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: min(420px, calc(100vw - 24px)) !important;
+
+  .calendario-picker-panel {
+    width: 100%;
+    max-width: min(100%, 520px);
   }
-  
-  .react-datepicker__day {
-    width: 3rem !important;
-    height: 3rem !important;
-    line-height: 3rem !important;
-    font-size: 1.1rem !important;
-  }
-  
-  .react-datepicker__day-name {
-    width: 3rem !important;
-    line-height: 2.5rem !important;
-    font-size: 1rem !important;
-  }
-  
-  .react-datepicker__current-month {
-    font-size: 1.3rem !important;
-  }
-  
-  .react-datepicker__week {
-    gap: 3px !important;
-  }
-  
-  .react-datepicker__day-names {
-    gap: 3px !important;
+
+  .page-card.calendario-schedule {
+    max-width: min(96vw, 1420px);
+    width: min(96vw, 1420px);
   }
 }
 
 @media (max-width: 576px) {
-  .react-datepicker {
-    min-width: 0 !important;
-    max-width: min(350px, calc(100vw - 24px)) !important;
-    width: 100% !important;
+  .page-content-area--schedule {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
-  
-  .react-datepicker__day {
+
+  .page-card.calendario-schedule {
+    max-width: 100%;
+    width: 100%;
+    padding: 1.25rem 1rem;
+  }
+
+  .calendario-actions__btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .calendario-schedule .react-datepicker__day,
+  .calendario-schedule .react-datepicker__day-name {
     width: 2.5rem !important;
     height: 2.5rem !important;
     line-height: 2.5rem !important;
-    font-size: 1rem !important;
   }
-  
-  .react-datepicker__day-name {
-    width: 2.5rem !important;
-    line-height: 2rem !important;
-    font-size: 0.9rem !important;
-  }
-  
-  .react-datepicker__current-month {
-    font-size: 1.2rem !important;
-  }
-  
-  .react-datepicker__week {
-    gap: 2px !important;
-  }
-  
-  .react-datepicker__day-names {
-    gap: 2px !important;
-  }
-}
-
-/* Estilos para contenedores de calendario lado a lado */
-@media (max-width: 1100px) {
-  .calendario-grid {
-    grid-template-columns: 1fr !important;
-    gap: 40px !important;
-  }
-}
-
-/* Estilos para el botón */
-.btn {
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #8bbd3d !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
