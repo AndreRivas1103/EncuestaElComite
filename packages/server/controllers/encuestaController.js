@@ -1,15 +1,6 @@
 // encuestaController.js (modificado sin obtener_encuestas())
 import Encuesta from '../models/Encuesta.js';
-
-function calcularEstado(fecha_apertura, fecha_cierre) {
-  const hoy = new Date();
-  const apertura = new Date(fecha_apertura);
-  const cierre = new Date(fecha_cierre);
-
-  if (hoy < apertura) return 'programada';
-  if (hoy >= apertura && hoy <= cierre) return 'activa';
-  return 'cerrada';
-}
+import { calcularEstado } from '../utils/encuestaEstado.js';
 
 export const obtenerTodasEncuestas = async (req, res) => {
   try {

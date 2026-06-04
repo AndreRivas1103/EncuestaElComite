@@ -40,7 +40,20 @@ app.use(express.json());
 app.use(metricsMiddleware);
 
 // Conexión a la base de datos
-import './db/connection.js';
+import sequelize from './db/connection.js';
+
+app.get('/health', async (_req, res) => {
+  try {
+    await sequelize.authenticate();
+    res.json({ status: 'ok', db: 'connected' });
+  } catch (err) {
+    res.status(503).json({
+      status: 'degraded',
+      db: 'disconnected',
+      details: err.message,
+    });
+  }
+});
 
 app.get('/metrics', async (req, res) => {
   try {
@@ -63,6 +76,7 @@ app.get('/', (req, res) => {
     message: 'Backend del Comité operativo',
     swagger: 'GET /api-docs',
     openApiJson: 'GET /openapi.json',
+    health: 'GET /health',
     metrics: 'GET /metrics',
     endpoints: {
       login: 'POST /api/auth/login',

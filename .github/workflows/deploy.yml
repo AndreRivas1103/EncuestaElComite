@@ -9,26 +9,25 @@ on:
 jobs:
   verify-and-deploy:
     runs-on: ubuntu-latest
+    # Las pruebas corren en .github/workflows/ci.yml en cada PR y push a main.
 
     steps:
-      # 1. Checkout del código (funciona tanto en el PR como en main)
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      # 2. Configurar el entorno para verificar versiones
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          
-      # 3. Validar comandos básicos 
-      - name: Verificar versiones del entorno
-        run: |
-          echo "Comprobando que el entorno virtual esté correcto:"
-          node -v
-          npm -v
+          cache: npm
 
-      # 4. Iniciar sesión en Docker Hub (SOLO en main)
+      - name: Instalar dependencias y ejecutar pruebas
+        run: |
+          npm ci
+          npm run lint
+          npm run test
+
+      - name: Iniciar sesión en Docker Hub (SOLO en main)
       - name: Iniciar sesión en Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3

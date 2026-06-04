@@ -1,0 +1,86 @@
+name: CI — tests y verificación
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-and-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Linter (cliente)
+        run: npm run lint
+
+      - name: Pruebas unitarias y contrato Docker
+        run: npm run test
+
+  integration-api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: encuesta
+          POSTGRES_PASSWORD: encuesta
+          POSTGRES_DB: encuestaelcomite
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U encuesta -d encuestaelcomite"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://encuesta:encuesta@localhost:5432/encuestaelcomite
+      POSTGRES_SSL: 'false'
+      INTEGRATION_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Preparar esquema PostgreSQL
+        run: npm run db:migrate:diagram -w @encuestaelcomite/server
+
+      - name: Iniciar API en segundo plano
+        run: npm run start:server &
+
+      - name: Esperar endpoint /health
+        run: npx wait-on --timeout 60000 http-get://localhost:3000/health
+
+      - name: Pruebas de integración (API + BD)
+        run: npm run test:integration
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validar docker compose
+        run: docker compose config && docker compose -f docker-compose.test.yml config
+
+      - name: Construir imagen del backend
+        run: docker build -f packages/server/Dockerfile -t encuestaelcomite-back:ci .
+
+      - name: Construir imagen del cliente
+        run: docker build -f packages/client/Dockerfile -t encuestaelcomite-client:ci .

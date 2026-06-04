@@ -1,4 +1,5 @@
 import Voluntario from '../models/Voluntario.js';
+import { generarContrasena } from '../utils/voluntarioContrasena.js';
 
 export const registrarVoluntario = async (req, res) => {
   try {
@@ -86,14 +87,6 @@ export const actualizarVoluntario = async (req, res) => {
     });
   }
 };
-
-function generarContrasena(nombre, identificacion) {
-  const prefijo = nombre.trim().toLowerCase().slice(0, 3);
-  const sufijo = identificacion.slice(-3);
-  const anioActual = new Date().getFullYear();
-  return `${prefijo}${sufijo}${anioActual}`;
-}
-
 
 export const verificarVoluntario = async (req, res) => {
   try {

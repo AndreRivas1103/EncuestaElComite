@@ -14,10 +14,22 @@
     "build:client": "npm run build -w @encuestaelcomite/client",
     "start:server": "npm run start -w @encuestaelcomite/server",
     "lint": "npm run lint -w @encuestaelcomite/client",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "test:docker": "node scripts/docker-smoke.mjs",
     "install:all": "npm install"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^8.2.2",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vitest": "^3.1.1",
+    "wait-on": "^8.0.3"
   },
   "overrides": {
     "minimatch": ">=10.2.1",
