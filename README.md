@@ -292,6 +292,49 @@ docker compose down
 docker compose down -v
 ```
 
+## Pruebas
+
+El proyecto usa **[Vitest](https://vitest.dev/)** en la carpeta `tests/`. En **GitHub Actions** (`.github/workflows/ci.yml`) se ejecutan automáticamente en cada PR y push a `main`.
+
+### Tipos de prueba
+
+| Tipo | Comando / ubicación | Qué valida |
+|------|---------------------|------------|
+| **Unitarias** | `npm run test` → `tests/server/`, `tests/client/` | Lógica aislada: utilidades, controladores (modelos simulados) y hooks React. Sin servidor ni PostgreSQL. |
+| **Contrato Docker** | Incluidas en `npm run test` → `tests/external/` | Que `docker-compose.yml`, `docker-compose.test.yml` y los Dockerfiles tengan servicios, variables y puertos coherentes (sin levantar contenedores). |
+| **Integración API + BD** | `npm run test:integration` (requiere API en marcha) | `GET /health`, `GET /` y `GET /openapi.json` contra un servidor real con PostgreSQL. En CI se levanta Postgres, migra el esquema e inicia el backend. |
+| **Smoke Docker** | `npm run test:docker` (requiere Docker) | Construye y levanta `docker-compose.test.yml` (solo `db` + `back`), espera `GET /health` en el puerto `3011` y baja el stack. |
+
+### Endpoint de salud
+
+El backend expone `GET /health` para probes y smoke tests. Responde `200` con `{ status: "ok", db: "connected" }` si PostgreSQL responde; `503` si la base no está disponible.
+
+### Ejecución local
+
+```bash
+npm run test              # unitarias + contrato Docker
+npm run test:watch        # modo observación
+
+# Integración (terminal 1: BD + API)
+docker compose up -d db
+npm run db:migrate:diagram -w @encuestaelcomite/server
+npm run start:server
+# terminal 2:
+INTEGRATION_URL=http://localhost:3000 npm run test:integration
+
+# Smoke con contenedores (Docker en ejecución)
+npm run test:docker
+```
+
+### Qué no cubren
+
+- **E2E en navegador** (Playwright, Cypress).
+- **Despliegue en Minikube** (se valida manualmente; ver `k8s/README.md`).
+
+Utilidades extraídas para pruebas unitarias: `packages/server/utils/encuestaEstado.js` y `packages/server/utils/voluntarioContrasena.js`.
+
+---
+
 ## Scripts Disponibles
 
 | Script | Descripción |
@@ -304,3 +347,7 @@ docker compose down -v
 | `npm run build` | Compila el cliente para producción |
 | `npm run start:server` | Inicia el servidor en producción |
 | `npm run lint` | Ejecuta el linter en el cliente |
+| `npm run test` | Pruebas unitarias y contrato Docker (`tests/`) |
+| `npm run test:watch` | Pruebas en modo observación |
+| `npm run test:integration` | API + PostgreSQL (variable `INTEGRATION_URL`) |
+| `npm run test:docker` | Smoke: compose de prueba + `/health` |
