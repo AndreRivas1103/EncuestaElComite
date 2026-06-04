@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./packages/server/Dockerfile
-    image: encuestaelcomite-back:latest
+    image: marcelillo/encuestaelcomite-back:latest
     restart: unless-stopped
     environment:
       PORT: 3000

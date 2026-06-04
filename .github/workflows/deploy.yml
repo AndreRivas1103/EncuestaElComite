@@ -1,0 +1,47 @@
+name: CI/CD Pipeline - Encuesta El Comite
+
+on:
+  push:
+    branches: [ "main" ]      # Se activa cuando se hace merge a main
+  pull_request:
+    branches: [ "main" ]      # Se activa cuando abres un PR hacia main
+
+jobs:
+  verify-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout del código (funciona tanto en el PR como en main)
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # 2. Configurar el entorno para verificar versiones
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      # 3. Validar comandos básicos 
+      - name: Verificar versiones del entorno
+        run: |
+          echo "Comprobando que el entorno virtual esté correcto:"
+          node -v
+          npm -v
+
+      # 4. Iniciar sesión en Docker Hub (SOLO en main)
+      - name: Iniciar sesión en Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }} 
+
+      # 5. Construir y subir (SOLO en main)
+      - name: Construir y subir imagen de Docker
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./packages/server/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/encuestaelcomite-back:latest 
