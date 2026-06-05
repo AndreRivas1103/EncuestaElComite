@@ -1,41 +1,39 @@
 name: CI/CD Pipeline - Encuesta El Comite
-
+# La publicación de imágenes está en docker-publish.yml (back + client).
+# La DB sigue siendo postgres:16-alpine en compose/k8s, sin imagen en Hub.
 on:
   push:
-    branches: [ "main" ]      # Se activa cuando se hace merge a main
+    branches: [main]
   pull_request:
-    branches: [ "main" ]      # Se activa cuando abres un PR hacia main
-
+    branches: [main]
 jobs:
-  verify-and-deploy:
+  verify:
+    name: Verificar entorno
     runs-on: ubuntu-latest
-    # Las pruebas corren en .github/workflows/ci.yml en cada PR y push a main.
-
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
-
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
-
+      - name: Verificar versiones del entorno
+        run: |
+          echo "Comprobando que el entorno virtual esté correcto:"
+          node -v
+          npm -v
       - name: Instalar dependencias y ejecutar pruebas
         run: |
           npm ci
           npm run lint
           npm run test
-
-      - name: Iniciar sesión en Docker Hub (SOLO en main)
       - name: Iniciar sesión en Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }} 
-
-      # 5. Construir y subir (SOLO en main)
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Construir y subir imagen de Docker
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v5
@@ -43,4 +41,4 @@ jobs:
           context: .
           file: ./packages/server/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/encuestaelcomite-back:latest 
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/encuestaelcomite-back:latest
