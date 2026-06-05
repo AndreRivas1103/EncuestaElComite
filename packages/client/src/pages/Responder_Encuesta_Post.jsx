@@ -173,7 +173,7 @@ const ResponderEncuestaPost = () => {
     
     // Validar que todas las preguntas tengan respuesta
     const preguntasSinResponder = Object.entries(respuestas)
-      .filter(([_, resp]) => resp === '')
+      .filter(([, resp]) => resp === '')
       .map(([preguntaId]) => preguntaId);
     
     if (preguntasSinResponder.length > 0) {

@@ -18,39 +18,44 @@ La batería de preguntas estará organizada en secciones, cada una diseñada par
 ## Estructura del Proyecto (Monorepo)
 
 ```
-Proyecto-ElComite-GoBabyGo/
+EncuestaElComite/
+├── .github/workflows/
+│   ├── ci.yml                    # Lint, tests unitarios/contrato e integración API+BD
+│   ├── deploy.yml                # Lint, tests y publicación Docker (main)
+│   └── docker-publish.yml
+├── k8s/                          # Manifiestos Kubernetes (ver k8s/README.md)
+│   ├── monitoring/               # Prometheus y Grafana
+│   └── …
+├── scripts/
+│   └── docker-smoke.mjs          # Smoke Docker (npm run test:docker)
+├── tests/
+│   ├── setup.js                  # Configuración global de Vitest
+│   ├── helpers/
+│   │   └── mockExpress.js
+│   ├── client/                   # Pruebas de hooks y UI (jsdom)
+│   ├── server/                   # Controladores y utilidades del backend
+│   ├── integration/              # Smoke contra API real (requiere servidor + Postgres)
+│   └── external/                 # Contrato de docker-compose y Dockerfiles
 ├── packages/
-│   ├── client/                         # Frontend React + Vite
+│   ├── client/                   # Frontend React 19 + Vite
 │   │   ├── src/
 │   │   │   ├── assets/
-│   │   │   │   ├── fonts/              # Fuentes tipográficas
-│   │   │   │   └── imagenes_fundacion/ # Imágenes de la fundación
-│   │   │   ├── components/
-│   │   │   │   ├── MigaDePan.jsx       # Componente breadcrumb
-│   │   │   │   ├── MigaDePan.css
-│   │   │   │   ├── Sidebar.jsx         # Barra lateral de navegación
-│   │   │   │   └── Sidebar.css
-│   │   │   ├── pages/
-│   │   │   │   ├── styles/             # Estilos de cada página
-│   │   │   │   │   ├── Calendario.css
-│   │   │   │   │   ├── ClonarEncuesta.css
-│   │   │   │   │   ├── ConfirmLogout.css
-│   │   │   │   │   ├── CreacionPreguntas.css
-│   │   │   │   │   ├── EncuestasActivas.css
-│   │   │   │   │   ├── GraciasPorParticipar.css
-│   │   │   │   │   ├── Home.css
-│   │   │   │   │   ├── InfoEncuesta.css
-│   │   │   │   │   ├── InicioCoordinador.css
-│   │   │   │   │   ├── PreviewEncuesta.css
-│   │   │   │   │   ├── RealizarEncuesta.css
-│   │   │   │   │   ├── registroencuestas.css
-│   │   │   │   │   ├── RellenarDatos.css
-│   │   │   │   │   ├── ResponderEncuesta.css
-│   │   │   │   │   ├── SeleccionarEncuesta.css
-│   │   │   │   │   ├── TyC.css
-│   │   │   │   │   ├── VerResultados.css
-│   │   │   │   │   ├── VisualizacionEncuesta.css
-│   │   │   │   │   └── VisualizarResultados.css
+│   │   │   │   ├── fonts/
+│   │   │   │   └── imagenes_fundacion/
+│   │   │   ├── components/       # UI reutilizable
+│   │   │   │   ├── AppToaster.jsx
+│   │   │   │   ├── MigaDePan.jsx / .css
+│   │   │   │   ├── PageLead.jsx
+│   │   │   │   ├── PageSurface.jsx
+│   │   │   │   ├── PageTransitionShell.jsx
+│   │   │   │   ├── RouteTheme.jsx
+│   │   │   │   └── Sidebar.jsx / .css
+│   │   │   ├── hooks/
+│   │   │   │   └── useSidebarClosing.js
+│   │   │   ├── lib/
+│   │   │   │   └── toast.js
+│   │   │   ├── pages/            # Vistas por ruta
+│   │   │   │   ├── styles/       # CSS por pantalla (+ survey-builder.css, index.css)
 │   │   │   │   ├── Calendario.jsx
 │   │   │   │   ├── ClonarEncuesta.jsx
 │   │   │   │   ├── ConfirmLogout.jsx
@@ -76,26 +81,33 @@ Proyecto-ElComite-GoBabyGo/
 │   │   │   │   ├── TyC.jsx
 │   │   │   │   ├── Ver_Resultados.jsx
 │   │   │   │   └── Visualizar_Resultados.jsx
-│   │   │   ├── App.jsx                 # Componente principal
+│   │   │   ├── styles/           # Estilos globales (toast, page-surface)
+│   │   │   ├── App.jsx
 │   │   │   ├── App.css
-│   │   │   ├── main.jsx                # Punto de entrada
+│   │   │   ├── main.jsx
 │   │   │   └── index.css
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.k8s
+│   │   ├── nginx.k8s.conf
 │   │   ├── index.html
 │   │   ├── vite.config.js
 │   │   ├── eslint.config.js
 │   │   └── package.json
 │   │
-│   └── server/                         # Backend Express + Sequelize
+│   └── server/                   # Backend Express + Sequelize + PostgreSQL
 │       ├── controllers/
 │       │   ├── coordinadorController.js
 │       │   ├── encuestaController.js
 │       │   ├── evaluacionController.js
 │       │   ├── opcionController.js
-│       │   ├── responderEncuesta.js
 │       │   ├── resultadosController.js
 │       │   └── voluntarioController.js
 │       ├── db/
-│       │   └── connection.js           # Conexión a PostgreSQL
+│       │   ├── connection.js
+│       │   ├── migrateToDiagram.js
+│       │   ├── syncSchema.js
+│       │   ├── seed.js
+│       │   └── seed.sample.json
 │       ├── models/
 │       │   ├── Coordinador.js
 │       │   ├── Encuesta.js
@@ -108,10 +120,20 @@ Proyecto-ElComite-GoBabyGo/
 │       │   ├── encuestasRoutes.js
 │       │   ├── resultadosRoutes.js
 │       │   └── voluntarioRoutes.js
-│       ├── server.js                   # Punto de entrada del servidor
+│       ├── utils/
+│       │   ├── encuestaEstado.js
+│       │   └── voluntarioContrasena.js
+│       ├── metrics.js            # Prometheus (/metrics)
+│       ├── openapi.json          # Documentación Swagger UI
+│       ├── server.js
+│       ├── Dockerfile
 │       └── package.json
 │
-├── package.json                        # Configuración del monorepo (workspaces)
+├── docker-compose.yml            # Stack local: client + server + db
+├── docker-compose.test.yml       # Stack reducido para smoke tests
+├── vitest.config.js              # Pruebas en tests/ (raíz del monorepo)
+├── package.json                  # Workspaces npm y scripts globales
+├── package-lock.json
 ├── .gitignore
 └── README.md
 ```

@@ -8,7 +8,6 @@ import '../pages/styles/CreacionPreguntas.css';
 import '../pages/styles/PreviewEncuesta.css';
 import '../pages/styles/survey-builder.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
-import axios from 'axios';
 import MigaDePan from '../components/MigaDePan.jsx';
 import PageLead from '../components/PageLead.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
@@ -231,8 +230,6 @@ const CrearPregunta = () => {
     () => setSidebarVisible(false)
   );
   const [mostrarPreview, setMostrarPreview] = useState(false);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const [preguntasAnimando, setPreguntasAnimando] = useState(new Set());
   const navigate = useNavigate();
   const location = useLocation();
@@ -503,7 +500,6 @@ const CrearPregunta = () => {
     } catch (error) {
       console.error('Error al guardar encuesta:', error);
       const msg = 'No se pudo guardar la encuesta.';
-      setError(msg);
       toast.error(msg);
       return false;
     }

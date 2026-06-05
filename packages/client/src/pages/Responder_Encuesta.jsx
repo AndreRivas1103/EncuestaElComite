@@ -173,7 +173,7 @@ const ResponderEncuesta = () => {
     
     // Validar que todas las preguntas tengan respuesta
     const preguntasSinResponder = Object.entries(respuestas)
-      .filter(([_, resp]) => resp === '')
+      .filter(([, resp]) => resp === '')
       .map(([preguntaId]) => preguntaId);
     
     if (preguntasSinResponder.length > 0) {
@@ -239,9 +239,6 @@ const ResponderEncuesta = () => {
 
       setSubmitSuccess(true);
       sessionStorage.removeItem('datosVoluntario');
-      
-      // Guardar la contraseña generada para mostrarla en la página de agradecimiento
-      const contrasenaGenerada = response.data.contrasena;
       
       setTimeout(() => {
         navigate('/gracias-por-participar', { 

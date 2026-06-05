@@ -1,23 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Home.css';
 import '../pages/styles/PreviewEncuesta.css';
 import babyLogo from '../assets/LogoMarcaPersonal.png';
 import PageLead from '../components/PageLead.jsx';
 
 const PreviewEncuesta = ({ categoriasConPreguntas, onVolverEdicion, onPublicar }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate("/confirmar-cierre");
-  };
-
-  const menuItems = [
-    { path: '/inicio-coordinador', icon: '🏠', label: 'Inicio' },
-    { path: '/registro-encuestas', icon: '📝', label: 'Registro Encuestas' },
-    { path: '/nuevo-evento', icon: '📅', label: 'Nuevo Evento' },
-  ];
-
   return (
     <div>
       <title>Previsualizar Encuesta</title>

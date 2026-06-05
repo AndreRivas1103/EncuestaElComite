@@ -14,7 +14,6 @@ const RegistroEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [encuestas, setEncuestas] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarEncuestas = async () => {
