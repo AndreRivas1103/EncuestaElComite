@@ -10,7 +10,7 @@ import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 
 const EncuestaCompleta = () => {
   const [respuestas, setRespuestas] = useState({});
-  const [mostrarResultados, setMostrarResultados] = useState(false);
+  const [mostrarResultados] = useState(false);
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const { sidebarClassName, requestClose } = useSidebarClosing(
@@ -220,12 +220,6 @@ const EncuestaCompleta = () => {
     };
   };
 
-  const todasLasPreguntasRespondidas = () => {
-    return categorias.every(categoria => 
-      categoria.preguntas.every(pregunta => respuestas[pregunta.id])
-    );
-  };
-
   if (mostrarResultados) {
     const resultados = calcularResultados();
     return (
@@ -333,7 +327,7 @@ const EncuestaCompleta = () => {
             <div key={index} className="categoria-seccion">
               <h2 className="titulo-categoria">{categoria.nombre}</h2>
               
-              {categoria.preguntas.map((pregunta, pIndex) => (
+              {categoria.preguntas.map((pregunta) => (
                 <div key={pregunta.id} className="pregunta-item">
                   <h3 className="texto-pregunta">{pregunta.texto}</h3>
                   

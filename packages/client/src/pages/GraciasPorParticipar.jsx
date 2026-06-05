@@ -10,7 +10,6 @@ const GraciasPorParticipar = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [resultadosCalculados, setResultadosCalculados] = useState(null);
   const hasGuardadoRef = useRef(false);
 
   const { 
@@ -140,7 +139,6 @@ const GraciasPorParticipar = () => {
         }
 
         const resultadosCalculados = calcularResultados(respuestas);
-        setResultadosCalculados(resultadosCalculados);
 
         await axios.post('http://localhost:3000/api/resultados', {
           id_encuesta: idEncuesta,
@@ -158,7 +156,7 @@ const GraciasPorParticipar = () => {
     };
 
     procesarYGuardarResultados();
-  }, []);
+  }, [contrasena, correoVoluntario, idEncuesta, respuestas]);
 
   const probarConDatosSimulados = () => {
     navigate('/gracias-por-participar', {

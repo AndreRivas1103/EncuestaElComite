@@ -10,7 +10,6 @@ import PageSurface from '../components/PageSurface.jsx';
 
 const NuevoEvento = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const navigate = useNavigate();
 
   // Componente Sidebar
   const Sidebar = ({ isVisible, onClose }) => {
@@ -71,50 +70,6 @@ const NuevoEvento = () => {
         </nav>
       </div>
     );
-  };
-
-  // AJUSTES PRINCIPALES
-  const containerStyles = {
-    width: '90%',
-    maxWidth: '800px',
-    minHeight: '60vh',
-    padding: '100px 30px',
-    borderRadius: '20px',
-  };
-
-  const titleStyles = {
-    fontSize: '3.5rem',
-    marginBottom: '40px',
-  };
-
-  // Estilo base para botones con animaciones
-  const buttonBaseStyle = {
-    display: 'block',
-    color: 'white',
-    textDecoration: 'none',
-    borderRadius: '5px',
-    fontWeight: 'bold',
-    fontFamily: '"Roboto", sans-serif',
-    fontSize: '1.6rem',
-    padding: '12px 25px',
-    margin: '10px 0',
-    cursor: 'pointer',
-    border: 'none',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    transition: 'all 0.3s',
-    
-    // Efecto hover
-    ':hover': {
-      backgroundColor: '#8bbd39',
-      transform: 'translateY(-3px)',
-      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)'
-    },
-    
-    // Efecto al hacer clic
-    ':active': {
-      transform: 'translateY(1px)',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-    }
   };
 
   // Animación keyframes para el efecto ripple

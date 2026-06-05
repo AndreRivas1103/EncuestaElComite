@@ -14,7 +14,6 @@ const SeleccionarEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [encuestas, setEncuestas] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const navigate = useNavigate();
 
   // Misma lógica para cargar encuestas que en RegistroEncuesta
   useEffect(() => {

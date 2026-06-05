@@ -106,7 +106,7 @@ const FormularioRegistro = () => {
     setSuccessMessage('');
 
     try {
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:3000/api/voluntarios',
         {
           nombre_completo: formData.nombreCompleto,

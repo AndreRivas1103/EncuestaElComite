@@ -74,7 +74,6 @@ const Sidebar = ({ isVisible, onClose }) => {
 
 const InicioCoordinadorPrueba = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const navigate = useNavigate();
 
   // Efecto para asegurar que el sidebar no esté visible inicialmente
   React.useEffect(() => {
