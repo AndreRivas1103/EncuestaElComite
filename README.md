@@ -23,9 +23,8 @@ EncuestaElComite/
 │   ├── ci.yml                    # Lint, tests unitarios/contrato e integración API+BD
 │   ├── deploy.yml                # Lint, tests y publicación Docker (main)
 │   └── docker-publish.yml
-├── k8s/                          # Manifiestos Kubernetes (ver k8s/README.md)
-│   ├── monitoring/               # Prometheus y Grafana
-│   └── …
+├── k8s/
+│   └── manifest.yaml             # Manifiesto Kubernetes (app + monitoreo)
 ├── scripts/
 │   └── docker-smoke.mjs          # Smoke Docker (npm run test:docker)
 ├── tests/
@@ -282,22 +281,16 @@ npm run dev:client
 
 ---
 
-### Despliegue en Minikube (entrega: frontend + backend + db)
+### Despliegue en Kubernetes (Minikube)
 
-Guía completa paso a paso: **[k8s/README.md](k8s/README.md)**
-
-Resumen:
+Manifiesto único: **`k8s/manifest.yaml`**. Guía completa (qué es K8s, arquitectura, uso y comandos): **[k8s/README.md](k8s/README.md)**
 
 ```bash
 minikube start
-eval $(minikube docker-env)   # PowerShell: ver k8s/README.md
+eval $(minikube docker-env)
 ./k8s/deploy.sh
 minikube service client -n encuesta --url
-minikube service grafana -n encuesta --url    # admin / encuesta
-minikube service prometheus -n encuesta --url
 ```
-
-Incluye **Prometheus** (métricas) y **Grafana** (dashboards). Detalle en [k8s/README.md](k8s/README.md#paso-7--monitoreo-prometheus--grafana).
 
 ---
 
