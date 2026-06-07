@@ -1,0 +1,585 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: encuesta
+---
+apiVersion: v1
+data:
+  encuesta-overview.json: |
+    {
+      "uid": "encuesta-overview",
+      "title": "Encuesta El Comité — Resumen",
+      "tags": ["encuesta", "minikube"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "10s",
+      "time": { "from": "now-15m", "to": "now" },
+      "panels": [
+        {
+          "id": 1,
+          "title": "Peticiones por segundo",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "sum(rate(encuesta_http_requests_total[1m]))",
+              "legendFormat": "req/s"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "reqps" } }
+        },
+        {
+          "id": 2,
+          "title": "Errores HTTP (5xx) por minuto",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "sum(rate(encuesta_http_requests_total{status_code=~\"5..\"}[1m])) * 60",
+              "legendFormat": "errores/min"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Latencia p95 (segundos)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(encuesta_http_request_duration_seconds_bucket[5m])) by (le))",
+              "legendFormat": "p95"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "s" } }
+        },
+        {
+          "id": 4,
+          "title": "Memoria del backend (MB)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "encuesta_process_resident_memory_bytes / 1024 / 1024",
+              "legendFormat": "RSS MB"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "decmbytes" } }
+        },
+        {
+          "id": 5,
+          "title": "Encuestas en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 0, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_encuestas_registradas" }]
+        },
+        {
+          "id": 6,
+          "title": "Usuarios en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 8, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_usuarios_registrados" }]
+        },
+        {
+          "id": 7,
+          "title": "Coordinadores en BD",
+          "type": "stat",
+          "gridPos": { "h": 6, "w": 8, "x": 16, "y": 16 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [{ "expr": "encuesta_coordinadores_registrados" }]
+        },
+        {
+          "id": 8,
+          "title": "Peticiones por ruta (top)",
+          "type": "bargauge",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 22 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "targets": [
+            {
+              "expr": "topk(8, sum by (route) (increase(encuesta_http_requests_total[15m])))",
+              "legendFormat": "{{route}}"
+            }
+          ]
+        }
+      ]
+    }
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-encuesta
+  namespace: encuesta
+---
+apiVersion: v1
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: encuesta
+        orgId: 1
+        folder: Encuesta El Comité
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-provider
+  namespace: encuesta
+---
+apiVersion: v1
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus:9090
+        isDefault: true
+        editable: false
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: encuesta
+---
+apiVersion: v1
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+      - job_name: prometheus
+        static_configs:
+          - targets: ['localhost:9090']
+
+      - job_name: encuesta-backend
+        metrics_path: /metrics
+        static_configs:
+          - targets: ['back:3000']
+            labels:
+              service: backend
+              app: encuesta
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: encuesta
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: encuesta
+stringData:
+  DATABASE_URL: postgresql://encuesta:encuesta@db:5432/encuestaelcomite
+  POSTGRES_DB: encuestaelcomite
+  POSTGRES_PASSWORD: encuesta
+  POSTGRES_USER: encuesta
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: back
+  name: back
+  namespace: encuesta
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: back
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: client
+  name: client
+  namespace: encuesta
+spec:
+  ports:
+  - name: http
+    nodePort: 30080
+    port: 80
+    targetPort: 80
+  selector:
+    app: client
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: encuesta
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: db
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+  namespace: encuesta
+spec:
+  ports:
+  - name: http
+    nodePort: 30300
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: grafana
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: prometheus
+  name: prometheus
+  namespace: encuesta
+spec:
+  ports:
+  - name: http
+    nodePort: 30090
+    port: 9090
+    targetPort: 9090
+  selector:
+    app: prometheus
+  type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: encuesta
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: back
+  name: back
+  namespace: encuesta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "3000"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_URL
+              name: postgres-secret
+        - name: CORS_ORIGINS
+          value: '*'
+        image: encuestaelcomite-back:k8s
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+        name: back
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: client
+  name: client
+  namespace: encuesta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - image: encuestaelcomite-client:k8s
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 3
+        name: client
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: encuesta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_USER
+              name: postgres-secret
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_PASSWORD
+              name: postgres-secret
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_DB
+              name: postgres-secret
+        image: postgres:16-alpine
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - encuesta
+            - -d
+            - encuestaelcomite
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        name: postgres
+        ports:
+        - containerPort: 5432
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - encuesta
+            - -d
+            - encuestaelcomite
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-storage
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+  namespace: encuesta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - env:
+        - name: GF_SECURITY_ADMIN_USER
+          value: admin
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: encuesta
+        - name: GF_USERS_ALLOW_SIGN_UP
+          value: "false"
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "false"
+        image: grafana/grafana:11.2.2
+        name: grafana
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 300m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - mountPath: /etc/grafana/provisioning/datasources
+          name: datasources
+        - mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
+          name: dashboard-provider
+          subPath: dashboards.yaml
+        - mountPath: /var/lib/grafana/dashboards
+          name: dashboards
+      volumes:
+      - configMap:
+          name: grafana-datasources
+        name: datasources
+      - configMap:
+          name: grafana-dashboard-provider
+        name: dashboard-provider
+      - configMap:
+          name: grafana-dashboard-encuesta
+        name: dashboards
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: prometheus
+  name: prometheus
+  namespace: encuesta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - args:
+        - --config.file=/etc/prometheus/prometheus.yml
+        - --storage.tsdb.path=/prometheus
+        - --web.enable-lifecycle
+        image: prom/prometheus:v2.54.1
+        name: prometheus
+        ports:
+        - containerPort: 9090
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /etc/prometheus
+          name: config
+        - mountPath: /prometheus
+          name: data
+      volumes:
+      - configMap:
+          name: prometheus-config
+        name: config
+      - emptyDir: {}
+        name: data
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db
+  namespace: encuesta
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: marcelillo/encuestaelcomite-back:latest
+          imagePullPolicy: Always
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_URL
+          command:
+            - /bin/sh
+            - -c
+            - |
+              npm run db:migrate:diagram -w @encuestaelcomite/server
+              npm run db:seed -w @encuestaelcomite/server
