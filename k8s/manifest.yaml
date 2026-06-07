@@ -307,8 +307,8 @@ spec:
               name: postgres-secret
         - name: CORS_ORIGINS
           value: '*'
-        image: encuestaelcomite-back:k8s
-        imagePullPolicy: IfNotPresent
+        image: marcelillo/encuestaelcomite-back:latest  # Cambiado de encuestaelcomite-back:k8s a encuestaelcomite-back:latest
+        imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -354,8 +354,8 @@ spec:
         app: client
     spec:
       containers:
-      - image: encuestaelcomite-client:k8s
-        imagePullPolicy: IfNotPresent
+      - image: marcelillo/encuestaelcomite-client:latest  # Cambiado de encuestaelcomite-client:k8s a encuestaelcomite-client:latest
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /
