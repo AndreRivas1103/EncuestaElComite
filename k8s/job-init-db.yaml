@@ -11,8 +11,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: migrate
-          image: encuestaelcomite-back:k8s
-          imagePullPolicy: IfNotPresent
+          image: marcelillo/encuestaelcomite-back:latest
+          imagePullPolicy: Always
           env:
             - name: DATABASE_URL
               valueFrom:
