@@ -6,6 +6,7 @@
 - André Rivas Garcia
 - Juliana Franco Alzate 
 - Johan Lukas Lopez Bedoya (No Actualmente)
+- Jesus Esteban Arias Salazar
 
 ## Descripción
 
@@ -24,7 +25,9 @@ EncuestaElComite/
 │   ├── deploy.yml                # Lint, tests y publicación Docker (main)
 │   └── docker-publish.yml
 ├── k8s/
-│   └── manifest.yaml             # Manifiesto Kubernetes (app + monitoreo)
+│   ├── manifest.yaml             # Manifiesto Kubernetes (app + monitoreo)
+│   ├── deploy.sh                 # Script de despliegue en Minikube
+│   └── README.md                 # Guía K8s y conexión entre pods
 ├── scripts/
 │   └── docker-smoke.mjs          # Smoke Docker (npm run test:docker)
 ├── tests/
@@ -242,6 +245,12 @@ Queda normalmente en:
 
 ---
 
+### Opción C: Kubernetes (Minikube)
+
+Para desplegar en un clúster local con frontend, backend, PostgreSQL y monitoreo (Grafana/Prometheus), ve la sección **[Despliegue en Kubernetes (Minikube)](#despliegue-en-kubernetes-minikube)**.
+
+---
+
 ## Cuando NO es la primera vez
 
 ### Si trabajas con Docker
@@ -282,23 +291,59 @@ npm run dev:client
 
 ---
 
-### Despliegue en Kubernetes (Minikube)
+## Despliegue en Kubernetes (Minikube)
 
-Manifiesto único: **`k8s/manifest.yaml`**. Guía completa (qué es K8s, arquitectura, uso y comandos): **[k8s/README.md](k8s/README.md)**
+| Recurso | Descripción |
+|---------|-------------|
+| **`k8s/manifest.yaml`** | Define namespace, pods, services, BD, monitoreo y Job `init-db` |
+| **`k8s/deploy.sh`** | Construye imágenes en Minikube y aplica el manifiesto en orden |
+| **`k8s/README.md`** | Guía completa: conceptos, red entre pods, comandos y solución de problemas |
+
+<p>
+  <a href="k8s/README.md">
+    <img src="https://img.shields.io/badge/Guía%20completa%20Kubernetes-k8s%2FREADME.md-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Abrir guía Kubernetes">
+  </a>
+  &nbsp;
+  <a href="k8s/README.md#cómo-se-conectan-los-pods">
+    <img src="https://img.shields.io/badge/Red%20del%20backend%20(pods)-explicación%20detallada-2ea44f?style=for-the-badge" alt="Cómo se conectan los pods">
+  </a>
+</p>
+
+### Resumen: cómo se conecta el backend
+
+En K8s cada aplicación tiene un **Pod** (proceso) y un **Service** (nombre DNS fijo: `back`, `db`, `client`). Los pods no se llaman por IP.
+
+| Paso | Quién | Hacia dónde | Puerto |
+|------|-------|-------------|--------|
+| 1 | Tu navegador | Service `client` (NodePort) | **30080** |
+| 2 | nginx (pod `client`) | Service `back` vía `http://back:3000` | proxy `/api/*` |
+| 3 | Express (pod `back`) | Service `db` vía `DATABASE_URL` | **5432** |
+
+El API **no** está en `localhost:3010` como en Docker Compose: solo es accesible desde dentro del clúster o a través del frontend en el puerto **30080**.
+
+**Despliegue rápido:**
 
 ```bash
 minikube start
-eval $(minikube docker-env)
+eval $(minikube docker-env)   # Git Bash; en PowerShell ver k8s/README.md
 ./k8s/deploy.sh
 minikube service client -n encuesta --url
-minikube service grafana -n encuesta --url
 ```
 
-Checklist tras desplegar: ver **[k8s/README.md](k8s/README.md)** y la sección *Checklist post-despliegue* abajo.
+**URLs tras desplegar** (obtén la base con `minikube service client -n encuesta --url`):
+
+| Qué | URL |
+|-----|-----|
+| App (React) | `http://127.0.0.1:30080` |
+| API (vía nginx) | `http://127.0.0.1:30080/api/...` |
+| Swagger | `http://127.0.0.1:30080/api-docs` |
+| Grafana | `minikube service grafana -n encuesta --url` (`admin` / `encuesta`) |
+
+Tras desplegar, revisa el [checklist post-despliegue](#checklist-post-despliegue-docker-o-minikube) más abajo y la sección [Cómo se conectan los pods](k8s/README.md#cómo-se-conectan-los-pods) si algo no responde.
 
 ---
 
-### Checklist post-despliegue (Docker o Minikube)
+## Checklist post-despliegue (Docker o Minikube)
 
 1. **Base de datos**
    ```bash
@@ -313,10 +358,10 @@ Checklist tras desplegar: ver **[k8s/README.md](k8s/README.md)** y la sección *
    ```bash
    # Docker
    docker compose build back client && docker compose up -d back client
-   # Minikube
+   # Minikube (etiquetas deben coincidir con k8s/manifest.yaml)
    eval $(minikube docker-env)
-   docker build --no-cache -f packages/server/Dockerfile -t encuestaelcomite-back:k8s .
-   docker build -f packages/client/Dockerfile.k8s -t encuestaelcomite-client:k8s .
+   docker build --no-cache -f packages/server/Dockerfile -t marcelillo/encuestaelcomite-back:latest .
+   docker build -f packages/client/Dockerfile.k8s -t marcelillo/encuestaelcomite-client:latest .
    kubectl rollout restart deployment/back deployment/client -n encuesta
    ```
 
