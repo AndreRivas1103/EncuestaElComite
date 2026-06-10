@@ -52,7 +52,9 @@ CREATE TABLE habilidad (
 CREATE TABLE encuesta (
   id_encuesta SERIAL PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
-  fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+  fecha_creacion DATE NOT NULL DEFAULT CURRENT_DATE,
+  fecha_apertura DATE NOT NULL,
+  fecha_cierre DATE NOT NULL,
   version enum_encuesta_version NOT NULL
 );
 

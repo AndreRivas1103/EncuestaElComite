@@ -187,6 +187,7 @@ docker compose up -d
 
 ```bash
 docker compose exec back npm run db:migrate:diagram -w @encuestaelcomite/server
+docker compose exec back npm run db:upgrade:fechas -w @encuestaelcomite/server
 docker compose exec back npm run db:seed -w @encuestaelcomite/server
 ```
 
@@ -290,7 +291,46 @@ minikube start
 eval $(minikube docker-env)
 ./k8s/deploy.sh
 minikube service client -n encuesta --url
+minikube service grafana -n encuesta --url
 ```
+
+Checklist tras desplegar: ver **[k8s/README.md](k8s/README.md)** y la sección *Checklist post-despliegue* abajo.
+
+---
+
+### Checklist post-despliegue (Docker o Minikube)
+
+1. **Base de datos**
+   ```bash
+   # Docker
+   docker compose exec back npm run db:migrate:diagram -w @encuestaelcomite/server
+   docker compose exec back npm run db:upgrade:fechas -w @encuestaelcomite/server
+   docker compose exec back npm run db:seed -w @encuestaelcomite/server
+   ```
+   En Minikube el Job `init-db` del manifiesto hace migrate + upgrade + seed.
+
+2. **Reconstruir imágenes** tras cambios de código:
+   ```bash
+   # Docker
+   docker compose build back client && docker compose up -d back client
+   # Minikube
+   eval $(minikube docker-env)
+   docker build --no-cache -f packages/server/Dockerfile -t encuestaelcomite-back:k8s .
+   docker build -f packages/client/Dockerfile.k8s -t encuestaelcomite-client:k8s .
+   kubectl rollout restart deployment/back deployment/client -n encuesta
+   ```
+
+3. **Probar fechas de encuesta (coordinador)**
+   - Crear encuesta → calendario: apertura hoy, cierre en 7+ días.
+   - En registro debe verse **activa**, no cerrada.
+
+4. **Probar flujo voluntario**
+   - Registro → responder encuesta → pantalla de gracias muestra **código de acceso**.
+   - Copiar ese código.
+
+5. **Probar resultados**
+   - Ir a *Visualizar resultados* con correo, documento y código.
+   - Debe abrir gráficos en `/ver-resultados` (aunque la encuesta ya esté cerrada).
 
 ---
 
@@ -358,6 +398,7 @@ Utilidades extraídas para pruebas unitarias: `packages/server/utils/encuestaEst
 | `npm run dev:client` | Ejecuta solo el frontend |
 | `npm run dev:server` | Ejecuta solo el backend |
 | `npm run db:migrate:diagram -w @encuestaelcomite/server` | Recrea el esquema PostgreSQL según el diagrama (borra datos del esquema) |
+| `npm run db:upgrade:fechas -w @encuestaelcomite/server` | Añade/migra columnas fecha_apertura y fecha_cierre en encuestas |
 | `npm run db:seed -w @encuestaelcomite/server` | Inserta datos iniciales / de prueba (requiere esquema ya migrado) |
 | `npm run build` | Compila el cliente para producción |
 | `npm run start:server` | Inicia el servidor en producción |

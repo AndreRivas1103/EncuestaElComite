@@ -8,7 +8,8 @@
     "start": "node server.js",
     "db:sync": "node db/syncSchema.js",
     "db:seed": "node db/seed.js",
-    "db:migrate:diagram": "node db/migrateToDiagram.js"
+    "db:migrate:diagram": "node db/migrateToDiagram.js",
+    "db:upgrade:fechas": "node db/upgradeEncuestaFechas.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

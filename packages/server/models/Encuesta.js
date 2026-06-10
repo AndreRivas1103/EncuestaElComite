@@ -12,6 +12,22 @@ function wrapRow(row) {
   };
 }
 
+function mapEncuestaRow(r, datos_encuesta = { categorias: [] }) {
+  const hoy = toDateOnly(new Date());
+  const fechaCreacion = toDateOnly(r.fecha_creacion || r.fecha || hoy);
+  const fechaApertura = toDateOnly(r.fecha_apertura || r.fecha || hoy);
+  const fechaCierre = toDateOnly(r.fecha_cierre || r.fecha_apertura || r.fecha || hoy);
+  return wrapRow({
+    id: String(r.id_encuesta),
+    titulo: r.nombre,
+    fecha_creacion: fechaCreacion,
+    fecha_apertura: fechaApertura,
+    fecha_cierre: fechaCierre,
+    version: r.version,
+    datos_encuesta
+  });
+}
+
 function buildDatosEncuesta(rows) {
   const categoriasMap = new Map();
   for (const row of rows) {
@@ -38,7 +54,10 @@ function buildDatosEncuesta(rows) {
 
 async function hydrateEncuesta(idEncuesta) {
   const [baseRows] = await sequelize.query(
-    `SELECT id_encuesta, nombre, fecha, version FROM encuesta WHERE id_encuesta = :id`,
+    `
+    SELECT id_encuesta, nombre, fecha_creacion, fecha_apertura, fecha_cierre, version
+    FROM encuesta WHERE id_encuesta = :id
+    `,
     { replacements: { id: Number(idEncuesta) } }
   );
   const base = baseRows?.[0];
@@ -56,44 +75,41 @@ async function hydrateEncuesta(idEncuesta) {
     { replacements: { id: Number(idEncuesta) } }
   );
 
-  const fecha = toDateOnly(base.fecha);
-  return wrapRow({
-    id: String(base.id_encuesta),
-    titulo: base.nombre,
-    fecha_creacion: fecha,
-    fecha_apertura: fecha,
-    fecha_cierre: fecha,
-    estado: 'activa',
-    version: base.version,
-    datos_encuesta: buildDatosEncuesta(detailRows)
-  });
+  return mapEncuestaRow(base, buildDatosEncuesta(detailRows));
 }
 
 const Encuesta = {
   async findAll() {
     const [rows] = await sequelize.query(
-      `SELECT id_encuesta, nombre, fecha, version FROM encuesta ORDER BY id_encuesta DESC`
+      `
+      SELECT id_encuesta, nombre, fecha_creacion, fecha_apertura, fecha_cierre, version
+      FROM encuesta ORDER BY id_encuesta DESC
+      `
     );
-    return rows.map((r) =>
-      wrapRow({
-        id: String(r.id_encuesta),
-        titulo: r.nombre,
-        fecha_creacion: toDateOnly(r.fecha),
-        fecha_apertura: toDateOnly(r.fecha),
-        fecha_cierre: toDateOnly(r.fecha),
-        estado: 'activa',
-        version: r.version,
-        datos_encuesta: { categorias: [] }
-      })
-    );
+    return rows.map((r) => mapEncuestaRow(r));
   },
 
-  async findOne() {
+  async findOne({ version = 'pre' } = {}) {
     const [rows] = await sequelize.query(
-      `SELECT id_encuesta FROM encuesta WHERE version = 'pre' ORDER BY id_encuesta DESC LIMIT 1`
+      `
+      SELECT id_encuesta, nombre, fecha_creacion, fecha_apertura, fecha_cierre, version
+      FROM encuesta
+      WHERE version = :version::enum_encuesta_version
+      ORDER BY id_encuesta DESC
+      `,
+      { replacements: { version } }
     );
-    if (!rows?.[0]) return null;
-    return hydrateEncuesta(rows[0].id_encuesta);
+
+    const { calcularEstado } = await import('../utils/encuestaEstado.js');
+
+    for (const row of rows) {
+      const mapped = mapEncuestaRow(row);
+      const plain = mapped.get({ plain: true });
+      if (calcularEstado(plain.fecha_apertura, plain.fecha_cierre) === 'activa') {
+        return hydrateEncuesta(row.id_encuesta);
+      }
+    }
+    return null;
   },
 
   async findByPk(id) {
@@ -103,15 +119,26 @@ const Encuesta = {
   async create(payload) {
     const version = payload?.version === 'post' ? 'post' : 'pre';
     const nombre = payload?.titulo || payload?.nombre || 'Encuesta';
-    const fecha = toDateOnly(payload?.fecha_apertura || payload?.fecha || new Date());
+    const hoy = toDateOnly(new Date());
+    const fechaCreacion = toDateOnly(payload?.fecha_creacion || hoy);
+    const fechaApertura = toDateOnly(payload?.fecha_apertura || hoy);
+    const fechaCierre = toDateOnly(payload?.fecha_cierre || fechaApertura);
 
     const [inserted] = await sequelize.query(
       `
-      INSERT INTO encuesta (nombre, fecha, version)
-      VALUES (:nombre, :fecha, :version::enum_encuesta_version)
+      INSERT INTO encuesta (nombre, fecha_creacion, fecha_apertura, fecha_cierre, version)
+      VALUES (:nombre, :fecha_creacion, :fecha_apertura, :fecha_cierre, :version::enum_encuesta_version)
       RETURNING id_encuesta
       `,
-      { replacements: { nombre, fecha, version } }
+      {
+        replacements: {
+          nombre,
+          fecha_creacion: fechaCreacion,
+          fecha_apertura: fechaApertura,
+          fecha_cierre: fechaCierre,
+          version
+        }
+      }
     );
     const idEncuesta = inserted?.[0]?.id_encuesta;
 

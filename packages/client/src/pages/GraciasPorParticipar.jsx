@@ -139,12 +139,15 @@ const GraciasPorParticipar = () => {
         }
 
         const resultadosCalculados = calcularResultados(respuestas);
+        const puntajes_por_habilidad = Object.fromEntries(
+          Object.entries(resultadosCalculados.porCategoria || {}).map(([k, v]) => [k, v.porcentaje ?? 0])
+        );
 
         await axios.post('http://localhost:3000/api/resultados', {
           id_encuesta: idEncuesta,
           correo_voluntario: correoVoluntario,
           contrasena: contrasena,
-          resultado: resultadosCalculados
+          resultado: { ...resultadosCalculados, puntajes_por_habilidad }
         });
 
       } catch (error) {

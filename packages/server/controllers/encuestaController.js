@@ -51,17 +51,17 @@ export const crearEncuesta = async (req, res) => {
 
 export const obtenerEncuestaActiva = async (req, res) => {
   try {
-    const encuestaActiva = await Encuesta.findOne();
+    const encuestaActiva = await Encuesta.findOne({ version: 'pre' });
 
     if (!encuestaActiva) {
       return res.status(404).json({
         success: false,
-        message: 'No hay encuestas activas disponibles',
+        message: 'No hay encuestas activas disponibles en este momento',
         details: {
           requerimientos: {
             estado: 'activa',
             fecha_actual: new Date().toISOString(),
-            rango_fechas: 'Debe estar entre fecha_apertura y fecha_cierre'
+            rango_fechas: 'La fecha actual debe estar entre fecha_apertura y fecha_cierre (día completo)'
           }
         }
       });
@@ -72,12 +72,15 @@ export const obtenerEncuestaActiva = async (req, res) => {
       datosEncuesta = JSON.parse(datosEncuesta);
     }
 
+    const plain = encuestaActiva.get({ plain: true });
+    const estado = calcularEstado(plain.fecha_apertura, plain.fecha_cierre);
+
     res.json({
       success: true,
       data: {
-        ...encuestaActiva.get({ plain: true }),
+        ...plain,
         datos_encuesta: datosEncuesta,
-        estado: 'activa'
+        estado
       }
     });
   } catch (error) {
@@ -96,23 +99,36 @@ export const programarEncuesta = async (req, res) => {
       titulo,
       usuario_id,
       datos_encuesta,
-      version
+      version,
+      fecha_apertura,
+      fecha_cierre
     } = req.body;
 
     const errores = [];
     if (!titulo) errores.push('Falta el título');
     if (!usuario_id) errores.push('Falta el usuario_id');
     if (!datos_encuesta) errores.push('Faltan los datos de la encuesta');
+    if (!fecha_apertura) errores.push('Falta fecha_apertura');
+    if (!fecha_cierre) errores.push('Falta fecha_cierre');
 
     if (errores.length > 0) {
       return res.status(400).json({ error: 'Campos inválidos', detalles: errores });
+    }
+
+    if (new Date(fecha_cierre) <= new Date(fecha_apertura)) {
+      return res.status(400).json({
+        error: 'Fechas inválidas',
+        detalles: ['fecha_cierre debe ser posterior a fecha_apertura']
+      });
     }
 
     const nuevaEncuesta = await Encuesta.create({
       titulo,
       datos_encuesta,
       usuario_id,
-      version: version || 'pre'
+      version: version || 'pre',
+      fecha_apertura,
+      fecha_cierre
     });
 
     res.status(201).json({

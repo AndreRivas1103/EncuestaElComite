@@ -65,18 +65,24 @@ export const obtenerResultadosPorVoluntario = async (req, res) => {
 // NUEVO CONTROLADOR QUE USA EL MÉTODO
 export const obtenerResultadosPorCredenciales = async (req, res) => {
   try {
-    const { correo, contrasena } = req.body;
+    const { correo, contrasena, identificacion } = req.body;
 
-    // Validación básica
     if (!correo || !contrasena) {
       return res.status(400).json({
         error: 'Datos incompletos',
-        details: 'Se requieren correo y contrasena'
+        details: 'Se requieren correo y código de acceso'
       });
     }
 
-    // Usar el nuevo método del modelo
-    const resultados = await Resultado.findByEmailAndPassword(correo, contrasena);
+    const resultados = await Resultado.findByEmailAndPassword(correo, contrasena, identificacion);
+
+    if (!resultados.length) {
+      return res.status(404).json({
+        success: false,
+        error: 'No se encontraron resultados',
+        details: 'Verifica correo, documento y código (el que recibiste al terminar la encuesta)'
+      });
+    }
 
     res.json({
       success: true,

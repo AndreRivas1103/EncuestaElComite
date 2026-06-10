@@ -582,4 +582,5 @@ spec:
             - -c
             - |
               npm run db:migrate:diagram -w @encuestaelcomite/server
+              npm run db:upgrade:fechas -w @encuestaelcomite/server || true
               npm run db:seed -w @encuestaelcomite/server

@@ -171,16 +171,23 @@ async function seedEncuesta(_coordinador, overrides) {
   }
 
   if (hasDiagramSchema) {
+    const fechas = ventanaEncuestaActiva();
     const nombre = overrides?.encuesta?.titulo || 'Encuesta de demostración (diagrama)';
     await sequelize.query(
       `
-      INSERT INTO encuesta (nombre, fecha, version)
-      SELECT :nombre, CURRENT_DATE, 'pre'::enum_encuesta_version
+      INSERT INTO encuesta (nombre, fecha_creacion, fecha_apertura, fecha_cierre, version)
+      SELECT :nombre, CURRENT_DATE, :fecha_apertura, :fecha_cierre, 'pre'::enum_encuesta_version
       WHERE NOT EXISTS (
         SELECT 1 FROM encuesta WHERE nombre = :nombre AND version = 'pre'
       )
       `,
-      { replacements: { nombre } }
+      {
+        replacements: {
+          nombre,
+          fecha_apertura: fechas.fecha_apertura,
+          fecha_cierre: fechas.fecha_cierre
+        }
+      }
     );
     console.log(`Encuesta demo asegurada en esquema diagrama: ${nombre}`);
     return;

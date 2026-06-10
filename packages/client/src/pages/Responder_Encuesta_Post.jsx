@@ -42,8 +42,17 @@ const ResponderEncuestaPost = () => {
         
         console.log('[DEBUG] Fechas - Hoy:', hoy, 'Apertura:', fechaApertura, 'Cierre:', fechaCierre);
         
-        if (hoy < fechaApertura) {
-          throw new Error(`Esta encuesta estará disponible a partir del ${fechaApertura.toLocaleDateString()}`);
+        const inicioApertura = new Date(fechaApertura);
+        inicioApertura.setHours(0, 0, 0, 0);
+        const finCierre = new Date(fechaCierre);
+        finCierre.setHours(23, 59, 59, 999);
+
+        if (hoy < inicioApertura) {
+          throw new Error(`Esta encuesta estará disponible a partir del ${inicioApertura.toLocaleDateString('es-ES')}`);
+        }
+
+        if (hoy > finCierre) {
+          throw new Error(`Esta encuesta cerró el ${finCierre.toLocaleDateString('es-ES')}`);
         }
 
         // Parsear y validar datos_encuesta

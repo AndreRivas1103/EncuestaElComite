@@ -82,14 +82,15 @@ const ConsultaResultados = () => {
       
       // Hacer la petición al backend para verificar credenciales
       const response = await axios.post(
-        'http://localhost:3000/api/resultados/credenciales', 
+        'http://localhost:3000/api/resultados/credenciales',
         {
           correo: formData.correoElectronico,
-          contrasena: formData.codigo
+          contrasena: formData.codigo,
+          identificacion: formData.numeroDocumento
         }
       );
-      
-      if (response.data.success && response.data.data.length > 0) {
+
+      if (response.data.success && Array.isArray(response.data.data) && response.data.data.length > 0) {
         setApiResponse({ loading: false, error: null, success: true });
         
         // Guardar los resultados en localStorage
@@ -108,9 +109,13 @@ const ConsultaResultados = () => {
       }
     } catch (error) {
       console.error('Error al verificar credenciales:', error);
+      const msg =
+        error.response?.data?.details ||
+        error.response?.data?.error ||
+        'Error al conectar con el servidor';
       setApiResponse({
         loading: false,
-        error: error.response?.data?.error || 'Error al conectar con el servidor',
+        error: msg,
         success: false
       });
     }
@@ -139,7 +144,7 @@ const ConsultaResultados = () => {
             <form onSubmit={handleSubmit}>
               <div className="instructions-container">
                 <p className="instructions-text">
-                  Recuerde que para realizar la consulta de tus resultados debes ingresar tu número de documento y el código único que se te entrega al finalizar la encuesta.
+                  Usa el mismo correo y documento con los que te registraste, y el código que aparece al finalizar la encuesta (3 letras de tu nombre + 3 dígitos del documento + año).
                 </p>
               </div>
               

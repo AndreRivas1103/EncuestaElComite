@@ -1,4 +1,5 @@
 import sequelize from '../db/connection.js';
+import { generarContrasena } from '../utils/voluntarioContrasena.js';
 
 async function getTipoByEncuesta(idEncuesta) {
   const [rows] = await sequelize.query(
@@ -8,11 +9,107 @@ async function getTipoByEncuesta(idEncuesta) {
   return rows?.[0]?.version || 'pre';
 }
 
+/** Extrae puntajes desde porCategoria o puntajes_por_habilidad */
+function extraerPuntajes(resultado) {
+  if (!resultado || typeof resultado !== 'object') return {};
+
+  const directos = resultado.puntajes_por_habilidad;
+  if (directos && Object.keys(directos).length > 0) {
+    return directos;
+  }
+
+  const porCategoria = resultado.porCategoria || {};
+  const puntajes = {};
+  for (const [nombre, datos] of Object.entries(porCategoria)) {
+    if (!datos || typeof datos !== 'object') continue;
+    puntajes[nombre] = Number(datos.porcentaje ?? datos.puntaje ?? 0);
+  }
+  return puntajes;
+}
+
+/** Agrupa filas de evaluacion_habilidad al formato que espera el frontend */
+function agruparResultados(rows) {
+  const mapa = new Map();
+
+  for (const row of rows) {
+    const key = `${row.id_encuesta}-${row.tipo}`;
+    if (!mapa.has(key)) {
+      mapa.set(key, {
+        id_encuesta: String(row.id_encuesta),
+        correo_voluntario: row.correo,
+        tipo: row.tipo,
+        resultado: {
+          resumen: { fecha: new Date().toISOString().split('T')[0] },
+          porCategoria: {},
+          recomendaciones: []
+        }
+      });
+    }
+
+    const item = mapa.get(key);
+    const porcentaje = Number(row.puntaje ?? 0);
+    item.resultado.porCategoria[row.habilidad] = {
+      porcentaje,
+      nivel: porcentaje >= 80 ? 'Alto' : porcentaje >= 60 ? 'Medio' : 'Bajo'
+    };
+  }
+
+  for (const item of mapa.values()) {
+    const cats = Object.values(item.resultado.porCategoria);
+    const total = cats.reduce((sum, c) => sum + (c.porcentaje || 0), 0);
+    const promedio = cats.length ? Math.round(total / cats.length) : 0;
+    item.resultado.resumen.porcentajeTotal = promedio;
+    item.resultado.recomendaciones = cats
+      .filter((c) => c.porcentaje < 70)
+      .map((c, i) => `Revisa tu desempeño en la habilidad evaluada (${c.porcentaje}%)`);
+    if (item.resultado.recomendaciones.length === 0 && cats.length > 0) {
+      item.resultado.recomendaciones.push('¡Buen desempeño! Sigue fortaleciendo tus habilidades.');
+    }
+  }
+
+  return [...mapa.values()];
+}
+
+async function verificarCodigoAcceso(correo, contrasena, identificacion) {
+  const [userRows] = await sequelize.query(
+    `
+    SELECT correo, nombre_completo, identificacion, codigo_unico
+    FROM usuario WHERE correo = :correo
+    `,
+    { replacements: { correo } }
+  );
+  const user = userRows?.[0];
+  if (!user) return false;
+
+  if (identificacion && String(user.identificacion) !== String(identificacion)) {
+    return false;
+  }
+
+  const codigoEsperado = generarContrasena(user.nombre_completo, user.identificacion);
+  const codigoGuardado = user.codigo_unico;
+
+  return (
+    contrasena === codigoGuardado ||
+    contrasena === codigoEsperado
+  );
+}
+
 const Resultado = {
-  async insertarResultadoCalculado(id_encuesta, correo_voluntario, _contrasena, resultado) {
+  async insertarResultadoCalculado(id_encuesta, correo_voluntario, contrasena, resultado) {
     const tipo = await getTipoByEncuesta(id_encuesta);
-    const puntajes = resultado?.puntajes_por_habilidad || {};
+    const puntajes = extraerPuntajes(resultado);
     const keys = Object.keys(puntajes);
+
+    if (keys.length === 0) {
+      throw new Error('El resultado no contiene puntajes por habilidad');
+    }
+
+    if (contrasena) {
+      await sequelize.query(
+        `UPDATE usuario SET codigo_unico = :codigo WHERE correo = :correo`,
+        { replacements: { correo: correo_voluntario, codigo: contrasena } }
+      );
+    }
 
     for (const habilidadNombre of keys) {
       const puntaje = Number(puntajes[habilidadNombre] ?? 0);
@@ -60,15 +157,12 @@ const Resultado = {
       `,
       { replacements: { correo: where.correo_voluntario } }
     );
-    return rows;
+    return agruparResultados(rows);
   },
 
-  async findByEmailAndPassword(correo, contrasena) {
-    const [userRows] = await sequelize.query(
-      `SELECT correo FROM usuario WHERE correo = :correo AND codigo_unico = :codigo`,
-      { replacements: { correo, codigo: contrasena } }
-    );
-    if (!userRows?.length) return [];
+  async findByEmailAndPassword(correo, contrasena, identificacion) {
+    const accesoOk = await verificarCodigoAcceso(correo, contrasena, identificacion);
+    if (!accesoOk) return [];
     return this.findAll({ where: { correo_voluntario: correo } });
   },
 
@@ -84,7 +178,7 @@ const Resultado = {
       `,
       { replacements: { correo } }
     );
-    return rows;
+    return agruparResultados(rows);
   }
 };
 
