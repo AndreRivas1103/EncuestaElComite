@@ -9,21 +9,26 @@ build/
 out/
 .next/
 .nuxt/
+packages/*/dist/
+packages/*/build/
 
 # Vite
 .vite/
+vite.config.js.timestamp-*
 
 # Testing
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
 
-# Environment variables
+# Environment variables (nunca subir credenciales)
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
 
 # Logs
 logs/
@@ -34,7 +39,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Editor directories and files
+# Editor — VS Code / Cursor
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -42,6 +47,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 .idea/
+.cursor/
 *.suo
 *.ntvs*
 *.njsproj
@@ -52,6 +58,8 @@ lerna-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+Desktop.ini
+ehthumbs.db
 
 # Cache
 .cache/
@@ -59,18 +67,43 @@ Thumbs.db
 .eslintcache
 .stylelintcache
 *.tsbuildinfo
+.turbo/
 
-# Optional npm cache
+# Optional npm / package managers
 .npm
-
-# Yarn
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
 .yarn-integrity
+.pnpm-store/
 
-# Misc
+# Docker (overrides locales; no subir secretos)
+docker-compose.override.yml
+docker-compose.*.local.yml
+.docker/
+
+# Kubernetes / Minikube (config local, no manifiestos del repo)
+.minikube/
+kubeconfig
+kubeconfig.*
+*-secret.local.yaml
+*.kubeconfig
+
+# Secretos y claves
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+service-account*.json
+
+# Temporales
+tmp/
+temp/
+*.tmp
+*.temp
 *.local
 *.backup.*
 *.back.*
@@ -81,3 +114,10 @@ Thumbs.db
 
 # Local history
 .history/
+
+# GitHub Actions local (nektos/act)
+.act/
+.actrc
+
+# Carpetas vacías o artefactos locales de despliegue
+argocd/.local/
