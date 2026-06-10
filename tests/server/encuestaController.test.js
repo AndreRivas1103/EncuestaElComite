@@ -56,6 +56,8 @@ describe('encuestaController', () => {
           titulo: 'Evento',
           usuario_id: 5,
           datos_encuesta: { preguntas: [] },
+          fecha_apertura: '2026-06-10',
+          fecha_cierre: '2026-06-17',
         },
       });
 
