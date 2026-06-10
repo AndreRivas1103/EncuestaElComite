@@ -5,7 +5,8 @@ import {
   crearEncuesta,
   obtenerEncuestaActiva,
   programarEncuesta,
-  obtenerEncuestaPorId
+  obtenerEncuestaPorId,
+  eliminarEncuesta
 } from '../controllers/encuestaController.js';
 
 const router = express.Router();
@@ -15,7 +16,8 @@ router.get('/', obtenerTodasEncuestas);
 router.post('/', crearEncuesta);
 router.post('/programar', programarEncuesta);
 router.get('/activa', obtenerEncuestaActiva);
-router.put('/:id', programarEncuesta); // Para permitir actualización por ID
-router.get('/:id', obtenerEncuestaPorId); // Nueva ruta para obtener por ID
+router.delete('/:id', eliminarEncuesta);
+router.put('/:id', programarEncuesta);
+router.get('/:id', obtenerEncuestaPorId);
 
 export default router;

@@ -188,6 +188,21 @@ const Encuesta = {
     }
 
     return hydrateEncuesta(idEncuesta);
+  },
+
+  async destroy(id) {
+    const idEncuesta = Number(id);
+    const [rows] = await sequelize.query(
+      `SELECT id_encuesta FROM encuesta WHERE id_encuesta = :id`,
+      { replacements: { id: idEncuesta } }
+    );
+    if (!rows?.length) return false;
+
+    await sequelize.query(
+      `DELETE FROM encuesta WHERE id_encuesta = :id`,
+      { replacements: { id: idEncuesta } }
+    );
+    return true;
   }
 };
 

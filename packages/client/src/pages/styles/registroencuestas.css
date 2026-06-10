@@ -20,6 +20,65 @@
   place-items: center;
 }
 
+/* Tarjeta contenedora */
+.registro-encuesta-tarjeta {
+  position: relative;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.registro-encuesta-tarjeta.registro-encuesta-activa {
+  border-left: 8px solid #4CAF50;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(76, 175, 80, 0.1);
+}
+
+.registro-encuesta-tarjeta.registro-encuesta-cerrada { 
+  border-left: 8px solid #f44336;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(244, 67, 54, 0.1);
+}
+
+.registro-encuesta-tarjeta.registro-encuesta-borrador { 
+  border-left: 8px solid #ff9800;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(255, 152, 0, 0.1);
+}
+
+.registro-encuesta-tarjeta.registro-encuesta-programada { 
+  border-left: 8px solid #2196F3;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(33, 150, 243, 0.1);
+}
+
+.registro-encuesta-eliminar {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  width: 2.25rem;
+  height: 2.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.registro-encuesta-eliminar:hover:not(:disabled) {
+  background: rgba(244, 67, 54, 0.85);
+  transform: scale(1.05);
+}
+
+.registro-encuesta-eliminar:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* Botones */
 .registro-encuesta-boton {
   background: #1e3766;
@@ -30,11 +89,10 @@
   padding: 2rem;
   border-radius: 12px;
   min-height: 140px;
-  width: 280px;
+  width: 100%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
   position: relative;
   overflow: hidden;
 }
@@ -44,45 +102,13 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Estados - Barras más visibles */
-.registro-encuesta-activa { 
-  border-left: 8px solid #4CAF50;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(76, 175, 80, 0.1);
-}
-
-.registro-encuesta-activa:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(76, 175, 80, 0.2);
-}
-
-.registro-encuesta-cerrada { 
-  border-left: 8px solid #f44336;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(244, 67, 54, 0.1);
-}
-
-.registro-encuesta-cerrada:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(244, 67, 54, 0.2);
-}
-
-.registro-encuesta-borrador { 
-  border-left: 8px solid #ff9800;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(255, 152, 0, 0.1);
-}
-
-.registro-encuesta-borrador:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(255, 152, 0, 0.2);
-}
-
-.registro-encuesta-programada { 
-  border-left: 8px solid #2196F3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 8px 0 0 rgba(33, 150, 243, 0.1);
-}
-
-.registro-encuesta-programada:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 8px 0 0 rgba(33, 150, 243, 0.2);
+.registro-encuesta-tarjeta:hover .registro-encuesta-boton {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Indicador adicional en la esquina superior derecha */
-.registro-encuesta-activa::before {
+.registro-encuesta-tarjeta.registro-encuesta-activa::before {
   content: '';
   position: absolute;
   top: 0;
@@ -94,7 +120,7 @@
   border-color: transparent #4CAF50 transparent transparent;
 }
 
-.registro-encuesta-cerrada::before {
+.registro-encuesta-tarjeta.registro-encuesta-cerrada::before {
   content: '';
   position: absolute;
   top: 0;
@@ -106,7 +132,7 @@
   border-color: transparent #f44336 transparent transparent;
 }
 
-.registro-encuesta-borrador::before {
+.registro-encuesta-tarjeta.registro-encuesta-borrador::before {
   content: '';
   position: absolute;
   top: 0;
@@ -118,7 +144,7 @@
   border-color: transparent #ff9800 transparent transparent;
 }
 
-.registro-encuesta-programada::before {
+.registro-encuesta-tarjeta.registro-encuesta-programada::before {
   content: '';
   position: absolute;
   top: 0;
@@ -239,9 +265,12 @@
     gap: 1.5rem;
   }
   
-  .registro-encuesta-boton {
+  .registro-encuesta-tarjeta {
     width: 100%;
     max-width: 350px;
+  }
+
+  .registro-encuesta-boton {
     min-height: 120px;
     padding: 1.5rem;
   }
@@ -294,10 +323,10 @@
   }
 
   /* Reducir el tamaño del indicador en móviles */
-  .registro-encuesta-activa::before,
-  .registro-encuesta-cerrada::before,
-  .registro-encuesta-borrador::before,
-  .registro-encuesta-programada::before {
+.registro-encuesta-tarjeta.registro-encuesta-activa::before,
+  .registro-encuesta-tarjeta.registro-encuesta-cerrada::before,
+  .registro-encuesta-tarjeta.registro-encuesta-borrador::before,
+  .registro-encuesta-tarjeta.registro-encuesta-programada::before {
     border-width: 0 15px 15px 0;
   }
 }

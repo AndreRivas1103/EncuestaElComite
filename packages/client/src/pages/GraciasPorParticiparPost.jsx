@@ -52,30 +52,40 @@ const GraciasPorParticiparPost = () => {
       let respuestaCorrectaValor = "No disponible";
 
       if (item.tipoRespuesta === 'multiple') {
-        const respuestaCorrectaIndex = (typeof item.respuestaCorrecta === 'number' && !isNaN(item.respuestaCorrecta)) 
-          ? item.respuestaCorrecta 
-          : -1;
-
         const opcionesValidas = Array.isArray(item.opciones) && item.opciones.length > 0;
+        const respuestaIndex = parseInt(item.respuesta, 10);
+        const correctas = Array.isArray(item.respuestasCorrectas)
+          ? item.respuestasCorrectas
+          : (typeof item.respuestaCorrecta === 'number' && !isNaN(item.respuestaCorrecta)
+            ? [item.respuestaCorrecta]
+            : []);
 
-        respuestaCorrectaValor = (opcionesValidas && respuestaCorrectaIndex >= 0 && respuestaCorrectaIndex < item.opciones.length)
-          ? item.opciones[respuestaCorrectaIndex] 
-          : "Respuesta correcta no disponible";
+        const primerCorrecto = correctas.length > 0 ? correctas[0] : -1;
+        respuestaCorrectaValor = (opcionesValidas && primerCorrecto >= 0 && primerCorrecto < item.opciones.length)
+          ? item.opciones[primerCorrecto]
+          : 'Respuesta correcta no disponible';
 
-        esCorrecta = item.respuesta === String(respuestaCorrectaIndex);
-        razon = esCorrecta ? "Respuesta correcta" : "Respuesta incorrecta";
+        esCorrecta = !isNaN(respuestaIndex) && correctas.includes(respuestaIndex);
+        razon = esCorrecta ? 'Respuesta correcta' : 'Respuesta incorrecta';
 
       } else {
         const palabrasClave = palabrasClavePorCategoria[categoria] || [];
-        const respuestaUsuario = (item.respuesta || '').toLowerCase();
-        const palabrasEncontradas = palabrasClave.filter(palabra => 
-          respuestaUsuario.includes(palabra.toLowerCase())
-        ).length;
+        const respuestaUsuario = (item.respuesta || '').toLowerCase().trim();
 
-        esCorrecta = palabrasEncontradas >= 2;
-        razon = esCorrecta 
-          ? `Contiene ${palabrasEncontradas} palabras clave de la categoría` 
-          : `Solo contiene ${palabrasEncontradas} palabras clave (se requieren al menos 2)`;
+        if (palabrasClave.length === 0) {
+          esCorrecta = respuestaUsuario.length >= 5;
+          razon = esCorrecta
+            ? 'Respuesta registrada con suficiente detalle'
+            : 'Respuesta demasiado corta o vacía';
+        } else {
+          const palabrasEncontradas = palabrasClave.filter(palabra =>
+            respuestaUsuario.includes(palabra.toLowerCase())
+          ).length;
+          esCorrecta = palabrasEncontradas >= 2;
+          razon = esCorrecta
+            ? `Contiene ${palabrasEncontradas} palabras clave de la categoría`
+            : `Solo contiene ${palabrasEncontradas} palabras clave (se requieren al menos 2)`;
+        }
       }
 
       if (esCorrecta) {

@@ -14,21 +14,47 @@ const RegistroEncuesta = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [encuestas, setEncuestas] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [eliminandoId, setEliminandoId] = useState(null);
+
+  const cargarEncuestas = async () => {
+    try {
+      setCargando(true);
+      const response = await axios.get('http://localhost:3000/api/encuestas');
+      setEncuestas(response.data.data);
+    } catch (error) {
+      console.error('Error al cargar encuestas:', error);
+      toast.error('No se pudieron cargar las encuestas');
+    } finally {
+      setCargando(false);
+    }
+  };
 
   useEffect(() => {
-    const cargarEncuestas = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/encuestas');
-        setEncuestas(response.data.data);
-      } catch (error) {
-        console.error('Error al cargar encuestas:', error);
-        toast.error('No se pudieron cargar las encuestas');
-      } finally {
-        setCargando(false);
-      }
-    };
     cargarEncuestas();
   }, []);
+
+  const handleEliminarEncuesta = async (e, encuesta) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const titulo = encuesta.titulo || `Encuesta #${encuesta.id}`;
+    const confirmar = window.confirm(
+      `¿Eliminar "${titulo}"?\n\nSe borrarán también sus preguntas, respuestas y resultados asociados. Esta acción no se puede deshacer.`
+    );
+    if (!confirmar) return;
+
+    try {
+      setEliminandoId(encuesta.id);
+      await axios.delete(`http://localhost:3000/api/encuestas/${encuesta.id}`);
+      setEncuestas((prev) => prev.filter((item) => item.id !== encuesta.id));
+      toast.success('Encuesta eliminada correctamente');
+    } catch (error) {
+      console.error('Error al eliminar encuesta:', error);
+      toast.error(error.response?.data?.message || 'No se pudo eliminar la encuesta');
+    } finally {
+      setEliminandoId(null);
+    }
+  };
 
   const Sidebar = ({ isVisible, onClose }) => {
     const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
@@ -128,14 +154,30 @@ const RegistroEncuesta = () => {
   ) : encuestas.length > 0 ? (
     <div className="registro-encuesta-grid">
       {encuestas.map((encuesta) => (
-        <Link
+        <div
           key={encuesta.id}
-          to={`/info-encuesta/${encuesta.id}`}
-          className={`registro-encuesta-boton registro-encuesta-${encuesta.estado.toLowerCase()}`}
+          className={`registro-encuesta-tarjeta registro-encuesta-${encuesta.estado.toLowerCase()}`}
         >
-          <span className="registro-encuesta-id">{encuesta.id}</span>
-          <span className="registro-encuesta-estado">{encuesta.estado}</span>
-        </Link>
+          <Link
+            to={`/info-encuesta/${encuesta.id}`}
+            className="registro-encuesta-boton"
+          >
+            <span className="registro-encuesta-id">
+              {encuesta.titulo || `Encuesta #${encuesta.id}`}
+            </span>
+            <span className="registro-encuesta-estado">{encuesta.estado}</span>
+          </Link>
+          <button
+            type="button"
+            className="registro-encuesta-eliminar"
+            onClick={(e) => handleEliminarEncuesta(e, encuesta)}
+            disabled={eliminandoId === encuesta.id}
+            aria-label={`Eliminar encuesta ${encuesta.id}`}
+            title="Eliminar encuesta"
+          >
+            {eliminandoId === encuesta.id ? '…' : '🗑️'}
+          </button>
+        </div>
       ))}
     </div>
   ) : (

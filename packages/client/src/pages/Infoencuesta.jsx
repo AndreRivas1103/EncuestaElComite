@@ -7,12 +7,14 @@ import babyLogo from '../assets/LogoMarcaPersonal.png';
 import MigaDePan from '../components/MigaDePan.jsx';
 import { useSidebarClosing } from '../hooks/useSidebarClosing.js';
 import PageLead from '../components/PageLead.jsx';
+import { toast } from '../lib/toast.js';
 
 const InfoEncuesta = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [encuesta, setEncuesta] = useState(null);
   const [cargando, setCargando] = useState(true);
+  const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
@@ -41,6 +43,26 @@ const InfoEncuesta = () => {
     
     cargarDetallesEncuesta();
   }, [id]);
+
+  const handleEliminarEncuesta = async () => {
+    const titulo = encuesta?.titulo || `Encuesta #${id}`;
+    const confirmar = window.confirm(
+      `¿Eliminar "${titulo}"?\n\nSe borrarán también sus preguntas, respuestas y resultados asociados. Esta acción no se puede deshacer.`
+    );
+    if (!confirmar) return;
+
+    try {
+      setEliminando(true);
+      await axios.delete(`http://localhost:3000/api/encuestas/${id}`);
+      toast.success('Encuesta eliminada correctamente');
+      navigate('/registro-encuestas');
+    } catch (err) {
+      console.error('Error al eliminar encuesta:', err);
+      toast.error(err.response?.data?.message || 'No se pudo eliminar la encuesta');
+    } finally {
+      setEliminando(false);
+    }
+  };
 
   const Sidebar = ({ isVisible, onClose }) => {
     const { sidebarClassName, requestClose } = useSidebarClosing(isVisible, onClose);
@@ -221,6 +243,14 @@ const renderDatosEncuesta = () => {
           {renderDatosEncuesta()}
           
           <div className="encuesta-acciones">
+            <button
+              type="button"
+              onClick={handleEliminarEncuesta}
+              className="btn-eliminar"
+              disabled={eliminando}
+            >
+              {eliminando ? 'Eliminando…' : 'Eliminar encuesta'}
+            </button>
             <button onClick={() => navigate('/registro-encuestas')} className="btn-volver">
               Volver al listado
             </button>

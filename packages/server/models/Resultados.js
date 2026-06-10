@@ -55,13 +55,13 @@ function agruparResultados(rows) {
   }
 
   for (const item of mapa.values()) {
-    const cats = Object.values(item.resultado.porCategoria);
-    const total = cats.reduce((sum, c) => sum + (c.porcentaje || 0), 0);
+    const cats = Object.entries(item.resultado.porCategoria);
+    const total = cats.reduce((sum, [, c]) => sum + (c.porcentaje || 0), 0);
     const promedio = cats.length ? Math.round(total / cats.length) : 0;
     item.resultado.resumen.porcentajeTotal = promedio;
     item.resultado.recomendaciones = cats
-      .filter((c) => c.porcentaje < 70)
-      .map((c, i) => `Revisa tu desempeño en la habilidad evaluada (${c.porcentaje}%)`);
+      .filter(([, c]) => (c.porcentaje ?? 0) < 70)
+      .map(([nombre, c]) => `Mejora en ${nombre} (${c.porcentaje}% de aciertos)`);
     if (item.resultado.recomendaciones.length === 0 && cats.length > 0) {
       item.resultado.recomendaciones.push('¡Buen desempeño! Sigue fortaleciendo tus habilidades.');
     }

@@ -70,17 +70,8 @@ export default function VerResultados() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [skills, setSkills] = useState({
-    liderazgo: 0,
-    obtencionLogros: 0,
-    trabajoEquipo: 0,
-    resiliencia: 0,
-  });
-
-  const promedio = Math.round(
-    Object.values(skills).reduce((a, b) => a + b, 0) /
-      Object.values(skills).length
-  );
+  const [categorias, setCategorias] = useState([]);
+  const [promedio, setPromedio] = useState(0);
 
   const convertirAScala = (porcentaje) => {
     return Math.round((porcentaje / 100) * 10);
@@ -153,14 +144,27 @@ export default function VerResultados() {
 
   useEffect(() => {
     const resultadoActivo = tipoVista === "pre" ? resultadoPre : resultadoPost;
-    if (resultadoActivo && resultadoActivo.resultado && resultadoActivo.resultado.porCategoria) {
+    if (resultadoActivo?.resultado?.porCategoria) {
       const categoriaData = resultadoActivo.resultado.porCategoria;
-      setSkills({
-        liderazgo: convertirAScala(categoriaData.Liderazgo?.porcentaje || 0),
-        trabajoEquipo: convertirAScala(categoriaData["Trabajo En Equipo"]?.porcentaje || 0),
-        obtencionLogros: convertirAScala(categoriaData["Obtencion de logros"]?.porcentaje || 0),
-        resiliencia: convertirAScala(categoriaData.Resiliencia?.porcentaje || 0),
-      });
+      const entradas = Object.entries(categoriaData).map(([nombre, datos]) => ({
+        nombre,
+        porcentaje: datos?.porcentaje ?? 0,
+        valor: convertirAScala(datos?.porcentaje ?? 0),
+      }));
+      setCategorias(entradas);
+
+      const totalResumen = resultadoActivo.resultado.resumen?.porcentajeTotal;
+      if (typeof totalResumen === 'number') {
+        setPromedio(convertirAScala(totalResumen));
+      } else if (entradas.length > 0) {
+        const media = entradas.reduce((sum, c) => sum + c.porcentaje, 0) / entradas.length;
+        setPromedio(convertirAScala(media));
+      } else {
+        setPromedio(0);
+      }
+    } else {
+      setCategorias([]);
+      setPromedio(0);
     }
   }, [tipoVista, resultadoPre, resultadoPost]);
 
@@ -296,10 +300,13 @@ export default function VerResultados() {
               </div>
 
               <div className="skills-grid">
-                <SkillCard title="Liderazgo" value={skills.liderazgo} />
-                <SkillCard title="Trabajo en equipo" value={skills.trabajoEquipo} />
-                <SkillCard title="Obtención de logros" value={skills.obtencionLogros} />
-                <SkillCard title="Resiliencia" value={skills.resiliencia} />
+                {categorias.length > 0 ? (
+                  categorias.map((cat) => (
+                    <SkillCard key={cat.nombre} title={cat.nombre} value={cat.valor} />
+                  ))
+                ) : (
+                  <p className="no-categorias-msg">No hay categorías evaluadas para mostrar.</p>
+                )}
               </div>
 
               {resultadoActivo.resultado.recomendaciones && (

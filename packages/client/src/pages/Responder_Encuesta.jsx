@@ -221,7 +221,9 @@ const ResponderEncuesta = () => {
           if (pregunta.tipoRespuesta === 'multiple') {
             return {
               ...respuestaBase,
+              opciones: pregunta.opciones,
               opcionSeleccionada: pregunta.opciones[parseInt(respuestaUsuario)],
+              respuestasCorrectas: pregunta.respuestasCorrectas || [],
               respuestaCorrecta: pregunta.respuestasCorrectas?.[0] ?? null
             };
           } else {

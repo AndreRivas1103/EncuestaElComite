@@ -180,3 +180,29 @@ export const obtenerEncuestaPorId = async (req, res) => {
     });
   }
 };
+
+export const eliminarEncuesta = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const eliminada = await Encuesta.destroy(id);
+
+    if (!eliminada) {
+      return res.status(404).json({
+        success: false,
+        message: 'Encuesta no encontrada'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Encuesta eliminada correctamente'
+    });
+  } catch (error) {
+    console.error('Error al eliminar encuesta:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al eliminar encuesta',
+      details: error.message
+    });
+  }
+};

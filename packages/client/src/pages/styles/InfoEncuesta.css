@@ -130,8 +130,13 @@
   color: white;
 }
 
-.btn-eliminar:hover {
+.btn-eliminar:hover:not(:disabled) {
   background-color: #c0392b;
+}
+
+.btn-eliminar:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }
 
 .btn-volver {
