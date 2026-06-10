@@ -41,12 +41,17 @@ function buildDatosEncuesta(rows) {
         id_pregunta: row.id_pregunta,
         texto: row.texto_pregunta,
         tipoRespuesta: row.tipo_respuesta,
-        opciones: []
+        opciones: [],
+        respuestasCorrectas: []
       };
       categoria.preguntas.push(pregunta);
     }
     if (row.texto_opcion) {
+      const idx = pregunta.opciones.length;
       pregunta.opciones.push(row.texto_opcion);
+      if (row.es_correcta) {
+        pregunta.respuestasCorrectas.push(idx);
+      }
     }
   }
   return { categorias: [...categoriasMap.values()] };
@@ -65,7 +70,8 @@ async function hydrateEncuesta(idEncuesta) {
 
   const [detailRows] = await sequelize.query(
     `
-    SELECT p.id_pregunta, p.texto_pregunta, p.tipo_respuesta, h.nombre AS categoria, o.texto_opcion
+    SELECT p.id_pregunta, p.texto_pregunta, p.tipo_respuesta, h.nombre AS categoria,
+           o.texto_opcion, COALESCE(o.es_correcta, false) AS es_correcta
     FROM pregunta p
     JOIN habilidad h ON h.id_habilidad = p.id_habilidad
     LEFT JOIN opcion o ON o.id_pregunta = p.id_pregunta
@@ -176,11 +182,22 @@ const Encuesta = {
         const idPregunta = pregRows[0].id_pregunta;
 
         if (tipo === 'multiple') {
-          for (const opcion of preg?.opciones || []) {
-            if (!opcion) continue;
+          const correctas = new Set(preg?.respuestasCorrectas || []);
+          for (let oIndex = 0; oIndex < (preg?.opciones || []).length; oIndex++) {
+            const opcion = preg.opciones[oIndex];
+            if (!opcion || !String(opcion).trim()) continue;
             await sequelize.query(
-              `INSERT INTO opcion (id_pregunta, texto_opcion) VALUES (:id_pregunta, :texto_opcion)`,
-              { replacements: { id_pregunta: idPregunta, texto_opcion: opcion } }
+              `
+              INSERT INTO opcion (id_pregunta, texto_opcion, es_correcta)
+              VALUES (:id_pregunta, :texto_opcion, :es_correcta)
+              `,
+              {
+                replacements: {
+                  id_pregunta: idPregunta,
+                  texto_opcion: opcion,
+                  es_correcta: correctas.has(oIndex)
+                }
+              }
             );
           }
         }

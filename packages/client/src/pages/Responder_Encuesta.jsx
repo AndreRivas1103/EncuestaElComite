@@ -408,7 +408,9 @@ const ResponderEncuesta = () => {
                       
                       {pregunta.tipoRespuesta === 'multiple' ? (
                         <div className="opciones-container">
-                          {pregunta.opciones.filter(op => op.trim() !== '').map((opcion, oIndex) => (
+                          {pregunta.opciones.map((opcion, oIndex) => {
+                            if (!opcion || !opcion.trim()) return null;
+                            return (
                             <div 
                               key={oIndex} 
                               className={`opcion-group ${
@@ -427,7 +429,8 @@ const ResponderEncuesta = () => {
                                 {opcion}
                               </label>
                             </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       ) : (
                         <div className="text-input-container">

@@ -69,7 +69,8 @@ CREATE TABLE pregunta (
 CREATE TABLE opcion (
   id_opcion SERIAL PRIMARY KEY,
   id_pregunta INT NOT NULL REFERENCES pregunta(id_pregunta) ON DELETE CASCADE,
-  texto_opcion TEXT NOT NULL
+  texto_opcion TEXT NOT NULL,
+  es_correcta BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE respuesta (
