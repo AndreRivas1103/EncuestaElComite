@@ -7,8 +7,8 @@ cd "$ROOT"
 
 eval "$(minikube docker-env)"
 
-docker build -f packages/server/Dockerfile -t encuestaelcomite-back:k8s .
-docker build -f packages/client/Dockerfile.k8s -t encuestaelcomite-client:k8s .
+docker build -f packages/server/Dockerfile -t marcelillo/encuestaelcomite-back:latest .
+docker build -f packages/client/Dockerfile.k8s -t marcelillo/encuestaelcomite-client:latest .
 
 kubectl apply -f k8s/manifest.yaml
 
